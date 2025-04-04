@@ -6,11 +6,11 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:47:21 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/04 15:42:07 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:30:56 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_executor.h"
+#include "../minishell_executor.h"
 
 static int has_n_flag(char *arg)
 {
@@ -48,3 +48,10 @@ int builtin_echo(char **args)
 		ft_printf("\n");
 	return (0);
 }
+
+/* int main(int argc, char **argv)
+{
+	(void)argc;
+	builtin_echo(**argv);
+	return (0);
+} */

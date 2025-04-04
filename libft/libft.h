@@ -16,8 +16,8 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 # include "struct_lib.h"
-# include "../MLX42/include/MLX42/MLX42.h"
 # include "print/ft_printf/ft_printf.h"
 # include "print/ft_printerr/ft_printerr.h"
 # include "file/gnl/get_next_line.h"
@@ -99,9 +99,7 @@ void	ft_putnbr_fd(int n, int fd);
 t_list	*ft_lstnew(void *content);
 // void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
-bool	ft_lstadd_back(t_list **lst, void *data);
 t_list	*ft_lstlast(t_list *lst);
-void	ft_lstclear(t_list **lst, void (*del)(mlx_t *, void *));
 // void	ft_lstdelone(t_list *lst, void (*del)(void *));
 // void	ft_lstiter(t_list *lst, void (*f)(void *));
 // t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
@@ -114,7 +112,6 @@ t_list	*ft_nextlst(t_list *head, int i);
 /* ---------------------------------- FILE ---------------------------------- */
 
 void	ft_closefd(int *p_fd, int size);
-int		ft_openfile(char *name, int flag);
 
 /* --------------------------------- ERROR ---------------------------------- */
 
