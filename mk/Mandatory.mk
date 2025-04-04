@@ -1,10 +1,12 @@
 all:	$(LIB) $(NAME)
 
-$(NAME):	dir_mandatory $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -o $@ -L$(DIR_LIB) -lft
+$(NAME):	$(OBJ)
+	@$(CC) $(CFLAGS) -o $@ $(OBJ) -L$(DIR_LIB) -lft
 	@$(PRINT) $(BANNER)
 
 dir_mandatory:
-	@mkdir -p $(MAN)
+	@mkdir -p $(DIR)/$(MAN)
+	@mkdir -p $(DIR_BNS)/$(BNS)
 
-$(DIR)%.o: %.c
+$(DIR)%.o: %.c | dir_mandatory
+	@$(CC) $(CFLAGS) -c $< -o $@

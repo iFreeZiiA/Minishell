@@ -5,9 +5,9 @@ MAN		= mandatory/
 SRC		= $(MAN)main.c
 
 #  								      BONUS  								  #
-# BNS		= bonus/
-# BNSC		= _bonus.c
-# SRC_BNS	= $(BNS)main.c
+BNS		= bonus/
+BNSC		= _bonus.c
+SRC_BNS	= $(BNS)main.c
 
 # ************************************ LIB *********************************** #
 

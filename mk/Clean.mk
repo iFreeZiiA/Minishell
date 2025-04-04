@@ -4,8 +4,8 @@ clean:
 
 clean_man:
 	@make clean -s -C $(DIR_LIB)
-	@$(RM)r $(DIR_OBJ)/$(DIR)
+	@$(RM)r $(DIR)/$(MAN)
 
 clean_bns:
 	@make clean -s -C $(DIR_LIB)
-	@$(RM)r $(DIR_OBJ)/$(DIR_BNS)
+	@$(RM)r $(DIR_BNS)/$(BNS)
