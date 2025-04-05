@@ -6,7 +6,13 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:50:35 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/05 12:50:36 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/05 12:57:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../header/minishell.h"
+
+int	main(int argc, char **argv, char **env)
+{
+	return (0);
+}
