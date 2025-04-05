@@ -6,7 +6,6 @@ $(NAME):	$(OBJ)
 
 dir_mandatory:
 	@mkdir -p $(DIR)/$(MAN)
-	@mkdir -p $(DIR_BNS)/$(BNS)
 
 $(DIR)%.o: %.c | dir_mandatory
 	@$(CC) $(CFLAGS) -c $< -o $@
