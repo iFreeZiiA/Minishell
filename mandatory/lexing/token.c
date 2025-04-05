@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:47:46 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/05 20:07:30 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/05 20:30:48 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,39 +62,43 @@ t_list	*ft_get_token(int argc, char **argv)
 
 	if (argc == 0)
 		return (NULL);
+	tokens = NULL;
 	i = 0;
-	while(++i < argc)
+	while(argv[++i])
 	{
 		j = 0;
-		ft_printerr("Ping ft_get_token 0\n");
 		while(ft_isspace(argv[i][j]))
 			j++;
-		ft_printerr("Ping ft_get_token 1\n");
 		token = ft_new_token(argv[i]);
 		if (!token)
 			return (NULL);
-		ft_printerr("Ping ft_get_token 2\n");
-		ft_lstadd_back(&tokens, (void *) token);
-		if (!tokens->next && !ft_lstlast(tokens))
+		ft_printerr("Ping token: %s\n", token->value);
+		if (!ft_lstadd_back(&tokens, (void *) token))
 			return (NULL);
-		ft_printerr("Ping ft_get_token 3\n");
 	}
-	ft_printerr("Ping ft_get_token 4\n");
+	ft_printerr("Ping ft_get_token 1\n");
 	return (tokens);
 }
 
 int	main(int argc, char **argv)
 {
+	t_token	*toktok;
 	t_list	*tokens;
 	t_list	*next;
 
 	(void) argc;
 	ft_printerr("Ping main 0\n");
 	tokens = ft_get_token(argc, argv);
+	if (!tokens)
+		return (1);
 	ft_printerr("Ping main 1\n");
 	next = tokens;
-	while ((next = next->next))
-		ft_printerr("%s\n", (char *) next->content);
+	while (next)
+	{
+		toktok = (t_token *) next->content;
+		ft_printerr("%s\n", (char *) toktok->value);
+		next = next->next;
+	}
 	return (0);
 }
 
