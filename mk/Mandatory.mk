@@ -7,5 +7,5 @@ $(NAME):	$(OBJ)
 dir_mandatory:
 	@mkdir -p $(DIR)/$(MAN)
 
-$(DIR)%.o: %.c | dir_mandatory
-	@$(CC) $(CFLAGS) -c $< -o $@
+# $(DIR)%.o: %.c | dir_mandatory
+# 	@$(CC) $(CFLAGS) -c $< -o $@

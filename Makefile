@@ -6,6 +6,7 @@ include mk/Mandatory.mk
 include mk/Clean.mk
 include mk/Fclean.mk
 include mk/Re.mk
+include mk/Alearroy.mk
 
 $(LIB) :
 	@make -s -C $(DIR_LIB);

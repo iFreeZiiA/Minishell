@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/05 12:47:18 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/05 15:25:41 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "minishell_executor.h"
 
 #endif

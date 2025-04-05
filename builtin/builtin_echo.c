@@ -6,13 +6,13 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:47:21 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/04 16:30:56 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:23:14 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell_executor.h"
+#include "../header/minishell.h"
 
-static int has_n_flag(char *arg)
+static int	has_n_flag(char *arg)
 {
 	int i = 1;
 
@@ -27,9 +27,9 @@ static int has_n_flag(char *arg)
 	return (1);
 }
 
-int builtin_echo(char **args)
+int	builtin_echo(char **args)
 {
-	int i = 1;
+	int i = 2;
 	int newline = 1;
 
 	while (args[i] && has_n_flag(args[i]))
@@ -48,10 +48,3 @@ int builtin_echo(char **args)
 		ft_printf("\n");
 	return (0);
 }
-
-/* int main(int argc, char **argv)
-{
-	(void)argc;
-	builtin_echo(**argv);
-	return (0);
-} */
