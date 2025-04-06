@@ -6,17 +6,18 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:22:03 by jjorda            #+#    #+#             */
-/*   Updated: 2024/12/08 12:12:37 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/06 12:40:38 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-void	ft_leak(char **str, size_t i)
+void	*ft_leak(char **str, size_t i)
 {
 	if (!str)
-		return ;
+		return (NULL);
 	while (i > 0)
 		free(str[--i]);
 	free(str);
+	return (NULL);
 }

@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstfree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/06 11:47:02 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/06 14:05:13 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/06 14:26:15 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../../libft.h"
 
-# include "../libft/libft.h"
-# include "struct.h"
-# include "lexing.h"
-# include "parsing.h"
-
-#endif
+void	*ft_lstfree(t_list *list)
+{
+	if (!list)
+		return (NULL);
+	ft_lstiter(list, free);
+	free(list);
+	list = NULL;
+	return (NULL);
+}

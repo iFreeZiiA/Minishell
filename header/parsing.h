@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/06 11:47:02 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/06 11:44:02 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/06 11:45:40 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PARSING_H
+# define PARSING_H
 
-# include "../libft/libft.h"
-# include "struct.h"
-# include "lexing.h"
-# include "parsing.h"
+int	ft_parsing();
 
 #endif

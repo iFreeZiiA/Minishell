@@ -53,9 +53,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 char	*ft_strtrim(char const *s1, char const *set);
-void	ft_leak(char **str, size_t i);
+void	*ft_leak(char **str, size_t i);
 char	**ft_split_arg(char const *s);
-void	ft_free_vctr(void **ptr);
+void	ft_free_vctr(void ***ptr);
 
 /* ---------------------------- STR_MANIPULATION ---------------------------- */
 
@@ -101,13 +101,15 @@ t_list	*ft_lstnew(void *content);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 // void	ft_lstdelone(t_list *lst, void (*del)(void *));
-// void	ft_lstiter(t_list *lst, void (*f)(void *));
+void	ft_lstiter(t_list *lst, void (*f)(void *));
 // t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 // void	ft_lstfree(t_map **head);
 // void	ft_lst_freemall(t_mall *head, void *mall);
 t_list	*ft_lstn_2(t_list *lst);
 t_list	*ft_lstn_3(t_list *lst);
 t_list	*ft_nextlst(t_list *head, int i);
+void	*ft_lstfree(t_list *list);
+bool	ft_lstadd_back(t_list **lst, void *data);
 
 /* ---------------------------------- FILE ---------------------------------- */
 

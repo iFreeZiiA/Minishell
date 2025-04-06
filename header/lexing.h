@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   lexing.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/06 11:47:02 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/06 14:28:41 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef LEXING_H
+# define LEXING_H
 
-# include "../libft/libft.h"
-# include "struct.h"
-# include "lexing.h"
-# include "parsing.h"
+
+int		ft_lexing(t_shell *shell);
+char	**ft_lexing_split(char *str);
+void	*ft_lexing_err(t_shell *shell, char **vec);
 
 #endif
