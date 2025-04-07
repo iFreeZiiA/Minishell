@@ -6,7 +6,13 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:56:00 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/04 14:56:01 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:05:11 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../header/minishell.h"
+
+int	builtin_exit(char **args)
+{
+	
+}

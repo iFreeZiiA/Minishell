@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 15:09:38 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/07 18:39:36 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:05:00 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ int		builtin_echo(char **args);
 int		builtin_cd(char **args, char ***env);
 int		builtin_pwd(void);
 int		builtin_env(char **env);
+int		builtin_exit(char **args);
 
 #endif
