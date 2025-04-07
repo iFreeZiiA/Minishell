@@ -3,7 +3,9 @@ DIR_A	= obj/
 
 BLT	= builtin/
 
-SRC_A	= $(BLT)builtin_echo.c $(BLT)builtin_pwd.c $(BLT)run_builtin.c $(BLT)builtin_cd.c
+SRC_A	= $(BLT)builtin_echo.c $(BLT)builtin_pwd.c $(BLT)run_builtin.c		\
+$(BLT)builtin_cd.c $(BLT)builtin_env.c $(BLT)builtin_exit.c					\
+$(BLT)builtin_export.c $(BLT)builtin_unset.c								\
 
 OBJ_A	= $(patsubst %.c, $(DIR_A)%.o, $(SRC_A))
 

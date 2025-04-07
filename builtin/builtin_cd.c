@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:48:15 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/05 18:25:45 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/07 18:39:18 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,73 @@ static char	*get_cd_target(char **args, char ***env)
 	char	*target;
 
 	target = NULL;
-	if (!args[2])
+	if (!args[1])
 		target = get_env_value(*env, "HOME");
-	else if (!ft_strcmp(args[2], "-"))
+	else if (!ft_strcmp(args[1], "-"))
 	{
 		target = get_env_value(*env, "OLDPWD");
 		if (target)
 			ft_printf("%s\n", target);
 	}
 	else
-		target = args[2];
+		target = args[1];
 	return (target);
+}
+int	get_env_index(char **env, const char *key)
+{
+	int		i;
+	size_t	len;
+
+	i = 0;
+	len = ft_strlen(key);
+	while (env[i])
+	{
+		if (!ft_strncmp(env[i], key, len) && env[i][len] == '=')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+static int	update_env_var(char ***env, const char *key, const char *value)
+{
+	int		i;
+	int		idx;
+	char	*new;
+	char	**new_env;
+
+	if (!key || !value)
+		return (1);
+	new = malloc(ft_strlen(key) + ft_strlen(value) + 2);
+	if (!new)
+		return (1);
+	ft_strcpy(new, (char *)key);
+	ft_strcat(new, "=");
+	ft_strcat(new, value);
+	idx = get_env_index(*env, key);
+	if (idx >= 0)
+	{
+		free((*env)[idx]);
+		(*env)[idx] = new;
+		return (0);
+	}
+	i = 0;
+	while ((*env)[i])
+		i++;
+	new_env = malloc(sizeof(char *) * (i + 2));
+	if (!new_env)
+	{
+		free(new);
+		return (1);
+	}
+	i = -1;
+	while ((*env)[++i])
+		new_env[i] = (*env)[i];
+	new_env[i++] = new;
+	new_env[i] = NULL;
+	free(*env);
+	*env = new_env;
+	return (0);
 }
 
 int	builtin_cd(char **args, char ***env)
@@ -60,10 +116,9 @@ int	builtin_cd(char **args, char ***env)
 		free(oldpwd);
 		return (1);
 	}
-	chdir(target);
-	if (target != 0)
+	if (chdir(target) != 0)
 	{
-		ft_printerr("minishell: cd");
+		ft_printerr("minishell: cd\n");
 		free(oldpwd);
 		return (1);
 	}
@@ -74,3 +129,4 @@ int	builtin_cd(char **args, char ***env)
 	free(newpwd);
 	return (0);
 }
+
