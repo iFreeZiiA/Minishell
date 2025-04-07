@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/06 13:43:14 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/07 15:55:53 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,24 @@
 /* --------------------------------- LEXING --------------------------------- */
 
 typedef enum {
-    TOKEN_WORD,       // Commandes, arguments, noms de fichiers
-    TOKEN_PIPE,       // |
-    TOKEN_AND,        // &&
-    TOKEN_OR,         // ||
-    TOKEN_REDIR_IN,   // <
-    TOKEN_REDIR_OUT,  // >
-    TOKEN_APPEND,     // >>
-    TOKEN_HEREDOC,    // <<
-    TOKEN_PAREN_OPEN, // (
-    TOKEN_PAREN_CLOSE,// )
-    TOKEN_DOLLAR,     // $
-    TOKEN_WILDCARD,   // *
-    TOKEN_EOF         // Fin de l'entrée
+    TOKEN_WORD,			// Cmd, args, files ...
+    TOKEN_OR,			// ||
+    TOKEN_APPEND,		// >>
+    TOKEN_HEREDOC,		// <<
+    TOKEN_AND,			// &&
+	TOKEN_STATUS,		// $?
+	TOKEN_ERROR,		// In case or error
+    TOKEN_PIPE,			// |
+    TOKEN_REDIR_OUT,	// >
+    TOKEN_REDIR_IN,		// <
+	TOKEN_VAR,			// $
+	TOKEN_QUOTE,		// '
+	TOKEN_DQUOTE,		// "
+    TOKEN_PAREN_OPEN,	// (
+    TOKEN_PAREN_CLOSE,	// )
+    TOKEN_WILDCARD,		// *
+	TOKEN_ASSIGN,		// =
+    TOKEN_EOF			// End of Line
 } token_type;
 
 typedef struct s_token {

@@ -55,7 +55,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_strtrim(char const *s1, char const *set);
 void	*ft_leak(char **str, size_t i);
 char	**ft_split_arg(char const *s);
-void	ft_free_vctr(void ***ptr);
+void	ft_free_vctr(void **ptr);
 
 /* ---------------------------- STR_MANIPULATION ---------------------------- */
 
@@ -98,6 +98,7 @@ void	ft_putnbr_fd(int n, int fd);
 
 t_list	*ft_lstnew(void *content);
 // void	ft_lstadd_front(t_list **lst, t_list *new);
+bool	ft_lstadd_back(t_list **lst, void *data);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 // void	ft_lstdelone(t_list *lst, void (*del)(void *));
@@ -108,8 +109,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstn_2(t_list *lst);
 t_list	*ft_lstn_3(t_list *lst);
 t_list	*ft_nextlst(t_list *head, int i);
-void	*ft_lstfree(t_list *list);
-bool	ft_lstadd_back(t_list **lst, void *data);
 
 /* ---------------------------------- FILE ---------------------------------- */
 

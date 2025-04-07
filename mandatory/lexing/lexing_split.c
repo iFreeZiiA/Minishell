@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:11:20 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/06 17:45:34 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/07 14:55:56 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,6 @@ int main(int argc, char **argv)
 	for (int i = 0; split[i]; i++)
 		ft_printerr("%s\n", split[i]);
 	ft_printerr("OK\n");
-	ft_free_vctr((void ***) &split);
+	ft_free_vctr((void **) split);
 	return (0);
 }
