@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/07 15:55:53 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:38:31 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,30 @@
 
 /* --------------------------------- LEXING --------------------------------- */
 
-typedef enum {
-    TOKEN_WORD,			// Cmd, args, files ...
-    TOKEN_OR,			// ||
-    TOKEN_APPEND,		// >>
-    TOKEN_HEREDOC,		// <<
-    TOKEN_AND,			// &&
-	TOKEN_STATUS,		// $?
-	TOKEN_ERROR,		// In case or error
-    TOKEN_PIPE,			// |
-    TOKEN_REDIR_OUT,	// >
-    TOKEN_REDIR_IN,		// <
-	TOKEN_VAR,			// $
-	TOKEN_QUOTE,		// '
-	TOKEN_DQUOTE,		// "
-    TOKEN_PAREN_OPEN,	// (
-    TOKEN_PAREN_CLOSE,	// )
-    TOKEN_WILDCARD,		// *
-	TOKEN_ASSIGN,		// =
-    TOKEN_EOF			// End of Line
-} token_type;
+typedef enum e_token_type {
+	TOKEN_WORD,			// 0 Cmd, args, files ...
+	TOKEN_OR,			// 1 ||
+	TOKEN_APPEND,		// 2 >>
+	TOKEN_HEREDOC,		// 3 <<
+	TOKEN_AND,			// 4 &&
+	TOKEN_STATUS,		// 5 $?
+	TOKEN_ERROR,		// 6 In case or error
+	TOKEN_PIPE,			// 7 |
+	TOKEN_REDIR_OUT,	// 8 >
+	TOKEN_REDIR_IN,		// 9 <
+	TOKEN_VAR,			// 10 $
+	TOKEN_QUOTE,		// 11 '
+	TOKEN_DQUOTE,		// 12 "
+	TOKEN_PAREN_OPEN,	// 13 (
+	TOKEN_PAREN_CLOSE,	// 14 )
+	TOKEN_WILDCARD,		// 15 *
+	TOKEN_ASSIGN,		// 16 =
+	TOKEN_EOF,			// 17 End of Line
+	TOKEN_SPACE			// 18 ' '
+}	t_token_type;
 
 typedef struct s_token {
-    token_type type;
+    t_token_type type;
     char *value;
 } t_token;
 
