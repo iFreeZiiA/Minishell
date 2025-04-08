@@ -1,22 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/05 15:42:30 by alearroy         ###   ########.fr       */
+/*   Created: 2025/04/04 14:47:21 by alearroy          #+#    #+#             */
+/*   Updated: 2025/04/05 16:23:14 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-/* int	main(int argc, char **argv, char **env)
+static int	has_n_flag(char *arg)
 {
-	(void) argc;
-	(void) argv;
-	(void) env;
-	ft_printerr("Execution complete.\n");
+	int i = 1;
+
+	if (!arg || arg[0] != '-')
+		return 0;
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	builtin_echo(char **args)
+{
+	int i = 2;
+	int newline = 1;
+
+	while (args[i] && has_n_flag(args[i]))
+	{
+		newline = 0;
+		i++;
+	}
+	while (args[i])
+	{
+		ft_printf("%s", args[i]);
+		if (args[i + 1])
+			ft_printf(" ");
+		i++;
+	}
+	if (newline)
+		ft_printf("\n");
 	return (0);
-} */
+}

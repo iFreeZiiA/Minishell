@@ -5,8 +5,7 @@ $(NAME_BNS): $(OBJ_BNS)
 	@$(PRINT) $(BANNER_BNS)
 
 dir_bonus:
-	@mkdir -p $(DIR)/$(MAN)
-	@mkdir -p $(BNS)/$(BNS)
+	@mkdir -p $(DIR_BNS)/$(BNS)
 
 $(DIR_BNS)%.o: %.c | dir_bonus
 	@$(CC) $(CFLAGS) -c $< -o $@
