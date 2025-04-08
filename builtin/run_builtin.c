@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:38:09 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/07 18:51:38 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:07:45 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ int	run_builtin(char **args, char ***env)
 		return (builtin_env(*env));
 	if (!ft_strcmp(args[0], "unset"))
 		return (builtin_unset(args, env));
+	if (!ft_strcmp(args[1], "exit"))
+		return (builtin_exit(args));
+	if (!ft_strcmp(args[0], "export"))
+		return (builtin_export(args, env));
 	return (1);
 }
 

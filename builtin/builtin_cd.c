@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:48:15 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/07 18:39:18 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:09:18 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	get_env_index(char **env, const char *key)
 	return (-1);
 }
 
-static int	update_env_var(char ***env, const char *key, const char *value)
+int	update_env_var(char ***env, const char *key, const char *value)
 {
 	int		i;
 	int		idx;
