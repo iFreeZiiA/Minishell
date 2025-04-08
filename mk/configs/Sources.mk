@@ -9,6 +9,12 @@ SRC		= $(MAN)main.c
 # BNSC		= _bonus.c
 # SRC_BNS	= $(BNS)main.c
 
+#  								    UNIT_TEST 								  #
+
+UNIT_TEST	= $(NAME_LX)
+NAME_ALL	= $(NAME_A) $(NAME_J)
+
+
 # ************************************ LIB *********************************** #
 
 LIB		= libft.a

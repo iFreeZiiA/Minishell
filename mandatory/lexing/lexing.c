@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/08 18:41:11 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/08 19:18:30 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ static t_list	*ft_new_token(char *s, t_list **tok_h, int *i, int *status)
 		return (ft_tok_err(status, -1));
 	return (*tok_h);
 }
+
+// bool	ft_check_quotes(t_shell *shell)
+// {
+	
+// }
 
 int	ft_lexing(t_shell *shell)
 {

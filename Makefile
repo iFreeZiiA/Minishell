@@ -8,6 +8,7 @@ include mk/Fclean.mk
 include mk/Re.mk
 include mk/Alearroy.mk
 include mk/jjorda.mk
+include mk/unit_test/lexing.mk
 
 $(LIB) :
 	@make -s -C $(DIR_LIB);
