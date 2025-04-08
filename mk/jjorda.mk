@@ -1,6 +1,6 @@
 DIR_J	= $(DIR_OBJ)/
 LEX		= $(MAN)lexing/
-SRC_J	= $(LEX)main.c $(LEX)lexing.c
+SRC_J	= $(MAN)main.c $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c
 OBJ_J	= $(patsubst %.c, $(DIR_J)%.o, $(SRC_J))
 
 jj:	$(LIB) jjorda
