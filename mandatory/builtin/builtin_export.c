@@ -6,11 +6,11 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:58:25 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/08 15:57:00 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:21:34 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static int	is_valid_identifier(const char *s)
 {

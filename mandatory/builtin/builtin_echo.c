@@ -6,11 +6,11 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:47:21 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/05 16:23:14 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:21:24 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static int	has_n_flag(char *arg)
 {

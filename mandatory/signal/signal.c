@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/07 18:28:12 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/07 18:28:27 by alearroy         ###   ########.fr       */
+/*   Created: 2025/04/08 18:37:25 by alearroy          #+#    #+#             */
+/*   Updated: 2025/04/08 18:38:33 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
-
-int	builtin_env(char **env)
+static void	handle_sigint(int sig)
 {
-	int	i;
+	(void)sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strchr(env[i], '='))
-			ft_printf("%s\n", env[i]);
-		i++;
-	}
-	return (0);
+void	setup_interactive_signals(void)
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }

@@ -6,11 +6,11 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:35:51 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/07 18:48:00 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:21:42 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 char	**alloc_env(char **env, int skip)
 {
