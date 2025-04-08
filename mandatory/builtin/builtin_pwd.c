@@ -6,11 +6,11 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:59:41 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/05 16:21:11 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:21:37 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 int	builtin_pwd(void)
 {

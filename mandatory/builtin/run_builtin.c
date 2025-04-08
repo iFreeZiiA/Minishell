@@ -6,25 +6,25 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:38:09 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/08 16:07:45 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:29:40 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 int	run_builtin(char **args, char ***env)
 {
-	if (!ft_strcmp(args[1], "echo"))
+	if (!ft_strcmp(args[0], "echo"))
 		return (builtin_echo(args));
-	if (!ft_strcmp(args[1], "pwd"))
+	if (!ft_strcmp(args[0], "pwd"))
 		return (builtin_pwd());
 	if (!ft_strcmp(args[0], "cd"))
 		return (builtin_cd(args, env));
-	if (!ft_strcmp(args[1], "env"))
+	if (!ft_strcmp(args[0], "env"))
 		return (builtin_env(*env));
 	if (!ft_strcmp(args[0], "unset"))
 		return (builtin_unset(args, env));
-	if (!ft_strcmp(args[1], "exit"))
+	if (!ft_strcmp(args[0], "exit"))
 		return (builtin_exit(args));
 	if (!ft_strcmp(args[0], "export"))
 		return (builtin_export(args, env));
@@ -49,7 +49,7 @@ char	**ft_envdup(char **envp)
 	return (copy);
 }
 
-int	main(int argc, char **argv, char **envp)
+/* int	main(int argc, char **argv, char **envp)
 {
 	char	**env;
 	(void)argc;
@@ -57,4 +57,4 @@ int	main(int argc, char **argv, char **envp)
 	env = ft_envdup(envp);
 	run_builtin(argv, &env);
 	return (0);
-}
+} */
