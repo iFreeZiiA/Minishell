@@ -51,6 +51,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(char *src);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin_f(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 char	*ft_strtrim(char const *s1, char const *set);
 void	*ft_leak(char **str, size_t i);
@@ -98,17 +99,24 @@ void	ft_putnbr_fd(int n, int fd);
 
 t_list	*ft_lstnew(void *content);
 // void	ft_lstadd_front(t_list **lst, t_list *new);
-bool	ft_lstadd_back(t_list **lst, void *data);
+bool	ft_lstadd_back(t_list **lst, t_content data, t_content_type type);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 // void	ft_lstdelone(t_list *lst, void (*del)(void *));
-void	ft_lstiter(t_list *lst, void (*f)(void *));
+// void	ft_lstiter(t_list *lst, void (*f)(void *));
 // t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-void	*ft_lstfree(t_list *list);
+// void	*ft_lstfree(t_list *list);
 // void	ft_lst_freemall(t_mall *head, void *mall);
 t_list	*ft_lstn_2(t_list *lst);
 t_list	*ft_lstn_3(t_list *lst);
-t_list	*ft_nextlst(t_list *head, int i);
+// t_list	*ft_nextlst(t_list *head, int i);
+t_list	*ft_lstfirst(t_list *actual);
+bool	ft_lstrem_front(t_list **actual, void (*f)(void *));
+void	*ft_lstleak(t_list **lst, void (*f)(void *));
+
+t_list	*ft_lstnew_tok(t_token *token);
+t_list	*ft_lstnew_redir(t_redir *redir);
+t_list	*ft_lstnew_ast(t_ast_node *ast);
 
 /* ---------------------------------- FILE ---------------------------------- */
 

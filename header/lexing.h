@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/08 18:29:00 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/09 13:17:40 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 void	ft_print_list(t_list *tok_h);
 void	*ft_tok_err(int *p_status, int status);
 void	*ft_lstfree_t(t_list *tok_h);
+void	*ft_clean_node(t_list *tok_curr);
 
 /* --------------------------------- UTILS ---------------------------------- */
 

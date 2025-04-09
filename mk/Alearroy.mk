@@ -1,4 +1,5 @@
-NAME_A	= alearroy
+NAME_A	= alearroy.out
+
 DIR_A	= obj
 
 MAN		= mandatory
@@ -24,5 +25,5 @@ dir_mandatory_a:
 	@mkdir -p $(DIR_A)/$(BLT)
 	@mkdir -p $(DIR_A)/$(SGL)
 
-$(DIR_A)/%.o: %.c | dir_mandatory_a
+$(DIR_A)$(BLT)%.o: $(BLT)%.c | dir_mandatory_a
 	@$(CC) $(CFLAGS) -c $< -o $@

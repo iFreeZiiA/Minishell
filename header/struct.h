@@ -6,14 +6,14 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/08 16:38:31 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/09 19:07:45 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-
 #ifndef STRUCT_H
 # define STRUCT_H
+
+typedef struct s_list t_list;
 
 /* --------------------------------- LEXING --------------------------------- */
 
@@ -36,7 +36,8 @@ typedef enum e_token_type {
 	TOKEN_WILDCARD,		// 15 *
 	TOKEN_ASSIGN,		// 16 =
 	TOKEN_EOF,			// 17 End of Line
-	TOKEN_SPACE			// 18 ' '
+	TOKEN_BSLASH,		// 18 \.
+	TOKEN_SPACE			// 19 ' '
 }	t_token_type;
 
 typedef struct s_token {
@@ -102,5 +103,29 @@ typedef struct s_shell {
     t_list	*token;     // Résultat du lexer
     t_ast_node *ast;     // Arbre syntaxique après parsing
 } t_shell;
+
+typedef enum e_content_type
+{
+	TYPE_REDIR,
+	TYPE_AST,
+	TYPE_TOKEN,
+	TYPE_GENERIC
+}	t_content_type;
+
+typedef union u_content
+{
+	t_redir		*redir;
+	t_ast_node	*ast;
+	t_token		*token;
+	void		*generic;
+}	t_content;
+
+typedef struct s_list
+{
+	t_content_type	type;
+	t_content		content;
+	struct s_list	*next;
+	struct s_list	*prev;
+}	t_list;
 
 #endif

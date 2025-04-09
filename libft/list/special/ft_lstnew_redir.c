@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstn_2.c                                        :+:      :+:    :+:   */
+/*   ft_lstnew_redir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/28 11:29:31 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 14:15:49 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/09 19:08:34 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/09 19:11:31 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft.h"
 
-/**
- * Returns the element n-2 of the linked list.
- * 
- * @param lst The first element of the linked list.
- * @return The element n-2 of the list, or NULL if the list is empty.
- */
-t_list	*ft_lstn_2(t_list *lst)
+t_list	*ft_lstnew_redir(t_redir *redir)
 {
-	if (!lst || !lst->next)
+	t_list	*new;
+
+	if (!redir)
 		return (NULL);
-	while (lst->next->next)
-		lst = lst->next;
-	return (lst);
+	new = (t_list *) malloc(sizeof(t_redir));
+	if (!new)
+		return (NULL);
+	new->content.redir = redir;
+	new->type = TYPE_REDIR;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
 }

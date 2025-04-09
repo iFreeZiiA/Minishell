@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstn_2.c                                        :+:      :+:    :+:   */
+/*   ft_lstleak.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/28 11:29:31 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 14:15:49 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/09 18:05:42 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/09 18:13:41 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft.h"
 
-/**
- * Returns the element n-2 of the linked list.
- * 
- * @param lst The first element of the linked list.
- * @return The element n-2 of the list, or NULL if the list is empty.
- */
-t_list	*ft_lstn_2(t_list *lst)
+void	*ft_lstleak(t_list **lst, void (*f)(void *))
 {
-	if (!lst || !lst->next)
+	t_list	*prev;
+	t_list	*curr;
+
+	if (!(*lst))
 		return (NULL);
-	while (lst->next->next)
-		lst = lst->next;
-	return (lst);
+	curr = *lst;
+	while (curr)
+	{
+		prev = curr->prev;
+		f(curr);
+		curr = prev;
+	}
+	*lst = NULL;
+	return (NULL);
 }

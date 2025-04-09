@@ -1,6 +1,6 @@
 fclean:		clean
 	@make fclean -s -C $(DIR_LIB)
-	@$(RM) $(NAME) $(NAME_BNS) $(NAME_A) jjorda
+	@$(RM) $(NAME) $(NAME_BNS) $(NAME_ALL) $(UNIT_TEST)
 
 fclean_man:	clean_man
 	@make fclean -s -C $(DIR_LIB)
