@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/08 19:18:30 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/09 19:32:47 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,23 @@
 
 static t_list	*ft_new_token(char *s, t_list **tok_h, int *i, int *status)
 {
-	t_token	*tok;
-	int		start;
+	t_content	tok;
+	int			start;
 
 	*status = 0;
-	tok = (t_token *) malloc(sizeof(t_token));
-	if (!tok)
-		return (ft_tok_err(status, -1));
+	if (!(*tok_h))
+	return (ft_tok_err(status, -3));
+	tok = (*tok_h)->content;
+	// if (!tok)
+	// 	return (ft_tok_err(status, -1));
 	start = *i;
-	tok->type = ft_get_type(s, i);
-	if (tok->type == TOKEN_ERROR)
+	tok.token->type = ft_get_type(s, i);
+	if (tok.token->type == TOKEN_ERROR)
 		return (ft_tok_err(status, -2));
-	tok->value = ft_substr(s, start, *i - start);
-	if (!tok->value)
+	tok.token->value = ft_substr(s, start, *i - start);
+	if (!tok.token->value)
 		return (ft_tok_err(status, -1));
-	if (!ft_lstadd_back(tok_h, (void *) tok))
+	if (!ft_lstadd_back(tok_h, tok, TYPE_TOKEN))
 		return (ft_tok_err(status, -1));
 	return (*tok_h);
 }
@@ -72,6 +74,8 @@ int	ft_lexing(t_shell *shell)
 // 			ft_printerr("MALLOC ERRRO\n");
 // 		if (res == -2)
 // 			ft_printerr("WRITE ERROR\n");
+// 		if (res == -3)
+// 			ft_printerr("INVALID ARGUMENT\n");
 // 		ft_printerr("%d\n", res);
 // 		return (res);
 // 	}

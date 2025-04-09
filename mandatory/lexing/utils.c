@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:22:45 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/08 18:43:03 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/09 12:56:44 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	ft_end_of_word(char *s, char c)
 			i--;
 			break ;
 		}
-		if (ft_ismeta("|><&$\"'()*=", s[i]))
+		if (ft_ismeta("|><&$\"'()*=\\", s[i]))
 			return (i + 1);
 		if (s[i] == ' ')
 			return (i + 1);
@@ -98,5 +98,7 @@ t_token_type	ft_get_type(char *s, int *i)
 	else if (s[*i] == ' ')
 		return (ft_getiteration(TOKEN_SPACE, i,
 				ft_end_of_word(&s[*i + 1], ' ')));
+	else if (s[*i] == '\\')
+		return (ft_getiteration(TOKEN_BSLASH, i, 1));
 	return (ft_getiteration(TOKEN_WORD, i, ft_end_of_word(&s[*i + 1], 'c')));
 }

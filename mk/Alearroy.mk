@@ -1,4 +1,4 @@
-NAME_A	= alearroy
+NAME_A	= alearroy.out
 DIR_A	= obj/
 
 BLT	= builtin/
@@ -18,5 +18,5 @@ $(NAME_A):	$(OBJ_A)
 dir_mandatory_a:
 	@mkdir -p $(DIR_A)/$(BLT)
 
-# $(DIR_A)%.o: %.c | dir_mandatory_a
-# 	@$(CC) $(CFLAGS) -c $< -o $@
+$(DIR_A)$(BLT)%.o: $(BLT)%.c | dir_mandatory_a
+	@$(CC) $(CFLAGS) -c $< -o $@

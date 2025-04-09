@@ -13,5 +13,5 @@ $(NAME_LX):	$(OBJ_LXR)
 dir_lexer:
 	@mkdir -p $(DIR_LX)$(LEX)
 
-$(DIR_LX)%.o: %.c | dir_lexer
+$(DIR_LX)$(LEX)%.o: $(LEX)%.c | dir_lexer
 	@$(CC) $(CFLAGS) -c $< -o $@

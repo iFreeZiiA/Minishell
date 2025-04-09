@@ -58,9 +58,9 @@ SRC_SEA	= $(SEA)memchr.c $(SEA)strcmp.c $(SEA)memcmp.c $(SEA)strchr.c		\
 LST		= list/
 GEN		= $(LST)generic/ft_
 SPE		= $(LST)special/ft_
-SRC_LST	= $(GEN)lstnew.c $(GEN)lstadd_back.c $(GEN)nextlst.c				\
+SRC_LST	= $(GEN)lstnew.c $(GEN)lstadd_back.c $(GEN)lstn_3.c $(GEN)lstlast.c	\
 		$(GEN)lstadd_front.c $(GEN)lstn_2.c $(GEN)lstsize.c					\
-		$(GEN)lstn_3.c $(GEN)lstlast.c $(GEN)lstfree.c $(GEN)lstiter.c
+		$(SPE)lstnew_ast.c $(SPE)lstnew_redir.c $(SPE)lstnew_token.c
 
 FIL		= file/
 GNL		= $(FIL)gnl/get_next_line
