@@ -6,11 +6,11 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:56:00 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/08 15:44:55 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:21:31 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static int	is_numeric(const char *str)
 {
