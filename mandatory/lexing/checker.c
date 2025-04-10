@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:57:37 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/10 15:59:48 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/10 18:04:34 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,13 @@ bool	ft_new_list(t_list *tok_start, t_list *tok_next)
 t_list	*ft_get_end(t_shell *shell, t_list *current, t_token_type type, int i)
 {
 	t_list	*start;
+	t_list	*var;
 	t_token	*tok;
+	char	*value;
 	bool	d_var;
 
 	d_var = false;
+	value = NULL;
 	start = current->next->next;
 	tok = start->content.token;
 	while (tok->type != type)
@@ -72,16 +75,38 @@ t_list	*ft_get_end(t_shell *shell, t_list *current, t_token_type type, int i)
 			if (tok->type == TOKEN_STATUS)
 			{
 				tok->type = TOKEN_WORD;
-				tok->value = shell->env->last_exit_code;
+				tok->value = ft_itoa(shell->env->last_exit_code);
 			}
 			else if (tok->type == TOKEN_VAR)
+			{
+				var = start;
 				d_var = true;
+			}
 		}
 		if (d_var)
 		{
 			if (tok->type == TOKEN_WORD)
 			{
-				
+				value = ft_isenv(shell->env->env_vars, tok->value);
+				if (!value)
+				{
+					value = ft_isenv(shell->env->local_env, tok->value);
+					if (!value)
+					{
+						var->prev->next = start->next;
+						start->next->prev = var->prev;
+						ft_clean_node_tok(start);
+						start = var->prev;
+						ft_clean_node_tok(var);
+						tok = (t_token *) malloc(sizeof(t_token));
+						tok->type = TOKEN_WORD;
+						tok->value = "";
+						var = ft_lstnew_tok(tok);
+						if (!var)
+							return (NULL);
+						ft_lstinsert(&shell->token, var, i - 1);
+					}
+				}
 			}
 			else
 			{
@@ -89,9 +114,10 @@ t_list	*ft_get_end(t_shell *shell, t_list *current, t_token_type type, int i)
 				d_var = false;
 			}
 		}
-		start = current->next;
+		start = start->next;
 		tok = start->content.token;
 	}
+	return (start);
 }
 
 int	ft_lexer_checker(t_shell *shell)

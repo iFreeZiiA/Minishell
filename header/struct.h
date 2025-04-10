@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/10 16:05:31 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/10 16:13:45 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ typedef enum e_token_type {
 }	t_token_type;
 
 typedef struct s_token {
-	t_token_type type;
-	char *value;
-} t_token;
+	t_token_type	type;
+	char			*value;
+}	t_token;
 
 /* -------------------------------- PARSING --------------------------------- */
 
@@ -54,14 +54,14 @@ typedef enum {
 	NODE_OR,
 	NODE_REDIR,
 	NODE_GROUP      // Pour les parenthèses
-} node_type;
+}	node_type;
 
 typedef struct s_ast_node {
-	node_type type;
-	void *data;      // Données spécifiques au type de nœud
-	struct s_ast_node *left;
-	struct s_ast_node *right;
-} t_ast_node;
+	node_type			type;
+	void				*data;      // Données spécifiques au type de nœud
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
+}	t_ast_node;
 
 /* --------------------------------- REDIR ---------------------------------- */
 
@@ -73,35 +73,36 @@ typedef enum {
 } redir_type;
 
 typedef struct s_redir {
-	redir_type type;
-	char *file;      // Nom du fichier ou délimiteur pour heredoc
-	int fd;          // File descriptor
-} t_redir;
+	redir_type	type;
+	char		*file;      // Nom du fichier ou délimiteur pour heredoc
+	int			fd;          // File descriptor
+}	t_redir;
 
 /* -------------------------------- COMMAND --------------------------------- */
 
 typedef struct s_command {
-	char **args;     // Tableau d'arguments (args[0] est la commande)
-	t_redir *redirs; // Liste des redirections
-} t_command;
+	char	**args;     // Tableau d'arguments (args[0] est la commande)
+	t_redir	*redirs; // Liste des redirections
+}	t_command;
 
 /* ---------------------------------- ENV ----------------------------------- */
 
 typedef struct s_env {
-	char **env_vars;     // Variables d'environnement actuelles
-	int last_exit_code;  // Stocke la valeur de $?
-} t_env;
+	char	**env_vars;		// Variables d'environnement actuelles
+	char	**local_env;	// Variables locales utilisables uniquement par le process parent
+	int		last_exit_code;	// Stocke la valeur de $?
+}	t_env;
 
 /* -------------------------------- SHELL --------------------------------- */
 
 typedef struct s_shell {
-	t_env *env;
-	char *current_line;
-	int signal_received; // La seule variable globale pour les signaux
-	char *prompt;
-	t_list	*token;     // Résultat du lexer
-	t_ast_node *ast;     // Arbre syntaxique après parsing
-} t_shell;
+	t_env		*env;
+	char		*current_line;
+	int			signal_received; // La seule variable globale pour les signaux
+	char		*prompt;
+	t_list		*token;     // Résultat du lexer
+	t_ast_node	*ast;     // Arbre syntaxique après parsing
+}	t_shell;
 
 typedef enum e_content_type
 {

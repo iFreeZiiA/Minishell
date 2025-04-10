@@ -87,6 +87,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_isspace(char c);
 int		ft_find_quotes(char const *s);
+char	*ft_isenv(char **env, const char *key);
 
 /* --------------------------------- PRINT ---------------------------------- */
 
@@ -119,6 +120,7 @@ void	*ft_clean_node_tok(t_list *tok_curr);
 t_list	*ft_lstnew_tok(t_token *token);
 t_list	*ft_lstnew_redir(t_redir *redir);
 t_list	*ft_lstnew_ast(t_ast_node *ast);
+bool	ft_lstinsert(t_list **lst, void *data, int index);
 
 /* ---------------------------------- FILE ---------------------------------- */
 

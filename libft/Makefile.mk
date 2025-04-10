@@ -43,7 +43,7 @@ SCH		= search/ft_
 SRC_SCH	= $(SCH)isalnum.c $(SCH)isalpha.c $(SCH)isascii.c $(SCH)isdigit.c	\
 		$(SCH)isprint.c $(SCH)count_word.c $(SCH)isesc.c $(SCH)find_quotes.c\
 		$(SCH)isspace.c $(SCH)contains_char.c $(SCH)poschar.c				\
-		$(SCH)count_arr.c
+		$(SCH)count_arr.c $(SCH)isenv.c
 
 MAN		= manipulation/ft_
 SRC_MAN	= $(MAN)bzero.c $(MAN)memcpy.c $(MAN)memmove.c $(MAN)memset.c		\
@@ -61,9 +61,9 @@ GEN		= $(LST)generic/ft_
 SPE		= $(LST)special/ft_
 SRC_LST	= $(GEN)lstnew.c $(GEN)lstadd_back.c $(GEN)lstn_3.c $(GEN)lstlast.c	\
 		$(GEN)lstadd_front.c $(GEN)lstn_2.c $(GEN)lstsize.c					\
-		$(GEN)lstleak.c $(GEN)ft_lstrem_n.c									\
+		$(GEN)lstleak.c $(GEN)lstrem_n.c $(GEN)lstinsert.c			\
 		$(SPE)lstnew_ast.c $(SPE)lstnew_redir.c $(SPE)lstnew_token.c		\
-		$(SPE)ft_clean_node_tok.c
+		$(SPE)clean_node_tok.c
 
 FIL		= file/
 GNL		= $(FIL)gnl/get_next_line
