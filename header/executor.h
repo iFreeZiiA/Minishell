@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/10 18:44:37 by alearroy         ###   ########.fr       */
+/*   Created: 2025/04/10 18:41:32 by alearroy          #+#    #+#             */
+/*   Updated: 2025/04/10 18:48:42 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include "../libft/libft.h"
-# include "struct.h"
-# include "lexing.h"
-# include "parsing.h"
-# include "minishell_executor.h"
-# include "signals.h"
-# include "executor.h"
+int		execute_command(t_command *cmd, t_env *env);
+char	*get_path(char *cmd, char **envp);
 
 #endif

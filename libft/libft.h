@@ -57,6 +57,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 void	*ft_leak(char **str, size_t i);
 char	**ft_split_arg(char const *s);
 void	ft_free_vctr(void **ptr);
+void	ft_free_arr(char **arr);
 
 /* ---------------------------- STR_MANIPULATION ---------------------------- */
 
