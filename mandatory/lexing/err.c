@@ -6,16 +6,62 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:24:16 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/06 14:28:29 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/09 19:34:12 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-void	*ft_lexing_err(t_shell *shell, char **vec)
+void	*ft_clean_node(t_list *tok_curr)
 {
-	ft_lstfree(shell->token);
-	if (vec)
-		ft_free_vctr((void **) vec);
+	t_token	*tok;
+
+	if (!tok_curr)
+		return (NULL);
+	tok = tok_curr->content.token;
+	// tok = (t_token *) tok_curr->content;
+	if (tok && tok->value)
+		free(tok->value);
+	if (tok)
+		free(tok);
+	free(tok_curr);
+	tok_curr = NULL;
 	return (NULL);
+}
+
+void	*ft_lstfree_t(t_list *tok_h)
+{
+	t_list	*current;
+
+	if (!tok_h)
+		return (NULL);
+	current = tok_h;
+	while (current)
+	{
+		tok_h = current->next;
+		ft_clean_node(current);
+		current = tok_h;
+	}
+	return (NULL);
+}
+
+void	*ft_tok_err(int *p_status, int status)
+{
+	*p_status = status;
+	return (NULL);
+}
+
+void	ft_print_list(t_list *tok_h)
+{
+	t_list	*tok_curr;
+	t_token	*tok;
+
+	tok_curr = tok_h;
+	while (tok_curr)
+	{
+		// tok = (t_token *) tok_curr->content;
+		tok = tok_h->content.token;
+		ft_printerr("%s: %d\n", tok->value, tok->type);
+		tok_curr = tok_curr->next;
+	}
 }
