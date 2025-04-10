@@ -1,5 +1,4 @@
-NAME_A	= alearroy.out
-
+NAME_A	= alearroy
 DIR_A	= obj
 
 MAN		= mandatory
@@ -8,8 +7,9 @@ SGL		= $(MAN)/signal
 
 SRC_A	= $(BLT)/builtin_echo.c $(BLT)/builtin_pwd.c					\
 		$(BLT)/run_builtin.c $(BLT)/builtin_cd.c $(BLT)/builtin_env.c	\
-		$(BLT)/builtin_exit.c $(BLT)/builtin_export.c				\
-		$(BLT)/builtin_unset.c $(SGL)/signal.c $(MAN)/main.c
+		$(BLT)/builtin_exit.c $(BLT)/builtin_export.c					\
+		$(BLT)/builtin_unset.c $(SGL)/signal.c $(MAN)/main.c			\
+		$(BLT)/builtin_cd_utils.c
 
 OBJ_A	= $(patsubst %.c, $(DIR_A)/%.o, $(SRC_A))
 
@@ -25,5 +25,5 @@ dir_mandatory_a:
 	@mkdir -p $(DIR_A)/$(BLT)
 	@mkdir -p $(DIR_A)/$(SGL)
 
-$(DIR_A)$(BLT)%.o: $(BLT)%.c | dir_mandatory_a
+$(DIR_A)/%.o: %.c | dir_mandatory_a
 	@$(CC) $(CFLAGS) -c $< -o $@

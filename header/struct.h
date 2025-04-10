@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/10 16:13:45 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/10 18:21:18 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ typedef struct s_redir {
 /* -------------------------------- COMMAND --------------------------------- */
 
 typedef struct s_command {
-	char	**args;     // Tableau d'arguments (args[0] est la commande)
-	t_redir	*redirs; // Liste des redirections
-}	t_command;
+	char **args;     // Tableau d'arguments (args[0] est la commande)
+	t_list *redirs; // Liste des redirections
+} t_command;
 
 /* ---------------------------------- ENV ----------------------------------- */
 

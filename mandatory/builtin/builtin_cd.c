@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:48:15 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/08 18:21:18 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:25:37 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,28 @@ static char	*get_cd_target(char **args, char ***env)
 		target = args[1];
 	return (target);
 }
-int	get_env_index(char **env, const char *key)
+
+static char	**alloc_env_with_new(char **env, char *new)
 {
+	char	**new_env;
 	int		i;
-	size_t	len;
 
 	i = 0;
-	len = ft_strlen(key);
 	while (env[i])
-	{
-		if (!ft_strncmp(env[i], key, len) && env[i][len] == '=')
-			return (i);
 		i++;
-	}
-	return (-1);
+	new_env = malloc(sizeof(char *) * (i + 2));
+	if (!new_env)
+		return (NULL);
+	i = -1;
+	while (env[++i])
+		new_env[i] = env[i];
+	new_env[i++] = new;
+	new_env[i] = NULL;
+	return (new_env);
 }
 
 int	update_env_var(char ***env, const char *key, const char *value)
 {
-	int		i;
 	int		idx;
 	char	*new;
 	char	**new_env;
@@ -83,20 +86,9 @@ int	update_env_var(char ***env, const char *key, const char *value)
 		(*env)[idx] = new;
 		return (0);
 	}
-	i = 0;
-	while ((*env)[i])
-		i++;
-	new_env = malloc(sizeof(char *) * (i + 2));
+	new_env = alloc_env_with_new(*env, new);
 	if (!new_env)
-	{
-		free(new);
-		return (1);
-	}
-	i = -1;
-	while ((*env)[++i])
-		new_env[i] = (*env)[i];
-	new_env[i++] = new;
-	new_env[i] = NULL;
+		return (free(new), 1);
 	free(*env);
 	*env = new_env;
 	return (0);
