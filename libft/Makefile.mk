@@ -28,7 +28,8 @@ SRC_CON	= $(CONV)atoi.c $(CONV)itoa.c $(CONV)tolower.c $(CONV)toupper.c		\
 MEM		= memory/ft_
 SRC_MEM	= $(MEM)calloc.c $(MEM)mallocfailed.c $(MEM)split_arg.c				\
 		$(MEM)split.c $(MEM)strdup.c $(MEM)strjoin.c $(MEM)leak.c			\
-		$(MEM)strmapi.c $(MEM)strtrim.c $(MEM)substr.c $(MEM)free_vctr.c
+		$(MEM)strmapi.c $(MEM)strtrim.c $(MEM)substr.c $(MEM)free_vctr.c	\
+		$(MEM)strjoin_f.c
 
 PRT		= print/ft_
 PF		= $(PRT)printf/ft_
@@ -60,7 +61,8 @@ GEN		= $(LST)generic/ft_
 SPE		= $(LST)special/ft_
 SRC_LST	= $(GEN)lstnew.c $(GEN)lstadd_back.c $(GEN)lstn_3.c $(GEN)lstlast.c	\
 		$(GEN)lstadd_front.c $(GEN)lstn_2.c $(GEN)lstsize.c					\
-		$(SPE)lstnew_ast.c $(SPE)lstnew_redir.c $(SPE)lstnew_token.c
+		$(SPE)lstnew_ast.c $(SPE)lstnew_redir.c $(SPE)lstnew_token.c		\
+		$(GEN)lstleak.c
 
 FIL		= file/
 GNL		= $(FIL)gnl/get_next_line

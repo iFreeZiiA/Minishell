@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:49:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 13:58:38 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/10 13:04:16 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_strjoin_f(char const *s1, char const *s2)
 	i = -1;
 	while (s1[++i])
 		str[i] = s1[i];
-	free(s1);
+	free((void *) s1);
 	j = 0;
 	while (s2[j])
 		str[i++] = s2[j++];

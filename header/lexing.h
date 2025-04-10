@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 13:17:40 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/10 12:58:52 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,18 @@
 
 /* ---------------------------------- ERR ----------------------------------- */
 
-void	ft_print_list(t_list *tok_h);
-void	*ft_tok_err(int *p_status, int status);
-void	*ft_lstfree_t(t_list *tok_h);
-void	*ft_clean_node(t_list *tok_curr);
+void			ft_print_list(t_list *tok_h);
+void			*ft_tok_err(int *p_status, int status);
+void			*ft_lstfree_t(t_list *tok_h);
+void			*ft_clean_node(t_list *tok_curr);
 
 /* --------------------------------- UTILS ---------------------------------- */
 
-t_token_type ft_get_type(char *s, int *i);
+t_token_type	ft_get_type(char *s, int *i);
+int				ft_lexer_checker(t_shell *shell);
 
 /* --------------------------------- LEXING --------------------------------- */
 
-int		ft_lexing(t_shell *shell);
+int				ft_lexing(t_shell *shell);
 
 #endif

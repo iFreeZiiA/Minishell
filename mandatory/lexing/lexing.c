@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 19:32:47 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/10 13:29:50 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@ static t_list	*ft_new_token(char *s, t_list **tok_h, int *i, int *status)
 	int			start;
 
 	*status = 0;
-	if (!(*tok_h))
-	return (ft_tok_err(status, -3));
-	tok = (*tok_h)->content;
+	// if (!(*tok_h))
+	// return (ft_tok_err(status, -3));
+	// tok = (*tok_h)->content;
 	// if (!tok)
 	// 	return (ft_tok_err(status, -1));
 	start = *i;
+	tok.token = (t_token *) (malloc(sizeof(t_token)));
+	if (!tok.token)
+		return (ft_tok_err(status, -1));
 	tok.token->type = ft_get_type(s, i);
+	// ft_printerr("i: %d, start: %d\n", *i, start);
 	if (tok.token->type == TOKEN_ERROR)
 		return (ft_tok_err(status, -2));
 	tok.token->value = ft_substr(s, start, *i - start);
@@ -56,6 +60,7 @@ int	ft_lexing(t_shell *shell)
 		if (status)
 			return (status);
 	}
+	// ft_lexer_checker(shell);
 	shell->token = tok_h;
 	return (0);
 }

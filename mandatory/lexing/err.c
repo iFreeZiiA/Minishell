@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:24:16 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 19:34:12 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/10 13:01:58 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_print_list(t_list *tok_h)
 	while (tok_curr)
 	{
 		// tok = (t_token *) tok_curr->content;
-		tok = tok_h->content.token;
+		tok = tok_curr->content.token;
 		ft_printerr("%s: %d\n", tok->value, tok->type);
 		tok_curr = tok_curr->next;
 	}
