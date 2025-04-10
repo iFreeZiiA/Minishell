@@ -6,14 +6,14 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/10 18:21:18 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/10 18:23:33 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 
-typedef struct s_list t_list;
+typedef struct s_list	t_list;
 
 /* --------------------------------- LEXING --------------------------------- */
 
@@ -70,7 +70,7 @@ typedef enum {
 	REDIR_OUT,       // >
 	REDIR_APPEND,    // >>
 	REDIR_HEREDOC    // 
-} redir_type;
+}	redir_type;
 
 typedef struct s_redir {
 	redir_type	type;
@@ -81,9 +81,9 @@ typedef struct s_redir {
 /* -------------------------------- COMMAND --------------------------------- */
 
 typedef struct s_command {
-	char **args;     // Tableau d'arguments (args[0] est la commande)
-	t_list *redirs; // Liste des redirections
-} t_command;
+	char	**args;     // Tableau d'arguments (args[0] est la commande)
+	t_list	*redirs; // Liste des redirections
+}	t_command;
 
 /* ---------------------------------- ENV ----------------------------------- */
 
