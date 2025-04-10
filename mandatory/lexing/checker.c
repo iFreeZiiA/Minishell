@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:57:37 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/10 13:16:48 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:59:48 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_get_str(t_list *tok_start, t_token *tok_next)
 		tok = (t_token *) current->content.token;
 		str = ft_strjoin_f(str, tok->value);
 		tok_start = current->next;
-		ft_clean_node(current);
+		ft_clean_node_tok(current);
 		current = tok_start;
 	}
 	if (!current)
@@ -45,7 +45,7 @@ bool	ft_new_list(t_list *tok_start, t_list *tok_next)
 	str = ft_get_str(tok_start, (t_token *) tok_next->content.token);
 	if (!str)
 	{
-		ft_lstleak(&first, ft_clean_node);
+		ft_lstleak(&first, ft_clean_node_tok);
 		return (false);
 	}
 	new = (t_token *) malloc(sizeof(t_token));
@@ -56,25 +56,61 @@ bool	ft_new_list(t_list *tok_start, t_list *tok_next)
 	return (true);
 }
 
-t_list	*ft_get_end(t_list *start, t_token_type type)
+t_list	*ft_get_end(t_shell *shell, t_list *current, t_token_type type, int i)
 {
-	
+	t_list	*start;
+	t_token	*tok;
+	bool	d_var;
+
+	d_var = false;
+	start = current->next->next;
+	tok = start->content.token;
+	while (tok->type != type)
+	{
+		if (type == TOKEN_DQUOTE)
+		{
+			if (tok->type == TOKEN_STATUS)
+			{
+				tok->type = TOKEN_WORD;
+				tok->value = shell->env->last_exit_code;
+			}
+			else if (tok->type == TOKEN_VAR)
+				d_var = true;
+		}
+		if (d_var)
+		{
+			if (tok->type == TOKEN_WORD)
+			{
+				
+			}
+			else
+			{
+				tok->type = TOKEN_WORD;
+				d_var = false;
+			}
+		}
+		start = current->next;
+		tok = start->content.token;
+	}
 }
 
 int	ft_lexer_checker(t_shell *shell)
 {
 	t_list	*tok_current;
 	t_token	*tok;
+	int		i;
 
 	tok_current = shell->token;
+	i = 0;
 	while (tok_current)
 	{
-		tok = (t_token *) tok_current->content.token;
+		tok = (t_token *) tok_current->next->content.token;
 		if (!tok)
 			return (-1);
 		if (tok->type == TOKEN_QUOTE || tok->type == TOKEN_DQUOTE)
-			ft_new_list(tok_current, ft_get_end(tok_current, tok->type));
+			ft_new_list(tok_current, ft_get_end(shell, tok_current, tok->type, i));
 		tok_current = tok_current->next;
+		i++;
 	}
 	return (0);
 }

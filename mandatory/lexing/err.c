@@ -6,28 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:24:16 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/10 13:01:58 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/10 14:18:56 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
-
-void	*ft_clean_node(t_list *tok_curr)
-{
-	t_token	*tok;
-
-	if (!tok_curr)
-		return (NULL);
-	tok = tok_curr->content.token;
-	// tok = (t_token *) tok_curr->content;
-	if (tok && tok->value)
-		free(tok->value);
-	if (tok)
-		free(tok);
-	free(tok_curr);
-	tok_curr = NULL;
-	return (NULL);
-}
 
 void	*ft_lstfree_t(t_list *tok_h)
 {
@@ -39,7 +22,7 @@ void	*ft_lstfree_t(t_list *tok_h)
 	while (current)
 	{
 		tok_h = current->next;
-		ft_clean_node(current);
+		ft_clean_node_tok(current);
 		current = tok_h;
 	}
 	return (NULL);

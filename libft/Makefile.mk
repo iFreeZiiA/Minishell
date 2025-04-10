@@ -61,8 +61,9 @@ GEN		= $(LST)generic/ft_
 SPE		= $(LST)special/ft_
 SRC_LST	= $(GEN)lstnew.c $(GEN)lstadd_back.c $(GEN)lstn_3.c $(GEN)lstlast.c	\
 		$(GEN)lstadd_front.c $(GEN)lstn_2.c $(GEN)lstsize.c					\
+		$(GEN)lstleak.c $(GEN)ft_lstrem_n.c									\
 		$(SPE)lstnew_ast.c $(SPE)lstnew_redir.c $(SPE)lstnew_token.c		\
-		$(GEN)lstleak.c
+		$(SPE)ft_clean_node_tok.c
 
 FIL		= file/
 GNL		= $(FIL)gnl/get_next_line

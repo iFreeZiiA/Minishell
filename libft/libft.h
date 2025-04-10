@@ -113,7 +113,9 @@ t_list	*ft_lstn_3(t_list *lst);
 t_list	*ft_lstfirst(t_list *actual);
 bool	ft_lstrem_front(t_list **actual, void (*f)(void *));
 void	*ft_lstleak(t_list **lst, void *(*f)(t_list *));
+bool	ft_lstrem_n(t_list **head, int index, void *(*f)(t_list *));
 
+void	*ft_clean_node_tok(t_list *tok_curr);
 t_list	*ft_lstnew_tok(t_token *token);
 t_list	*ft_lstnew_redir(t_redir *redir);
 t_list	*ft_lstnew_ast(t_ast_node *ast);
