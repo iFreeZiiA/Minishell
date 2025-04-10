@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 19:07:45 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:46:17 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,49 +41,48 @@ typedef enum e_token_type {
 }	t_token_type;
 
 typedef struct s_token {
-    t_token_type type;
-    char *value;
+	t_token_type type;
+	char *value;
 } t_token;
 
 /* -------------------------------- PARSING --------------------------------- */
 
 typedef enum {
-    NODE_COMMAND,
-    NODE_PIPE,
-    NODE_AND,
-    NODE_OR,
-    NODE_REDIR,
-    NODE_GROUP      // Pour les parenthèses
+	NODE_COMMAND,
+	NODE_PIPE,
+	NODE_AND,
+	NODE_OR,
+	NODE_REDIR,
+	NODE_GROUP      // Pour les parenthèses
 } node_type;
 
 typedef struct s_ast_node {
-    node_type type;
-    void *data;      // Données spécifiques au type de nœud
-    struct s_ast_node *left;
-    struct s_ast_node *right;
+	node_type type;
+	void *data;      // Données spécifiques au type de nœud
+	struct s_ast_node *left;
+	struct s_ast_node *right;
 } t_ast_node;
 
 /* --------------------------------- REDIR ---------------------------------- */
 
 typedef enum {
-    REDIR_IN,        // 
-    REDIR_OUT,       // >
-    REDIR_APPEND,    // >>
-    REDIR_HEREDOC    // 
+	REDIR_IN,        // 
+	REDIR_OUT,       // >
+	REDIR_APPEND,    // >>
+	REDIR_HEREDOC    // 
 } redir_type;
 
 typedef struct s_redir {
-    redir_type type;
-    char *file;      // Nom du fichier ou délimiteur pour heredoc
-    int fd;          // File descriptor
-    struct s_redir *next;
+	redir_type type;
+	char *file;      // Nom du fichier ou délimiteur pour heredoc
+	int fd;          // File descriptor
 } t_redir;
 
 /* -------------------------------- COMMAND --------------------------------- */
 
 typedef struct s_command {
-    char **args;     // Tableau d'arguments (args[0] est la commande)
-    t_redir *redirs; // Liste des redirections
+	char **args;     // Tableau d'arguments (args[0] est la commande)
+	t_redir *redirs; // Liste des redirections
 } t_command;
 
 /* ---------------------------------- ENV ----------------------------------- */
