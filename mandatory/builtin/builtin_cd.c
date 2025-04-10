@@ -6,11 +6,11 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:48:15 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/08 16:09:18 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:21:18 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static char	*get_env_value(char **env, const char *key)
 {

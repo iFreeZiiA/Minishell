@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   signal.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/08 18:46:47 by alearroy         ###   ########.fr       */
+/*   Created: 2025/04/08 18:39:14 by alearroy          #+#    #+#             */
+/*   Updated: 2025/04/08 18:40:15 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
-int	main(int argc, char **argv, char **envp)
-{
-	char	*input;
-	char	**env;
-	(void)argc;
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <signal.h>
 
-	setup_interactive_signals();
-	while (1)
-	{
-		input = readline("minishell$ ");
-		if (!input)
-		{
-			write(1, "exit\n", 5);
-			break;
-		}
-		if (*input)
-		add_history(input);
-		run_builtin(argv, &env);
-		env = ft_envdup(envp);
-		free(input);
-	}
-	return (0);
-}
+void	setup_interactive_signals(void);
+
+#endif
