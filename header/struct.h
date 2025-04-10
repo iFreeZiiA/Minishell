@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/10 15:46:17 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:55:19 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,25 +82,25 @@ typedef struct s_redir {
 
 typedef struct s_command {
 	char **args;     // Tableau d'arguments (args[0] est la commande)
-	t_redir *redirs; // Liste des redirections
+	t_list *redirs; // Liste des redirections
 } t_command;
 
 /* ---------------------------------- ENV ----------------------------------- */
 
 typedef struct s_env {
-    char **env_vars;     // Variables d'environnement actuelles
-    int last_exit_code;  // Stocke la valeur de $?
+	char **env_vars;     // Variables d'environnement actuelles
+	int last_exit_code;  // Stocke la valeur de $?
 } t_env;
 
 /* -------------------------------- SHELL --------------------------------- */
 
 typedef struct s_shell {
-    t_env *env;
-    char *current_line;
-    int signal_received; // La seule variable globale pour les signaux
-    char *prompt;
-    t_list	*token;     // Résultat du lexer
-    t_ast_node *ast;     // Arbre syntaxique après parsing
+	t_env *env;
+	char *current_line;
+	int signal_received; // La seule variable globale pour les signaux
+	char *prompt;
+	t_list	*token;     // Résultat du lexer
+	t_ast_node *ast;     // Arbre syntaxique après parsing
 } t_shell;
 
 typedef enum e_content_type
