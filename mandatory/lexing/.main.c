@@ -6,13 +6,13 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:14:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/11 17:46:36 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/11 18:58:46 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **env)
 {
 	t_shell	shell;
 	int		res;
@@ -35,6 +35,8 @@ int	main(int argc, char **argv)
 		ft_printerr("%d\n", res);
 		return (res);
 	}
+	shell.env->env_vars = env;
+	ft_parsing(&shell);
 	ft_print_list(shell.token);
 	ft_lstfree_t(shell.token);
 	return (0);

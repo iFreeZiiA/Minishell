@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   .main.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/11 18:33:04 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/11 17:58:53 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/11 18:42:23 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../header/minishell.h"
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include "../libft/libft.h"
-# include "struct.h"
-# include "lexing.h"
-# include "parsing.h"
-# include "minishell_executor.h"
-# include "signals.h"
-
-#endif
+int	main(int argc, char **argv, char **env)
+{
+	
+	ft_lexing()
+	parsing();
+	return (0);
+}

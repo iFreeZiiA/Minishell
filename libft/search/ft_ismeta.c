@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_ismeta.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/11 18:33:04 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/11 18:26:46 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/11 18:28:55 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft.h"
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include "../libft/libft.h"
-# include "struct.h"
-# include "lexing.h"
-# include "parsing.h"
-# include "minishell_executor.h"
-# include "signals.h"
-
-#endif
+bool	ft_ismeta(char *meta, char c)
+{
+	if (!meta)
+		return (false);
+	while (*meta)
+	{
+		if (c == *meta)
+			return (true);
+		meta++;
+	}
+	return (false);
+}

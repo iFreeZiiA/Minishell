@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:22:45 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/11 17:47:06 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/11 18:09:29 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,6 @@ static t_token_type	ft_isdouble(char *s, int *i)
 	return (ft_getiteration(TOKEN_ERROR, i, 1));
 }
 
-static bool	ft_ismeta(char *meta, char c)
-{
-	while (*meta)
-	{
-		if (c == *meta)
-			return (true);
-		meta++;
-	}
-	return (false);
-}
-
 static int	ft_quote(char *s, char c, bool *quote)
 {
 	unsigned int	i;
@@ -65,7 +54,7 @@ static int	ft_quote(char *s, char c, bool *quote)
 		{
 			if (i > 0 && s[i - 1] == '\\')
 				i++;
-			else 
+			else
 				*quote = true;
 		}
 		if (*quote)
@@ -79,7 +68,6 @@ static int	ft_end_of_word(char *s, char c)
 {
 	int	i;
 
-	// ft_printerr("bool: %d, c: %c\n", *quote, c);
 	i = -1;
 	while (s[++i])
 	{
@@ -108,10 +96,10 @@ t_token_type	ft_get_type(char *s, int *i, bool *quote)
 	else if (s[*i] == '(')
 		return (ft_getiteration(TOKEN_PAREN_OPEN, i, 1));
 	else if (s[*i] == '\'')
-		return (ft_getiteration(TOKEN_QUOTE, i, 
+		return (ft_getiteration(TOKEN_QUOTE, i,
 				ft_quote(&s[*i + 1], s[*i], quote)));
 	else if (s[*i] == '"')
-		return (ft_getiteration(TOKEN_DQUOTE, i, 
+		return (ft_getiteration(TOKEN_DQUOTE, i,
 				ft_quote(&s[*i + 1], s[*i], quote)));
 	else if (s[*i] == '=')
 		return (ft_getiteration(TOKEN_ASSIGN, i, 1));

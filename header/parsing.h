@@ -6,13 +6,13 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:44:02 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/06 11:45:40 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/11 18:58:11 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-int	ft_parsing();
+int	ft_parsing(t_shell *shell);
 
 #endif

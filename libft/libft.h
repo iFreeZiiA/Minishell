@@ -36,6 +36,7 @@ int		ft_isesc(char c);
 int		ft_contains_char(char *str, char c);
 int		ft_poschar(char *str, char c);
 int		ft_count_arr(char **arr);
+bool	ft_ismeta(char *meta, char c);
 
 /* ------------------------------- CONVERTION ------------------------------- */
 

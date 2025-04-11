@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/11 18:33:04 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/11 18:41:24 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/11 18:59:38 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../header/minishell.h"
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include "../libft/libft.h"
-# include "struct.h"
-# include "lexing.h"
-# include "parsing.h"
-# include "minishell_executor.h"
-# include "signals.h"
-
-#endif
+int	ft_parsing(t_shell *shell)
+{
+	ft_printerr("%s\n", shell->env->env_vars[0]);
+	return (0);
+}
