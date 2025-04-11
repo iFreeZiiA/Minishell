@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:22:45 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 12:56:44 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:47:06 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static t_token_type	ft_getiteration(t_token_type type, int *i, int add)
 {
+	if (add == -1)
+		return (TOKEN_ERROR);
 	*i += add;
 	return (type);
 }
@@ -52,10 +54,32 @@ static bool	ft_ismeta(char *meta, char c)
 	return (false);
 }
 
+static int	ft_quote(char *s, char c, bool *quote)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+		{
+			if (i > 0 && s[i - 1] == '\\')
+				i++;
+			else 
+				*quote = true;
+		}
+		if (*quote)
+			return (i + 1);
+		i++;
+	}
+	return (-1);
+}
+
 static int	ft_end_of_word(char *s, char c)
 {
 	int	i;
 
+	// ft_printerr("bool: %d, c: %c\n", *quote, c);
 	i = -1;
 	while (s[++i])
 	{
@@ -76,7 +100,7 @@ static int	ft_end_of_word(char *s, char c)
 	return (i + 2);
 }
 
-t_token_type	ft_get_type(char *s, int *i)
+t_token_type	ft_get_type(char *s, int *i, bool *quote)
 {
 	if (s[*i] == '|' || s[*i] == '&' || s[*i] == '<'
 		|| s[*i] == '>' || s[*i] == '$')
@@ -84,9 +108,11 @@ t_token_type	ft_get_type(char *s, int *i)
 	else if (s[*i] == '(')
 		return (ft_getiteration(TOKEN_PAREN_OPEN, i, 1));
 	else if (s[*i] == '\'')
-		return (ft_getiteration(TOKEN_QUOTE, i, 1));
+		return (ft_getiteration(TOKEN_QUOTE, i, 
+				ft_quote(&s[*i + 1], s[*i], quote)));
 	else if (s[*i] == '"')
-		return (ft_getiteration(TOKEN_DQUOTE, i, 1));
+		return (ft_getiteration(TOKEN_DQUOTE, i, 
+				ft_quote(&s[*i + 1], s[*i], quote)));
 	else if (s[*i] == '=')
 		return (ft_getiteration(TOKEN_ASSIGN, i, 1));
 	else if (s[*i] == ')')

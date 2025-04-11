@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:18:17 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 15:39:29 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/11 13:32:45 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 static inline bool	ft_free_new(t_list **new)
 {
-	free(*new);
+	if (*new)
+		free(*new);
 	*new = NULL;
 	return (false);
 }
 
 static inline bool	ft_insert_after(t_list **curr, t_list **new)
 {
-	if (!(*curr))
+	if (!curr || !(*curr))
 		return (ft_free_new(new));
 	(*new)->next = (*curr)->next;
 	(*new)->prev = *curr;
@@ -37,6 +38,8 @@ bool ft_lstinsert(t_list **lst, void *data, int index)
 	t_list	*new;
 	int		i;
 
+	if (!lst || !(*lst) || !data || index < 0)
+		return (false);
 	new = ft_lstnew(data);
 	if (!new)
 		return (false);

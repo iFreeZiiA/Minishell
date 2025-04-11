@@ -1,8 +1,8 @@
 NAME_LX	= lexer
 DIR_LX	= $(DIR_OBJ)/
 LEX		= $(MAN)/lexing/
-SRC_LXR	= $(LEX).main.c $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c			\
-	$(LEX)checker.c
+SRC_LXR	= $(LEX).main.c $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c
+
 OBJ_LXR	= $(patsubst %.c, $(DIR_LX)%.o, $(SRC_LXR))
 
 lexing:	$(LIB) $(NAME_LX)

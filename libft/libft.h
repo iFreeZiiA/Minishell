@@ -87,7 +87,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_isspace(char c);
 int		ft_find_quotes(char const *s);
-char	*ft_isenv(char **env, const char *key);
+char	*ft_getenv_value(t_shell *shell, const char *key);
 
 /* --------------------------------- PRINT ---------------------------------- */
 

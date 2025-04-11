@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/10 12:58:52 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:22:53 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void			*ft_clean_node(t_list *tok_curr);
 
 /* --------------------------------- UTILS ---------------------------------- */
 
-t_token_type	ft_get_type(char *s, int *i);
+t_token_type	ft_get_type(char *s, int *i, bool *quote);
 int				ft_lexer_checker(t_shell *shell);
 
 /* --------------------------------- LEXING --------------------------------- */

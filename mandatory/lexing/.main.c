@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:14:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 19:35:16 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:46:36 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	main(int argc, char **argv)
 	}
 	shell.current_line = argv[1];
 	res = ft_lexing(&shell);
-	ft_print_list(shell.token);
-	ft_lstfree_t(shell.token);
 	if (res)
 	{
 		if (res == -1)
@@ -37,5 +35,7 @@ int	main(int argc, char **argv)
 		ft_printerr("%d\n", res);
 		return (res);
 	}
+	ft_print_list(shell.token);
+	ft_lstfree_t(shell.token);
 	return (0);
 }

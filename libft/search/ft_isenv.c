@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:19:54 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/10 17:11:20 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/11 13:27:03 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,11 @@ static int	ft_is_valid_identifier(const char *s)
 	return (i);
 }
 
-char	*ft_isenv(char **env, const char *key)
+static char	*ft_loop(char **env, const char *key)
 {
 	int		i;
 	int		end;
 
-	if (!env || !(*env) || !key)
-		return (NULL);
-	i = -1;
 	while (env[++i])
 	{
 		end = ft_is_valid_identifier(env[i]);
@@ -43,4 +40,19 @@ char	*ft_isenv(char **env, const char *key)
 			return (ft_substr(env[i], 0, end));
 	}
 	return (NULL);
+}
+
+char	*ft_getenv_value(t_shell *shell, const char *key)
+{
+	char	**env;
+	char	*value;
+
+	if (!shell || !key)
+		return (NULL);
+	env = shell->env->env_vars;
+	value = ft_loop(env, key);
+	if (value)
+		return (value);
+	env = shell->env->local_env;
+	return (ft_loop(env, key));
 }
