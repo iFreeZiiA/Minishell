@@ -6,7 +6,7 @@ PRR		= $(MAN)/parsing/
 SRC_PRR	= $(PRR)parsing.c
 UT_PRR	= $(PRR).main.c $(SRC_PRR) $(SRC_LXR)
 
-OBJ_PRR	= $(patsubst %.c, $(DIR_PR)%.o, $(SRC_PRR))
+OBJ_PRR	= $(patsubst %.c, $(DIR_PR)%.o, $(UT_PRR))
 
 parsing:	$(LIB) $(NAME_PR)
 
@@ -17,5 +17,5 @@ $(NAME_PR):	$(OBJ_PRR)
 dir_parser: dir_lexer
 	@mkdir -p $(DIR_PR)$(PRR)
 
-$(DIR_PR)$(PRR)%.o: $(PRR)%.c | dir_parser | dir_lexer
+$(DIR_PR)$(PRR)%.o: $(PRR)%.c | dir_parser
 	@$(CC) $(CFLAGS) -c $< -o $@

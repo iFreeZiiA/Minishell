@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/11 18:55:21 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/11 19:37:14 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct s_shell {
 	int			signal_received; // La seule variable globale pour les signaux
 	char		*prompt;
 	t_list		*token;     // Résultat du lexer
-	t_ast_node	*ast;     // Arbre syntaxique après parsing
+	t_list		*ast;     // Arbre syntaxique après parsing
 }	t_shell;
 
 typedef enum e_content_type

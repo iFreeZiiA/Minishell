@@ -9,3 +9,7 @@ clean_man:
 clean_bns:
 	@make clean -s -C $(DIR_LIB)
 	@$(RM)r $(DIR_BNS)/$(BNS)
+
+clean_ut:
+	@make clean -s -C $(DIR_LIB)
+	@$(RM)r $(DIR_BNS)/$(BNS)

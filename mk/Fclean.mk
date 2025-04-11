@@ -9,3 +9,7 @@ fclean_man:	clean_man
 fclean_bns:	clean_bns
 	@make fclean -s -C $(DIR_LIB)
 	@$(RM) $(NAME_BNS)
+
+fclean_ut: clean_ut
+	@make fclean -s -C $(DIR_LIB)
+	@$(RM) $(NAME_PR)

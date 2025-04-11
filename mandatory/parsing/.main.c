@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 17:58:53 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/11 18:42:23 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/11 19:11:43 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	
-	ft_lexing()
-	parsing();
+	t_shell	shell;
+
+	if (argc != 2)
+	{
+		ft_printerr("ERR ARG\n");
+		return (1);
+	}
+	shell.current_line = argv[1];
+	ft_lexing(&shell);
+	shell.env->env_vars = env;
+	ft_parsing(&shell);
 	return (0);
 }
