@@ -16,9 +16,7 @@ static inline t_list	*ft_getfunc(t_content data, t_content_type type)
 {
 	t_list	*lst;
 
-	if (type == TYPE_AST)
-		lst = ft_lstnew_ast(data.ast);
-	else if (type == TYPE_REDIR)
+	if (type == TYPE_REDIR)
 		lst = ft_lstnew_redir(data.redir);
 	else if (type == TYPE_TOKEN)
 		lst = ft_lstnew_tok(data.token);
