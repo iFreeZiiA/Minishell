@@ -121,6 +121,7 @@ void	*ft_clean_node_tok(t_list *tok_curr);
 t_list	*ft_lstnew_tok(t_token *token);
 t_list	*ft_lstnew_redir(t_redir *redir);
 t_list	*ft_lstnew_ast(t_ast_node *ast);
+t_list	*ft_lstnew_cmd(t_command *cmd);
 bool	ft_lstinsert(t_list **lst, void *data, int index);
 
 /* ---------------------------------- FILE ---------------------------------- */

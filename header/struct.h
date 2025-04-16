@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/10 18:23:33 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/16 18:23:24 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ typedef enum e_content_type
 	TYPE_REDIR,
 	TYPE_AST,
 	TYPE_TOKEN,
-	TYPE_GENERIC
+	TYPE_GENERIC,
+	TYPE_COMMAND
 }	t_content_type;
 
 typedef union u_content
@@ -117,6 +118,7 @@ typedef union u_content
 	t_redir		*redir;
 	t_ast_node	*ast;
 	t_token		*token;
+	t_command	*cmd;
 	void		*generic;
 }	t_content;
 

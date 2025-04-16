@@ -63,7 +63,7 @@ SRC_LST	= $(GEN)lstnew.c $(GEN)lstadd_back.c $(GEN)lstn_3.c $(GEN)lstlast.c	\
 		$(GEN)lstadd_front.c $(GEN)lstn_2.c $(GEN)lstsize.c					\
 		$(GEN)lstleak.c $(GEN)lstrem_n.c $(GEN)lstinsert.c			\
 		$(SPE)lstnew_ast.c $(SPE)lstnew_redir.c $(SPE)lstnew_token.c		\
-		$(SPE)clean_node_tok.c
+		$(SPE)clean_node_tok.c $(SPE)lstnew_cmd.c
 
 FIL		= file/
 GNL		= $(FIL)gnl/get_next_line
