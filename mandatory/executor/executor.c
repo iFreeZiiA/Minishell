@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/16 18:01:25 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/16 18:49:49 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	count_cmds(t_command *cmd)
 	return (i);
 }
 
-int	execute_pipe(t_command *cmd, t_env *env)
+int	execute_pipe(t_list *cmd_h, t_env *env)
 {
 	pid_t	*pids;
 	int		pipe_fd[2];
@@ -103,10 +103,10 @@ int	execute_pipe(t_command *cmd, t_env *env)
 
 	i = 0;
 	prev = -1;
-	pids = malloc(sizeof(pid_t) * count_cmds(cmd));
+	pids = malloc(sizeof(pid_t) * ft_lstsize(cmd_h));
 	if (!pids)
 		return (1);
-	while (cmd)
+	while (cmd_h)
 	{
 		
 	}

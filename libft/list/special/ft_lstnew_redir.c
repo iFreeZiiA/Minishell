@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew_redir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 19:08:34 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 19:11:31 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/16 18:47:20 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_list	*ft_lstnew_redir(t_redir *redir)
 
 	if (!redir)
 		return (NULL);
-	new = (t_list *) malloc(sizeof(t_redir));
+	new = (t_list *) malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
 	new->content.redir = redir;

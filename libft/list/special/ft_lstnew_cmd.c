@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:23:58 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/16 18:25:02 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/16 18:47:08 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_list	*ft_lstnew_cmd(t_command *cmd)
 
 	if (!cmd)
 		return (NULL);
-	new = (t_list *) malloc(sizeof(t_command));
+	new = (t_list *) malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
 	new->content.cmd = cmd;

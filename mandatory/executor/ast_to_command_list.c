@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:15:34 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/16 18:20:15 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/16 18:46:06 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	add_command_node(t_list **cmds, t_command *cmd)
 	t_list	*node;
 	t_list	*tmp;
 
-	node = ft_lstnew(cmd);
+	node = ft_lstnew_cmd(cmd);
 	if (!node)
 		return ;
 	if (!*cmds)
