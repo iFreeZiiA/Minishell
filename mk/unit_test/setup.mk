@@ -17,8 +17,5 @@ $(NAME_SUP):	$(OBJ_SUP)
 dir_setup:
 	@mkdir -p $(DIR_SUP)$(SUP)
 
-# $(DIR_SUP)$(SUP)%.o: $(SUP)%.c | dir_setup
-# 	@$(CC) $(CFLAGS) -c $< -o $@
-
-$(DIR_SUP)$(SUP).main.o: $(SUP).main.c | dir_setup
+$(DIR_SUP)$(SUP)%.o: $(SUP)%.c | dir_setup
 	@$(CC) $(CFLAGS) -c $< -o $@

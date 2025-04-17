@@ -11,10 +11,10 @@ SRC		= $(MAN)main.c $(SRC_LXR)
 
 #  								    UNIT_TEST 								  #
 
-UT			= $(LEX) $(PRR)
+# UT			= $(LEX) $(PRR)
 
-UNIT_TEST	= $(NAME_LX) $(NAME_PR)
-NAME_ALL	= $(NAME_A) $(NAME_J)
+# UNIT_TEST	= $(NAME_LX) $(NAME_PR)
+# NAME_ALL	= $(NAME_A) $(NAME_J)
 
 
 # ************************************ LIB *********************************** #
