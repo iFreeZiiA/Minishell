@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstnew_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/16 15:57:30 by alearroy         ###   ########.fr       */
+/*   Created: 2025/04/16 18:23:58 by alearroy          #+#    #+#             */
+/*   Updated: 2025/04/16 18:47:08 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../libft.h"
 
-int	main(int argc, char **argv, char **envp)
+t_list	*ft_lstnew_cmd(t_command *cmd)
 {
-	char	*input;
-	char	**env;
-	(void)argc;
+	t_list	*new;
 
-	setup_interactive_signals();
-	while (1)
-	{
-		input = readline("\001\033[1;35m\002minishell$ \001\033[0m\002");
-		if (!input)
-		{
-			write(1, "exit\n", 5);
-			break;
-		}
-		if (*input)
-		add_history(input);
-		run_builtin(argv, &env);
-		env = ft_envdup(envp);
-		free(input);
-	}
-	return (0);
+	if (!cmd)
+		return (NULL);
+	new = (t_list *) malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new->content.cmd = cmd;
+	new->type = TYPE_COMMAND;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
 }

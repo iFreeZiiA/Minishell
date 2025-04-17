@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/14 17:11:02 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/17 16:02:07 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef enum e_content_type
 {
 	TYPE_REDIR,
 	TYPE_TOKEN,
+	TYPE_COMMAND,
 	TYPE_GENERIC
 }	t_content_type;
 
@@ -117,6 +118,7 @@ typedef union u_content
 {
 	t_redir		*redir;
 	t_token		*token;
+	t_command	*cmd;
 	void		*generic;
 }	t_content;
 

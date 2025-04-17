@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_redir.c                                  :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/09 19:08:34 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/16 18:47:20 by alearroy         ###   ########.fr       */
+/*   Created: 2025/04/10 18:41:32 by alearroy          #+#    #+#             */
+/*   Updated: 2025/04/16 18:26:55 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft.h"
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
-t_list	*ft_lstnew_redir(t_redir *redir)
-{
-	t_list	*new;
+int		execute_command(t_command *cmd, t_env *env);
+char	*get_path(char *cmd, char **envp);
+t_list	*ast_to_command_list(t_ast_node *ast);
 
-	if (!redir)
-		return (NULL);
-	new = (t_list *) malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	new->content.redir = redir;
-	new->type = TYPE_REDIR;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
-}
+#endif
