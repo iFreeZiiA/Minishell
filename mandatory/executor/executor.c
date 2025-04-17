@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/16 18:49:49 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/04/17 15:32:00 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,6 @@ int	execute_command(t_command *cmd, t_env *env)
 	else if (WIFSIGNALED(status))
 		env->last_exit_code = 128 + WTERMSIG(status);
 	return (env->last_exit_code);
-}
-
-int	count_cmds(t_command *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd) 
-	{
-		cmd = cmd->next;
-		i++;
-	}
-	return (i);
 }
 
 int	execute_pipe(t_list *cmd_h, t_env *env)
