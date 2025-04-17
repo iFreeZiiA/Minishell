@@ -12,4 +12,4 @@ fclean_bns:	clean_bns
 
 fclean_ut: clean_ut
 	@make fclean -s -C $(DIR_LIB)
-	@$(RM) $(NAME_PR)
+	@$(RM) $(NAME_UT)

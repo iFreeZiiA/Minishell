@@ -5,32 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 13:19:08 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/17 14:58:44 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/17 13:42:58 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/17 14:58:50 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
-
-void	ft_printenv(t_shell shell)
-{
-	char	**env;
-	int		i;
-
-	i = -1;
-	env = shell.env->env_vars;
-	while (env[++i])
-		ft_printerr("env[%d] = %s\n", i, env[i]);
-}
 
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	shell;
 
 	(void) argv;
-	if (argc != 1)
+	if (argc != 2)
 	{
-		ft_printerr("PLEASE DO NOT ENTER ANY ARGUMENTS\n");
+		ft_printerr("PLEASE ENTER THE STATUS\n");
 		return (1);
 	}
 	if (ft_setup(&shell, env) == -1)
@@ -40,8 +29,6 @@ int	main(int argc, char **argv, char **env)
 		ft_printerr("ERROR\n");
 		return (1);
 	}
-	ft_printenv(shell);
-	free (shell.env);
-	shell.env = NULL;
+	ft_cleanup(&shell, ft_atoi(argv[1]));
 	return (0);
 }

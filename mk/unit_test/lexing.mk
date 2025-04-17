@@ -1,6 +1,6 @@
 NAME_LX	= lexer
 
-DIR_LX	= $(DIR_OBJ)/
+DIR_LX	= $(DIR_UT)
 LEX		= $(MAN)/lexing/
 
 SRC_LXR	= $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c

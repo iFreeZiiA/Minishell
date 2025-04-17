@@ -1,6 +1,6 @@
 NAME_SUP= setup_ut
 
-DIR_SUP	= $(DIR_OBJ)/
+DIR_SUP	= $(DIR_UT)
 SUP		= $(MAN)/setup/
 
 SRC_SUP	= $(SUP)setup.c 

@@ -12,4 +12,4 @@ clean_bns:
 
 clean_ut:
 	@make clean -s -C $(DIR_LIB)
-	@$(RM)r $(DIR_BNS)/$(BNS)
+	@$(RM)r $(DIR_UT)
