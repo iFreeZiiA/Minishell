@@ -31,8 +31,11 @@ int	ft_atoi(const char *str)
 	int	result;
 	int	neg;
 
+	if (!str)
+		return (0);
 	i = 0;
 	result = 0;
+	neg = 0;
 	if (str[i] == 92)
 		return (result);
 	while (ft_isspace(str[i]))

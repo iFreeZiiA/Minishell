@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:42:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/17 14:58:50 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/17 16:43:23 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(int argc, char **argv, char **env)
 		ft_printerr("ERROR\n");
 		return (1);
 	}
+	// ft_printerr("env[0] = %s", shell.env[0]);
 	ft_cleanup(&shell, ft_atoi(argv[1]));
 	return (0);
 }
