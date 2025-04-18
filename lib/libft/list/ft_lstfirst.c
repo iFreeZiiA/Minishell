@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstfirst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 18:27:43 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/09 15:43:09 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/18 17:41:27 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft.h"
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+t_list	*ft_lstfirst(t_list *actual)
+{
+	t_list	*prev;
 
-# include "../lib/libft/libft.h"
-# include "../lib/libms/libms.h"
-# include "struct.h"
-# include "deployment/setup.h"
-# include "parser/lexing.h"
-# include "parser/parsing.h"
-# include "minishell_executor.h"
-# include "signals.h"
-# include "executor.h"
-# include "deployment/cleanup.h"
-
-#endif
+	if (!actual)
+		return (NULL);
+	prev = actual;
+	while (prev->prev)
+		prev = prev->prev;
+	return (prev);
+}

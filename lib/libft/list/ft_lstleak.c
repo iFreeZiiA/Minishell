@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstleak.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 18:27:43 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/09 18:05:42 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/18 17:41:46 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft.h"
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+void	*ft_lstleak(t_list **lst, void *(*f)(t_list *))
+{
+	t_list	*prev;
+	t_list	*curr;
 
-# include "../lib/libft/libft.h"
-# include "../lib/libms/libms.h"
-# include "struct.h"
-# include "deployment/setup.h"
-# include "parser/lexing.h"
-# include "parser/parsing.h"
-# include "minishell_executor.h"
-# include "signals.h"
-# include "executor.h"
-# include "deployment/cleanup.h"
-
-#endif
+	if (!(*lst))
+		return (NULL);
+	curr = *lst;
+	while (curr)
+	{
+		prev = curr->prev;
+		f(curr);
+		curr = prev;
+	}
+	*lst = NULL;
+	return (NULL);
+}

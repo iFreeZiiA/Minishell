@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstrem_first.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 18:27:43 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/09 15:40:41 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/18 17:45:03 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft.h"
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+bool	ft_lstrem_front(t_list **actual, void (*f)(t_content))
+{
+	t_list	*first;
+	t_list	*second;
 
-# include "../lib/libft/libft.h"
-# include "../lib/libms/libms.h"
-# include "struct.h"
-# include "deployment/setup.h"
-# include "parser/lexing.h"
-# include "parser/parsing.h"
-# include "minishell_executor.h"
-# include "signals.h"
-# include "executor.h"
-# include "deployment/cleanup.h"
-
-#endif
+	if (!(*actual) || !f)
+		return (false);
+	first = ft_lstfirst(*actual);
+	second = NULL;
+	if (first->next)
+		second = first->next;
+	if (*actual == first)
+		*actual = second;
+	f(first->content);
+	free(first);
+	first = NULL;
+	if (second)
+		second->prev = NULL;
+	return (true);
+}

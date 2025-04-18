@@ -6,11 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:42:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/17 16:43:23 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/18 13:56:50 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/minishell.h"
+#include "../../../header/minishell.h"
 
 int	main(int argc, char **argv, char **env)
 {

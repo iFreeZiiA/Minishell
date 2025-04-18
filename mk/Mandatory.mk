@@ -1,7 +1,7 @@
 all:	$(LIB) $(NAME)
 
 $(NAME):	$(OBJ)
-	@$(CC) $(CFLAGS) -o $@ $(OBJ) -L$(DIR_LIB) -lft
+	@$(CC) $(CFLAGS) $(OBJ) -o $@ $(LIBS)
 	@$(PRINT) $(BANNER)
 
 dir_mandatory:

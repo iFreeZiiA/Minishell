@@ -14,14 +14,21 @@ SRC		= $(MAN)main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)
 DIR_UT		= $(DIR_OBJ)/unit_test/
 UT			= $(LEX) $(PRR) $(SUP) $(CUP)
 
-NAME_UT		= $(NAME_LX) $(NAME_PR)
+NAME_UT		= $(NAME_LX) $(NAME_PR) $(NAME_SUP) $(NAME_CUP)
 NAME_ALL	= $(NAME_A) $(NAME_J)
 
 
 # ************************************ LIB *********************************** #
 
-LIB		= libft.a
-DIR_LIB	= ./libft
+LIB			= lib
+DIR_LIB		= ./lib
+LIBS		= -L./$(DIR_LIBFT) -lft -L./$(DIR_LIBMS) -lms
+
+DIR_LIBFT	= $(DIR_LIB)/libft
+LIBFT		= $(DIR_LIBFT)/libft.a
+
+DIR_LIBMS	= $(DIR_LIB)/libms
+LIBMS		= $(DIR_LIBMS)/libms.a
 
 # ********************************* OBJECTS ********************************** #
 

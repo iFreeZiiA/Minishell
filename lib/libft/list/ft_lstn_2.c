@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstn_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 18:27:43 by jjorda           ###   ########.fr       */
+/*   Created: 2024/11/28 11:29:31 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/18 17:41:54 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft.h"
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include "../lib/libft/libft.h"
-# include "../lib/libms/libms.h"
-# include "struct.h"
-# include "deployment/setup.h"
-# include "parser/lexing.h"
-# include "parser/parsing.h"
-# include "minishell_executor.h"
-# include "signals.h"
-# include "executor.h"
-# include "deployment/cleanup.h"
-
-#endif
+/**
+ * Returns the element n-2 of the linked list.
+ * 
+ * @param lst The first element of the linked list.
+ * @return The element n-2 of the list, or NULL if the list is empty.
+ */
+t_list	*ft_lstn_2(t_list *lst)
+{
+	if (!lst || !lst->next)
+		return (NULL);
+	while (lst->next->next)
+		lst = lst->next;
+	return (lst);
+}

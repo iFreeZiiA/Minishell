@@ -1,4 +1,4 @@
-NAME_LX	= lexer
+NAME_LX	= lexer_ut
 
 DIR_LX	= $(DIR_UT)
 LEX		= $(MAN)/parser/lexing/
@@ -11,11 +11,24 @@ OBJ_LXR	= $(patsubst %.c, $(DIR_LX)%.o, $(UT_LXR))
 lexing:	$(LIB) $(NAME_LX)
 
 $(NAME_LX):	$(OBJ_LXR)
-	@$(CC) $(CFLAGS) -o $@ $(OBJ_LXR) -L$(DIR_LIB) -lft
-	@$(PRINT) $(BANNER)
+	@$(CC) $(CFLAGS) $(OBJ_LXR) -o $@ $(LIBS)
+	@$(PRINT) $(BAN_LX)
 
 dir_lexer:
 	@mkdir -p $(DIR_LX)$(LEX)
 
 $(DIR_LX)$(LEX)%.o: $(LEX)%.c | dir_lexer
 	@$(CC) $(CFLAGS) -c $< -o $@
+
+BAN_LX	= \
+"**********************************************" "\n" \
+"*$(Y)   _       _______ _    _ _______ ______    $(O)*" "\n" \
+"*$(Y)  | |     (_______) \  / (_______|_____ \   $(O)*" "\n" \
+"*$(Y)  | |      _____   \ \/ / _____   _____) )  $(O)*" "\n" \
+"*$(Y)  | |     |  ___)   )  ( |  ___) |  ___ (   $(O)*" "\n" \
+"*$(Y)  | |_____| |_____ / /\ \| |_____| |   | |  $(O)*" "\n" \
+"*$(Y)  |_______)_______)_/  \_\_______)_|   |_|  $(O)*" "\n" \
+"*$(V) Made by : alearroy / jjorda                $(O)*" "\n" \
+"*$(V) Started : 04/04/2025                       $(O)*" "\n" \
+"*$(V) Finished :                                 $(O)*" "\n" \
+"**********************************************"

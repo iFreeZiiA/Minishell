@@ -6,11 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 13:37:51 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/14 14:04:26 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/18 13:56:37 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/minishell.h"
+#include "../../../header/minishell.h"
 
 char	*ft_getfile(t_token *tok)
 {

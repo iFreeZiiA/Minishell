@@ -6,11 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:19:08 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/17 14:58:44 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/18 13:56:54 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/minishell.h"
+#include "../../../header/minishell.h"
 
 void	ft_printenv(t_shell shell)
 {

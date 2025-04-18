@@ -6,11 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:19:37 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/17 13:34:58 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/18 13:56:59 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/minishell.h"
+#include "../../../header/minishell.h"
 
 int	ft_setenv(t_shell *shell, char **env)
 {

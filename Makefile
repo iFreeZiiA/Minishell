@@ -14,7 +14,8 @@ include mk/unit_test/setup.mk
 include mk/unit_test/cleanup.mk
 
 $(LIB) :
-	@make -s -C $(DIR_LIB);
+	@make -s -C $(DIR_LIBMS);
+	@make -s -C $(DIR_LIBFT);
 
 dir_utils :
 	@mkdir -p $(UTL)

@@ -11,11 +11,24 @@ OBJ_SUP	= $(patsubst %.c, $(DIR_SUP)%.o, $(UT_SUP))
 setup:	$(LIB) $(NAME_SUP)
 
 $(NAME_SUP):	$(OBJ_SUP)
-	$(CC) $(CFLAGS) -o $@ $(OBJ_SUP) -L$(DIR_LIB) -lft
-	@$(PRINT) $(BANNER)
+	@$(CC) $(CFLAGS) -o $@ $(OBJ_SUP) -L$(DIR_LIB) -lft
+	@$(PRINT) $(BAN_SUP)
 
 dir_setup:
 	@mkdir -p $(DIR_SUP)$(SUP)
 
 $(DIR_SUP)$(SUP)%.o: $(SUP)%.c | dir_setup
 	@$(CC) $(CFLAGS) -c $< -o $@
+
+BAN_SUP	= \
+"**********************************************" "\n" \
+"*$(Y)      _    _______ _______ _     _ ______   $(O)*" "\n" \
+"*$(Y)     | |  (_______|_______) |   | (_____ \  $(O)*" "\n" \
+"*$(Y)      \ \  _____   _      | |   | |_____) ) $(O)*" "\n" \
+"*$(Y)       \ \|  ___) | |     | |   | |  ____/  $(O)*" "\n" \
+"*$(Y)   _____) ) |_____| |_____| |___| | |       $(O)*" "\n" \
+"*$(Y)  (______/|_______)\______)\______|_|       $(O)*" "\n" \
+"*$(V) Made by : alearroy / jjorda                $(O)*" "\n" \
+"*$(V) Started : 04/04/2025                       $(O)*" "\n" \
+"*$(V) Finished :                                 $(O)*" "\n" \
+"**********************************************"

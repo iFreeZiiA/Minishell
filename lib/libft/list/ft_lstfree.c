@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstfree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 18:27:43 by jjorda           ###   ########.fr       */
+/*   Created: 2025/04/06 14:05:13 by jjorda            #+#    #+#             */
+/*   Updated: 2025/04/18 17:41:32 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft.h"
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+void	*ft_lstfree(t_list *list)
+{
+	t_list	*current;
 
-# include "../lib/libft/libft.h"
-# include "../lib/libms/libms.h"
-# include "struct.h"
-# include "deployment/setup.h"
-# include "parser/lexing.h"
-# include "parser/parsing.h"
-# include "minishell_executor.h"
-# include "signals.h"
-# include "executor.h"
-# include "deployment/cleanup.h"
-
-#endif
+	if (!list)
+		return (NULL);
+	ft_lstiter(list, free);
+	current = list;
+	while (current)
+	{
+		current = list->next;
+		free(list);
+		list = NULL;
+	}
+	return (NULL);
+}
