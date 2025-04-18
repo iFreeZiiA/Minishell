@@ -2,7 +2,7 @@
 
 #  								    MANDATORY								  #
 MAN		= mandatory/
-SRC		= $(MAN)main.c $(SRC_LXR)
+SRC		= $(MAN)main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)
 
 #  								      BONUS  								  #
 # BNS		= bonus/

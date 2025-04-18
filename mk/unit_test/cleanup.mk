@@ -1,7 +1,7 @@
 NAME_CUP= cleanup_ut
 
 DIR_CUP	= $(DIR_OBJ)/
-CUP		= $(MAN)/cleanup/
+CUP		= $(MAN)/deployment/cleanup/
 
 SRC_CUP	= $(CUP)cleanup.c $(SRC_SUP)
 UT_CUP	= $(CUP)main_test.c $(SRC_CUP)

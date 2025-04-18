@@ -1,7 +1,7 @@
 NAME_PR	= parser
 
 DIR_PR	= $(DIR_OBJ)/
-PRR		= $(MAN)/parsing/
+PRR		= $(MAN)/parser/parsing/
 
 SRC_PRR	= $(PRR)parsing.c
 UT_PRR	= $(PRR).main.c $(SRC_PRR) $(SRC_LXR)

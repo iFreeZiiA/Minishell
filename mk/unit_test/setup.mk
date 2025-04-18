@@ -1,7 +1,7 @@
 NAME_SUP= setup_ut
 
 DIR_SUP	= $(DIR_UT)
-SUP		= $(MAN)/setup/
+SUP		= $(MAN)/deployment/setup/
 
 SRC_SUP	= $(SUP)setup.c 
 UT_SUP	= $(SUP)main_test.c $(SRC_SUP)
