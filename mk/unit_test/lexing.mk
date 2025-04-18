@@ -4,7 +4,7 @@ DIR_LX	= $(DIR_UT)
 LEX		= $(MAN)/parser/lexing/
 
 SRC_LXR	= $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c
-UT_LXR	= $(LEX).main.c $(SRC_LXR)
+UT_LXR	= $(LEX)main_test.c $(SRC_LXR)
 
 OBJ_LXR	= $(patsubst %.c, $(DIR_LX)%.o, $(UT_LXR))
 

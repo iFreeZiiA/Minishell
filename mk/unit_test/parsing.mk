@@ -4,7 +4,7 @@ DIR_PR	= $(DIR_OBJ)/
 PRR		= $(MAN)/parser/parsing/
 
 SRC_PRR	= $(PRR)parsing.c
-UT_PRR	= $(PRR).main.c $(SRC_PRR) $(SRC_LXR)
+UT_PRR	= $(PRR)main_test.c $(SRC_PRR) $(SRC_LXR)
 
 OBJ_PRR	= $(patsubst %.c, $(DIR_PR)%.o, $(UT_PRR))
 
