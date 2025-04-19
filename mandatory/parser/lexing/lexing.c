@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 13:56:10 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/19 12:43:55 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,18 @@ int	ft_lexing(t_shell *shell)
 	int		status;
 
 	tok_h = NULL;
+	// ft_printerr("Ping ft_lexing 0\n");
 	line = shell->current_line;
 	quote = false;
 	i = 0;
 	while (line[i])
 	{
+		// ft_printerr("Ping ft_lexing 1\n");
 		status = ft_new_token(line, &tok_h, &i, &quote);
 		if (status)
 			return (status);
 	}
+	// ft_printerr("Ping ft_lexing 2\n");
 	shell->token = tok_h;
 	return (0);
 }

@@ -6,11 +6,25 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:14:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 13:55:56 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/19 12:45:07 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
+
+void	ft_print_list(t_list *tok_h)
+{
+	t_list	*tok_curr;
+	t_token	*tok;
+
+	tok_curr = tok_h;
+	while (tok_curr)
+	{
+		tok = tok_curr->content.token;
+		ft_printerr("%s: %d\n", tok->value, tok->type);
+		tok_curr = tok_curr->next;
+	}
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -22,6 +36,7 @@ int	main(int argc, char **argv, char **env)
 		ft_printerr("Please enter an argument to lexe...\n");
 		return (0);
 	}
+	ft_setup(&shell, env);
 	shell.current_line = argv[1];
 	res = ft_lexing(&shell);
 	if (res)
@@ -35,8 +50,12 @@ int	main(int argc, char **argv, char **env)
 		ft_printerr("%d\n", res);
 		return (res);
 	}
+	ft_printerr("PING main 0\n");
 	shell.env->env_vars = env;
+	ft_printerr("PING main 1\n");
 	ft_print_list(shell.token);
+	ft_printerr("PING main 2\n");
 	ft_lstfree_t(shell.token);
+	ft_printerr("PING main 3\n");
 	return (0);
 }

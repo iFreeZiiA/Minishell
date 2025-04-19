@@ -18,7 +18,7 @@ OBJSDIR	= obj
 
 # ********************************** FILES *********************************** #
 
-SRCS	= 
+SRCS	= $(SRC_LST) $(SRC_GET)
 
 LST		= list/ft_
 SRC_LST	= $(LST)lstnew_redir.c $(LST)lstnew_token.c $(LST)clean_node_tok.c		\
