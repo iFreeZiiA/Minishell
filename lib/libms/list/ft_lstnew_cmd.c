@@ -6,11 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:23:58 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/18 17:50:07 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/18 19:11:20 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib_minishell.h"
+#include "../libms.h"
 
 t_list	*ft_lstnew_cmd(t_command *cmd)
 {

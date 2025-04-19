@@ -20,9 +20,9 @@ NAME_ALL	= $(NAME_A) $(NAME_J)
 
 # ************************************ LIB *********************************** #
 
-LIB			= lib
+LIB			= libs
 DIR_LIB		= ./lib
-LIBS		= -L./$(DIR_LIBFT) -lft -L./$(DIR_LIBMS) -lms
+LIBS		= -L$(DIR_LIBFT) -lft -L$(DIR_LIBMS) -lms -lreadline
 
 DIR_LIBFT	= $(DIR_LIB)/libft
 LIBFT		= $(DIR_LIBFT)/libft.a

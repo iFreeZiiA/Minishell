@@ -6,11 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:16:34 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 17:50:15 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/18 19:11:25 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib_minishell.h"
+#include "../libms.h"
 
 t_list	*ft_lstnew_tok(t_token *token)
 {

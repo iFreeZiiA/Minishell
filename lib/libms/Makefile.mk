@@ -21,8 +21,8 @@ OBJSDIR	= obj
 SRCS	= 
 
 LST		= list/ft_
-SRC_LST	= $(LST)lstadd_back.c $(LST)lstnew_redir.c $(LST)lstnew_token.c		\
-		$(LST)clean_node_tok.c $(LST)lstnew_cmd.c
+SRC_LST	= $(LST)lstnew_redir.c $(LST)lstnew_token.c $(LST)clean_node_tok.c		\
+		$(LST)lstnew_cmd.c
 
 GET		= get/ft_
 SRC_GET	= $(GET)isenv.c

@@ -13,7 +13,7 @@ SRC_A	= $(BLT)/builtin_echo.c $(BLT)/builtin_pwd.c					\
 
 OBJ_A	= $(patsubst %.c, $(DIR_A)/%.o, $(SRC_A))
 
-LIBS	= -lft -lreadline
+# LIBS	= -lft -lreadline
 
 alearroy: $(LIB) $(NAME_A)
 

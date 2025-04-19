@@ -6,11 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:17:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 17:49:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/18 19:11:16 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib_minishell.h"
+#include "../libms.h"
 
 void	*ft_clean_node_tok(t_list *tok_curr)
 {

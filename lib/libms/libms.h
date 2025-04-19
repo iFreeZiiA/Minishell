@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib_minishell.h                                    :+:      :+:    :+:   */
+/*   libms.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:39:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 18:27:11 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/18 19:11:31 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*ft_getenv_value(t_shell *shell, const char *key);
 /* --------------------------------- LIST --------------------------------- */
 
 void	*ft_clean_node_tok(t_list *tok_curr);
-bool	ft_lstadd_back(t_list **lst, t_content data, t_content_type type);
 t_list	*ft_lstnew_cmd(t_command *cmd);
 t_list	*ft_lstnew_redir(t_redir *redir);
 t_list	*ft_lstnew_tok(t_token *token);

@@ -14,6 +14,7 @@ include mk/unit_test/setup.mk
 include mk/unit_test/cleanup.mk
 
 $(LIB) :
+	@$(PRINT) "$(DIR_LIBMS)"
 	@make -s -C $(DIR_LIBMS);
 	@make -s -C $(DIR_LIBFT);
 

@@ -6,11 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:19:54 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 17:47:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/18 19:11:08 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib_minishell.h"
+#include "../libms.h"
 
 static int	ft_is_valid_identifier(const char *s)
 {
