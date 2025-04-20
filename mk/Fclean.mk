@@ -1,8 +1,8 @@
-fclean_lib:
+fclean_lib: 
 	@make fclean -s -C $(DIR_LIBFT)
 	@make fclean -s -C $(DIR_LIBMS)
 
-fclean:		fclean_lib
+fclean:		clean fclean_lib
 	@$(RM) $(NAME) $(NAME_BNS) $(NAME_ALL) $(NAME_UT)
 
 fclean_man:	clean_man fclean_lib

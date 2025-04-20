@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:14:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/19 12:45:07 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/19 13:05:45 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int	main(int argc, char **argv, char **env)
 		ft_printerr("%d\n", res);
 		return (res);
 	}
-	ft_printerr("PING main 0\n");
+	// ft_printerr("PING main 0\n");
 	shell.env->env_vars = env;
-	ft_printerr("PING main 1\n");
+	// ft_printerr("PING main 1\n");
 	ft_print_list(shell.token);
-	ft_printerr("PING main 2\n");
+	// ft_printerr("PING main 2\n");
 	ft_lstfree_t(shell.token);
-	ft_printerr("PING main 3\n");
+	// ft_printerr("PING main 3\n");
 	return (0);
 }

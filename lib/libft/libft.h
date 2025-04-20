@@ -58,12 +58,13 @@ char	*ft_strtrim(char const *s1, char const *set);
 void	*ft_leak(char **str, size_t i);
 char	**ft_split_arg(char const *s);
 void	ft_free_vctr(void **ptr);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	ft_free_arr(char **arr);
+void	*ft_realloc(void *ptr, size_t size, size_t old_size);
 
 /* ---------------------------- STR_MANIPULATION ---------------------------- */
 
 void	ft_bzero(void *s, size_t n);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
 char	*ft_strcpy(char *dest, char *src);
@@ -117,6 +118,7 @@ t_list	*ft_lstfirst(t_list *actual);
 bool	ft_lstrem_front(t_list **actual, void (*f)(void *));
 void	*ft_lstleak(t_list **lst, void *(*f)(t_list *));
 bool	ft_lstrem_n(t_list **head, int index, void *(*f)(t_list *));
+bool	ft_lstreplace_n(t_list **del, t_list *rep, void *(*f) (t_list *), int n);
 
 void	*ft_clean_node_tok(t_list *tok_curr);
 t_list	*ft_lstnew_tok(t_token *token);

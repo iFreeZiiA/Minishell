@@ -29,7 +29,7 @@ MEM		= memory/ft_
 SRC_MEM	= $(MEM)calloc.c $(MEM)mallocfailed.c $(MEM)split_arg.c				\
 		$(MEM)split.c $(MEM)strdup.c $(MEM)strjoin.c $(MEM)leak.c			\
 		$(MEM)strmapi.c $(MEM)strtrim.c $(MEM)substr.c $(MEM)free_vctr.c	\
-		$(MEM)strjoin_f.c
+		$(MEM)strjoin_f.c $(MEM)realloc.c
 
 PRT		= print/ft_
 PF		= $(PRT)printf/ft_
@@ -59,7 +59,8 @@ SRC_SEA	= $(SEA)memchr.c $(SEA)strcmp.c $(SEA)memcmp.c $(SEA)strchr.c		\
 LST		= list/ft_
 SRC_LST	= $(LST)lstnew.c $(LST)lstadd_back.c $(LST)lstn_3.c $(LST)lstlast.c	\
 		$(LST)lstadd_front.c $(LST)lstn_2.c $(LST)lstsize.c					\
-		$(LST)lstleak.c $(LST)lstrem_n.c $(LST)lstinsert.c
+		$(LST)lstleak.c $(LST)lstrem_n.c $(LST)lstinsert.c					\
+		$(LST)lstreplace_n.c
 
 FIL		= file/
 GNL		= $(FIL)gnl/get_next_line

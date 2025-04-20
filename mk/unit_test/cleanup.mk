@@ -17,7 +17,11 @@ $(NAME_CUP):	$(OBJ_CUP)
 dir_cleanup: dir_setup
 	@mkdir -p $(DIR_CUP)$(CUP)
 
-$(DIR_CUP)deployment/%.o: deployment/%.c | dir_cleanup
+$(DIR_CUP)$(CUP)%.o: $(CUP)%.c | dir_cleanup
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_CUP)$(SUP)%.o: $(SUP)%.c | dir_cleanup
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 BAN_CUP	= \

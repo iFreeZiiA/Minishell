@@ -11,7 +11,7 @@ OBJ_SUP	= $(patsubst %.c, $(DIR_SUP)%.o, $(UT_SUP))
 setup:	$(LIB) $(NAME_SUP)
 
 $(NAME_SUP):	$(OBJ_SUP)
-	@$(CC) $(CFLAGS) -o $@ $(OBJ_SUP) -L$(DIR_LIB) -lft
+	@$(CC) $(CFLAGS) -o $@ $(OBJ_SUP) $(LIBS)
 	@$(PRINT) $(BAN_SUP)
 
 dir_setup:
