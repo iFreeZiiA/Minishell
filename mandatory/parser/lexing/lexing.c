@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/19 19:53:39 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/21 17:43:57 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,10 @@ int	ft_lexing(t_shell *shell)
 		if (status)
 			return (status);
 	}
-	// ft_printerr("Ping ft_lexing 2\n");
 	shell->token = tok_h;
+	// ft_printerr("Ping ft_lexing 2\n");
 	ft_expansion(shell, tok_h);
+	// if (shell->token)
+	// 	ft_print_list(shell->token);
 	return (0);
 }

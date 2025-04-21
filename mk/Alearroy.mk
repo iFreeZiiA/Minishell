@@ -25,5 +25,5 @@ dir_mandatory_a:
 	@mkdir -p $(DIR_A)/$(BLT)
 	@mkdir -p $(DIR_A)/$(SGL)
 
-# $(DIR_A)/%.o: %.c | dir_mandatory_a
-# 	@$(CC) $(CFLAGS) -c $< -o $@
+$(DIR_A)/%.o: %.c | dir_mandatory_a
+	@$(CC) $(CFLAGS) -c $< -o $@

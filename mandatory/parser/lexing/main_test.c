@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:14:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/19 13:05:45 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/21 18:03:09 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,20 @@ void	ft_print_list(t_list *tok_h)
 	t_list	*tok_curr;
 	t_token	*tok;
 
+	if (!tok_h)
+		return ;
 	tok_curr = tok_h;
 	while (tok_curr)
 	{
 		tok = tok_curr->content.token;
-		ft_printerr("%s: %d\n", tok->value, tok->type);
+		// ft_printerr("PING\n");
+		ft_printerr("%s", tok->value);
+		// ft_printerr("%s: %d\n", tok->value, tok->type);
+		if (!tok)
+			return ;
 		tok_curr = tok_curr->next;
 	}
+	ft_printerr("\n");
 }
 
 int	main(int argc, char **argv, char **env)
@@ -39,6 +46,7 @@ int	main(int argc, char **argv, char **env)
 	ft_setup(&shell, env);
 	shell.current_line = argv[1];
 	res = ft_lexing(&shell);
+	// ft_printerr("PING MAIN\n");
 	if (res)
 	{
 		if (res == -1)
@@ -51,11 +59,19 @@ int	main(int argc, char **argv, char **env)
 		return (res);
 	}
 	// ft_printerr("PING main 0\n");
-	shell.env->env_vars = env;
+	// shell.env->env_vars = env;
 	// ft_printerr("PING main 1\n");
 	ft_print_list(shell.token);
 	// ft_printerr("PING main 2\n");
 	ft_lstfree_t(shell.token);
+	// ft_printerr("PING\n");
+	if (shell.env)
+	{
+		if (shell.env->local_env)
+			free(shell.env->local_env);
+		free(shell.env);
+	}
+	// ft_cleanup(&shell, 0);
 	// ft_printerr("PING main 3\n");
 	return (0);
 }

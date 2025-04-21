@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:24:16 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/19 12:43:03 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/21 17:46:24 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	*ft_lstfree_t(t_list *tok_h)
 	current = tok_h;
 	while (current)
 	{
+		// ft_printerr("%s\n", current->content.token->value);
 		tok_h = current->next;
 		ft_clean_node_tok(current);
 		current = tok_h;

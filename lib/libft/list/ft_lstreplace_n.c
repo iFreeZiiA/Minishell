@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 15:25:54 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/20 14:50:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/21 17:19:01 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool ft_lstreplace_n(t_list **del, t_list *rep, void *(*f)(t_list *), int n)
 
     if (!del || !(*del) || !rep || n < 0 || !f)
         return (false);
-    rep->prev = (*del)->prev;
+	rep->prev = (*del)->prev;
     if ((*del)->prev)
         (*del)->prev->next = rep;
     curr = *del;

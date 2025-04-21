@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/20 15:04:03 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/21 18:02:52 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_list	*ft_getexpan(t_shell *shell, t_list *tok_h, t_list **tok_c, t_token *tok_
 
 	if (!shell || !tok_h || !(*tok_c)->content.token || !tok_n)
 		return (NULL);
-	ft_printerr("PING\n");
+	// ft_printerr("PING\n");
 	if (!(*tok_c)->next || (*tok_c)->next->content.token->type != TOKEN_WORD)
 	{
 		(*tok_c)->content.token->type = TOKEN_WORD;
@@ -28,15 +28,15 @@ t_list	*ft_getexpan(t_shell *shell, t_list *tok_h, t_list **tok_c, t_token *tok_
 	new_tok = malloc(sizeof(t_token));
 	if (!new_tok)
 		return (NULL);
-	ft_printerr("Ping getexpan 0\n");
-	new_tok->value = ft_getenv_value(shell, (*tok_c)->content.token->value);
-	ft_printerr("Ping getexpan 1\n");
+	// ft_printerr("Ping getexpan 0\n");
+	new_tok->value = ft_getenv_value(shell, (*tok_c)->next->content.token->value);
+	// ft_printerr("Ping getexpan 1\n");
 	new_tok->type = TOKEN_WORD;
 	tok_l = ft_lstnew_tok(new_tok);
-	ft_printerr("Ping getexpan 2\n");
+	// ft_printerr("Ping getexpan 2\n");
 	if (!ft_lstreplace_n(tok_c, tok_l, ft_clean_node_tok, 2))
 		return (NULL);
-	ft_printerr("Ping getexpan 3\n");
+	// ft_printerr("Ping getexpan 3\n");
 	return (tok_l);
 }
 
@@ -83,23 +83,28 @@ int	ft_expansion(t_shell *shell, t_list *tok_h)
 	t_list	*tok_c;
 	t_list	*tok_n;
 	t_token	*tok;
+	bool	head;
 
 	if (!shell || !tok_h)
 		return (-1);
 	tok_c = tok_h;
+	head = false;
 	while (tok_c)
 	{
 		tok = tok_c->content.token;
 		tok_n = tok_c->next;
-		ft_printerr("Ping ft_expansion 0: %s, %d\n", tok->value, tok->type);
+		// ft_printerr("Ping ft_expansion 0: %s, %d\n", tok->value, tok->type);
 		if (tok->type == TOKEN_STATUS)
 		{
-			ft_printerr("Ping ft_expansion 1: %s, %d\n", tok->value, tok->type);
+			// ft_printerr("Ping ft_expansion 1: %s, %d\n", tok->value, tok->type);
+			free(tok->value);
 			tok->value = ft_itoa(shell->env->last_exit_code);
 		}
 		else if (tok->type == TOKEN_VAR)
 		{
-			ft_printerr("Ping ft_expansion 2: %s, %d\n", tok->value, tok->type);
+			if (tok_h == tok_c)
+				head = true;
+			// ft_printerr("Ping ft_expansion 2: %s, %d\n", tok->value, tok->type);
 			if (!tok_c->next)
 				tok->type = TOKEN_WORD;
 			else
@@ -107,6 +112,12 @@ int	ft_expansion(t_shell *shell, t_list *tok_h)
 				tok_c = ft_getexpan(shell, tok_h, &tok_c, tok_c->next->content.token);
 				if (tok_c)
 					tok_n = tok_c->next;
+			}
+			if (head && tok_c)
+			{
+				// ft_printerr("TRUE\n");
+				shell->token = tok_c;
+				head = false;
 			}
 		}
 		// else if (tok->type == TOKEN_DQUOTE)
@@ -116,12 +127,12 @@ int	ft_expansion(t_shell *shell, t_list *tok_h)
 		// }
 		if (!tok_c)
 		{
-			ft_printerr("Ping ft_expansion 5\n");
+			// ft_printerr("Ping ft_expansion 5\n");
 			return (-1);
 		}
-		ft_printerr("Ping ft_expansion 6\n");
+		// ft_printerr("Ping ft_expansion 6\n");
 		tok_c = tok_n;
 	}
-	ft_printerr("Ping ft_expansion 7: %s\n", tok_c->content.token->value);
+	// ft_printerr("Ping ft_expansion 7: %s\n");
 	return (0);
 }
