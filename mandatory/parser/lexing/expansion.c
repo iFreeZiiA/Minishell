@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/21 18:02:52 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/21 18:52:26 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,45 +40,29 @@ t_list	*ft_getexpan(t_shell *shell, t_list *tok_h, t_list **tok_c, t_token *tok_
 	return (tok_l);
 }
 
-// char	*ft_expand_var(char *str, int i, bool var)
-// {
-// 	char	*new_str;
-// 	int		j;
+void	ft_expan_dquote(t_shell *shell, t_list *tok_c, int *status)
+{
+	t_list	*tok_n;
+	t_list	*tok_t;
 
-// 	if (!str)
-// 		return (NULL);
-// 	if (i < 0)
-// 	{
-// 		free(str);
-// 		return (NULL);
-// 	}
+	if (!shell || !tok_c)
+		return ;
+	tok_n = tok_c->next;
+	tok_t = ft_lexing(shell, tok_c->content.token->value, status);
+	ft_printerr("FIRST\n");
+	ft_print_list(tok_t);
+	ft_printerr("FIRST\n");
+	if (!tok_c->prev)
+	{
+		shell->token = tok_t;
+		ft_print_list(shell->token);
+		return ;
+	}
+	tok_t->prev = tok_c;
+	tok_t->next = tok_n;
+}
 
-// }
-
-// int	ft_expan_dquote(t_token *tok)
-// {
-// 	char	*str;
-// 	int		i;
-
-// 	if (!tok)
-// 		return (-1);
-// 	str = tok->value;
-// 	i = -1;
-// 	while (str[++i])
-// 	{
-// 		if (str[i] == '$')
-// 		{
-// 			if (str[i] == '$' && str [i + 1] == '?')
-// 				str = ft_expand_var(str, i, false);
-// 			else
-// 				str = ft_expand_var(str, i, true);
-// 			if (!str)
-// 				return (-1);
-// 		}
-// 	}
-// }
-
-int	ft_expansion(t_shell *shell, t_list *tok_h)
+int	ft_expansion(t_shell *shell, t_list *tok_h, int *status)
 {
 	t_list	*tok_c;
 	t_list	*tok_n;
@@ -120,11 +104,11 @@ int	ft_expansion(t_shell *shell, t_list *tok_h)
 				head = false;
 			}
 		}
-		// else if (tok->type == TOKEN_DQUOTE)
-		// {
-		// 	ft_printerr("Ping ft_expansion 3: %s, %d\n", tok->value, tok->type);
-		// 	ret = ft_expan_dquote(tok);
-		// }
+		else if (tok->type == TOKEN_DQUOTE)
+		{
+			// ft_printerr("Ping ft_expansion 3: %s, %d\n", tok->value, tok->type);
+			ft_expan_dquote(shell, tok_c, status);
+		}
 		if (!tok_c)
 		{
 			// ft_printerr("Ping ft_expansion 5\n");
@@ -133,6 +117,6 @@ int	ft_expansion(t_shell *shell, t_list *tok_h)
 		// ft_printerr("Ping ft_expansion 6\n");
 		tok_c = tok_n;
 	}
-	// ft_printerr("Ping ft_expansion 7: %s\n");
+	// ft_printerr("Ping ft_expansion 7: %s\n", shell->token->content.token->value);
 	return (0);
 }
