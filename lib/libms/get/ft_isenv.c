@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:19:54 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/21 17:56:02 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/27 17:14:59 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,47 +28,53 @@ static int	ft_is_valid_identifier(const char *s)
 	return (i);
 }
 
-static char	*ft_loop(char **env, const char *key)
+static char	*ft_loop(char **env, char *key)
 {
+	char	*new_key;
 	int		i;
 	int		end;
 
 	if (!env || !(*env) || !key)
+		return (NULL);
+	new_key = ft_strjoin(key, "=");
+	if (!new_key)
 		return (NULL);
 	i = -1;
 	while (env[++i])
 	{
 		end = ft_is_valid_identifier(env[i]);
 		if (!ft_strncmp(env[i], key, end))
+		{
+			free(new_key);
 			return (ft_strdup(&env[i][end + 1]));
+		}
 	}
-	return (NULL);
+	free(new_key);
+	return (ft_strdup(""));
 }
 
-char	*ft_getenv_value(t_shell *shell, const char *key)
+char	*ft_getenv_value(t_shell *shell, char *str, int i, int eov)
 {
 	char	**env;
 	char	*value;
-	char	*new_key;
+	char	*key;
 
-	if (!shell || !key)
+	if (!shell || !str)
 		return (NULL);
-	new_key = ft_strjoin(key, "=");
-	if (!new_key)
+	key = ft_substr(str, i, ft_eov(&str[i]));
+	if (!key)
 		return (NULL);
 	env = shell->env->env_vars;
-	value = ft_loop(env, new_key);
+	value = ft_loop(env, key);
 	if (value)
 	{
-		free(new_key);
+		free(key);
 		return (value);
 	}
 	env = shell->env->local_env;
-	value = ft_loop(env, new_key);
-	free(new_key);
-	if (value)
-		return (value);
-	return (ft_strdup(""));
+	value = ft_loop(env, key);
+	free(key);
+	return (value);
 }
 
 // int	main(int argc, char **argv, char **env)

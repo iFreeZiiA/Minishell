@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/21 18:54:49 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/25 12:02:37 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,25 @@ static int	ft_new_token(char *s, t_list **tok_h, int *i,
 	return (0);
 }
 
-t_list	*ft_lexing(t_shell *shell, char *prompt, int *status)
+int	ft_lexing(t_shell *shell)
 {
 	t_list	*tok_h;
 	bool	quote;
+	int		status;
 	int		i;
 
 	tok_h = NULL;
 	// ft_printerr("Ping ft_lexing 0\n");
 	quote = false;
 	i = 0;
-	while (prompt[i])
+	while (shell->prompt[i])
 	{
 		// ft_printerr("Ping ft_lexing 1\n");
-		*status = ft_new_token(prompt, &tok_h, &i, &quote);
+		status = ft_new_token(shell->prompt, &tok_h, &i, &quote);
 	}
 	// ft_printerr("%s:%d\n", tok_h->next->content.token->value, tok_h->next->content.token->type);
-	ft_expansion(shell, tok_h, status);
+	if (ft_expansion(shell, tok_h, &status))
+		return (status);
 	// if (shell->token)
 	ft_printerr("Ping ft_lexing 1\n");
 	ft_print_list(tok_h);

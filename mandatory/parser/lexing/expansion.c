@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/21 18:52:26 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/27 17:22:03 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,44 @@ t_list	*ft_getexpan(t_shell *shell, t_list *tok_h, t_list **tok_c, t_token *tok_
 	return (tok_l);
 }
 
-void	ft_expan_dquote(t_shell *shell, t_list *tok_c, int *status)
+char	*ft_expand(char *str, int *i, char *to_rep)
 {
-	t_list	*tok_n;
-	t_list	*tok_t;
+	
+}
+
+bool	ft_expan_dquote(t_shell *shell, t_list *tok_c, int *status)
+{
+	t_token	*tok;
+	char	*str;
+	char	*new_str;
+	char	*var;
+	int		i;
 
 	if (!shell || !tok_c)
-		return ;
-	tok_n = tok_c->next;
-	tok_t = ft_lexing(shell, tok_c->content.token->value, status);
-	ft_printerr("FIRST\n");
-	ft_print_list(tok_t);
-	ft_printerr("FIRST\n");
-	if (!tok_c->prev)
+		return (false);
+	tok = tok_c->content.token;
+	str = tok->value;
+	i = -1;
+	while (str[++i])
 	{
-		shell->token = tok_t;
-		ft_print_list(shell->token);
-		return ;
+		if (str[i] == '$' && str[i + 1] == '?')
+			new_str = ft_expand(tok->value, &i, ft_itoa(shell->env->last_exit_code));
+		else if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i] == '_'))
+		{
+			new_str = ft_substr(str, i, ft_eov(&str[i]));
+			
+			var = ft_getenv_value(shell, str, i, ft_eov(&str[i]));
+			free(new_str);
+			if (!var)
+				return (false);
+			new_str = ft_expand(tok->value, &i, var);
+			free(var);
+			if (!new_str)
+				return (false);
+			
+		}
 	}
-	tok_t->prev = tok_c;
-	tok_t->next = tok_n;
+	return (true);
 }
 
 int	ft_expansion(t_shell *shell, t_list *tok_h, int *status)

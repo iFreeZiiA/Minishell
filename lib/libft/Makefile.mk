@@ -43,7 +43,7 @@ SCH		= search/ft_
 SRC_SCH	= $(SCH)isalnum.c $(SCH)isalpha.c $(SCH)isascii.c $(SCH)isdigit.c	\
 		$(SCH)isprint.c $(SCH)count_word.c $(SCH)isesc.c $(SCH)find_quotes.c\
 		$(SCH)isspace.c $(SCH)contains_char.c $(SCH)poschar.c				\
-		$(SCH)count_arr.c $(SCH)ismeta.c
+		$(SCH)count_arr.c $(SCH)ismeta.c $(SCH)eov.c
 
 MAN		= manipulation/ft_
 SRC_MAN	= $(MAN)bzero.c $(MAN)memcpy.c $(MAN)memmove.c $(MAN)memset.c		\
