@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:19:54 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/29 19:56:14 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 20:49:45 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,21 @@ char	*ft_getenv_value(t_shell *shell, char *str, int i, int eov)
 	key = ft_substr(str, i, eov);
 	if (!key)
 		return (NULL);
+	ft_printerr("ISENV: %s\n", key);
 	env = shell->env->env_vars;
+	ft_printerr("PING 1\n");
 	value = ft_loop(env, key);
+	ft_printerr("PING 1\n");
 	if (value)
 	{
+		ft_printerr("%s\n", value);
 		free(key);
 		return (value);
 	}
 	env = shell->env->local_env;
+	ft_printerr("PING 1\n");
 	value = ft_loop(env, key);
+	ft_printerr("PING 1\n");
 	free(key);
 	if (value)
 		return (value);
