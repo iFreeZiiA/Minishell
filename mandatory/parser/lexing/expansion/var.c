@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:09:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/29 20:34:15 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 20:40:38 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	ft_loop(char *str, char *new_str, char *var, char *to_rep)
 	{
 		if (str[i] == DOLL && ft_strncmp(&str[i + 1], str, ft_strlen(str)))
 		{
+			i++;
 			k = -1;
 			while (to_rep[++k])
 				new_str[j++] = to_rep[k];
