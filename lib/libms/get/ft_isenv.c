@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:19:54 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/27 17:14:59 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 19:56:14 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ static char	*ft_loop(char **env, char *key)
 	while (env[++i])
 	{
 		end = ft_is_valid_identifier(env[i]);
-		if (!ft_strncmp(env[i], key, end))
+		if (!ft_strncmp(env[i], new_key, end))
 		{
 			free(new_key);
 			return (ft_strdup(&env[i][end + 1]));
 		}
 	}
 	free(new_key);
-	return (ft_strdup(""));
+	return (NULL);
 }
 
 char	*ft_getenv_value(t_shell *shell, char *str, int i, int eov)
@@ -61,7 +61,7 @@ char	*ft_getenv_value(t_shell *shell, char *str, int i, int eov)
 
 	if (!shell || !str)
 		return (NULL);
-	key = ft_substr(str, i, ft_eov(&str[i]));
+	key = ft_substr(str, i, eov);
 	if (!key)
 		return (NULL);
 	env = shell->env->env_vars;
@@ -74,8 +74,11 @@ char	*ft_getenv_value(t_shell *shell, char *str, int i, int eov)
 	env = shell->env->local_env;
 	value = ft_loop(env, key);
 	free(key);
-	return (value);
+	if (value)
+		return (value);
+	return (ft_strdup(""));
 }
+
 
 // int	main(int argc, char **argv, char **env)
 // {

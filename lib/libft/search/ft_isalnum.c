@@ -20,7 +20,7 @@
  */
 int	ft_isalnum(int c)
 {
-	if (ft_isdigit(c) == 2048 || ft_isalpha(c) == 1024)
+	if (ft_isdigit(c) || ft_isalpha(c))
 		return (8);
 	return (0);
 }

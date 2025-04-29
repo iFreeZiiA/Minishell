@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/29 16:40:05 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 17:13:04 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ t_list	*ft_getexpan(t_shell *shell, t_list *tok_h, t_list **tok_c, t_token *tok_
 	return (tok_l);
 }
 
-// char	*ft_expand_var(t_shell *shell, char *str, char *to_rep)
-// {
-	
-// }
-
 bool	ft_expan_dquote(t_shell *shell, t_list *tok_c, int *status)
 {
 	t_token	*tok;
@@ -61,22 +56,14 @@ bool	ft_expan_dquote(t_shell *shell, t_list *tok_c, int *status)
 	while (tok->value[++i])
 	{
 		if (tok->value[i] == DOLL && tok->value[i + 1] == Q_MRK)
+		{
 			if (!ft_expand_status(shell, tok_c, tok->value))
 				return (false);
-		// else if (tok->value[i] == DOLL && (ft_isalpha(tok->value[i + 1])
-		// 	|| tok->value[i + 1] == '_'))
-		// {
-		// 	new_str = ft_substr(tok->value, i + 1, ft_eov(&tok->value[i]));
-		// 	var = ft_getenv_value(shell, tok->value, i, ft_eov(&tok->value[i]));
-		// 	free(new_str);
-		// 	if (!var)
-		// 		return (false);
-		// 	new_str = ft_expand_construction(shell, tok->value, var);
-		// 	free(var);
-		// 	if (!new_str)
-		// 		return (false);
-			
-		// }
+		}
+		else if (tok->value[i] == DOLL && (ft_isalpha(tok->value[i + 1])
+				|| tok->value[i + 1] == '_'))
+			if (!ft_expand_var(shell, tok_c, tok->value, i + 1))
+				return (false);
 	}
 	// free(shell->current_line);
 	// shell->current_line = new_str;

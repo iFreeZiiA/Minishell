@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/29 16:38:40 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 17:07:48 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ t_list			*ft_lexing(t_shell *shell);
 
 bool			ft_expand_status(t_shell *shell, t_list *tok_c, char *str);
 int				ft_expansion(t_shell *shell, t_list *tok_h, int *status);
+bool			ft_expand_var(t_shell *shell, t_list *tok_c, char *var, int i);
 
 #endif

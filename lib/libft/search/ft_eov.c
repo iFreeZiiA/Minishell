@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 12:38:31 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/25 12:44:22 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 19:54:13 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_eov(char *str)
 	if (!str || ft_isdigit(str[0]))
 		return (-1);
 	i = 0;
-	while (str[i] && (str[i] == '_' && ft_isalnum(str[i])))
+	while (str[i] && (str[i] == '_' || ft_isalnum(str[i])))
 		i++;
 	return (i);
 }

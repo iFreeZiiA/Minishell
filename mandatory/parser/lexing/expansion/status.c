@@ -6,13 +6,13 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:04:01 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/29 16:36:42 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 16:46:31 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
 
-static void	ft_loop_status(char *str, char *new_str, char *status)
+static void	ft_loop(char *str, char *new_str, char *status)
 {
 	bool	stat;
 	int		i;
@@ -51,7 +51,7 @@ bool	ft_expand_status(t_shell *shell, t_list *tok_c, char *str)
 	new_str = (char *) malloc(((ft_strlen(str) - 2) + size + 1) * sizeof(char));
 	if (!new_str)
 		return (false);
-	ft_loop_status(str, new_str, status);
+	ft_loop(str, new_str, status);
 	free(str);
 	tok_c->content.token->value = new_str;
 	return (true);

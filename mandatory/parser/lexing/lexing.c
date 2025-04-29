@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/29 11:35:16 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 19:11:35 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ t_list	*ft_lexing(t_shell *shell)
 		status = ft_new_token(shell->current_line, &tok_h, &i, &quote);
 	}
 	// ft_printerr("%s:%d\n", tok_h->next->content.token->value, tok_h->next->content.token->type);
+	shell->env->local_env = malloc(sizeof(char *) * 2);
+	shell->env->local_env[0] = "VAR=ok";
+	shell->env->local_env[1] = NULL;
 	if (ft_expansion(shell, tok_h, &status) == -1)
 		return (NULL);
 	// if (shell->token)
