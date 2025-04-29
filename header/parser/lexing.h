@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/25 11:59:27 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 16:38:40 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int				ft_lexer_checker(t_shell *shell);
 
 /* --------------------------------- LEXING --------------------------------- */
 
-int				ft_lexing(t_shell *shell);
+t_list			*ft_lexing(t_shell *shell);
 
+bool			ft_expand_status(t_shell *shell, t_list *tok_c, char *str);
 int				ft_expansion(t_shell *shell, t_list *tok_h, int *status);
 
 #endif

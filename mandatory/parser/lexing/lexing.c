@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/25 12:02:37 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 11:35:16 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,30 @@ static int	ft_new_token(char *s, t_list **tok_h, int *i,
 	return (0);
 }
 
-int	ft_lexing(t_shell *shell)
+t_list	*ft_lexing(t_shell *shell)
 {
 	t_list	*tok_h;
 	bool	quote;
 	int		status;
 	int		i;
 
+	if (!shell)
+		return (NULL);
 	tok_h = NULL;
 	// ft_printerr("Ping ft_lexing 0\n");
 	quote = false;
 	i = 0;
-	while (shell->prompt[i])
+	while (shell->current_line[i])
 	{
 		// ft_printerr("Ping ft_lexing 1\n");
-		status = ft_new_token(shell->prompt, &tok_h, &i, &quote);
+		status = ft_new_token(shell->current_line, &tok_h, &i, &quote);
 	}
 	// ft_printerr("%s:%d\n", tok_h->next->content.token->value, tok_h->next->content.token->type);
-	if (ft_expansion(shell, tok_h, &status))
-		return (status);
+	if (ft_expansion(shell, tok_h, &status) == -1)
+		return (NULL);
 	// if (shell->token)
-	ft_printerr("Ping ft_lexing 1\n");
-	ft_print_list(tok_h);
-	ft_printerr("Ping ft_lexing 2\n");
+	// ft_printerr("Ping ft_lexing 1\n");
+	// ft_print_list(tok_h);
+	// ft_printerr("Ping ft_lexing 2\n");
 	return (tok_h);
 }

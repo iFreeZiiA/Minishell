@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:33:52 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/11 13:36:27 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 11:00:29 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,18 @@
 # define EMPTY_FILE		"The file is empty."
 
 # define STD_ERR		1
+
+# define PIPE			'|'
+# define R_OUT			'>'
+# define R_IN			'<'
+# define AND			'&'
+# define DOLL			'$'
+# define Q_MRK			'?'
+# define S_QTE			'\''
+# define D_QTE			'"'
+# define P_OPN			'('
+# define P_CLS			')'
+# define ALL			'*'
+# define EQUL			'='
 
 #endif

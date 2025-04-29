@@ -2,8 +2,9 @@ NAME_LX	= lexer_ut
 
 DIR_LX	= $(DIR_UT)
 LEX		= $(MAN)/parser/lexing/
+EXP		= $(LEX)expansion/
 
-SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(LEX)expansion.c
+SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c $(EXP)status.c
 UT_LXR = $(LEX)main_test.c $(SRC_LXR) $(MAN)/deployment/setup/setup.c
 
 OBJ_LXR	= $(patsubst %.c, $(DIR_LX)%.o, $(UT_LXR))
@@ -15,7 +16,7 @@ $(NAME_LX): $(OBJ_LXR)
 	@$(PRINT) $(BAN_LX)
 
 dir_lexer: 
-	@mkdir -p $(DIR_LX)$(LEX)
+	@mkdir -p $(DIR_LX)$(EXP)
 
 $(DIR_LX)$(LEX)%.o: $(LEX)%.c | dir_lexer
 	@$(CC) $(CFLAGS) -c $< -o $@
