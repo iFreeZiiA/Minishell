@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/29 19:11:35 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/01 16:40:04 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ t_list	*ft_lexing(t_shell *shell)
 	shell->env->local_env[0] = "VAR=ok";
 	shell->env->local_env[1] = NULL;
 	if (ft_expansion(shell, tok_h, &status) == -1)
-		return (NULL);
+		// return (NULL);
 	// if (shell->token)
-	// ft_printerr("Ping ft_lexing 1\n");
+	ft_printerr("Ping ft_lexing 1\n");
 	// ft_print_list(tok_h);
 	// ft_printerr("Ping ft_lexing 2\n");
 	return (tok_h);

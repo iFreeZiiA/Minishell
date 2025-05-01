@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:09:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/29 20:40:38 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/01 15:36:49 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_loop(char *str, char *new_str, char *var, char *to_rep)
 	(void) var;
 	i = -1;
 	j = 0;
-	ft_printerr("ft_loop: %s\n", str);
+	// ft_printerr("ft_loop: %s\n", str);
 	while (str[++i])
 	{
 		if (str[i] == DOLL && ft_strncmp(&str[i + 1], str, ft_strlen(str)))
@@ -35,9 +35,9 @@ static void	ft_loop(char *str, char *new_str, char *var, char *to_rep)
 		new_str[j] = str[i];
 		j++;
 	}
-	ft_printerr("%c, %d/%d\n", str[i], i, j);
+	// ft_printerr("%c, %d/%d\n", str[i], i, j);
 	new_str[j] = '\0';
-	ft_printerr("ft_loop: %s, %d\n", new_str, ft_strlen(str));
+	// ft_printerr("ft_loop: %s, %d\n", new_str, ft_strlen(str));
 }
 
 bool	ft_expand_var(t_shell *shell, t_list *tok_c, char *var, int i)
