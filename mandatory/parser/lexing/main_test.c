@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:14:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/29 11:35:03 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/01 17:46:51 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	ft_print_list(t_list *tok_h)
 	tok_curr = tok_h;
 	while (tok_curr)
 	{
-		tok = tok_curr->content.token;
 		// ft_printerr("PING\n");
+		tok = tok_curr->content.token;
 		// ft_printerr("%s", tok->value);
 		ft_printerr("%s: %d\n", tok->value, tok->type);
 		if (!tok)
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **env)
 	head = ft_lexing(&shell);
 	if (!head)
 		return (1);
-	shell.token = head;
+	// shell.token = head;
 	// ft_printerr("PING MAIN\n");
 	if (res)
 	{
@@ -65,7 +65,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	// ft_printerr("PING main 0\n");
 	// shell.env->env_vars = env;
-	// ft_printerr("PING main 1\n");
+	// ft_printerr("PING main 1%p\n", shell.token->content.token);
 	ft_print_list(shell.token);
 	// ft_printerr("PING main 2\n");
 	ft_lstfree_t(shell.token);

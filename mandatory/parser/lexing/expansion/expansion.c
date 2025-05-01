@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/01 17:05:59 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/01 17:46:37 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static void	ft_tok(t_shell *shell, t_list **tok_c, t_list *tok_h, t_list **tok_n
 		// ft_printerr("ft_tokkkk: %d\n", (*tok_c)->content.token->type);
 		if (*tok_c)
 			(*tok_c)->next = *tok_n;
-		// ft_printerr("ft_tok: %p\n", tok_c);
+		// ft_printerr("ft_tok: %p\n", (*tok_c)->prev);
 	}
 	if (head && *tok_c)
 	{
@@ -131,16 +131,16 @@ int	ft_expansion(t_shell *shell, t_list *tok_h, int *status)
 			tok->value = ft_itoa(shell->env->last_exit_code);
 		}
 		else if (tok->type == TOKEN_VAR)
-		{
+		// {
 			// ft_printerr("PING ... var\n");
 			ft_tok(shell, &tok_c, tok_h, &tok_n);
 			// ft_printerr("expansion: %s\n", tok_c->next->content.token->value);
-		}
+		// }
 		else if (tok->type == TOKEN_DQUOTE)
-		{
+		// {
 			// ft_printerr("PING ... dquote\n");
 			ft_expan_dquote(shell, tok_c, status);
-		}
+		// }
 		// ft_printerr("tok EXPANSION!!!!!!!!!: %d\n", tok_c->content.token->type);
 		if (!tok_c)
 		{
@@ -149,5 +149,6 @@ int	ft_expansion(t_shell *shell, t_list *tok_h, int *status)
 		}
 		tok_c = tok_n;
 	}
+	// ft_printerr("pointer: %p\n", shell->token->next);
 	return (0);
 }
