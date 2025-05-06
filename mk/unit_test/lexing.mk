@@ -5,7 +5,7 @@ LEX		= $(MAN)/parser/lexing/
 EXP		= $(LEX)expansion/
 
 SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c	\
-	$(EXP)status.c $(EXP)var.c
+	$(EXP)expansion_utils
 UT_LXR = $(LEX)main_test.c $(SRC_LXR) $(MAN)/deployment/setup/setup.c
 
 OBJ_LXR	= $(patsubst %.c, $(DIR_LX)%.o, $(UT_LXR))

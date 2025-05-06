@@ -6,155 +6,311 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 13:05:31 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/06 18:21:51 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
 
-t_list	*ft_getexpan(t_shell *shell, t_list *tok_h, t_list **tok_c, t_list **tok_n)
+/**
+ * @brief Expands a variable token into its value
+ * 
+ * @param shell The shell structure
+ * @param tok_h The token list head
+ * @param tok_c Current token node
+ * @param tok_n Next token node
+ * @return t_list* Updated current token
+ */
+static t_list	*ft_expand_token(t_shell *shell, t_list *tok_h, 
+                                t_list **tok_c, t_list **tok_n)
 {
-	// t_list	*tok_l;`
-	t_token	*new_tok;
-	char	*str;
-	// char	*str_n;
-	// int		eov;
+	t_token	*token;
+	char	*env_value;
+	t_token	*new_token;
+	t_list	*new_node;
 
-	if (!shell || !tok_h || !(*tok_c)->content.token || !tok_n)
+	if (!shell || !tok_h || !(*tok_c) || !(*tok_c)->content.token)
 		return (NULL);
+
+	token = (*tok_c)->content.token;
+	
+	/* If no word follows the variable, just change its type */
 	if (!(*tok_c)->next || (*tok_c)->next->content.token->type != TOKEN_WORD)
 	{
-		(*tok_c)->content.token->type = TOKEN_WORD;
+		token->type = TOKEN_WORD;
 		return (*tok_c);
 	}
-	new_tok = malloc(sizeof(t_token));
-	if (!new_tok)
+	
+	/* Create a new token with the expanded value */
+	new_token = (t_token *)malloc(sizeof(t_token));
+	if (!new_token)
 		return (NULL);
-	str = (*tok_c)->next->content.token->value;
-	// ft_printerr("GETEXPAN: '%s': %d\n", str,  ft_strlen(str));
-	ft_expand_var(shell, *tok_c, str, 0);
-	// new_tok->value = ft_getenv_value(shell, str, 0, ft_strlen(eov));
 	
-	// ft_printerr("PING GETEXPAN 1\n");
-	// ft_printerr("PING GETEXPAN 2\n");
-	// ft_printerr("%p, '%s', %d\n", new_tok, new_tok->value, new_tok->type);
-	// tok_l = ft_lstnew_tok(new_tok);
-	// tok_l->content.token->type = TOKEN_WORD;
+	/* Get environment variable value */
+	env_value = ft_getenv_value(shell, 
+		(*tok_c)->next->content.token->value, 0, 
+		ft_strlen((*tok_c)->next->content.token->value));
+	if (!env_value)
+	{
+		free(new_token);
+		return (NULL);
+	}
 	
-	// ft_printerr("PING GETEXPAN 3\n");
-	// ft_printerr("%p, '%s', %d\n", tok_l->content.token, tok_l->content.token->value, tok_l->content.token->type);
-	// if (!tok_l)
-	// 	return (NULL);
-	// ft_printerr("PING GETEXPAN 4\n");
-	// ft_printerr("tok: %s\n", (*tok_c)->content.token->value);
-	// ft_printerr("%d\n", (*tok_n)->type);
-	// if (!ft_lstreplace_n(tok_c, tok_l, ft_clean_node_tok, 2))
-	// 	return (NULL);
-	// ft_printerr("tok_c: %d\n", (*tok_c)->content.token->type);
-	// ft_printerr("tok_n: %d\n", (*tok_c)->next->content.token->type);
+	/* Set up the new token */
+	new_token->value = env_value;
+	new_token->type = TOKEN_WORD;
+	
+	/* Create a new list node with the token */
+	new_node = ft_lstnew_tok(new_token);
+	if (!new_node)
+	{
+		free(new_token->value);
+		free(new_token);
+		return (NULL);
+	}
+	
+	/* Replace the current node and the next node with the new node */
+	if (!ft_lstreplace_n(tok_c, new_node, ft_clean_node_tok, 2))
+	{
+		ft_clean_node_tok(new_node);
+		return (NULL);
+	}
+	
+	/* Update the next node pointer */
 	*tok_n = (*tok_c)->next;
-	// ft_printerr("%p/%p\n", *tok_c, tok_l);
+	
 	return (*tok_c);
 }
 
-bool	ft_expan_dquote(t_shell *shell, t_list *tok_c, int *status)
+/**
+ * @brief Expands the $? status variable to its value
+ * 
+ * @param shell The shell structure
+ * @param tok_c Current token node
+ * @param str The string containing the status variable
+ * @return bool true on success, false on error
+ */
+bool	ft_expand_status(t_shell *shell, t_list *tok_c, char *str)
 {
-	t_token	*tok;
-	// char	*new_str;
-	// char	*var;
+	char	*new_str;
+	char	*status;
 	int		i;
-
-	(void) status;
-	if (!shell || !tok_c)
+	int		j;
+	int		status_len;
+	int		str_len;
+	
+	if (!shell || !tok_c || !str)
 		return (false);
-	tok = tok_c->content.token;
-	i = -1;
-	while (tok->value[++i])
+	
+	/* Convert the status code to string */
+	status = ft_itoa(shell->env->last_exit_code);
+	if (!status)
+		return (false);
+	
+	status_len = ft_strlen(status);
+	str_len = ft_strlen(str);
+	
+	/* Allocate memory for the new string */
+	new_str = (char *)malloc(sizeof(char) * (str_len + status_len + 1));
+	if (!new_str)
 	{
-		if (tok->value[i] == DOLL && tok->value[i + 1] == Q_MRK)
-		{
-			if (!ft_expand_status(shell, tok_c, tok->value))
-				return (false);
-		}
-		else if (tok->value[i] == DOLL && (ft_isalpha(tok->value[i + 1])
-				|| tok->value[i + 1] == '_'))
-			if (!ft_expand_var(shell, tok_c, tok->value, i + 1))
-				return (false);
+		free(status);
+		return (false);
 	}
-	// free(shell->current_line);
-	// shell->current_line = new_str;
+	
+	/* Copy the string and replace $? with the status value */
+	i = 0;
+	j = 0;
+	while (i < str_len)
+	{
+		if (str[i] == DOLL && str[i + 1] == Q_MRK)
+		{
+			ft_strlcpy(new_str + j, status, status_len + 1);
+			j += status_len;
+			i += 2;
+		}
+		else
+		{
+			new_str[j++] = str[i++];
+		}
+	}
+	new_str[j] = '\0';
+	
+	/* Update the token */
+	free(status);
+	free(str);
+	tok_c->content.token->value = new_str;
+	
 	return (true);
 }
 
-static void	ft_tok(t_shell *shell, t_list **tok_c, t_list *tok_h, t_list **tok_n)
+/**
+ * @brief Expands a variable in a string to its value
+ * 
+ * @param shell The shell structure
+ * @param tok_c Current token node
+ * @param str The string containing the variable
+ * @param var_pos Position of the variable in the string
+ * @return bool true on success, false on error
+ */
+bool	ft_expand_var(t_shell *shell, t_list *tok_c, char *str, int var_pos)
 {
-	t_token	*tok;
-	bool	head;
-
-	tok = (*tok_c)->content.token;
-	head = false;
-	if (tok_h == *tok_c)
-		head = true;
-	if (!(*tok_c)->next)
-		tok->type = TOKEN_WORD;
-	else
+	char	*new_str;
+	char	*var_value;
+	int		var_name_len;
+	int		i;
+	int		j;
+	int		k;
+	
+	if (!shell || !tok_c || !str || var_pos < 0)
+		return (false);
+	
+	/* Get the end of the variable name */
+	var_name_len = ft_eov(&str[var_pos]);
+	if (var_name_len <= 0)
+		return (false);
+	
+	/* Get the environment variable value */
+	var_value = ft_getenv_value(shell, str, var_pos, var_name_len);
+	if (!var_value)
+		return (false);
+	
+	/* Calculate new string length and allocate memory */
+	new_str = (char *)malloc(sizeof(char) * 
+		(ft_strlen(str) - var_name_len - 1 + ft_strlen(var_value) + 1));
+	if (!new_str)
 	{
-		*tok_c = ft_getexpan(shell, tok_h, tok_c, tok_n);
-		// ft_printerr("ft_tokkkk: %d\n", (*tok_c)->content.token->type);
-		if (*tok_c)
-			(*tok_c)->next = *tok_n;
-		// ft_printerr("ft_tok: %p\n", (*tok_c)->prev);
+		free(var_value);
+		return (false);
 	}
-	if (head && *tok_c)
-	{
-		shell->token = *tok_c;
-		head = false;
-	}
+	
+	/* Copy everything before the variable */
+	i = 0;
+	j = 0;
+	while (i < var_pos - 1)  /* -1 for the $ character */
+		new_str[j++] = str[i++];
+	
+	/* Skip the variable in the original string */
+	i = var_pos + var_name_len;
+	
+	/* Insert the variable value */
+	k = 0;
+	while (var_value[k])
+		new_str[j++] = var_value[k++];
+	
+	/* Copy the rest of the string */
+	while (str[i])
+		new_str[j++] = str[i++];
+	
+	new_str[j] = '\0';
+	
+	/* Update the token */
+	free(var_value);
+	free(str);
+	tok_c->content.token->value = new_str;
+	
+	return (true);
 }
 
+/**
+ * @brief Processes expansions within a double-quoted string
+ * 
+ * @param shell The shell structure
+ * @param tok_c Current token node
+ * @param status Pointer to status variable
+ * @return bool true on success, false on error
+ */
+static bool	ft_expand_dquote(t_shell *shell, t_list *tok_c, int *status)
+{
+	t_token	*token;
+	int		i;
+	
+	if (!shell || !tok_c || !status)
+		return (false);
+	
+	token = tok_c->content.token;
+	i = 0;
+	
+	while (token->value[i])
+	{
+		/* Handle $? expansion */
+		if (token->value[i] == DOLL && token->value[i + 1] == Q_MRK)
+		{
+			if (!ft_expand_status(shell, tok_c, token->value))
+			{
+				*status = -1;
+				return (false);
+			}
+			/* Restart scanning from the beginning since the string has changed */
+			i = 0;
+			continue;
+		}
+		/* Handle $VAR expansion */
+		else if (token->value[i] == DOLL && 
+				(ft_isalpha(token->value[i + 1]) || token->value[i + 1] == '_'))
+		{
+			if (!ft_expand_var(shell, tok_c, token->value, i + 1))
+			{
+				*status = -1;
+				return (false);
+			}
+			/* Restart scanning from the beginning since the string has changed */
+			i = 0;
+			continue;
+		}
+		
+		i++;
+	}
+	
+	return (true);
+}
+
+/**
+ * @brief Main expansion function to process all token expansions
+ * 
+ * @param shell The shell structure
+ * @param tok_h The token list head
+ * @param status Pointer to status variable
+ * @return int 0 on success, -1 on error
+ */
 int	ft_expansion(t_shell *shell, t_list *tok_h, int *status)
 {
 	t_list	*tok_c;
 	t_list	*tok_n;
-	t_token	*tok;
-
-	if (!shell || !tok_h)
-	// {
-	// 	ft_printerr("ERROR, WHYYYYY\n");
+	t_token	*token;
+	
+	if (!shell || !tok_h || !status)
 		return (-1);
-	// }
+	
 	tok_c = tok_h;
 	while (tok_c)
 	{
-		// ft_printerr("tok EXPANSION!!!!!!!!!: %p\n", tok_c->content.token->value);
-		tok = tok_c->content.token;
+		token = tok_c->content.token;
 		tok_n = tok_c->next;
-		// ft_printerr("PING ...\n");
-		if (tok->type == TOKEN_STATUS)
+		
+		/* Process based on token type */
+		if (token->type == TOKEN_STATUS)
 		{
-			// ft_printerr("PING ... status\n");
-			free(tok->value);
-			tok->value = ft_itoa(shell->env->last_exit_code);
+			free(token->value);
+			token->value = ft_itoa(shell->env->last_exit_code);
+			if (!token->value)
+				return (-1);
+			token->type = TOKEN_WORD;
 		}
-		else if (tok->type == TOKEN_VAR)
-		// {
-		// 	ft_printerr("PING ... var\n");
-			ft_tok(shell, &tok_c, tok_h, &tok_n);
-			// ft_printerr("expansion: %s\n", tok_c->next->content.token->value);
-		// }
-		else if (tok->type == TOKEN_DQUOTE)
-		// {
-		// 	ft_printerr("PING ... dquote\n");
-			ft_expan_dquote(shell, tok_c, status);
-		// }
-		// ft_printerr("tok EXPANSION!!!!!!!!!: %d\n", tok_c->content.token->type);
-		if (!tok_c)
-		// {
-			// ft_printerr("ERROR, WHYYYYY\n");
-			return (-1);
-		// }
+		else if (token->type == TOKEN_VAR)
+		{
+			tok_c = ft_expand_token(shell, tok_h, &tok_c, &tok_n);
+			if (!tok_c)
+				return (-1);
+		}
+		else if (token->type == TOKEN_DQUOTE)
+		{
+			if (!ft_expand_dquote(shell, tok_c, status))
+				return (-1);
+		}
+		
 		tok_c = tok_n;
 	}
-	// ft_printerr("pointer: %p\n", shell->token->next);
+	
 	return (0);
 }
