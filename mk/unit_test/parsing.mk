@@ -1,6 +1,6 @@
 NAME_PR	= parser_ut
 
-DIR_PR	= $(DIR_OBJ)/
+DIR_PR	= $(DIR_UT)/
 PRR		= $(MAN)/parser/parsing/
 
 SRC_PRR	= $(PRR)parsing.c $(PRR)ast_utils.c $(PRR)parse_redirection.c
