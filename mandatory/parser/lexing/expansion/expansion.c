@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/02 12:39:15 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/06 13:05:31 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_list	*ft_getexpan(t_shell *shell, t_list *tok_h, t_list **tok_c, t_list **tok_n)
 {
-	// t_list	*tok_l;
+	// t_list	*tok_l;`
 	t_token	*new_tok;
 	char	*str;
 	// char	*str_n;

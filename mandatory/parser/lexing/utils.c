@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:22:45 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 13:56:04 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/06 16:02:27 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,25 +64,51 @@ static int	ft_quote(char *s, char c, bool *quote)
 	return (-1);
 }
 
+// static int	ft_end_of_word(char *s, char c)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	while (s[++i])
+// 	{
+// 		if (c == ' ')
+// 		{
+// 			while (ft_isspace(s[i]))
+// 				i++;
+// 			i--;
+// 			break ;
+// 		}
+// 		ft_printerr("%d, %c\n", i, s[i]);
+// 		i += ft_eov(&s[i]);
+// 		ft_printerr("%d, %c\n", i, s[i]);
+// 		if (ft_ismeta("|><&$\"'()*=\\", s[i]))
+// 			return (i + 1);
+// 		if (s[i] == ' ')
+// 			return (i + 1);
+// 	}
+// 	if (!s[i])
+// 		return (i + 1);
+// 	return (i + 2);
+// }
+
 static int	ft_end_of_word(char *s, char c)
 {
 	int	i;
 
-	i = -1;
-	while (s[++i])
+	i = 0;
+	if (c == ' ')
 	{
-		if (c == ' ')
-		{
-			while (ft_isspace(s[i]))
-				i++;
-			i--;
-			break ;
-		}
-		if (ft_ismeta("|><&$\"'()*=\\", s[i]))
-			return (i + 1);
-		if (s[i] == ' ')
-			return (i + 1);
+		while (ft_isspace(s[i]))
+			i++;
+		i--;
 	}
+	ft_printerr("%d, %c\n", i, s[i]);
+	i += ft_eov(&s[i]);
+	ft_printerr("%d, %c\n", i, s[i]);
+	if (ft_ismeta("|><&$\"'()*=\\", s[i]))
+		return (i + 1);
+	if (s[i] == ' ')
+		return (i + 1);
 	if (!s[i])
 		return (i + 1);
 	return (i + 2);

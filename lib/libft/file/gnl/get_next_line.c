@@ -96,21 +96,21 @@ char	*get_next_line(int fd)
 	return (ft_set_line(&left));
 }
 
-/* int	main(void)
-{
-	int		fd;
-	char	*str;
-	char	ret[10];
+// int	main(void)
+// {
+// 	int		fd;
+// 	char	*str;
+// 	char	ret[10];
 
-	fd = open("next_line0.txt", O_RDONLY);
-	if (fd == -1)
-		return (1);
-	while ((str = get_next_line(fd)) != NULL)
-	{
-		ft_strcpy_esc(ret, str);
-		printf("main str: %s\n", ret);
-		free(str);
-	}
-	close(fd);
-	return (0);
-} */
+// 	fd = open("next_line0.txt", O_RDONLY);
+// 	if (fd == -1)
+// 		return (1);
+// 	while ((str = get_next_line(fd)) != NULL)
+// 	{
+// 		ft_strcpy_esc(ret, str);
+// 		printf("main str: %s\n", ret);
+// 		free(str);
+// 	}
+// 	close(fd);
+// 	return (0);
+// }
