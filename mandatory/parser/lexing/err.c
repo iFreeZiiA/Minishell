@@ -6,34 +6,13 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:24:16 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 18:21:41 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/06 18:42:37 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
-/**
- * @brief Frees a token node and its content
- * 
- * @param node The token node to free
- * @return void* Always NULL
- */
-void	*ft_clean_node_tok(t_list *node)
-{
-	if (!node || node->type != TYPE_TOKEN)
-		return (NULL);
-		
-	if (node->content.token)
-	{
-		if (node->content.token->value)
-			free(node->content.token->value);
-		free(node->content.token);
-		node->content.token = NULL;
-	}
-	
-	free(node);
-	return (NULL);
-}
+
 
 /**
  * @brief Frees an entire token list
@@ -48,7 +27,6 @@ void	*ft_lstfree_t(t_list *tok_h)
 
 	if (!tok_h)
 		return (NULL);
-		
 	current = tok_h;
 	while (current)
 	{
@@ -56,7 +34,6 @@ void	*ft_lstfree_t(t_list *tok_h)
 		ft_clean_node_tok(current);
 		current = next;
 	}
-	
 	return (NULL);
 }
 
@@ -74,29 +51,11 @@ void	*ft_tok_err(int *p_status, int status)
 	return (NULL);
 }
 
-/**
- * @brief Prints the token list for debugging purposes
- * 
- * @param tok_h Head of the token list
- */
-void	ft_print_list(t_list *tok_h)
+int	ft_new_token_err(t_token *token, int ret)
 {
-	t_list	*tok_curr;
-	t_token	*tok;
-
-	if (!tok_h)
-		return;
-		
-	tok_curr = tok_h;
-	while (tok_curr)
-	{
-		tok = tok_curr->content.token;
-		if (!tok)
-			break;
-			
-		ft_printerr("%s: %d\n", tok->value, tok->type);
-		tok_curr = tok_curr->next;
-	}
+	if (token)
+		free(token);
+	return (ret);
 }
 
 /**
@@ -112,20 +71,16 @@ int	ft_lexer_checker(t_shell *shell)
 	
 	if (!shell || !shell->token)
 		return (-1);
-		
 	curr = shell->token;
 	while (curr)
 	{
 		token = curr->content.token;
 		if (!token)
 			return (-1);
-			
-		/* Check for unclosed quotes */
 		if (token->type == TOKEN_ERROR)
 			return (-2);
 			
 		curr = curr->next;
 	}
-	
 	return (0);
 }

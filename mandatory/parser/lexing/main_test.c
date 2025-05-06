@@ -6,31 +6,33 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:14:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/02 11:32:25 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/06 18:31:59 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
+/**
+ * @brief Prints the token list for debugging purposes
+ * 
+ * @param tok_h Head of the token list
+ */
 void	ft_print_list(t_list *tok_h)
 {
 	t_list	*tok_curr;
 	t_token	*tok;
 
 	if (!tok_h)
-		return ;
+		return;
 	tok_curr = tok_h;
-	// ft_printerr("PING\n");
 	while (tok_curr)
 	{
 		tok = tok_curr->content.token;
-		// ft_printerr("%s", tok->value);
-		ft_printerr("%s: %d\n", tok->value, tok->type);
 		if (!tok)
-			return ;
+			break;
+		ft_printerr("%s: %d\n", tok->value, tok->type);
 		tok_curr = tok_curr->next;
 	}
-	// ft_printerr("\n");
 }
 
 int	main(int argc, char **argv, char **env)

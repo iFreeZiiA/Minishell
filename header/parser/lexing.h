@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 18:24:12 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/06 19:08:57 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 # define LEXING_H
 
 /* ---------------------------------- ERR ----------------------------------- */
-
-/**
- * @brief Prints the token list for debugging purposes
- * 
- * @param tok_h Head of the token list
- */
-void			ft_print_list(t_list *tok_h);
 
 /**
  * @brief Sets a status code and returns NULL
@@ -46,6 +39,10 @@ void			*ft_lstfree_t(t_list *tok_h);
  * @return void* Always NULL
  */
 void			*ft_clean_node_tok(t_list *node);
+
+int				ft_new_token_err(t_token *token, int ret);
+// int	ft_getend(char *s, int *i, bool *quote, bool word);
+// t_token_type	ft_getiteration(t_token_type type, int *i, int add);
 
 /* --------------------------------- UTILS ---------------------------------- */
 

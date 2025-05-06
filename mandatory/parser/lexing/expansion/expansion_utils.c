@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:04:01 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 18:23:50 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/06 18:48:09 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,15 @@ t_token	*ft_create_var_token(char *value)
 
 	if (!value)
 		return (NULL);
-	
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-	
 	token->value = ft_strdup(value);
 	if (!token->value)
 	{
 		free(token);
 		return (NULL);
 	}
-	
 	token->type = TOKEN_WORD;
 	return (token);
 }
@@ -52,15 +49,12 @@ bool	ft_is_valid_env_key(const char *key)
 	
 	if (!key || (!ft_isalpha(key[0]) && key[0] != '_'))
 		return (false);
-	
-	i = 1;
-	while (key[i])
+	i = 0;
+	while (key[++i])
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_')
 			return (false);
-		i++;
 	}
-	
 	return (true);
 }
 
@@ -83,40 +77,21 @@ char	*ft_replace_var(char *original, int var_pos, int var_len, char *replacement
 	
 	if (!original || var_pos < 0 || var_len < 0 || !replacement)
 		return (NULL);
-	
 	orig_len = ft_strlen(original);
 	repl_len = ft_strlen(replacement);
-	
-	/* Allocate memory for the new string */
 	new_str = (char *)malloc(sizeof(char) * 
 		(orig_len - var_len - 1 + repl_len + 1)); /* -1 for $ */
 	if (!new_str)
 		return (NULL);
-	
-	/* Copy everything before the variable */
-	i = 0;
-	while (i < var_pos)
-	{
+	i = -1;
+	while (++i < var_pos)
 		new_str[i] = original[i];
-		i++;
-	}
-	
-	/* Copy the replacement */
-	j = 0;
-	while (j < repl_len)
-	{
+	j = -1;
+	while (++j < repl_len)
 		new_str[i + j] = replacement[j];
-		j++;
-	}
-	
-	/* Copy everything after the variable */
-	j = 0;
-	while (var_pos + var_len + 1 + j < orig_len)
-	{
+	j = -1;
+	while (var_pos + var_len + 1 + ++j < orig_len)
 		new_str[i + repl_len + j] = original[var_pos + var_len + 1 + j];
-		j++;
-	}
-	
 	new_str[i + repl_len + j] = '\0';
 	return (new_str);
 }
@@ -135,14 +110,10 @@ char	*ft_extract_var_name(char *str, int pos)
 	
 	if (!str || pos < 0)
 		return (NULL);
-	
-	/* Find the end of the variable name */
 	len = 0;
 	while (str[pos + len] && 
-		   (ft_isalnum(str[pos + len]) || str[pos + len] == '_'))
+			(ft_isalnum(str[pos + len]) || str[pos + len] == '_'))
 		len++;
-	
-	/* Extract the variable name */
 	name = ft_substr(str, pos, len);
 	return (name);
 }
@@ -161,7 +132,6 @@ char	*ft_find_env_var(char **env_vars, const char *key)
 	
 	if (!env_vars || !key)
 		return (NULL);
-	
 	key_len = ft_strlen(key);
 	i = 0;
 	while (env_vars[i])
@@ -171,7 +141,6 @@ char	*ft_find_env_var(char **env_vars, const char *key)
 			return (env_vars[i] + key_len + 1);
 		i++;
 	}
-	
 	return (NULL);
 }
 
@@ -192,13 +161,9 @@ char	*ft_expand_exit_code(char *str, int exit_code)
 	
 	if (!str)
 		return (NULL);
-	
-	/* Convert exit code to string */
 	code_str = ft_itoa(exit_code);
 	if (!code_str)
 		return (NULL);
-	
-	/* Calculate new string length */
 	new_len = ft_strlen(str);
 	i = 0;
 	while (str[i])
@@ -211,16 +176,12 @@ char	*ft_expand_exit_code(char *str, int exit_code)
 		else
 			i++;
 	}
-	
-	/* Allocate memory for the new string */
 	result = (char *)malloc(sizeof(char) * (new_len + 1));
 	if (!result)
 	{
 		free(code_str);
 		return (NULL);
 	}
-	
-	/* Replace $? with exit code */
 	i = 0;
 	j = 0;
 	while (str[i])
@@ -235,7 +196,6 @@ char	*ft_expand_exit_code(char *str, int exit_code)
 			result[j++] = str[i++];
 	}
 	result[j] = '\0';
-	
 	free(code_str);
 	return (result);
 }

@@ -6,25 +6,29 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:17:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/21 16:43:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/06 18:38:02 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libms.h"
 
-void	*ft_clean_node_tok(t_list *tok_curr)
+/**
+ * @brief Frees a token node and its content
+ * 
+ * @param node The token node to free
+ * @return void* Always NULL
+ */
+void	*ft_clean_node_tok(t_list *node)
 {
-	t_token	*tok;
-
-	if (!tok_curr && (tok_curr->type != TYPE_TOKEN))
+	if (!node || node->type != TYPE_TOKEN)
 		return (NULL);
-	tok = tok_curr->content.token;
-	// tok = (t_token *) tok_curr->content;
-	if (tok && tok->value)
-		free(tok->value);
-	if (tok)
-		free(tok);
-	free(tok_curr);
-	tok_curr = NULL;
+	if (node->content.token)
+	{
+		if (node->content.token->value)
+			free(node->content.token->value);
+		free(node->content.token);
+		node->content.token = NULL;
+	}
+	free(node);
 	return (NULL);
 }

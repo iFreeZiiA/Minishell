@@ -3,7 +3,7 @@ NAME_PR	= parser_ut
 DIR_PR	= $(DIR_OBJ)/
 PRR		= $(MAN)/parser/parsing/
 
-SRC_PRR	= $(PRR)parsing.c
+SRC_PRR	= $(PRR)parsing.c $(PRR)ast_utils.c $(PRR)parse_redirection.c
 UT_PRR	= $(PRR)main_test.c $(SRC_PRR) $(SRC_LXR)
 
 OBJ_PRR	= $(patsubst %.c, $(DIR_PR)%.o, $(UT_PRR))
