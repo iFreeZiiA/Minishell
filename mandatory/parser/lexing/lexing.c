@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 18:43:22 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/08 14:21:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ static int	ft_new_token(char *s, t_list **tok_h, int *i, bool *quote)
 	tok.token = (t_token *) malloc(sizeof(t_token));
 	if (!tok.token)
 		return (-1);
+	// ft_printerr("new_token\n");
 	tok.token->type = ft_get_type(s, i, quote);
+	// ft_printerr("new_token\n");
 	if (tok.token->type == TOKEN_ERROR)
 		return (ft_new_token_err(tok.token, -2));
 	if (tok.token->type == TOKEN_DQUOTE || tok.token->type == TOKEN_QUOTE)
@@ -74,12 +76,13 @@ t_list	*ft_lexing(t_shell *shell)
 	i = 0;
 	while (shell->current_line[i])
 	{
+		// ft_printerr("LEXING, %c\n", shell->current_line[i]);
 		status = ft_new_token(shell->current_line, &tok_h, &i, &quote);
 		if (status < 0)
 			return (ft_lstfree_t(tok_h));
 	}
 	status = 0;
-	if (ft_expansion(shell, tok_h, &status) < 0)
+	if (ft_expansion(shell, &tok_h, &status) < 0)
 		return (ft_lstfree_t(tok_h));
 	shell->token = tok_h;
 	return (tok_h);

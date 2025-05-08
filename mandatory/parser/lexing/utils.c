@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:22:45 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 19:08:06 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/08 15:24:56 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
  */
 static t_token_type	ft_getiteration(t_token_type type, int *i, int add)
 {
+	// ft_printerr("LEXING, i: %d, add: %d\n", *i, add);
 	if (add == -1)
 		return (TOKEN_ERROR);
 	*i += add;
@@ -37,6 +38,7 @@ static t_token_type	ft_getiteration(t_token_type type, int *i, int add)
  */
 static t_token_type	ft_isdouble(char *s, int *i)
 {
+	// ft_printerr("IS_DOUBLE\n");
 	if (s[*i] == '|' && s[*i + 1] == '|')
 		return (ft_getiteration(TOKEN_OR, i, 2));
 	else if (s[*i] == '|')
@@ -80,7 +82,7 @@ static int	ft_quote(char *s, char c, bool *quote)
 			else
 			{
 				*quote = true;
-				return (i + 1);
+				return (i);
 			}
 		}
 		i++;
@@ -100,28 +102,29 @@ static int	ft_end_of_word(char *s, int c)
 	int	i;
 
 	i = 0;
-	/* Handle whitespace */
 	if (c == ' ')
 	{
 		while (ft_isspace(s[i]))
 			i++;
 		return (i);
 	}
-	
-	/* Skip alphanumeric characters and underscores */
-	while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
-		i++;
-	
-	/* Check for meta characters */
-	if (s[i] && ft_ismeta("|><&$\"'()*=\\", s[i]))
+	if (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
+	{
+		while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
+			i++;
 		return (i);
-	
-	/* Handle end of string */
+	}
+	// if (s[i] && ft_ismeta("|><&$\"'()*=\\", s[i]))
+	// 	return (i);
 	if (!s[i])
 		return (i);
-	
+	// ft_printerr("CACA\n");
+	while (s[i] && (!ft_ismeta("|><$\"'()*=\\", s[i]) || s[i] == ' '))
+		i++;
 	return (i);
 }
+
+
 
 /**
  * @brief Identifies the token type at the current position
@@ -133,46 +136,62 @@ static int	ft_end_of_word(char *s, int c)
  */
 t_token_type	ft_get_type(char *s, int *i, bool *quote)
 {
+	// ft_printerr("GET_TYPE\n");
 	if (!s[*i])
 		return (ft_getiteration(TOKEN_EOF, i, 0));
-	
-	/* Check special characters */
-	if (ft_ismeta("|&<>$", s[*i]))
+	if (ft_ismeta("|<>$", s[*i]) || (s[*i] == '&' && s[*i + 1] == '&'))
+	// {
+	// 	ft_printerr("0");
 		return (ft_isdouble(s, i));
+	// }
 	else if (s[*i] == '(')
+	// {
+	// 	ft_printerr("1");
 		return (ft_getiteration(TOKEN_PAREN_OPEN, i, 1));
+	// }
 	else if (s[*i] == ')')
+	// {
+	// 	ft_printerr("2");
 		return (ft_getiteration(TOKEN_PAREN_CLOSE, i, 1));
+	// }
 	else if (s[*i] == '*')
+	// {
+	// 	ft_printerr("3");
 		return (ft_getiteration(TOKEN_WILDCARD, i, 1));
+	// }
 	else if (s[*i] == '=')
+	// {
+	// 	ft_printerr("4");
 		return (ft_getiteration(TOKEN_ASSIGN, i, 1));
+	// }
 	else if (s[*i] == '\\')
+	// {
+	// 	ft_printerr("5");
 		return (ft_getiteration(TOKEN_BSLASH, i, 1));
-	
-	/* Handle quotes */
+	// }
 	else if (s[*i] == '\'')
 	{
 		int quote_end = ft_quote(&s[*i + 1], s[*i], quote);
+		// ft_printerr("6");
 		return (ft_getiteration(TOKEN_QUOTE, i, quote_end == -1 ? -1 : quote_end + 1));
 	}
 	else if (s[*i] == '"')
 	{
 		int quote_end = ft_quote(&s[*i + 1], s[*i], quote);
+		// ft_printerr("7");
 		return (ft_getiteration(TOKEN_DQUOTE, i, quote_end == -1 ? -1 : quote_end + 1));
 	}
-	
-	/* Handle whitespace */
 	else if (ft_isspace(s[*i]))
 	{
 		int space_end = ft_end_of_word(&s[*i + 1], ' ');
+		// ft_printerr("8");
 		return (ft_getiteration(TOKEN_SPACE, i, space_end + 1));
 	}
-	
-	/* Handle regular words */
 	else
 	{
 		int word_end = ft_end_of_word(&s[*i], 'w');
+		// ft_printerr("9");
 		return (ft_getiteration(TOKEN_WORD, i, word_end));
 	}
+	// ft_printerr("GET_TYPE ppppppp");
 }

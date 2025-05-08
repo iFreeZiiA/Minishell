@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 18:21:51 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/08 14:06:36 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * @param tok_n Next token node
  * @return t_list* Updated current token
  */
-static t_list	*ft_expand_token(t_shell *shell, t_list *tok_h, 
+static t_list	*ft_expand_token(t_shell *shell, t_list **tok_h, 
                                 t_list **tok_c, t_list **tok_n)
 {
 	t_token	*token;
@@ -29,24 +29,17 @@ static t_list	*ft_expand_token(t_shell *shell, t_list *tok_h,
 	t_token	*new_token;
 	t_list	*new_node;
 
-	if (!shell || !tok_h || !(*tok_c) || !(*tok_c)->content.token)
+	if (!shell || !(*tok_h) || !(*tok_c) || !(*tok_c)->content.token)
 		return (NULL);
-
 	token = (*tok_c)->content.token;
-	
-	/* If no word follows the variable, just change its type */
 	if (!(*tok_c)->next || (*tok_c)->next->content.token->type != TOKEN_WORD)
 	{
 		token->type = TOKEN_WORD;
 		return (*tok_c);
 	}
-	
-	/* Create a new token with the expanded value */
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
-	
-	/* Get environment variable value */
 	env_value = ft_getenv_value(shell, 
 		(*tok_c)->next->content.token->value, 0, 
 		ft_strlen((*tok_c)->next->content.token->value));
@@ -55,12 +48,8 @@ static t_list	*ft_expand_token(t_shell *shell, t_list *tok_h,
 		free(new_token);
 		return (NULL);
 	}
-	
-	/* Set up the new token */
 	new_token->value = env_value;
 	new_token->type = TOKEN_WORD;
-	
-	/* Create a new list node with the token */
 	new_node = ft_lstnew_tok(new_token);
 	if (!new_node)
 	{
@@ -68,17 +57,17 @@ static t_list	*ft_expand_token(t_shell *shell, t_list *tok_h,
 		free(new_token);
 		return (NULL);
 	}
-	
-	/* Replace the current node and the next node with the new node */
 	if (!ft_lstreplace_n(tok_c, new_node, ft_clean_node_tok, 2))
 	{
 		ft_clean_node_tok(new_node);
 		return (NULL);
 	}
-	
-	/* Update the next node pointer */
+	if (!(*tok_c)->prev)
+	// {
+	// 	ft_printerr("EXPAND_TOKEN\n");
+		*tok_h = *tok_c;
+	// }
 	*tok_n = (*tok_c)->next;
-	
 	return (*tok_c);
 }
 
@@ -101,24 +90,17 @@ bool	ft_expand_status(t_shell *shell, t_list *tok_c, char *str)
 	
 	if (!shell || !tok_c || !str)
 		return (false);
-	
-	/* Convert the status code to string */
 	status = ft_itoa(shell->env->last_exit_code);
 	if (!status)
 		return (false);
-	
 	status_len = ft_strlen(status);
 	str_len = ft_strlen(str);
-	
-	/* Allocate memory for the new string */
 	new_str = (char *)malloc(sizeof(char) * (str_len + status_len + 1));
 	if (!new_str)
 	{
 		free(status);
 		return (false);
 	}
-	
-	/* Copy the string and replace $? with the status value */
 	i = 0;
 	j = 0;
 	while (i < str_len)
@@ -130,17 +112,12 @@ bool	ft_expand_status(t_shell *shell, t_list *tok_c, char *str)
 			i += 2;
 		}
 		else
-		{
 			new_str[j++] = str[i++];
-		}
 	}
 	new_str[j] = '\0';
-	
-	/* Update the token */
 	free(status);
 	free(str);
 	tok_c->content.token->value = new_str;
-	
 	return (true);
 }
 
@@ -164,18 +141,12 @@ bool	ft_expand_var(t_shell *shell, t_list *tok_c, char *str, int var_pos)
 	
 	if (!shell || !tok_c || !str || var_pos < 0)
 		return (false);
-	
-	/* Get the end of the variable name */
 	var_name_len = ft_eov(&str[var_pos]);
 	if (var_name_len <= 0)
 		return (false);
-	
-	/* Get the environment variable value */
 	var_value = ft_getenv_value(shell, str, var_pos, var_name_len);
 	if (!var_value)
 		return (false);
-	
-	/* Calculate new string length and allocate memory */
 	new_str = (char *)malloc(sizeof(char) * 
 		(ft_strlen(str) - var_name_len - 1 + ft_strlen(var_value) + 1));
 	if (!new_str)
@@ -183,32 +154,20 @@ bool	ft_expand_var(t_shell *shell, t_list *tok_c, char *str, int var_pos)
 		free(var_value);
 		return (false);
 	}
-	
-	/* Copy everything before the variable */
 	i = 0;
 	j = 0;
-	while (i < var_pos - 1)  /* -1 for the $ character */
+	while (i < var_pos - 1)
 		new_str[j++] = str[i++];
-	
-	/* Skip the variable in the original string */
 	i = var_pos + var_name_len;
-	
-	/* Insert the variable value */
 	k = 0;
 	while (var_value[k])
 		new_str[j++] = var_value[k++];
-	
-	/* Copy the rest of the string */
 	while (str[i])
 		new_str[j++] = str[i++];
-	
 	new_str[j] = '\0';
-	
-	/* Update the token */
 	free(var_value);
 	free(str);
 	tok_c->content.token->value = new_str;
-	
 	return (true);
 }
 
@@ -227,13 +186,10 @@ static bool	ft_expand_dquote(t_shell *shell, t_list *tok_c, int *status)
 	
 	if (!shell || !tok_c || !status)
 		return (false);
-	
 	token = tok_c->content.token;
 	i = 0;
-	
 	while (token->value[i])
 	{
-		/* Handle $? expansion */
 		if (token->value[i] == DOLL && token->value[i + 1] == Q_MRK)
 		{
 			if (!ft_expand_status(shell, tok_c, token->value))
@@ -241,11 +197,9 @@ static bool	ft_expand_dquote(t_shell *shell, t_list *tok_c, int *status)
 				*status = -1;
 				return (false);
 			}
-			/* Restart scanning from the beginning since the string has changed */
 			i = 0;
 			continue;
 		}
-		/* Handle $VAR expansion */
 		else if (token->value[i] == DOLL && 
 				(ft_isalpha(token->value[i + 1]) || token->value[i + 1] == '_'))
 		{
@@ -254,14 +208,11 @@ static bool	ft_expand_dquote(t_shell *shell, t_list *tok_c, int *status)
 				*status = -1;
 				return (false);
 			}
-			/* Restart scanning from the beginning since the string has changed */
 			i = 0;
 			continue;
 		}
-		
 		i++;
 	}
-	
 	return (true);
 }
 
@@ -273,22 +224,19 @@ static bool	ft_expand_dquote(t_shell *shell, t_list *tok_c, int *status)
  * @param status Pointer to status variable
  * @return int 0 on success, -1 on error
  */
-int	ft_expansion(t_shell *shell, t_list *tok_h, int *status)
+int	ft_expansion(t_shell *shell, t_list **tok_h, int *status)
 {
 	t_list	*tok_c;
 	t_list	*tok_n;
 	t_token	*token;
 	
-	if (!shell || !tok_h || !status)
+	if (!shell || !(*tok_h) || !status)
 		return (-1);
-	
-	tok_c = tok_h;
+	tok_c = *tok_h;
 	while (tok_c)
 	{
 		token = tok_c->content.token;
 		tok_n = tok_c->next;
-		
-		/* Process based on token type */
 		if (token->type == TOKEN_STATUS)
 		{
 			free(token->value);
@@ -299,18 +247,18 @@ int	ft_expansion(t_shell *shell, t_list *tok_h, int *status)
 		}
 		else if (token->type == TOKEN_VAR)
 		{
+			// ft_printerr("EXPANSION, h: %p\n", (*tok_h)->content.token->value);
 			tok_c = ft_expand_token(shell, tok_h, &tok_c, &tok_n);
 			if (!tok_c)
 				return (-1);
+			// ft_printerr("EXPANSION, h: %p\n", (*tok_h)->content.token->value);
 		}
 		else if (token->type == TOKEN_DQUOTE)
 		{
 			if (!ft_expand_dquote(shell, tok_c, status))
 				return (-1);
 		}
-		
 		tok_c = tok_n;
 	}
-	
 	return (0);
 }

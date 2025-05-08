@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 19:08:57 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/08 14:05:54 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_list			*ft_lexing(t_shell *shell);
  * @param status Pointer to status variable
  * @return int 0 on success, -1 on error
  */
-int				ft_expansion(t_shell *shell, t_list *tok_h, int *status);
+int				ft_expansion(t_shell *shell, t_list **tok_h, int *status);
 
 /**
  * @brief Expands the $? status variable to its value

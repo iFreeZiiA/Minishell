@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:14:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 18:31:59 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/08 14:30:46 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_print_list(t_list *tok_h)
 	if (!tok_h)
 		return;
 	tok_curr = tok_h;
+	ft_printerr("\n");
 	while (tok_curr)
 	{
 		tok = tok_curr->content.token;
@@ -33,6 +34,17 @@ void	ft_print_list(t_list *tok_h)
 		ft_printerr("%s: %d\n", tok->value, tok->type);
 		tok_curr = tok_curr->next;
 	}
+	tok_curr = tok_h;
+	ft_printerr("\n\ncmd: '");
+	while (tok_curr)
+	{
+		tok = tok_curr->content.token;
+		if (!tok)
+			break;
+		ft_printerr("%s", tok->value, tok->type);
+		tok_curr = tok_curr->next;
+	}
+	ft_printerr("'\n\n");
 }
 
 int	main(int argc, char **argv, char **env)
