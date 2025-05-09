@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/08 14:05:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/09 16:54:09 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int				ft_lexer_checker(t_shell *shell);
  * @return t_list* Head of the token list, NULL on error
  */
 t_list			*ft_lexing(t_shell *shell);
+char	*ft_gettype_name(t_token_type type);
 
 /* -------------------------------- EXPANSION ------------------------------- */
 

@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/08 14:21:22 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/09 16:58:04 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,15 @@ static int	ft_new_token(char *s, t_list **tok_h, int *i, bool *quote)
 	tok.token = (t_token *) malloc(sizeof(t_token));
 	if (!tok.token)
 		return (-1);
-	// ft_printerr("new_token\n");
+	// ft_printerr("new_token: %d, %s\n", *i, ft_gettype_name(tok.token->type));
 	tok.token->type = ft_get_type(s, i, quote);
-	// ft_printerr("new_token\n");
+	// ft_printerr("new_token: %d, %s\n", *i, ft_gettype_name(tok.token->type));
 	if (tok.token->type == TOKEN_ERROR)
 		return (ft_new_token_err(tok.token, -2));
 	if (tok.token->type == TOKEN_DQUOTE || tok.token->type == TOKEN_QUOTE)
 		start++;
 	end = *i - start;
+	// ft_printerr("end: %d, i: %d, start: %d\n", end, *i, start);
 	tok.token->value = ft_substr(s, start, end);
 	if (!tok.token->value)
 		return (ft_new_token_err(tok.token, -1));

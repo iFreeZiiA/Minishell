@@ -6,11 +6,54 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:14:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/08 14:30:46 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/09 16:53:58 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
+
+char	*ft_gettype_name(t_token_type type)
+{
+	if (type == 0)
+		return (ft_strdup("WORD"));
+	if (type == 1)
+		return (ft_strdup("OR"));
+	if (type == 2)
+		return (ft_strdup("APPEND"));
+	if (type == 3)
+		return (ft_strdup("HEREDOC"));
+	if (type == 4)
+		return (ft_strdup("AND"));
+	if (type == 5)
+		return (ft_strdup("STATUS"));
+	if (type == 6)
+		return (ft_strdup("ERROR"));
+	if (type == 7)
+		return (ft_strdup("PIPE"));
+	if (type == 8)
+		return (ft_strdup("REDIR_OUT"));
+	if (type == 9)
+		return (ft_strdup("REDIR_IN"));
+	if (type == 10)
+		return (ft_strdup("VAR"));
+	if (type == 11)
+		return (ft_strdup("QUOTE"));
+	if (type == 12)
+		return (ft_strdup("DQUOTE"));
+	if (type == 13)
+		return (ft_strdup("PAREN_OPEN"));
+	if (type == 14)
+		return (ft_strdup("PAREN_CLOSE"));
+	if (type == 15)
+		return (ft_strdup("WILDCARD"));
+	if (type == 16)
+		return (ft_strdup("ASSIGN"));
+	if (type == 17)
+		return (ft_strdup("EOF"));
+	if (type == 18)
+		return (ft_strdup("BSLASH"));
+	return (ft_strdup("SPACE"));
+}
 
 /**
  * @brief Prints the token list for debugging purposes
@@ -21,6 +64,7 @@ void	ft_print_list(t_list *tok_h)
 {
 	t_list	*tok_curr;
 	t_token	*tok;
+	char	*name;
 
 	if (!tok_h)
 		return;
@@ -31,7 +75,11 @@ void	ft_print_list(t_list *tok_h)
 		tok = tok_curr->content.token;
 		if (!tok)
 			break;
-		ft_printerr("%s: %d\n", tok->value, tok->type);
+		name = ft_gettype_name(tok->type);
+		if (!name)
+			return ;
+		ft_printerr("%s: %s\n", tok->value, name);
+		free(name);
 		tok_curr = tok_curr->next;
 	}
 	tok_curr = tok_h;
@@ -41,7 +89,7 @@ void	ft_print_list(t_list *tok_h)
 		tok = tok_curr->content.token;
 		if (!tok)
 			break;
-		ft_printerr("%s", tok->value, tok->type);
+		ft_printerr("%s", tok->value);
 		tok_curr = tok_curr->next;
 	}
 	ft_printerr("'\n\n");
