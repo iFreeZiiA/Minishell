@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:21:18 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 19:20:46 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/11 11:29:46 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ static void	ft_free_command(t_command *cmd)
 	
 	if (!cmd)
 		return;
-		
-	/* Free arguments */
 	if (cmd->args)
 	{
 		i = 0;
@@ -76,8 +74,6 @@ static void	ft_free_command(t_command *cmd)
 			free(cmd->args[i++]);
 		free(cmd->args);
 	}
-	
-	/* Free redirections */
 	if (cmd->redirs)
 		ft_lstfree_t(cmd->redirs);
 	
@@ -93,12 +89,8 @@ void	ft_free_ast(t_ast_node *ast)
 {
 	if (!ast)
 		return;
-		
-	/* Free child nodes (recursively) */
 	ft_free_ast(ast->left);
 	ft_free_ast(ast->right);
-	
-	/* Free node data based on type */
 	if (ast->type == NODE_COMMAND)
 		ft_free_command((t_command *)ast->data);
 	else if (ast->type == NODE_REDIR)
@@ -110,7 +102,6 @@ void	ft_free_ast(t_ast_node *ast)
 			free(redir);
 		}
 	}
-	
 	free(ast);
 }
 
@@ -126,27 +117,21 @@ t_ast_node	*ft_create_command_node(char **args, t_list *redirs)
 	t_command	*cmd;
 	t_ast_node	*node;
 	
-	/* Create command structure */
 	cmd = (t_command *)malloc(sizeof(t_command));
 	if (!cmd)
 		return (NULL);
-	
 	cmd->args = args;
 	cmd->redirs = redirs;
-	
-	/* Create AST node */
 	node = (t_ast_node *)malloc(sizeof(t_ast_node));
 	if (!node)
 	{
 		free(cmd);
 		return (NULL);
 	}
-	
 	node->type = NODE_COMMAND;
 	node->data = cmd;
 	node->left = NULL;
 	node->right = NULL;
-	
 	return (node);
 }
 
@@ -164,16 +149,13 @@ t_ast_node	*ft_create_operator_node(node_type type, t_ast_node *left, t_ast_node
 	
 	if (type != NODE_PIPE && type != NODE_AND && type != NODE_OR)
 		return (NULL);
-	
 	node = (t_ast_node *)malloc(sizeof(t_ast_node));
 	if (!node)
 		return (NULL);
-	
 	node->type = type;
 	node->data = NULL;
 	node->left = left;
 	node->right = right;
-	
 	return (node);
 }
 
@@ -190,12 +172,10 @@ t_ast_node	*ft_create_group_node(t_ast_node *content)
 	node = (t_ast_node *)malloc(sizeof(t_ast_node));
 	if (!node)
 		return (NULL);
-	
 	node->type = NODE_GROUP;
 	node->data = NULL;
 	node->left = content;
 	node->right = NULL;
-	
 	return (node);
 }
 
@@ -213,27 +193,18 @@ static void	ft_print_redirections(t_list *redirs, int indent)
 	
 	if (!redirs)
 		return;
-	
 	curr = redirs;
 	while (curr)
 	{
 		if (curr->type != TYPE_REDIR)
-		{
 			curr = curr->next;
-			continue;
-		}
-		
 		redir = curr->content.redir;
-		
-		/* Print indentation */
 		for (i = 0; i < indent; i++)
 			ft_printf("  ");
-		
 		ft_printf("- %s: \"%s\" (fd: %d)\n", 
 			ft_get_redir_type_str(redir->type), 
 			redir->file, 
 			redir->fd);
-		
 		curr = curr->next;
 	}
 }
@@ -251,15 +222,9 @@ static void	ft_print_command(t_command *cmd, int indent)
 	
 	if (!cmd)
 		return;
-	
-	/* Print indentation */
 	for (i = 0; i < indent; i++)
 		ft_printf("  ");
-	
-	/* Print command name */
 	ft_printf("COMMAND: ");
-	
-	/* Print arguments */
 	if (cmd->args)
 	{
 		for (j = 0; cmd->args[j]; j++)
@@ -269,10 +234,7 @@ static void	ft_print_command(t_command *cmd, int indent)
 				ft_printf(" ");
 		}
 	}
-	
 	ft_printf("\n");
-	
-	/* Print redirections */
 	if (cmd->redirs)
 		ft_print_redirections(cmd->redirs, indent + 1);
 }
@@ -289,15 +251,9 @@ void	ft_print_ast(t_ast_node *ast, int level)
 	
 	if (!ast)
 		return;
-	
-	/* Print indentation */
 	for (i = 0; i < level; i++)
 		ft_printf("  ");
-	
-	/* Print node type */
 	ft_printf("%s", ft_get_node_type_str(ast->type));
-	
-	/* Print node details based on type */
 	if (ast->type == NODE_COMMAND)
 	{
 		ft_printf("\n");
@@ -311,11 +267,7 @@ void	ft_print_ast(t_ast_node *ast, int level)
 			redir->file);
 	}
 	else
-	{
 		ft_printf("\n");
-	}
-	
-	/* Print child nodes */
 	if (ast->left)
 		ft_print_ast(ast->left, level + 1);
 	if (ast->right)
@@ -336,26 +288,19 @@ t_ast_node	*ft_create_ast(t_list *cmd_list)
 	
 	if (!cmd_list)
 		return (NULL);
-	
 	root = NULL;
 	prev_node = NULL;
 	curr = cmd_list;
-	
 	while (curr)
 	{
 		t_ast_node *new_node = NULL;
-		
-		/* Create node based on type */
 		if (curr->type == TYPE_COMMAND)
 		{
 			t_command *cmd = curr->content.cmd;
 			new_node = ft_create_command_node(cmd->args, cmd->redirs);
 		}
-		
-		/* If no root yet, set it */
 		if (!root)
 			root = new_node;
-		/* Otherwise connect to previous node */
 		else if (prev_node && new_node)
 		{
 			t_ast_node *pipe_node = ft_create_operator_node(NODE_PIPE, prev_node, new_node);
@@ -366,11 +311,9 @@ t_ast_node	*ft_create_ast(t_list *cmd_list)
 			}
 			root = pipe_node;
 		}
-		
 		prev_node = new_node;
 		curr = curr->next;
 	}
-	
 	return (root);
 }
 
@@ -389,26 +332,18 @@ t_list	*ast_to_command_list(t_ast_node *ast)
 	
 	if (!ast)
 		return (NULL);
-	
 	cmd_list = NULL;
-	
-	/* Handle based on node type */
 	if (ast->type == NODE_PIPE)
 	{
-		/* Get commands from left subtree */
 		left_list = ast_to_command_list(ast->left);
 		if (!left_list)
 			return (NULL);
-		
-		/* Get commands from right subtree */
 		right_list = ast_to_command_list(ast->right);
 		if (!right_list)
 		{
 			ft_lstfree_t(left_list);
 			return (NULL);
 		}
-		
-		/* Combine the lists */
 		cmd_list = left_list;
 		temp = ft_lstlast(cmd_list);
 		temp->next = right_list;
@@ -416,7 +351,6 @@ t_list	*ast_to_command_list(t_ast_node *ast)
 	}
 	else if (ast->type == NODE_COMMAND)
 	{
-		/* Create a command node */
 		t_command *cmd = (t_command *)ast->data;
 		t_list *new_node = ft_lstnew_cmd(cmd);
 		if (!new_node)
@@ -424,6 +358,5 @@ t_list	*ast_to_command_list(t_ast_node *ast)
 		
 		cmd_list = new_node;
 	}
-	
 	return (cmd_list);
 }

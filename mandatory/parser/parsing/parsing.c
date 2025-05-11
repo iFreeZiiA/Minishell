@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:41:24 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 19:24:30 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/11 11:31:44 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ static t_ast_node	*ft_create_ast_node(node_type type, void *data,
 	node = (t_ast_node *)malloc(sizeof(t_ast_node));
 	if (!node)
 		return (NULL);
-	
 	node->type = type;
 	node->data = data;
 	node->left = left;
 	node->right = right;
-	
 	return (node);
 }
 
@@ -55,16 +53,10 @@ static t_command	*ft_create_command(t_shell *shell, t_list *start, t_list *end)
 	
 	if (!shell || !start)
 		return (NULL);
-	
-	/* Create the command structure */
 	cmd = (t_command *)malloc(sizeof(t_command));
 	if (!cmd)
 		return (NULL);
-	
-	/* Initialize the command structure */
 	cmd->redirs = NULL;
-	
-	/* Count the number of arguments */
 	arg_count = 0;
 	curr = start;
 	while (curr && curr != end && curr->content.token->type == TOKEN_WORD)
@@ -72,16 +64,12 @@ static t_command	*ft_create_command(t_shell *shell, t_list *start, t_list *end)
 		arg_count++;
 		curr = curr->next;
 	}
-	
-	/* Allocate memory for arguments */
 	cmd->args = (char **)malloc(sizeof(char *) * (arg_count + 1));
 	if (!cmd->args)
 	{
 		free(cmd);
 		return (NULL);
 	}
-	
-	/* Copy the arguments */
 	i = 0;
 	curr = start;
 	while (i < arg_count)
@@ -89,7 +77,6 @@ static t_command	*ft_create_command(t_shell *shell, t_list *start, t_list *end)
 		cmd->args[i] = ft_strdup(curr->content.token->value);
 		if (!cmd->args[i])
 		{
-			/* Clean up in case of error */
 			while (--i >= 0)
 				free(cmd->args[i]);
 			free(cmd->args);
@@ -100,7 +87,6 @@ static t_command	*ft_create_command(t_shell *shell, t_list *start, t_list *end)
 		curr = curr->next;
 	}
 	cmd->args[arg_count] = NULL;
-	
 	return (cmd);
 }
 
@@ -119,7 +105,6 @@ static int	ft_parse_redirections(t_shell *shell, t_list *token_h, t_command *cmd
 	
 	if (!shell || !token_h || !cmd)
 		return (-1);
-	
 	curr = token_h;
 	while (curr)
 	{
@@ -128,12 +113,9 @@ static int	ft_parse_redirections(t_shell *shell, t_list *token_h, t_command *cmd
 			curr->content.token->type == TOKEN_HEREDOC ||
 			curr->content.token->type == TOKEN_APPEND)
 		{
-			/* Create a redirection structure */
 			redir = (t_redir *)malloc(sizeof(t_redir));
 			if (!redir)
 				return (-1);
-			
-			/* Set redirection type */
 			if (curr->content.token->type == TOKEN_REDIR_IN)
 				redir->type = REDIR_IN;
 			else if (curr->content.token->type == TOKEN_REDIR_OUT)
@@ -142,8 +124,6 @@ static int	ft_parse_redirections(t_shell *shell, t_list *token_h, t_command *cmd
 				redir->type = REDIR_HEREDOC;
 			else
 				redir->type = REDIR_APPEND;
-			
-			/* Get the file/delimiter */
 			if (curr->next && curr->next->content.token->type == TOKEN_WORD)
 			{
 				redir->file = ft_strdup(curr->next->content.token->value);
@@ -158,11 +138,7 @@ static int	ft_parse_redirections(t_shell *shell, t_list *token_h, t_command *cmd
 				free(redir);
 				return (-1);
 			}
-			
-			/* Add the redirection to the command */
-			redir->fd = -1;  /* Will be set during execution */
-			
-			/* Add to the list */
+			redir->fd = -1;
 			if (!ft_lstadd_back(&cmd->redirs, 
 				(t_content){.redir = redir}, TYPE_REDIR))
 			{
@@ -170,14 +146,10 @@ static int	ft_parse_redirections(t_shell *shell, t_list *token_h, t_command *cmd
 				free(redir);
 				return (-1);
 			}
-			
-			/* Skip the file/delimiter token */
 			curr = curr->next;
 		}
-		
 		curr = curr->next;
 	}
-	
 	return (0);
 }
 
@@ -200,8 +172,6 @@ static t_ast_node	*ft_parse_pipe(t_shell *shell, t_list *token_h,
 	
 	if (!shell || !token_h || !start)
 		return (NULL);
-	
-	/* Find the pipe token */
 	curr = start;
 	pipe_token = NULL;
 	while (curr && curr != end)
@@ -213,18 +183,13 @@ static t_ast_node	*ft_parse_pipe(t_shell *shell, t_list *token_h,
 		}
 		curr = curr->next;
 	}
-	
-	/* If no pipe is found, parse as a command */
 	if (!pipe_token)
 	{
 		t_command *cmd = ft_create_command(shell, start, end);
 		if (!cmd)
 			return (NULL);
-			
-		/* Parse redirections */
 		if (ft_parse_redirections(shell, start, cmd) < 0)
 		{
-			/* Clean up command */
 			int i = 0;
 			while (cmd->args[i])
 				free(cmd->args[i++]);
@@ -232,25 +197,17 @@ static t_ast_node	*ft_parse_pipe(t_shell *shell, t_list *token_h,
 			free(cmd);
 			return (NULL);
 		}
-		
 		return (ft_create_ast_node(NODE_COMMAND, cmd, NULL, NULL));
 	}
-	
-	/* Parse left side of the pipe */
 	left = ft_parse_pipe(shell, token_h, start, pipe_token);
 	if (!left)
 		return (NULL);
-	
-	/* Parse right side of the pipe */
 	right = ft_parse_pipe(shell, token_h, pipe_token->next, end);
 	if (!right)
 	{
-		/* Clean up left side */
 		free(left);
 		return (NULL);
 	}
-	
-	/* Create the pipe node */
 	return (ft_create_ast_node(NODE_PIPE, NULL, left, right));
 }
 
@@ -274,8 +231,6 @@ static t_ast_node	*ft_parse_logical(t_shell *shell, t_list *token_h,
 	
 	if (!shell || !token_h || !start)
 		return (NULL);
-	
-	/* Find the logical operator token (AND, OR) */
 	curr = start;
 	operator_token = NULL;
 	while (curr && curr != end)
@@ -288,30 +243,19 @@ static t_ast_node	*ft_parse_logical(t_shell *shell, t_list *token_h,
 		}
 		curr = curr->next;
 	}
-	
-	/* If no operator is found, parse as a pipe sequence */
 	if (!operator_token)
 		return (ft_parse_pipe(shell, token_h, start, end));
-	
-	/* Set operator type */
 	op_type = (operator_token->content.token->type == TOKEN_AND) ? 
 				NODE_AND : NODE_OR;
-	
-	/* Parse left side of the operator */
 	left = ft_parse_logical(shell, token_h, start, operator_token);
 	if (!left)
 		return (NULL);
-	
-	/* Parse right side of the operator */
 	right = ft_parse_logical(shell, token_h, operator_token->next, end);
 	if (!right)
 	{
-		/* Clean up left side */
 		free(left);
 		return (NULL);
 	}
-	
-	/* Create the operator node */
 	return (ft_create_ast_node(op_type, NULL, left, right));
 }
 
@@ -387,17 +331,11 @@ int	ft_parsing(t_shell *shell)
 	
 	if (!shell || !shell->token)
 		return (-1);
-	
 	token_h = shell->token;
-	
-	/* Check for syntax errors */
 	if (ft_lexer_checker(shell) < 0)
 		return (-1);
-	
-	/* Build the AST */
 	shell->ast = ft_parse_logical(shell, token_h, token_h, NULL);
 	if (!shell->ast)
 		return (-1);
-	
 	return (0);
 }

@@ -11,7 +11,7 @@ OBJ_PRR	= $(patsubst %.c, $(DIR_PR)%.o, $(UT_PRR))
 parsing:	$(LIB) $(NAME_PR)
 
 $(NAME_PR):	$(OBJ_PRR)
-	@$(CC) $(CFLAGS) -o $@ $(OBJ_PRR) -L$(DIR_LIB) -lft
+	@$(CC) $(CFLAGS) -o $@ $(OBJ_PRR) $(LIBFT) $(LIBMS) $(LIBFT) -lreadline
 	@$(PRINT) $(BAN_PR)
 
 dir_parser: dir_lexer

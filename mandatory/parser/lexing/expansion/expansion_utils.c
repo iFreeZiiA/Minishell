@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:04:01 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 18:48:09 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/11 12:07:37 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_token	*ft_create_var_token(char *value)
 bool	ft_is_valid_env_key(const char *key)
 {
 	int	i;
-	
+
 	if (!key || (!ft_isalpha(key[0]) && key[0] != '_'))
 		return (false);
 	i = 0;
@@ -67,20 +67,21 @@ bool	ft_is_valid_env_key(const char *key)
  * @param replacement Value to replace the variable with
  * @return char* New string with the variable replaced, NULL on error
  */
-char	*ft_replace_var(char *original, int var_pos, int var_len, char *replacement)
+char	*ft_replace_var(char *original, int var_pos, int var_len,
+			char *replacement)
 {
 	char	*new_str;
 	int		orig_len;
 	int		repl_len;
 	int		i;
 	int		j;
-	
+
 	if (!original || var_pos < 0 || var_len < 0 || !replacement)
 		return (NULL);
 	orig_len = ft_strlen(original);
 	repl_len = ft_strlen(replacement);
-	new_str = (char *)malloc(sizeof(char) * 
-		(orig_len - var_len - 1 + repl_len + 1)); /* -1 for $ */
+	new_str = (char *)malloc(sizeof(char)
+			* (orig_len - var_len - 1 + repl_len + 1));
 	if (!new_str)
 		return (NULL);
 	i = -1;
@@ -107,12 +108,12 @@ char	*ft_extract_var_name(char *str, int pos)
 {
 	int		len;
 	char	*name;
-	
+
 	if (!str || pos < 0)
 		return (NULL);
 	len = 0;
-	while (str[pos + len] && 
-			(ft_isalnum(str[pos + len]) || str[pos + len] == '_'))
+	while (str[pos + len]
+		&& (ft_isalnum(str[pos + len]) || str[pos + len] == '_'))
 		len++;
 	name = ft_substr(str, pos, len);
 	return (name);
@@ -129,73 +130,17 @@ char	*ft_find_env_var(char **env_vars, const char *key)
 {
 	int		i;
 	int		key_len;
-	
+
 	if (!env_vars || !key)
 		return (NULL);
 	key_len = ft_strlen(key);
 	i = 0;
 	while (env_vars[i])
 	{
-		if (ft_strncmp(env_vars[i], key, key_len) == 0 && 
-			env_vars[i][key_len] == '=')
+		if (ft_strncmp(env_vars[i], key, key_len) == 0
+			&& env_vars[i][key_len] == '=')
 			return (env_vars[i] + key_len + 1);
 		i++;
 	}
 	return (NULL);
-}
-
-/**
- * @brief Handles $? expansion
- *
- * @param str The string to process
- * @param exit_code The last exit code
- * @return char* New string with exit code expanded, NULL on error
- */
-char	*ft_expand_exit_code(char *str, int exit_code)
-{
-	char	*result;
-	char	*code_str;
-	int		i;
-	int		j;
-	int		new_len;
-	
-	if (!str)
-		return (NULL);
-	code_str = ft_itoa(exit_code);
-	if (!code_str)
-		return (NULL);
-	new_len = ft_strlen(str);
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$' && str[i + 1] == '?')
-		{
-			new_len = new_len - 2 + ft_strlen(code_str);
-			i += 2;
-		}
-		else
-			i++;
-	}
-	result = (char *)malloc(sizeof(char) * (new_len + 1));
-	if (!result)
-	{
-		free(code_str);
-		return (NULL);
-	}
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] == '$' && str[i + 1] == '?')
-		{
-			ft_strlcpy(result + j, code_str, ft_strlen(code_str) + 1);
-			j += ft_strlen(code_str);
-			i += 2;
-		}
-		else
-			result[j++] = str[i++];
-	}
-	result[j] = '\0';
-	free(code_str);
-	return (result);
 }

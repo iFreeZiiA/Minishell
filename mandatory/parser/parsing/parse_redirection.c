@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 13:37:51 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 19:19:05 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/11 11:33:00 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,8 @@ static char	*ft_get_filename(t_token *tok)
 {
 	if (!tok)
 		return (NULL);
-		
-	/* Handle variable expansion in filename */
 	if (tok->type == TOKEN_VAR || tok->type == TOKEN_WORD)
 		return (ft_strdup(tok->value));
-		
 	return (NULL);
 }
 
@@ -43,15 +40,12 @@ static t_redir	*ft_create_redir(redir_type type, char *file)
 	
 	if (!file)
 		return (NULL);
-		
 	redir = (t_redir *)malloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
-		
 	redir->type = type;
 	redir->file = file;
-	redir->fd = -1;  /* Will be set during execution */
-	
+	redir->fd = -1;
 	return (redir);
 }
 
@@ -71,21 +65,13 @@ t_redir	*parse_redirection(t_shell *shell, t_list *tok_curr)
 	
 	if (!shell || !tok_curr)
 		return (NULL);
-		
 	tok = tok_curr->content.token;
-	
-	/* Check if the next token exists and is a valid filename */
 	if (!tok_curr->next || !tok_curr->next->content.token)
 		return (NULL);
-		
 	file_tok = tok_curr->next->content.token;
-	
-	/* Get the filename */
 	filename = ft_get_filename(file_tok);
 	if (!filename)
 		return (NULL);
-	
-	/* Determine redirection type */
 	if (tok->type == TOKEN_REDIR_IN)
 		type = REDIR_IN;
 	else if (tok->type == TOKEN_REDIR_OUT)
@@ -99,8 +85,6 @@ t_redir	*parse_redirection(t_shell *shell, t_list *tok_curr)
 		free(filename);
 		return (NULL);
 	}
-	
-	/* Create and return the redirection structure */
 	return (ft_create_redir(type, filename));
 }
 
@@ -118,35 +102,23 @@ int	process_heredoc(t_shell *shell, t_redir *redir)
 	
 	if (!shell || !redir || redir->type != REDIR_HEREDOC)
 		return (-1);
-	
-	/* Create a pipe for the heredoc */
 	if (pipe(pipe_fd) < 0)
 		return (-1);
-	
-	/* Read input until delimiter is found */
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
 			break;
-			
-		/* Check for delimiter */
 		if (ft_strcmp(line, redir->file) == 0)
 		{
 			free(line);
 			break;
 		}
-		
-		/* Process variable expansion if needed */
 		write(pipe_fd[1], line, ft_strlen(line));
 		write(pipe_fd[1], "\n", 1);
 		free(line);
 	}
-	
-	/* Close write end of pipe */
 	close(pipe_fd[1]);
-	
-	/* Return read end of pipe */
 	return (pipe_fd[0]);
 }
 
@@ -161,11 +133,8 @@ int	add_redirection(t_command *cmd, t_redir *redir)
 {
 	if (!cmd || !redir)
 		return (-1);
-	
-	/* Add redirection to command's list */
 	if (!ft_lstadd_back(&cmd->redirs, (t_content){.redir = redir}, TYPE_REDIR))
 		return (-1);
-	
 	return (0);
 }
 
@@ -186,10 +155,8 @@ int	collect_redirections(t_shell *shell, t_list *start, t_list *end, t_command *
 	
 	if (!shell || !start || !cmd)
 		return (-1);
-	
 	curr = start;
 	count = 0;
-	
 	while (curr && curr != end)
 	{
 		if (curr->content.token->type == TOKEN_REDIR_IN || 
@@ -197,31 +164,21 @@ int	collect_redirections(t_shell *shell, t_list *start, t_list *end, t_command *
 			curr->content.token->type == TOKEN_HEREDOC ||
 			curr->content.token->type == TOKEN_APPEND)
 		{
-			/* Parse the redirection */
 			redir = parse_redirection(shell, curr);
 			if (!redir)
 				return (-1);
-			
-			/* Process heredoc if needed */
 			if (redir->type == REDIR_HEREDOC)
 				redir->fd = process_heredoc(shell, redir);
-			
-			/* Add the redirection to the command */
 			if (add_redirection(cmd, redir) < 0)
 			{
 				free(redir->file);
 				free(redir);
 				return (-1);
 			}
-			
 			count++;
-			
-			/* Skip the filename token */
 			curr = curr->next;
 		}
-		
 		curr = curr->next;
 	}
-	
 	return (count);
 }

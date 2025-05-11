@@ -6,13 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:24:16 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 18:42:37 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/11 11:40:41 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
-
-
 
 /**
  * @brief Frees an entire token list
@@ -68,7 +66,7 @@ int	ft_lexer_checker(t_shell *shell)
 {
 	t_list	*curr;
 	t_token	*token;
-	
+
 	if (!shell || !shell->token)
 		return (-1);
 	curr = shell->token;
@@ -79,7 +77,6 @@ int	ft_lexer_checker(t_shell *shell)
 			return (-1);
 		if (token->type == TOKEN_ERROR)
 			return (-2);
-			
 		curr = curr->next;
 	}
 	return (0);
