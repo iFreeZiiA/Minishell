@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/11 13:12:01 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/12 15:44:53 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,15 @@ bool	ft_expand_var(t_shell *shell, t_list *tok_c, char *str, int var_pos)
 }
 
 static int	ft_get_exp(t_shell *shell, t_list **tok_h,
-		t_list *tok_c, t_list *tok_n)
+		t_list **tok_c, t_list **tok_n)
 {
 	t_token	*token;
+	char	c;
 
-	token = tok_c->content.token;
+	c = '\0';
+	token = (*tok_c)->content.token;
+	if ((*tok_c)->next && (*tok_c)->next->content.token->value)
+		c = (*tok_c)->next->content.token->value[0];
 	if (token->type == TOKEN_STATUS)
 	{
 		free(token->value);
@@ -87,10 +91,11 @@ static int	ft_get_exp(t_shell *shell, t_list **tok_h,
 			return (-1);
 		token->type = TOKEN_WORD;
 	}
-	else if (token->type == TOKEN_VAR)
+	else if (token->type == TOKEN_VAR && (c && (ft_isalnum(c) || c == '_')))
 	{
-		tok_c = ft_expand_token(shell, tok_h, &tok_c, &tok_n);
-		if (!tok_c)
+		if (c && (ft_isalnum(c) || c == '_'))
+			*tok_c = ft_expand_token(shell, tok_h, tok_c, tok_n);
+		if (!(*tok_c))
 			return (-1);
 	}
 	return (0);
@@ -119,12 +124,14 @@ int	ft_expansion(t_shell *shell, t_list **tok_h, int *status)
 		tok_n = tok_c->next;
 		if (token->type == TOKEN_STATUS || token->type == TOKEN_VAR)
 		{
-			if (ft_get_exp(shell, tok_h, tok_c, tok_n) == -1)
+			if (ft_get_exp(shell, tok_h, &tok_c, &tok_n) == -1)
 				return (-1);
 		}
 		else if (token->type == TOKEN_DQUOTE)
+		{
 			if (!ft_expand_dquote(shell, tok_c, status))
 				return (-1);
+		}
 		tok_c = tok_n;
 	}
 	return (0);
