@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/11 11:47:48 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:51:05 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@ static int	ft_fill_token(t_content *tok, char *s, int *i, bool *quote)
 		return (-1);
 	start = *i;
 	tok->token->type = ft_get_type(s, i, quote);
+	// ft_printerr("FILL_TOKEN: %d, %d\n", tok->token->type, *i);
+	// sleep(1);
 	if (tok->token->type == TOKEN_ERROR)
 		return (ft_new_token_err(tok->token, -2));
-	if (tok->token->type == TOKEN_DQUOTE || tok->token->type == TOKEN_QUOTE)
+	if (tok->token->type == TOKEN_DQUOTE || tok->token->type == TOKEN_QUOTE
+			|| tok->token->type == TOKEN_VAR)
 		start++;
+	if (tok->token->type == TOKEN_VAR)
+		++(*i);
 	end = *i - start;
 	tok->token->value = ft_substr(s, start, end);
 	if (!tok->token->value)

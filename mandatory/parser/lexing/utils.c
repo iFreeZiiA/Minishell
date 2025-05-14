@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:22:45 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/11 11:57:09 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:50:53 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,48 @@
  */
 static t_token_type	ft_getite(t_token_type type, int *i, int add)
 {
+	ft_printerr("TOKEN_TYPE: %d\n", add);
 	if (add == -1)
 		return (TOKEN_ERROR);
 	*i += add;
 	return (type);
+}
+
+/**
+ * @brief Finds the end of a word token
+ * 
+ * @param s The input string
+ * @param c The delimiter character
+ * @param var If it is a variable or not
+ * @return int Position of the end of the word
+ */
+static int	ft_eow(char *s, int c, bool var)
+{
+	int	i;
+
+	i = 0;
+	if (c == ' ')
+	{
+		while (ft_isspace(s[i]))
+			i++;
+		return (i);
+	}
+	if (s[i] && (ft_isalnum(s[i]) || s[i] == '_') && var)
+	{
+		while (s[i] && (ft_isalnum(s[i]) || s[i] == '_') && s[i] != ' ')
+			i++;
+		return (i);
+	}
+	if (!s[i])
+		return (i);
+	i++;
+	while (s[i] && !ft_ismeta("|><$\"'()*=\\", s[i]) && s[i] != ' ')
+	// {
+	// 	ft_printerr("Q\n");
+		i++;
+	// }
+	// ft_printerr("EOW: %d\n", i);
+	return (i);
 }
 
 /**
@@ -51,42 +89,14 @@ static t_token_type	ft_isdouble(char *s, int *i)
 		return (ft_getite(TOKEN_REDIR_OUT, i, 1));
 	else if (s[*i] == '$' && s[*i + 1] == '?')
 		return (ft_getite(TOKEN_STATUS, i, 2));
-	else if (s[*i] == '$')
-		return (ft_getite(TOKEN_VAR, i, 1));
+	else if (s[*i] == '$' && (ft_isalpha(s[*i + 1]) || s[*i + 1] == '_'))
+	// {
+	// 	ft_printerr("VAR\n");
+		return (ft_getite(TOKEN_VAR, i, ft_eow(&s[*i + 1], 'w', true)));
+	// }
 	else if (s[*i] == '&' && s[*i + 1] == '&')
 		return (ft_getite(TOKEN_AND, i, 2));
-	return (ft_getite(TOKEN_ERROR, i, 1));
-}
-
-/**
- * @brief Finds the end of a word token
- * 
- * @param s The input string
- * @param c The delimiter character
- * @return int Position of the end of the word
- */
-static int	ft_eow(char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	if (c == ' ')
-	{
-		while (ft_isspace(s[i]))
-			i++;
-		return (i);
-	}
-	if (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
-	{
-		while (s[i] && (ft_isalnum(s[i]) || s[i] == '_') && s[i] != ' ')
-			i++;
-		return (i);
-	}
-	if (!s[i])
-		return (i);
-	while (s[i] && !ft_ismeta("|><$\"'()*=\\", s[i]) && s[i] != ' ')
-		i++;
-	return (i);
+	return (ft_getite(TOKEN_WORD, i, ft_eow(&s[*i], 'w', false)));
 }
 
 static t_token_type	ft_allquote(char *s, int *i, bool *quote, char c)
@@ -145,6 +155,6 @@ t_token_type	ft_get_type(char *s, int *i, bool *quote)
 	else if (s[*i] == '"')
 		return (ft_allquote(s, i, quote, '"'));
 	else if (ft_isspace(s[*i]))
-		return (ft_getite(TOKEN_SPACE, i, ft_eow(&s[*i + 1], ' ') + 1));
-	return (ft_getite(TOKEN_WORD, i, ft_eow(&s[*i], 'w')));
+		return (ft_getite(TOKEN_SPACE, i, ft_eow(&s[*i + 1], ' ', false) + 1));
+	return (ft_getite(TOKEN_WORD, i, ft_eow(&s[*i], 'w', false)));
 }

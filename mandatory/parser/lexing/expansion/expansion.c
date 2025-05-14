@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/12 15:44:53 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:56:00 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ static int	ft_get_exp(t_shell *shell, t_list **tok_h,
 	t_token	*token;
 	char	c;
 
-	c = '\0';
+	if (!shell || !(*tok_h) || !(*tok_c) || !(*tok_n))
+		return (-1);
 	token = (*tok_c)->content.token;
-	if ((*tok_c)->next && (*tok_c)->next->content.token->value)
-		c = (*tok_c)->next->content.token->value[0];
+	c = token->value[0];
 	if (token->type == TOKEN_STATUS)
 	{
 		free(token->value);
@@ -93,8 +93,10 @@ static int	ft_get_exp(t_shell *shell, t_list **tok_h,
 	}
 	else if (token->type == TOKEN_VAR && (c && (ft_isalnum(c) || c == '_')))
 	{
+		ft_printerr("GETEXP: %s: %d\n", token->value, token->type);
+		c = token->value[0];
 		if (c && (ft_isalnum(c) || c == '_'))
-			*tok_c = ft_expand_token(shell, tok_h, tok_c, tok_n);
+			*tok_c = ft_expand_token(shell, tok_h, tok_c);
 		if (!(*tok_c))
 			return (-1);
 	}

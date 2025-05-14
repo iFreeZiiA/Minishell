@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/11 12:52:04 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:56:24 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,6 @@ char			*ft_expand_exit_code(char *str, int exit_code);
 
 bool	ft_expand_dquote(t_shell *shell, t_list *tok_c, int *status);
 t_list	*ft_expand_token(t_shell *shell, t_list **tok_h, 
-	t_list **tok_c, t_list **tok_n);
+	t_list **tok_c);
 
 #endif
