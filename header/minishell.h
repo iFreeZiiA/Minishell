@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/29 10:58:41 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/23 23:04:06 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include "deployment/setup.h"
 # include "parser/lexing.h"
 # include "parser/parsing.h"
+# include "parser/logical.h"
+# include "parser/wildcard.h"
+# include "parser/subshell.h"
 # include "minishell_executor.h"
 # include "signals.h"
 # include "executor.h"
