@@ -6,11 +6,31 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/23 22:57:40 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/23 23:10:25 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/minishell.h"
+#include "../../../../header/minishell.h"
+
+/**
+ * @brief Checks if a command is a builtin
+ * 
+ * @param cmd Command name to check
+ * @return bool true if builtin, false otherwise
+ */
+bool	ft_is_builtin_cmd(const char *cmd)
+{
+	if (!cmd)
+		return (false);
+	
+	return (!ft_strcmp(cmd, "echo") ||
+			!ft_strcmp(cmd, "cd") ||
+			!ft_strcmp(cmd, "pwd") ||
+			!ft_strcmp(cmd, "export") ||
+			!ft_strcmp(cmd, "unset") ||
+			!ft_strcmp(cmd, "env") ||
+			!ft_strcmp(cmd, "exit"));
+}
 
 /**
  * @brief Executes a single AST node (command, pipe, etc.)
@@ -52,6 +72,10 @@ static int	ft_execute_node(t_ast_node *node, t_env *env)
 		ft_lstfree_cmd_list(cmd_list);
 		return (exit_code);
 	}
+	else if (node->type == NODE_GROUP)
+	{
+		return (ft_execute_subshell(node->left, env));
+	}
 	else if (node->type == NODE_AND || node->type == NODE_OR)
 	{
 		// This should be handled by ft_execute_logical
@@ -59,26 +83,6 @@ static int	ft_execute_node(t_ast_node *node, t_env *env)
 	}
 	
 	return (1);
-}
-
-/**
- * @brief Checks if a command is a builtin
- * 
- * @param cmd Command name to check
- * @return bool true if builtin, false otherwise
- */
-bool	ft_is_builtin_cmd(const char *cmd)
-{
-	if (!cmd)
-		return (false);
-	
-	return (!ft_strcmp(cmd, "echo") ||
-			!ft_strcmp(cmd, "cd") ||
-			!ft_strcmp(cmd, "pwd") ||
-			!ft_strcmp(cmd, "export") ||
-			!ft_strcmp(cmd, "unset") ||
-			!ft_strcmp(cmd, "env") ||
-			!ft_strcmp(cmd, "exit"));
 }
 
 /**
@@ -205,6 +209,12 @@ void	ft_print_logical_ast(t_ast_node *node, int level)
 			}
 		}
 		ft_printf("\n");
+	}
+	else if (node->type == NODE_GROUP)
+	{
+		ft_printf("GROUP (subshell):\n");
+		if (node->left)
+			ft_print_logical_ast(node->left, level + 1);
 	}
 	else
 	{

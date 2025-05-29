@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:21:18 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/11 11:29:46 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/05/23 23:09:05 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,10 @@ static void	ft_print_redirections(t_list *redirs, int indent)
 	while (curr)
 	{
 		if (curr->type != TYPE_REDIR)
+		{
 			curr = curr->next;
+			continue;
+		}
 		redir = curr->content.redir;
 		for (i = 0; i < indent; i++)
 			ft_printf("  ");
@@ -275,88 +278,46 @@ void	ft_print_ast(t_ast_node *ast, int level)
 }
 
 /**
- * @brief Creates an AST from a command list
+ * @brief Parses redirections from tokens and adds them to a command
  * 
- * @param cmd_list List of commands
- * @return t_ast_node* Root of the AST, NULL on error
+ * @param shell The shell structure
+ * @param token_h Head of the token list
+ * @param cmd Command structure to add redirections to
+ * @return int 0 on success, -1 on error
  */
-t_ast_node	*ft_create_ast(t_list *cmd_list)
+int	ft_parse_redirections(t_shell *shell, t_list *token_h, t_command *cmd)
 {
-	t_list		*curr;
-	t_ast_node	*root;
-	t_ast_node	*prev_node;
+	t_list	*curr;
+	t_redir	*redir;
 	
-	if (!cmd_list)
-		return (NULL);
-	root = NULL;
-	prev_node = NULL;
-	curr = cmd_list;
+	if (!shell || !token_h || !cmd)
+		return (-1);
+	curr = token_h;
 	while (curr)
 	{
-		t_ast_node *new_node = NULL;
-		if (curr->type == TYPE_COMMAND)
+		if (curr->content.token->type == TOKEN_REDIR_IN || 
+			curr->content.token->type == TOKEN_REDIR_OUT ||
+			curr->content.token->type == TOKEN_HEREDOC ||
+			curr->content.token->type == TOKEN_APPEND)
 		{
-			t_command *cmd = curr->content.cmd;
-			new_node = ft_create_command_node(cmd->args, cmd->redirs);
-		}
-		if (!root)
-			root = new_node;
-		else if (prev_node && new_node)
-		{
-			t_ast_node *pipe_node = ft_create_operator_node(NODE_PIPE, prev_node, new_node);
-			if (!pipe_node)
+			redir = parse_redirection(shell, curr);
+			if (!redir)
+				return (-1);
+			
+			if (redir->type == REDIR_HEREDOC)
+				redir->fd = process_heredoc(shell, redir);
+			
+			if (!ft_lstadd_back(&cmd->redirs, 
+				(t_content){.redir = redir}, TYPE_REDIR))
 			{
-				ft_free_ast(root);
-				return (NULL);
+				free(redir->file);
+				free(redir);
+				return (-1);
 			}
-			root = pipe_node;
+			curr = curr->next; // Skip filename token
 		}
-		prev_node = new_node;
-		curr = curr->next;
+		if (curr)
+			curr = curr->next;
 	}
-	return (root);
-}
-
-/**
- * @brief Converts an AST to a list of commands (for execution)
- * 
- * @param ast Root of the AST
- * @return t_list* List of commands, NULL on error
- */
-t_list	*ast_to_command_list(t_ast_node *ast)
-{
-	t_list	*cmd_list;
-	t_list	*left_list;
-	t_list	*right_list;
-	t_list	*temp;
-	
-	if (!ast)
-		return (NULL);
-	cmd_list = NULL;
-	if (ast->type == NODE_PIPE)
-	{
-		left_list = ast_to_command_list(ast->left);
-		if (!left_list)
-			return (NULL);
-		right_list = ast_to_command_list(ast->right);
-		if (!right_list)
-		{
-			ft_lstfree_t(left_list);
-			return (NULL);
-		}
-		cmd_list = left_list;
-		temp = ft_lstlast(cmd_list);
-		temp->next = right_list;
-		right_list->prev = temp;
-	}
-	else if (ast->type == NODE_COMMAND)
-	{
-		t_command *cmd = (t_command *)ast->data;
-		t_list *new_node = ft_lstnew_cmd(cmd);
-		if (!new_node)
-			return (NULL);
-		
-		cmd_list = new_node;
-	}
-	return (cmd_list);
+	return (0);
 }
