@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/05/09 14:12:24 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:55:00 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,13 @@ static void	child_process(t_command *cmd, int in, int out, t_env *env)
 
 int	execute_pipe(t_list *cmd_h, t_env *env)
 {
-	int		pipe_fd[2];
-	int		prev = -1;
 	pid_t	*pids;
+	int		pipe_fd[2];
+	int		prev;
 	int		i;
 
 	i = 0;
+	prev = -1;
 	pids = malloc(sizeof(pid_t) * ft_lstsize(cmd_h));
 	if (!pids)
 		return (1);
@@ -151,4 +152,9 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 	}
 	wait_all_pids(pids, i, env);
 	return (free(pids), 0);
+}
+
+void test(int test)
+{
+	
 }
