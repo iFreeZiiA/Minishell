@@ -6,11 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:15:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/29 18:36:10 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/01 14:36:48 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../header/minishell.h"
+#include "../../../../header/minishell.h"
 
 /**
  * @brief Prints parentheses validation results
@@ -67,6 +67,28 @@ static void	ft_analyze_parentheses_structure(t_shell *shell)
 }
 
 /**
+ * @brief Prints other AST node types
+ * 
+ * @param ast AST node
+ * @param level Indentation level
+ */
+static void	ft_print_ast_other_nodes(t_ast_node *ast, int level)
+{
+	if (ast->type == NODE_PIPE)
+		ft_printf("PIPE\n");
+	else if (ast->type == NODE_AND)
+		ft_printf("AND (&&)\n");
+	else if (ast->type == NODE_OR)
+		ft_printf("OR (||)\n");
+	else
+		ft_printf("NODE_TYPE: %d\n", ast->type);
+	if (ast->left)
+		ft_print_ast_structure(ast->left, level + 1);
+	if (ast->right)
+		ft_print_ast_structure(ast->right, level + 1);
+}
+
+/**
  * @brief Prints AST structure with indentation
  * 
  * @param ast AST node to print
@@ -111,28 +133,6 @@ static void	ft_print_ast_structure(t_ast_node *ast, int level)
 	}
 	else
 		ft_print_ast_other_nodes(ast, level);
-}
-
-/**
- * @brief Prints other AST node types
- * 
- * @param ast AST node
- * @param level Indentation level
- */
-static void	ft_print_ast_other_nodes(t_ast_node *ast, int level)
-{
-	if (ast->type == NODE_PIPE)
-		ft_printf("PIPE\n");
-	else if (ast->type == NODE_AND)
-		ft_printf("AND (&&)\n");
-	else if (ast->type == NODE_OR)
-		ft_printf("OR (||)\n");
-	else
-		ft_printf("NODE_TYPE: %d\n", ast->type);
-	if (ast->left)
-		ft_print_ast_structure(ast->left, level + 1);
-	if (ast->right)
-		ft_print_ast_structure(ast->right, level + 1);
 }
 
 /**
