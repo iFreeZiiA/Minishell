@@ -5,7 +5,8 @@ PRR		= $(MAN)/parser/parsing/
 
 SRC_PRR = $(PRR)parsing.c $(PRR)expression.c $(PRR)command.c	\
 	$(PRR)redirections.c $(PRR)ast_utils.c
-UT_PRR = $(PRR)main_test.c $(PRR)print_ast.c $(SRC_PRR) $(MAN)/deployment/setup/setup.c
+UT_PRR = $(PRR)main_test.c $(PRR)print_ast.c $(SRC_PRR) $(MAN)/deployment/setup/setup.c \
+	mandatory/parser/lexing/lexing.c mandatory/parser/lexing/wildcard/wildcard.c
 
 OBJ_PRR	= $(patsubst %.c, $(DIR_PR)%.o, $(UT_PRR))
 
@@ -16,6 +17,7 @@ $(NAME_PR): $(OBJ_PRR)
 	@$(PRINT) $(BAN_PR)
 
 dir_parser: 
+	@mkdir -p $(DIR_PR)$(MAN)/parser/lexing/wildcard 
 	@mkdir -p $(DIR_PR)$(PRR)
 
 $(DIR_PR)$(PRR)%.o: $(PRR)%.c | dir_parser
