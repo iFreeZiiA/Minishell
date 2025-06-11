@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:02:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/29 18:31:03 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/11 11:20:07 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ bool	ft_is_wrapped_in_parens(t_list *start, t_list *end)
  * @param end End of the expression
  * @return t_ast_node* AST node representing the expression
  */
-t_ast_node	*ft_parse_expression_with_parens(t_shell *shell, t_list *token_h,
+t_ast_node	*ft_parse_expression(t_shell *shell, t_list *token_h,
 		t_list *start, t_list *end)
 {
 	t_list	*closing;

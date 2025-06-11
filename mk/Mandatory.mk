@@ -5,13 +5,16 @@ $(NAME):	$(OBJ)
 	@$(PRINT) $(BANNER)
 
 dir_mandatory: 
-	@mkdir -p $(DIR)$(MAN)
-	@mkdir -p $(DIR)$(LEX)
-	@mkdir -p $(DIR)$(EXP)
-	@mkdir -p $(DIR)$(PRR)
-	@mkdir -p $(DIR)$(SUP)
-	@mkdir -p $(DIR)$(CUP)
+	@mkdir -p $(DIR)/$(MAN)
+	@mkdir -p $(DIR)/$(LEX)
+	@mkdir -p $(DIR)/$(PRR)
+	@mkdir -p $(DIR)/$(SUP)
+	@mkdir -p $(DIR)/$(CUP)
+	@mkdir -p $(DIR)/$(EXP)
+	@mkdir -p $(DIR)/$(BLT)
+	@mkdir -p $(DIR)/$(SGL)
+	@mkdir -p $(DIR)/$(LEX)wildcard/
+	@mkdir -p $(DIR)/$(LEX)subshell/
 
 $(DIR)%.o: %.c | dir_mandatory
-	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
