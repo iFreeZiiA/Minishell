@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/11 11:50:13 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/11 13:10:17 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_list	*ft_find_matching_paren(t_list *start);
  * @param end Closing parenthesis token
  * @return t_ast_node* Group AST node
  */
-t_ast_node	*ft_parse_group(t_shell *shell, t_list *start, t_list *end);
+// t_ast_node	*ft_parse_group(t_shell *shell, t_list *start, t_list *end);
 
 /**
  * @brief Expands wildcards in token list

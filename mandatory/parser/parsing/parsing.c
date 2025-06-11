@@ -5,75 +5,114 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/11 00:00:00 by student           #+#    #+#             */
-/*   Updated: 2025/06/11 11:37:58 by jjorda           ###   ########.fr       */
+/*   Created: 2025/06/11 00:00:00 by user              #+#    #+#             */
+/*   Updated: 2025/06/11 13:04:38 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
 /**
- * @brief Validates parsing prerequisites
+ * @brief Validates basic syntax of token sequence
  * 
- * @param shell The shell structure
- * @return int 0 on success, -1 on error
+ * @param tokens Token list to validate
+ * @return int 0 if valid, -1 if invalid
  */
-static int	ft_validate_parsing_input(t_shell *shell)
+static int	ft_validate_syntax(t_list *tokens)
 {
-	if (!shell || !shell->token)
+	t_list	*curr;
+	bool	expect_operand;
+
+	if (!tokens)
 		return (-1);
-	if (ft_lexer_checker(shell) < 0)
-		return (-1);
-	if (!ft_validate_parentheses(shell->token))
+	curr = tokens;
+	expect_operand = true;
+	while (curr)
+	{
+		if (curr->content.token->type == TOKEN_PIPE ||
+			curr->content.token->type == TOKEN_AND ||
+			curr->content.token->type == TOKEN_OR)
+		{
+			if (expect_operand || !curr->next)
+				return (-1);
+			expect_operand = true;
+		}
+		else if (curr->content.token->type == TOKEN_WORD)
+			expect_operand = false;
+		curr = curr->next;
+	}
+	return (0);
+}
+
+/**
+ * @brief Validates parentheses syntax in token list
+ * 
+ * @param tokens Token list to validate
+ * @return int 0 if valid, -1 if invalid
+ */
+static int	ft_validate_parentheses(t_list *tokens)
+{
+	t_list	*curr;
+	int		depth;
+
+	curr = tokens;
+	depth = 0;
+	while (curr)
+	{
+		if (curr->content.token->type == TOKEN_PAREN_OPEN)
+			depth++;
+		else if (curr->content.token->type == TOKEN_PAREN_CLOSE)
+		{
+			depth--;
+			if (depth < 0)
+				return (-1);
+		}
+		curr = curr->next;
+	}
+	if (depth != 0)
 		return (-1);
 	return (0);
 }
 
 /**
- * @brief Prepares tokens for parsing
+ * @brief Preprocesses tokens before parsing
  * 
- * @param shell The shell structure
- * @param token_h Pointer to token list head
+ * @param shell Shell structure containing tokens
  * @return int 0 on success, -1 on error
  */
-static int	ft_prepare_tokens(t_shell *shell, t_list **token_h)
+static int	ft_preprocess_tokens(t_shell *shell)
 {
-	*token_h = shell->token;
-	ft_exp_wildcard(shell, token_h);
-	shell->token = *token_h;
-	return (0);
-}
-
-/**
- * @brief Builds AST from prepared tokens
- * 
- * @param shell The shell structure
- * @param token_h Token list head
- * @return int 0 on success, -1 on error
- */
-static int	ft_build_ast(t_shell *shell, t_list *token_h)
-{
-	shell->ast = ft_parse_expression(shell, token_h, token_h, NULL);
-	if (!shell->ast)
+	if (ft_validate_syntax(shell->token) < 0)
+	{
+		ft_printf("minishell: syntax error\n");
 		return (-1);
+	}
+	if (ft_validate_parentheses(shell->token) < 0)
+	{
+		ft_printf("minishell: unmatched parentheses\n");
+		return (-1);
+	}
+	ft_exp_wildcard(shell, &shell->token);
 	return (0);
 }
 
 /**
- * @brief Main parsing function to build the AST
+ * @brief Main parsing function - entry point
  * 
- * @param shell The shell structure
+ * @param shell Shell structure containing tokenized input
  * @return int 0 on success, -1 on error
  */
 int	ft_parsing(t_shell *shell)
 {
-	t_list	*token_h;
-	
-	if (ft_validate_parsing_input(shell) < 0)
+	if (!shell || !shell->token)
 		return (-1);
-	if (ft_prepare_tokens(shell, &token_h) < 0)
+	if (ft_preprocess_tokens(shell) < 0)
 		return (-1);
-	if (ft_build_ast(shell, token_h) < 0)
+	shell->ast = ft_parse_expression(shell, shell->token, shell->token, NULL);
+	if (!shell->ast)
+	{
+		ft_printf("minishell: parsing failed\n");
 		return (-1);
+	}
 	return (0);
 }
