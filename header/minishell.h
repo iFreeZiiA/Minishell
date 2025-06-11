@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/23 23:16:07 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/11 11:50:13 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_list	*ft_find_matching_paren(t_list *start);
  * @param token_h Token list head
  * @return bool true if valid, false otherwise
  */
-bool	ft_validate_parentheses(t_list *token_h);
+// bool	ft_validate_parentheses(t_list *token_h);
 
 /**
  * @brief Parses a group (parentheses)

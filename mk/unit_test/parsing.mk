@@ -1,26 +1,61 @@
-NAME_PR	= parser_ut
+# ********************************** PARSING ********************************** #
 
-DIR_PR	= $(DIR_UT)/
-PRR		= $(MAN)/parser/parsing/
+NAME_PR = parsing_ut
 
-SRC_PRR	= $(PRR)parsing.c $(PRR)ast_utils.c $(PRR)parse_redirection.c
-UT_PRR	= $(PRR)main_test.c $(SRC_PRR) $(SRC_LXR)
+DIR_PR = $(DIR_UT)/
+PRR = $(MAN)/parser/parsing/
 
-OBJ_PRR	= $(patsubst %.c, $(DIR_PR)%.o, $(UT_PRR))
+# ********************************** SOURCES ********************************** #
 
-parsing:	$(LIB) $(NAME_PR)
+# Refactored parsing source files following 42 norms
+SRC_PRR_NEW = $(PRR)ft_parsing.c $(PRR)ast_creation.c $(PRR)expression_parsing.c \
+			$(PRR)operator_utils.c $(PRR)command_parsing.c $(PRR)parsing_utils.c \
+			$(PRR)ast_display.c
 
-$(NAME_PR):	$(OBJ_PRR)
-	@$(CC) $(CFLAGS) -o $@ $(OBJ_PRR) $(LIBFT) $(LIBMS) $(LIBFT) -lreadline
+# Test files and dependencies
+UT_PRR = $(PRR)main_test.c $(SRC_PRR_NEW) $(SRC_LXR) $(SRC_SUP)
+
+# ********************************** OBJECTS ********************************** #
+
+OBJ_PRR = $(patsubst %.c, $(DIR_PR)%.o, $(UT_PRR))
+
+# ********************************** TARGETS ********************************** #
+
+parsing: $(LIB) $(NAME_PR)
+
+$(NAME_PR): $(OBJ_PRR)
+	@$(CC) $(CFLAGS) -o $@ $(OBJ_PRR) $(LIBS)
 	@$(PRINT) $(BAN_PR)
 
-dir_parser: dir_lexer
+# ******************************** DIRECTORIES ******************************* #
+
+dir_parsing: dir_lexer dir_setup
 	@mkdir -p $(DIR_PR)$(PRR)
 
-$(DIR_PR)$(PRR)%.o: $(PRR)%.c | dir_parser
+# ******************************* COMPILATION ******************************* #
+
+# Parsing module objects
+$(DIR_PR)$(PRR)%.o: $(PRR)%.c | dir_parsing
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-BAN_PR	= \
+# Lexer dependencies
+$(DIR_PR)$(LEX)%.o: $(LEX)%.c | dir_parsing
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+# Setup dependencies
+$(DIR_PR)$(SUP)%.o: $(SUP)%.c | dir_parsing
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+# Expansion dependencies
+$(DIR_PR)$(EXP)%.o: $(EXP)%.c | dir_parsing
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+# ********************************** BANNER *********************************** #
+
+BAN_PR = \
 "**********************************************" "\n" \
 "*$(Y)   ______      ______     _    _______       $(O)*" "\n" \
 "*$(Y)  (_____ \ /\ (_____ \   | |  (_______)     $(O)*" "\n" \

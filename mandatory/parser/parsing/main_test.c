@@ -5,114 +5,122 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 17:58:53 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/11 11:27:39 by jjorda           ###   ########.fr       */
+/*   Created: 2025/06/11 00:00:00 by student           #+#    #+#             */
+/*   Updated: 2025/06/11 11:49:47 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
 /**
- * @brief Affiche la liste des tokens (pour le débogage)
+ * @brief Initializes shell structure for testing
  * 
- * @param tok_h Tête de la liste des tokens
+ * @param shell Shell structure to initialize
+ * @param env Environment variables
+ * @return int 0 on success, -1 on error
  */
-static void print_token_list(t_list *tok_h)
+static int	ft_init_test_shell(t_shell *shell, char **env)
 {
-    t_list *curr;
-    t_token *token;
-    
-    ft_printf("\n=== LISTE DES TOKENS ===\n");
-    if (!tok_h)
-    {
-        ft_printf("(aucun token)\n");
-        return;
-    }
-    curr = tok_h;
-    while (curr)
-    {
-        token = curr->content.token;
-        if (!token)
-        {
-            ft_printf("(token invalide)\n");
-            curr = curr->next;
-            continue;
-        }
-        ft_printf("[%d] \"%s\"\n", token->type, token->value);
-        curr = curr->next;
-    }
-    ft_printf("\n");
+	if (!shell)
+		return (-1);
+	shell->env->env_vars = env;
+	shell->token = NULL;
+	shell->ast = NULL;
+	shell->env->last_exit_code = 0;
+	shell->current_line = NULL;
+	return (0);
 }
 
 /**
- * @brief Initialise la structure shell pour les tests
+ * @brief Runs lexical analysis test
  * 
- * @param shell Pointeur sur la structure shell
- * @param env Environnement système
- * @return int 0 en cas de succès, -1 en cas d'erreur
+ * @param shell Shell structure
+ * @return int 0 on success, -1 on error
  */
-static int init_shell(t_shell *shell, char **env)
+static int	ft_test_lexing(t_shell *shell)
 {
-    if (!shell)
-        return (-1);
-    shell->env = (t_env *)malloc(sizeof(t_env));
-    if (!shell->env)
-        return (-1);
-    shell->env->env_vars = env;
-    shell->env->local_env = NULL;
-    shell->env->last_exit_code = 0;
-    shell->token = NULL;
-    shell->ast = NULL;
-    shell->current_line = NULL;
-    shell->prompt = NULL;
-    shell->signal_received = 0;
-    return (0);
+	ft_printf("=== ÉTAPE 1: ANALYSE LEXICALE ===\n");
+	shell->token = ft_lexing(shell);
+	if (!shell->token)
+	{
+		ft_printerr("Erreur: Analyse lexicale échouée\n");
+		return (-1);
+	}
+	ft_print_token_list(shell->token);
+	return (0);
 }
 
 /**
- * @brief Programme principal pour tester l'analyseur lexical et syntaxique
+ * @brief Runs parsing test
+ * 
+ * @param shell Shell structure
+ * @return int 0 on success, -1 on error
  */
-int main(int argc, char **argv, char **env)
+static int	ft_test_parsing(t_shell *shell)
 {
-    t_shell shell;
-    int result;
-    
-    if (argc != 2)
-    {
-        ft_printf("Usage: %s \"commande à analyser\"\n", argv[0]);
-        return (1);
-    }
-    if (init_shell(&shell, env) < 0)
-    {
-        ft_printerr("Erreur: Initialisation de shell échouée\n");
-        return (1);
-    }
-    shell.current_line = argv[1];
-    ft_printf("=== ANALYSE DE LA COMMANDE ===\n");
-    ft_printf("\"%s\"\n", shell.current_line);
-    ft_printf("\n=== ÉTAPE 1: ANALYSE LEXICALE ===\n");
-    shell.token = ft_lexing(&shell);
-    if (!shell.token)
-    {
-        ft_printerr("Erreur: Analyse lexicale échouée\n");
-        free(shell.env);
-        return (1);
-    }
-    print_token_list(shell.token);
-    ft_printf("=== ÉTAPE 2: ANALYSE SYNTAXIQUE ===\n");
-    result = ft_parsing(&shell);
-    if (result < 0 || !shell.ast)
-    {
-        ft_printerr("Erreur: Analyse syntaxique échouée (code %d)\n", result);
-        ft_lstfree_t(shell.token);
-        free(shell.env);
-        return (1);
-    }
-    ft_printf("\n=== ARBRE SYNTAXIQUE ABSTRAIT ===\n");
-    ft_print_ast(shell.ast, 0);
-    ft_free_ast(shell.ast);
-    ft_lstfree_t(shell.token);
-    free(shell.env);
-    ft_printf("\nAnalyse terminée avec succès.\n");
-    return (0);
+	int	result;
+
+	ft_printf("=== ÉTAPE 2: ANALYSE SYNTAXIQUE ===\n");
+	result = ft_parsing(shell);
+	if (result < 0 || !shell->ast)
+	{
+		ft_printerr("Erreur: Analyse syntaxique échouée (code %d)\n", result);
+		return (-1);
+	}
+	ft_printf("✓ Parsing réussi\n");
+	return (0);
+}
+
+/**
+ * @brief Displays parsing results
+ * 
+ * @param shell Shell structure
+ */
+static void	ft_display_results(t_shell *shell)
+{
+	ft_printf("\n=== ARBRE SYNTAXIQUE ABSTRAIT ===\n");
+	if (shell->ast)
+		ft_print_ast(shell->ast, 0);
+	else
+		ft_printf("Aucun AST généré\n");
+	ft_printf("\nAnalyse terminée avec succès.\n");
+}
+
+/**
+ * @brief Main test function
+ * 
+ * @param argc Argument count
+ * @param argv Arguments array
+ * @param env Environment variables
+ * @return int Exit code
+ */
+int	main(int argc, char **argv, char **env)
+{
+	t_shell	shell;
+
+	if (argc != 2)
+	{
+		ft_printf("Usage: %s \"commande à analyser\"\n", argv[0]);
+		ft_printf("Exemple: %s \"echo hello && ls | grep test\"\n", argv[0]);
+		return (1);
+	}
+	if (ft_init_test_shell(&shell, env) < 0)
+	{
+		ft_printerr("Erreur: Initialisation échouée\n");
+		return (1);
+	}
+	shell.current_line = argv[1];
+	ft_printf("=== ANALYSE DE LA COMMANDE ===\n");
+	ft_printf("\"%s\"\n\n", shell.current_line);
+	if (ft_test_lexing(&shell) < 0)
+		return (1);
+	if (ft_test_parsing(&shell) < 0)
+	{
+		ft_lstfree_t(shell.token);
+		return (1);
+	}
+	ft_display_results(&shell);
+	// ft_free_ast(shell.ast);
+	ft_lstfree_t(shell.token);
+	return (0);
 }
