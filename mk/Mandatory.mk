@@ -13,8 +13,6 @@ dir_mandatory:
 	@mkdir -p $(DIR)/$(EXP)
 	@mkdir -p $(DIR)/$(BLT)
 	@mkdir -p $(DIR)/$(SGL)
-	@mkdir -p $(DIR)/$(LEX)wildcard/
-	@mkdir -p $(DIR)/$(LEX)subshell/
 
 $(DIR)%.o: %.c | dir_mandatory
 	@$(CC) $(CFLAGS) -c $< -o $@

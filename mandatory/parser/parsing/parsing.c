@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/06/11 13:04:38 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/11 15:16:31 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	ft_preprocess_tokens(t_shell *shell)
 		ft_printf("minishell: unmatched parentheses\n");
 		return (-1);
 	}
-	ft_exp_wildcard(shell, &shell->token);
+	// ft_exp_wildcard(shell, &shell->token);
 	return (0);
 }
 
@@ -106,13 +106,13 @@ int	ft_parsing(t_shell *shell)
 {
 	if (!shell || !shell->token)
 		return (-1);
+	shell->token = ft_lexing(shell);
+	if (!(shell)->token)
+		return (-1);
 	if (ft_preprocess_tokens(shell) < 0)
 		return (-1);
 	shell->ast = ft_parse_expression(shell, shell->token, shell->token, NULL);
 	if (!shell->ast)
-	{
-		ft_printf("minishell: parsing failed\n");
 		return (-1);
-	}
 	return (0);
 }
