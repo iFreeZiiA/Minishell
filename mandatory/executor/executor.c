@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/03 13:55:00 by alex             ###   ########.fr       */
+/*   Updated: 2025/06/11 14:53:16 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,11 @@ static void	wait_all_pids(pid_t *pids, int count, t_env *env)
 	}
 }
 
-static void	child_process(t_command *cmd, int in, int out, t_env *env)
+static void	child_process(t_list *cmd_l, int in, int out, t_env *env)
 {
+	t_command *cmd;
+
+	cmd = cmd_l->content.cmd;
 	if (in != -1)
 		dup2(in, STDIN_FILENO);
 	if (out != -1)
@@ -116,7 +119,7 @@ static void	child_process(t_command *cmd, int in, int out, t_env *env)
 	close(out);
 	if (apply_redirections(cmd->redirs) != 0)
 		exit(1);
-	if (is_builtin(cmd->args[0]) && !cmd->next)
+	if (is_builtin(cmd->args[0]) && !cmd_l->next)
 		exit(run_builtin(cmd->args, env));
 	execve(get_path(cmd->args[0], env->env_vars),
 		cmd->args, env->env_vars);
@@ -130,6 +133,7 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 	int		pipe_fd[2];
 	int		prev;
 	int		i;
+	t_command *cmd;
 
 	i = 0;
 	prev = -1;
@@ -138,11 +142,20 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 		return (1);
 	while (cmd_h)
 	{
-		if (cmd_h->next && pipe(pipe_fd) == -1)
-			return (free(pids), 1);
+		cmd = cmd_h->content.cmd;
+		if (cmd_h->next)
+		{
+			if (pipe(pipe_fd) == -1)
+				return (free(pids), 1);
+		}
 		pids[i] = fork();
 		if (pids[i] == 0)
-			child_process(cmd_h, prev, (cmd_h->next ? pipe_fd[1] : -1), env);
+		{
+			if (cmd_h->next)
+				child_process(cmd_h, prev, pipe_fd[1], env);
+			else
+				child_process(cmd_h, prev, -1, env);
+		}
 		if (prev != -1)
 			close(prev);
 		if (cmd_h->next)
@@ -151,10 +164,6 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 		i++;
 	}
 	wait_all_pids(pids, i, env);
-	return (free(pids), 0);
-}
-
-void test(int test)
-{
-	
+	free(pids);
+	return (0);
 }
