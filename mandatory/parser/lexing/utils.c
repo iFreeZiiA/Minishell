@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:22:45 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/14 13:50:53 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:13:55 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
  */
 static t_token_type	ft_getite(t_token_type type, int *i, int add)
 {
-	ft_printerr("TOKEN_TYPE: %d\n", add);
 	if (add == -1)
 		return (TOKEN_ERROR);
 	*i += add;
@@ -58,11 +57,7 @@ static int	ft_eow(char *s, int c, bool var)
 		return (i);
 	i++;
 	while (s[i] && !ft_ismeta("|><$\"'()*=\\", s[i]) && s[i] != ' ')
-	// {
-	// 	ft_printerr("Q\n");
 		i++;
-	// }
-	// ft_printerr("EOW: %d\n", i);
 	return (i);
 }
 
@@ -90,10 +85,7 @@ static t_token_type	ft_isdouble(char *s, int *i)
 	else if (s[*i] == '$' && s[*i + 1] == '?')
 		return (ft_getite(TOKEN_STATUS, i, 2));
 	else if (s[*i] == '$' && (ft_isalpha(s[*i + 1]) || s[*i + 1] == '_'))
-	// {
-	// 	ft_printerr("VAR\n");
 		return (ft_getite(TOKEN_VAR, i, ft_eow(&s[*i + 1], 'w', true)));
-	// }
 	else if (s[*i] == '&' && s[*i + 1] == '&')
 		return (ft_getite(TOKEN_AND, i, 2));
 	return (ft_getite(TOKEN_WORD, i, ft_eow(&s[*i], 'w', false)));

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_files.c                                   :+:      :+:    :+:   */
+/*   wc_files.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 23:52:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/29 18:25:09 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:15:17 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	ft_collect_matches(DIR *dir, const char *pattern, char **matches,
 			continue ;
 		if (ft_match_pattern(pattern, entry->d_name))
 		{
-			if (!ft_add_match_to_array(matches, &count, capacity, entry->d_name))
+			if (!ft_add_match_to_array(matches, &count, capacity,
+					entry->d_name))
 				break ;
 		}
 		entry = readdir(dir);
@@ -117,7 +118,8 @@ bool	ft_add_match_to_array(char **matches, int *count, int *capacity,
  * @param new_tokens New tokens to insert
  * @return bool true on success, false on error
  */
-bool	ft_connect_new_tokens(t_list **tok_h, t_list *tok_curr, t_list *new_tokens)
+bool	ft_connect_new_tokens(t_list **tok_h, t_list *tok_curr,
+		t_list *new_tokens)
 {
 	t_list	*last_new;
 
