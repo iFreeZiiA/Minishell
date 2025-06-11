@@ -1,7 +1,7 @@
 NAME_LG	= logical_ut
 
 DIR_LG	= $(DIR_UT)
-LGOP		= $(MAN)/parser/LGOPing/logic_operator
+LGOP	= $(MAN)/parser/lexing/logic_operator
 
 SRC_LGR = $(LGOP)logical
 UT_LGC = $(LGOP)main_test.c $(SRC_LGR) $(MAN)/deployment/setup/setup.c

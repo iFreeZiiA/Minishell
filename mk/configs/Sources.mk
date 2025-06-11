@@ -2,7 +2,8 @@
 
 #  								    MANDATORY								  #
 MAN		= mandatory/
-SRC		= $(MAN)main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)
+SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)
+DIRS	= dir_cleanup dir_parser dir_subshell
 
 #  								      BONUS  								  #
 # BNS		= bonus/
