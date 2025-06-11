@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/17 15:59:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/29 10:58:41 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
+# include "../lib/libft/libft.h"
+# include "../lib/libms/libms.h"
 # include "struct.h"
-# include "setup.h"
-# include "lexing.h"
-# include "parsing.h"
+# include "macro.h"
+# include "deployment/setup.h"
+# include "parser/lexing.h"
+# include "parser/parsing.h"
 # include "minishell_executor.h"
 # include "signals.h"
 # include "executor.h"
-# include "cleanup.h"
+# include "deployment/cleanup.h"
 
 #endif

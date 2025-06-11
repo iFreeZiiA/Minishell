@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/17 16:02:07 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/04/21 12:15:01 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef enum e_token_type {
 	TOKEN_VAR,					// 10 $
 	TOKEN_QUOTE,				// 11 '
 	TOKEN_DQUOTE,				// 12 "
-	TOKEN_PAREN_OPEN,			// 13 (
+	TOKEN_PAREN_OPEN,			// 13 (.
 	TOKEN_PAREN_CLOSE,			// 14 )
 	TOKEN_WILDCARD,				// 15 *
 	TOKEN_ASSIGN,				// 16 =
