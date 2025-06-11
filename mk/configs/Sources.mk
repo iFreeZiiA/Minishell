@@ -2,6 +2,23 @@
 
 #  								    MANDATORY								  #
 MAN		= mandatory/
+LEX		= $(MAN)parser/lexing/
+EXP		= $(LEX)expansion/
+PRR		= $(MAN)parser/parsing/
+SUP		= $(MAN)deployment/setup/
+CUP		= $(MAN)deployment/cleanup/
+
+# Définition des sources manquantes
+SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c	\
+	$(EXP)expansion_utils.c $(EXP)exit_code.c $(EXP)exp_dquote.c		\
+	$(EXP)exp_tok.c
+
+SRC_PRR	= $(PRR)parsing.c $(PRR)ast_utils.c $(PRR)parse_redirection.c
+
+SRC_SUP	= $(SUP)setup.c 
+
+SRC_CUP	= $(CUP)cleanup.c
+
 SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)
 DIRS	= dir_cleanup dir_parser dir_subshell
 

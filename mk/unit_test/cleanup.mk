@@ -3,8 +3,8 @@ NAME_CUP= cleanup_ut
 DIR_CUP	= $(DIR_OBJ)/
 CUP		= $(MAN)/deployment/cleanup/
 
-SRC_CUP	= $(CUP)cleanup.c $(SRC_SUP)
-UT_CUP	= $(CUP)main_test.c $(SRC_CUP)
+SRC_CUP	= $(CUP)cleanup.c 
+UT_CUP	= $(CUP)main_test.c $(SRC_CUP) $(SRC_SUP)
 
 OBJ_CUP	= $(patsubst %.c, $(DIR_CUP)%.o, $(UT_CUP))
 

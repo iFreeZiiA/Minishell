@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:45:35 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/21 12:45:26 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/11 10:57:19 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static inline void	ft_freelst(t_list *lst, int type)
 static inline void	ft_freeast(t_ast_node *ast)
 {
 	t_command	*cmd;
-	t_redir		*red;
+	// t_redir		*red;
 
 	if (!ast)
 		return ;

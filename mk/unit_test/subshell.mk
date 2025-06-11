@@ -6,17 +6,15 @@
 #    By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/29 20:15:00 by jjorda            #+#    #+#              #
-#    Updated: 2025/06/01 14:35:31 by jjorda           ###   ########.fr        #
+#    Updated: 2025/06/11 11:00:22 by jjorda           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME_SS = subshell_ut
 
-# Correction 1: Utiliser DIR_UT avec un slash final pour cohérence
 DIR_SS = $(DIR_UT)/
 SBS = $(MAN)/parser/lexing/subshell/
 
-# Correction 2: Ajouter les dépendances nécessaires (lexer + setup)
 SRC_SBS = $(SBS)subshell_parse.c $(SBS)subshell_utils.c $(SBS)subshell_validation.c
 UT_SBS = $(SBS)main_test.c $(SRC_SBS) $(SRC_LXR) $(SRC_SUP)
 
@@ -28,25 +26,20 @@ $(NAME_SS): $(OBJ_SBS)
 	@$(CC) $(CFLAGS) -o $@ $(OBJ_SBS) $(LIBS)
 	@$(PRINT) $(BAN_SS)
 
-# Correction 3: Créer tous les répertoires nécessaires
 dir_subshell: dir_lexer dir_setup
 	@mkdir -p $(DIR_SS)$(SBS)
 
-# Correction 4: Règles de compilation pour tous les répertoires
 $(DIR_SS)$(SBS)%.o: $(SBS)%.c | dir_subshell
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-# Règles supplémentaires pour les dépendances (lexer)
 $(DIR_SS)$(LEX)%.o: $(LEX)%.c | dir_subshell
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-# Règles supplémentaires pour les dépendances (setup)
 $(DIR_SS)$(SUP)%.o: $(SUP)%.c | dir_subshell
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-# Règles pour les dépendances (expansion)
 $(DIR_SS)$(EXP)%.o: $(EXP)%.c | dir_subshell
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
