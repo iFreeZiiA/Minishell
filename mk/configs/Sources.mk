@@ -11,24 +11,26 @@ BLT		= $(MAN)/builtin/
 SGL		= $(MAN)/signal/
 
 # Define source files for each module
-SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c	\
-	$(EXP)expansion_utils.c $(EXP)exit_code.c $(EXP)exp_dquote.c		\
-	$(EXP)exp_tok.c $(LEX)wildcard/wildcard.c
+SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c		\
+	$(EXP)expansion_utils.c $(EXP)exit_code.c $(EXP)exp_dquote.c			\
+	$(EXP)exp_tok.c
 
-SRC_PRR	= $(PRR)parsing.c $(PRR)ast_utils.c $(PRR)parse_redirection.c \
-	$(PRR)parentheses.c
+SRC_PRR	= $(PRR)parsing.c $(PRR)expression.c $(PRR)command.c			\
+	$(PRR)redirections.c $(PRR)ast_utils.c
 
 SRC_SUP	= $(SUP)setup.c $(SUP)environment.c
 
 SRC_CUP	= $(CUP)cleanup.c
 
-SRC_BLT = $(BLT)/builtin_echo.c $(BLT)/builtin_pwd.c $(BLT)/run_builtin.c \
-	$(BLT)/builtin_cd.c $(BLT)/builtin_env.c $(BLT)/builtin_exit.c \
+SRC_BLT = $(BLT)/builtin_echo.c $(BLT)/builtin_pwd.c $(BLT)/run_builtin.c	\
+	$(BLT)/builtin_cd.c $(BLT)/builtin_env.c $(BLT)/builtin_exit.c 			\
 	$(BLT)/builtin_export.c $(BLT)/builtin_unset.c $(BLT)/builtin_cd_utils.c
 
 SRC_SGL = $(SGL)/signal.c
 
-SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP) $(SRC_BLT) $(SRC_SGL)
+SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)			\
+	$(SRC_BLT) $(SRC_SGL)
+
 DIRS	= dir_cleanup dir_parser dir_subshell
 
 #  								      BONUS  								  #
@@ -65,13 +67,13 @@ OBJ		= $(patsubst %.c, $(DIR)%.o, $(SRC))
 OBJ_BNS	= $(patsubst %.c, $(DIR_BNS)%.o, $(SRC_BNS))
 
 BANNER	= \
-"**********************************************" "\n" \
-"*$(Y)   ______       _    _  _  _        ______  $(O)*" "\n" \
-"*$(Y)  (_____ \     | |  | || || |  /\  (_____ \ $(O)*" "\n" \
-"*$(Y)   _____) )     \ \ | || || | /  \  _____) )$(O)*" "\n" \
-"*$(Y)  |  ____/       \ \| ||_|| |/ /\ \|  ____/ $(O)*" "\n" \
-"*$(Y)  | |_______ _____) ) |___| | |__| | |      $(O)*" "\n" \
-"*$(Y)  |_(_______|______/ \______|______|_|      $(O)*" "\n" \
+" **********************************************" "\n" \
+"*$(Y) ______    _     _ _______ _       _        $(O)*" "\n" \
+"*$(Y)|  ___ \  | |   | (_______) |     | |       $(O)*" "\n" \
+"*$(Y)| | _ | | | |__ | |_____  | |     | |       $(O)*" "\n" \
+"*$(Y)| || || | |  __)| |  ___) | |     | |       $(O)*" "\n" \
+"*$(Y)| || || |_| |   | | |_____| |_____| |_____  $(O)*" "\n" \
+"*$(Y)|_||_||_(_)_|   |_|_______)_______)_______) $(O)*" "\n" \
 "*$(V) Made by : alearroy / jjorda                $(O)*" "\n" \
 "*$(V) Started : 04/04/2025                       $(O)*" "\n" \
 "*$(V) Finished :                                 $(O)*" "\n" \
