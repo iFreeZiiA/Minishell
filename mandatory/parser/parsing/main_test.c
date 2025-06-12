@@ -5,21 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/11 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/06/11 13:05:16 by jjorda           ###   ########.fr       */
+/*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
+/*   Updated: 2025/06/12 11:15:06 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
-/**
- * @brief Initializes shell structure for testing
- * 
- * @param shell Shell structure to initialize
- * @param env Environment variables
- * @return int 0 on success, -1 on error
- */
-static int	ft_init_shell(t_shell *shell, char **env)
+static int	ft_init_shell_for_test(t_shell *shell, char **env)
 {
 	if (!shell)
 		return (-1);
@@ -36,17 +29,12 @@ static int	ft_init_shell(t_shell *shell, char **env)
 	return (0);
 }
 
-/**
- * @brief Displays token list for debugging
- * 
- * @param tokens Head of token list
- */
-static void	ft_print_tokens(t_list *tokens)
+static void	ft_display_tokens(t_list *tokens)
 {
 	t_list	*curr;
 	int		index;
 
-	ft_printf("=== TOKENS LIST ===\n");
+	ft_printf("=== TOKEN LIST ===\n");
 	if (!tokens)
 	{
 		ft_printf("(empty)\n\n");
@@ -64,18 +52,12 @@ static void	ft_print_tokens(t_list *tokens)
 	ft_printf("\n");
 }
 
-/**
- * @brief Tests parsing and displays results
- * 
- * @param shell Shell structure with tokens
- * @return int 0 on success, 1 on error
- */
-static int	ft_test_parsing(t_shell *shell)
+static int	ft_test_parse_function(t_shell *shell)
 {
 	int	result;
 
 	ft_printf("=== PARSING TEST ===\n");
-	result = ft_parsing(shell);
+	result = ft_parse(shell);
 	if (result < 0)
 	{
 		ft_printf("✗ Parsing failed (code: %d)\n", result);
@@ -93,14 +75,6 @@ static int	ft_test_parsing(t_shell *shell)
 	return (0);
 }
 
-/**
- * @brief Main function for testing parser
- * 
- * @param argc Argument count
- * @param argv Argument vector
- * @param env Environment variables
- * @return int Exit code
- */
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	shell;
@@ -112,7 +86,7 @@ int	main(int argc, char **argv, char **env)
 		ft_printf("Example: %s \"echo hello | grep h && ls\"\n", argv[0]);
 		return (1);
 	}
-	if (ft_init_shell(&shell, env) < 0)
+	if (ft_init_shell_for_test(&shell, env) < 0)
 	{
 		ft_printf("Error: Shell initialization failed\n");
 		return (1);
@@ -127,8 +101,8 @@ int	main(int argc, char **argv, char **env)
 		free(shell.env);
 		return (1);
 	}
-	ft_print_tokens(shell.token);
-	exit_code = ft_test_parsing(&shell);
+	ft_display_tokens(shell.token);
+	exit_code = ft_test_parse_function(&shell);
 	if (shell.ast)
 		ft_free_ast(shell.ast);
 	if (shell.token)

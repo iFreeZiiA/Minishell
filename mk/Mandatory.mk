@@ -8,6 +8,8 @@ dir_mandatory:
 	@mkdir -p $(DIR)/$(MAN)
 	@mkdir -p $(DIR)/$(LEX)
 	@mkdir -p $(DIR)/$(PRR)
+	@mkdir -p $(DIR)/$(EXP_DIR)
+	@mkdir -p $(DIR)/$(AST_DIR)
 	@mkdir -p $(DIR)/$(SUP)
 	@mkdir -p $(DIR)/$(CUP)
 	@mkdir -p $(DIR)/$(EXP)

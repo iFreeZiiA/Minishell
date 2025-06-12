@@ -4,6 +4,8 @@
 MAN		= mandatory/
 LEX		= $(MAN)/parser/lexing/
 PRR		= $(MAN)parser/parsing/
+EXP_DIR	= $(PRR)expression/
+AST_DIR	= $(PRR)ast/
 SUP		= $(MAN)/deployment/setup/
 CUP		= $(MAN)/deployment/cleanup/
 EXP		= $(LEX)expansion/
@@ -15,10 +17,12 @@ SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c		\
 	$(EXP)expansion_utils.c $(EXP)exit_code.c $(EXP)exp_dquote.c			\
 	$(EXP)exp_tok.c
 
-SRC_PRT = $(PRT)parse.c $(PRT)utils.c $(PRT)validation.c
+SRC_PRT = $(PRT)parentheses.c $(PRT)find.c $(PRT)check.c $(PRT)depth.c			\
+	$(PRT)utils.c
 
-SRC_PRR	= $(PRR)parsing.c $(PRR)expression.c $(PRR)command.c			\
-	$(PRR)redirections.c $(PRR)ast_utils.c
+SRC_PRR	= $(PRR)parse.c $(PRR)utils.c $(EXP_DIR)group.c $(EXP_DIR)command.c	\
+	$(EXP_DIR)redirections.c $(AST_DIR)create.c $(AST_DIR)free.c			\
+	$(AST_DIR)print.c
 
 SRC_SUP	= $(SUP)setup.c $(SUP)environment.c
 
