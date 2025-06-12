@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/12 17:57:30 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:52:36 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,45 @@ static int	is_builtin(char *cmd)
 		|| !ft_strcmp(cmd, "exit")
 	);
 }
+static int	open_and_dup(t_redir *r)
+{
+	int	fd;
+
+	if (r->type == REDIR_IN)
+		fd = open(r->file, O_RDONLY);
+	else if (r->type == REDIR_OUT)
+		fd = open(r->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else if (r->type == REDIR_APPEND)
+		fd = open(r->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	else if (r->type == REDIR_HEREDOC)
+	{
+		fd = handle_heredoc(r->file);
+		if (fd == -1 || dup2(fd, STDIN_FILENO) < 0)
+			return (-1);
+		close(fd);
+		return (0);
+	}
+	else
+		return (-1);
+	if (fd < 0)
+		return (-1);
+	if (dup2(fd, (r->type == REDIR_IN ? 0 : 1)) < 0)
+		return (close(fd), -1);
+	close(fd);
+	return (0);
+}
 
 int	apply_redirections(t_list *redirs)
 {
 	t_redir	*r;
-	int		fd;
 
 	while (redirs)
 	{
 		if (redirs->type != TYPE_REDIR)
 			return (1);
 		r = redirs->content.redir;
-		if (r->type == REDIR_IN)
-			fd = open(r->file, O_RDONLY);
-		else if (r->type == REDIR_OUT)
-			fd = open(r->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		else if (r->type == REDIR_APPEND)
-			fd = open(r->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		else
-			return (1); // Pas ici qu'on fait les heredocs;'\]
-		if (fd < 0 || dup2(fd,
-			(r->type == REDIR_IN ? STDIN_FILENO : STDOUT_FILENO)) < 0)
-			return (perror("minishell: redir"), 1);
-		close(fd);
+		if (open_and_dup(r) != 0)
+			return (perror("minishell: redirection"), 1);
 		redirs = redirs->next;
 	}
 	return (0);
