@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/01 14:14:05 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/11 21:20:30 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,17 @@ int	ft_parse_logical_operators(t_shell *shell)
 {
 	if (!shell || !shell->token)
 		return (-1);
-	
-	// Validate logical operator syntax
 	if (!ft_validate_logical_syntax(shell->token))
 	{
 		ft_printerr("minishell: syntax error near logical operators\n");
 		return (-1);
 	}
-	
-	// Parse the expression with logical operators
 	shell->ast = ft_parse_logical_expression(shell, shell->token, NULL);
 	if (!shell->ast)
 	{
 		ft_printerr("minishell: failed to parse logical expression\n");
 		return (-1);
 	}
-	
 	return (0);
 }
 
@@ -55,32 +50,25 @@ bool	ft_validate_logical_syntax(t_list *token_h)
 
 	if (!token_h)
 		return (false);
-	
 	curr = token_h;
-	prev_was_operator = true; // Start as if previous was operator to catch leading operators
+	prev_was_operator = true;
 	has_command = false;
-	
 	while (curr)
 	{
 		if (ft_is_logical_operator_token(curr->content.token))
 		{
-			// Two consecutive operators or operator at start/end
 			if (prev_was_operator || !curr->next)
 				return (false);
 			prev_was_operator = true;
 		}
 		else if (curr->content.token->type == TOKEN_WORD ||
-				 curr->content.token->type == TOKEN_PAREN_OPEN)
+				curr->content.token->type == TOKEN_PAREN_OPEN)
 		{
 			prev_was_operator = false;
 			has_command = true;
 		}
-		// Skip other tokens (redirections, etc.)
-		
 		curr = curr->next;
 	}
-	
-	// Must have at least one command and not end with operator
 	return (has_command && !prev_was_operator);
 }
 
@@ -94,7 +82,6 @@ bool	ft_is_logical_operator_token(t_token *token)
 {
 	if (!token)
 		return (false);
-	
 	return (token->type == TOKEN_AND || 
 			token->type == TOKEN_OR || 
 			token->type == TOKEN_PIPE);
@@ -109,13 +96,13 @@ bool	ft_is_logical_operator_token(t_token *token)
 int	ft_get_operator_precedence(t_token_type type)
 {
 	if (type == TOKEN_PIPE)
-		return (3); // Highest precedence
+		return (3);
 	else if (type == TOKEN_AND)
-		return (2); // Medium precedence
+		return (2);
 	else if (type == TOKEN_OR)
-		return (1); // Lowest precedence
+		return (1);
 	else
-		return (0); // Not an operator
+		return (0);
 }
 
 /**
@@ -133,5 +120,5 @@ node_type	ft_token_to_node_type(t_token_type token_type)
 	else if (token_type == TOKEN_OR)
 		return (NODE_OR);
 	else
-		return (NODE_COMMAND); // Default fallback
+		return (NODE_COMMAND);
 }

@@ -3,7 +3,6 @@ NAME_WC	= wcard_ut
 DIR_WC	= $(DIR_UT)
 WCD		= $(MAN)/parser/lexing/wildcard/
 
-SRC_WCD = $(WCD)wildcard.c $(WCD)wc_files.c $(WCD)wc_match.c $(WCD)wc_tokens.c
 UT_WCD = $(WCD)main_test.c $(SRC_WCD)
 
 OBJ_WCD	= $(patsubst %.c, $(DIR_WC)%.o, $(UT_WCD))

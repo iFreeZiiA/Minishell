@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/01 14:18:16 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/11 21:22:00 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ t_list	*ft_find_operator_by_precedence(t_list *start, t_list *end, int precedenc
 
 	if (!start)
 		return (NULL);
-	
 	curr = start;
 	paren_depth = 0;
-	
 	while (curr && curr != end)
 	{
 		if (curr->content.token->type == TOKEN_PAREN_OPEN)
@@ -44,10 +42,8 @@ t_list	*ft_find_operator_by_precedence(t_list *start, t_list *end, int precedenc
 			if (op_precedence == precedence)
 				return (curr);
 		}
-		
 		curr = curr->next;
 	}
-	
 	return (NULL);
 }
 
@@ -119,12 +115,10 @@ static void	ft_count_logical_operators(t_list *token_h, int *and_count,
 
 	if (!token_h || !and_count || !or_count || !pipe_count)
 		return;
-	
 	curr = token_h;
 	*and_count = 0;
 	*or_count = 0;
 	*pipe_count = 0;
-	
 	while (curr)
 	{
 		if (curr->content.token->type == TOKEN_AND)
@@ -133,7 +127,6 @@ static void	ft_count_logical_operators(t_list *token_h, int *and_count,
 			(*or_count)++;
 		else if (curr->content.token->type == TOKEN_PIPE)
 			(*pipe_count)++;
-		
 		curr = curr->next;
 	}
 }
@@ -151,9 +144,7 @@ void	ft_debug_logical_operators(t_shell *shell)
 
 	if (!shell || !shell->token)
 		return;
-	
 	ft_count_logical_operators(shell->token, &and_count, &or_count, &pipe_count);
-	
 	ft_printf("=== LOGICAL OPERATORS ANALYSIS ===\n");
 	ft_printf("AND operators (&&): %d\n", and_count);
 	ft_printf("OR operators (||): %d\n", or_count);

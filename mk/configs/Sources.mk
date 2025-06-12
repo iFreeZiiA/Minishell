@@ -15,10 +15,16 @@ SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c		\
 	$(EXP)expansion_utils.c $(EXP)exit_code.c $(EXP)exp_dquote.c			\
 	$(EXP)exp_tok.c
 
+SRC_PRT = $(PRT)parse.c $(PRT)utils.c $(PRT)validation.c
+
 SRC_PRR	= $(PRR)parsing.c $(PRR)expression.c $(PRR)command.c			\
 	$(PRR)redirections.c $(PRR)ast_utils.c
 
 SRC_SUP	= $(SUP)setup.c $(SUP)environment.c
+
+SRC_LGR = $(LGOP)logical
+
+SRC_WCD = $(WCD)wildcard.c $(WCD)wc_files.c $(WCD)wc_match.c $(WCD)wc_tokens.c
 
 SRC_CUP	= $(CUP)cleanup.c
 
@@ -30,8 +36,6 @@ SRC_SGL = $(SGL)/signal.c
 
 SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)			\
 	$(SRC_BLT) $(SRC_SGL)
-
-DIRS	= dir_cleanup dir_parser dir_subshell
 
 #  								      BONUS  								  #
 # BNS		= bonus/
