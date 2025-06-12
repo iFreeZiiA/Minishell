@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/06/11 13:03:25 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/12 10:33:20 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,6 @@ void			ft_free_command(t_command *cmd);
  */
 void			ft_free_ast(t_ast_node *ast);
 
-/* ************************************************************************** */
-/*                             PRINT_AST.C                                   */
-/* ************************************************************************** */
-
 /**
  * @brief Recursively prints AST structure
  * 
@@ -136,5 +132,21 @@ void			ft_free_ast(t_ast_node *ast);
  * @param level Current indentation level
  */
 void			ft_print_ast_tree(t_ast_node *ast, int level);
+
+t_ast_node		*ft_parse_expression(t_shell *shell, t_list *token_h, 
+					t_list *start, t_list *end);
+
+/**
+ * @brief Parentheses-specific parsing function - replaces ft_parse_expression
+ *        for parentheses handling
+ * 
+ * @param shell Shell structure
+ * @param token_h Token list head
+ * @param start Start of expression
+ * @param end End of expression
+ * @return t_ast_node* Parsed AST with parentheses handling
+ */
+t_ast_node		*ft_parentheses(t_shell *shell, t_list *token_h, t_list *start, 
+					t_list *end);
 
 #endif

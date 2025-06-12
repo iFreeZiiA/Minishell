@@ -1,148 +1,152 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   subshell_utils.c                                   :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 00:08:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/29 18:34:04 by jjorda           ###   ########.fr       */
+/*   Created: 2025/06/12 00:00:00 by jjorda            #+#    #+#             */
+/*   Updated: 2025/06/12 10:23:58 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
 
 /**
- * @brief Counts parentheses depth at a specific position
+ * @brief Checks if parentheses are balanced
  * 
  * @param token_h Token list head
- * @param target Target token position
- * @return int Depth at target position
+ * @return int 0 if balanced, negative if unbalanced
  */
-int	ft_get_paren_depth(t_list *token_h, t_list *target)
+int	ft_validate_parentheses_balance(t_list *token_h)
 {
 	t_list	*curr;
-	int		depth;
+	t_token	*token;
+	int		balance;
 
-	if (!token_h || !target)
-		return (0);
+	if (!token_h)
+		return (-1);
+	balance = 0;
 	curr = token_h;
-	depth = 0;
-	while (curr && curr != target)
+	while (curr)
 	{
-		if (curr->content.token->type == TOKEN_PAREN_OPEN)
-			depth++;
-		else if (curr->content.token->type == TOKEN_PAREN_CLOSE)
-			depth--;
+		token = curr->content.token;
+		if (token->type == TOKEN_PAREN_OPEN)
+			balance++;
+		else if (token->type == TOKEN_PAREN_CLOSE)
+			balance--;
+		if (balance < 0)
+			return (-2);
 		curr = curr->next;
 	}
-	return (depth);
+	if (balance != 0)
+		return (-3);
+	return (0);
 }
 
 /**
- * @brief Finds the next token at the same parentheses level
+ * @brief Validates parentheses order and syntax
  * 
- * @param start Starting token
- * @param target_type Type of token to find
- * @return t_list* Found token or NULL
+ * @param start Start of token range
+ * @param end End of token range
+ * @return bool true if valid, false otherwise
  */
-t_list	*ft_find_token_at_level(t_list *start, t_token_type target_type)
+bool	ft_validate_parentheses_order(t_list *start, t_list *end)
 {
 	t_list	*curr;
+	t_token	*token;
 	int		depth;
 
 	if (!start)
-		return (NULL);
-	curr = start;
+		return (false);
 	depth = 0;
-	while (curr)
+	curr = start;
+	while (curr && curr != end)
 	{
-		if (curr->content.token->type == TOKEN_PAREN_OPEN)
+		token = curr->content.token;
+		if (token->type == TOKEN_PAREN_OPEN)
 			depth++;
-		else if (curr->content.token->type == TOKEN_PAREN_CLOSE)
+		else if (token->type == TOKEN_PAREN_CLOSE)
+		{
 			depth--;
-		else if (depth == 0 && curr->content.token->type == target_type)
-			return (curr);
+			if (depth < 0)
+				return (false);
+		}
 		curr = curr->next;
 	}
-	return (NULL);
+	return (true);
 }
 
 /**
- * @brief Skips to the end of a parentheses group
+ * @brief Checks if content between parentheses is valid
  * 
- * @param start Opening parenthesis token
- * @return t_list* Token after closing parenthesis
+ * @param start Opening parenthesis
+ * @param end Closing parenthesis
+ * @return bool true if valid content, false otherwise
  */
-t_list	*ft_skip_paren_group(t_list *start)
-{
-	t_list	*closing;
-
-	if (!start || start->content.token->type != TOKEN_PAREN_OPEN)
-		return (start);
-	closing = ft_find_matching_paren(start);
-	if (!closing)
-		return (start);
-	return (closing->next);
-}
-
-/**
- * @brief Checks if a token is inside parentheses
- * 
- * @param token_h Token list head
- * @param target Target token
- * @return bool true if inside parentheses, false otherwise
- */
-bool	ft_is_token_in_parens(t_list *token_h, t_list *target)
-{
-	int	depth;
-
-	if (!token_h || !target)
-		return (false);
-	depth = ft_get_paren_depth(token_h, target);
-	return (depth > 0);
-}
-
-/**
- * @brief Gets the outermost parentheses pair containing a token
- * 
- * @param token_h Token list head
- * @param target Target token
- * @param open_paren Pointer to store opening parenthesis
- * @param close_paren Pointer to store closing parenthesis
- * @return bool true if found, false otherwise
- */
-bool	ft_get_outermost_parens(t_list *token_h, t_list *target,
-		t_list **open_paren, t_list **close_paren)
+bool	ft_validate_parentheses_content(t_list *start, t_list *end)
 {
 	t_list	*curr;
-	int		depth;
-	int		target_depth;
+	t_token	*token;
 
-	if (!token_h || !target || !open_paren || !close_paren)
+	if (!start || !end || start == end)
 		return (false);
-	target_depth = ft_get_paren_depth(token_h, target);
-	if (target_depth == 0)
+	curr = start->next;
+	if (curr == end)
 		return (false);
-	curr = token_h;
-	depth = 0;
-	while (curr)
+	while (curr && curr != end)
 	{
-		if (curr->content.token->type == TOKEN_PAREN_OPEN)
-		{
-			if (depth == 0)
-				*open_paren = curr;
-			depth++;
-		}
-		else if (curr->content.token->type == TOKEN_PAREN_CLOSE)
-		{
-			depth--;
-			if (depth == 0)
-				*close_paren = curr;
-		}
-		if (curr == target && depth > 0)
-			return (true);
+		token = curr->content.token;
+		if (!token)
+			return (false);
 		curr = curr->next;
 	}
-	return (false);
+	return (true);
+}
+
+/**
+ * @brief Checks if expression is wrapped in parentheses
+ * 
+ * @param start Start of expression
+ * @param end End of expression
+ * @return bool true if wrapped, false otherwise
+ */
+bool	ft_validate_parentheses_wrapped(t_list *start, t_list *end)
+{
+	t_token	*first_token;
+	t_token	*last_token;
+	t_list	*matching;
+
+	if (!start || !end)
+		return (false);
+	first_token = start->content.token;
+	last_token = end->content.token;
+	if (first_token->type != TOKEN_PAREN_OPEN)
+		return (false);
+	if (last_token->type != TOKEN_PAREN_CLOSE)
+		return (false);
+	matching = ft_find_matching_paren(start);
+	if (matching != end)
+		return (false);
+	return (true);
+}
+
+/**
+ * @brief Complete parentheses validation
+ * 
+ * @param token_h Token list head
+ * @return bool true if all parentheses are valid, false otherwise
+ */
+bool	ft_validate_parentheses(t_list *token_h)
+{
+	int	balance_result;
+
+	if (!token_h)
+		return (false);
+	balance_result = ft_validate_parentheses_balance(token_h);
+	if (balance_result != 0)
+		return (false);
+	if (!ft_validate_parentheses_order(token_h, NULL))
+		return (false);
+	return (true);
 }
