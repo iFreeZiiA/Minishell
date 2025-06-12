@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:15:34 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/16 18:46:06 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:57:39 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,3 +59,19 @@ t_list	*ast_to_command_list(t_ast_node *ast)
 		add_command_node(&cmds, (t_command *)ast->data);
 	return (cmds);
 }
+
+int	executor_from_ast(t_ast_node *ast, t_env *env)
+{
+	t_list	*cmds;
+	int		status;
+
+	if (!ast)
+		return (1);
+	cmds = ast_to_command_list(ast);
+	if (!cmds)
+		return (1);
+	status = execute_pipe(cmds, env);
+	free_command_list(cmds);
+	return (status);
+}
+
