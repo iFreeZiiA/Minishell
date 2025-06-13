@@ -1,7 +1,7 @@
 NAME_PRT = parentheses_ut
 
 DIR_PR	= $(DIR_UT)/
-PRT		= $(MAN)/parser/lexing/parentheses/
+PRT		= $(MAN)/parser/parsing/parentheses/
 
 UT_PRT	= $(PRT)main_test.c $(SRC_PRT) $(SRC_LXR) $(SRC_SUP)
 

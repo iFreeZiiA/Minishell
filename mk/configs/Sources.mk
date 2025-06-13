@@ -3,21 +3,21 @@
 #  								    MANDATORY								  #
 MAN		= mandatory/
 LEX		= $(MAN)/parser/lexing/
+EXP		= $(LEX)expansion/
 PRR		= $(MAN)parser/parsing/
+PRT		= $(PRR)/parentheses/
 EXP_DIR	= $(PRR)expression/
 AST_DIR	= $(PRR)ast/
 SUP		= $(MAN)/deployment/setup/
 CUP		= $(MAN)/deployment/cleanup/
-EXP		= $(LEX)expansion/
 BLT		= $(MAN)/builtin/
 SGL		= $(MAN)/signal/
 
-# Define source files for each module
 SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c		\
 	$(EXP)expansion_utils.c $(EXP)exit_code.c $(EXP)exp_dquote.c			\
 	$(EXP)exp_tok.c
 
-SRC_PRT = $(PRT)parentheses.c $(PRT)find.c $(PRT)check.c $(PRT)depth.c			\
+SRC_PRT = $(PRT)parentheses.c $(PRT)find.c $(PRT)check.c $(PRT)depth.c		\
 	$(PRT)utils.c
 
 SRC_PRR	= $(PRR)parse.c $(PRR)utils.c $(EXP_DIR)group.c $(EXP_DIR)command.c	\
@@ -28,7 +28,8 @@ SRC_SUP	= $(SUP)setup.c $(SUP)environment.c
 
 SRC_LGR = $(LGOP)logical
 
-SRC_WCD = $(WCD)wildcard.c $(WCD)wc_files.c $(WCD)wc_match.c $(WCD)wc_tokens.c
+SRC_WCD = $(WCD)wildcard.c $(WCD)wc_files.c $(WCD)wc_match.c				\
+	$(WCD)wc_tokens.c
 
 SRC_CUP	= $(CUP)cleanup.c
 
@@ -39,7 +40,7 @@ SRC_BLT = $(BLT)/builtin_echo.c $(BLT)/builtin_pwd.c $(BLT)/run_builtin.c	\
 SRC_SGL = $(SGL)/signal.c
 
 SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)			\
-	$(SRC_BLT) $(SRC_SGL)
+	$(SRC_BLT) $(SRC_SGL) $(SRC_PRT)
 
 #  								      BONUS  								  #
 # BNS		= bonus/
