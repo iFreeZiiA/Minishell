@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/01 14:15:35 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/11 21:21:08 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,12 @@ char	*ft_get_logical_op_str(node_type type)
 static void	ft_print_operator_node(t_ast_node *node, int level)
 {
 	ft_printf("OPERATOR: %s\n", ft_get_logical_op_str(node->type));
-	
 	if (node->left)
 	{
 		ft_print_indent(level + 1);
 		ft_printf("LEFT:\n");
 		ft_print_logical_ast(node->left, level + 2);
 	}
-	
 	if (node->right)
 	{
 		ft_print_indent(level + 1);
@@ -84,7 +82,6 @@ static void	ft_print_command_node(t_ast_node *node)
 
 	cmd = (t_command *)node->data;
 	ft_printf("COMMAND: ");
-	
 	if (cmd && cmd->args && cmd->args[0])
 	{
 		i = 0;
@@ -147,19 +144,13 @@ void	ft_print_logical_analysis(t_shell *shell)
 {
 	if (!shell)
 		return;
-	
 	ft_printf("=== LOGICAL EXPRESSION ANALYSIS ===\n");
-	
 	if (!shell->token)
 	{
 		ft_printf("No tokens to analyze\n");
 		return;
 	}
-	
-	// Print operator counts and validation
 	ft_debug_logical_operators(shell);
-	
-	// Print AST structure
 	if (shell->ast)
 	{
 		ft_printf("=== AST STRUCTURE ===\n");
@@ -168,7 +159,6 @@ void	ft_print_logical_analysis(t_shell *shell)
 	}
 	else
 		ft_printf("No AST generated\n\n");
-	
 	ft_printf("=====================================\n");
 }
 

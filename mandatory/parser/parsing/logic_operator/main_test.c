@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/01 14:15:59 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/11 21:04:05 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ static int	ft_test_logical_parsing(t_shell *shell)
 	int	result;
 
 	ft_printf("=== TESTING LOGICAL PARSING ===\n");
-	
 	result = ft_parse_logical_operators(shell);
 	if (result < 0)
 	{
 		ft_printf("✗ Logical parsing failed (code: %d)\n", result);
 		return (1);
 	}
-	
 	ft_printf("✓ Logical parsing successful\n\n");
 	return (0);
 }
@@ -67,23 +65,15 @@ int	main(int argc, char **argv, char **env)
 		ft_print_examples();
 		return (1);
 	}
-	
-	// Initialize shell
 	if (ft_setup(&shell, env) == -1)
 	{
 		ft_printerr("Error: Shell initialization failed\n");
 		return (1);
 	}
-	
 	shell.current_line = argv[1];
-	
 	ft_printf("=== LOGICAL OPERATOR PARSING TEST ===\n");
 	ft_printf("Command: \"%s\"\n\n", shell.current_line);
-	
-	// Explain precedence
 	ft_explain_operator_precedence();
-	
-	// Step 1: Lexical analysis
 	ft_printf("=== STEP 1: LEXICAL ANALYSIS ===\n");
 	shell.token = ft_lexing(&shell);
 	if (!shell.token)
@@ -93,19 +83,14 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	}
 	ft_printf("✓ Lexical analysis successful\n\n");
-	
-	// Step 2: Logical operator parsing
 	ft_printf("=== STEP 2: LOGICAL PARSING ===\n");
 	if (ft_test_logical_parsing(&shell) != 0)
 	{
 		ft_cleanup(&shell, 1);
 		return (1);
 	}
-	
-	// Step 3: Analysis and debugging output
 	ft_printf("=== STEP 3: ANALYSIS ===\n");
 	ft_print_logical_analysis(&shell);
-	
 	ft_printf("=== TEST COMPLETED SUCCESSFULLY ===\n");
 	ft_cleanup(&shell, 0);
 	return (0);
