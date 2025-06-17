@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:25:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/29 18:39:23 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/17 16:59:56 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,28 @@ static void	ft_test_pattern_matching(const char *pattern)
 }
 
 /**
+ * @brief Gets token type name for display
+ * 
+ * @param type Token type
+ * @return char* String representation of token type
+ */
+static char	*ft_get_token_type_name(t_token_type type)
+{
+	if (type == TOKEN_WORD)
+		return ("WORD");
+	else if (type == TOKEN_WILDCARD)
+		return ("WILDCARD");
+	else if (type == TOKEN_PIPE)
+		return ("PIPE");
+	else if (type == TOKEN_AND)
+		return ("AND");
+	else if (type == TOKEN_OR)
+		return ("OR");
+	else
+		return ("OTHER");
+}
+
+/**
  * @brief Prints token list before and after expansion
  * 
  * @param shell Shell structure
@@ -137,57 +159,6 @@ static void	ft_print_token_comparison(t_shell *shell, bool before)
 }
 
 /**
- * @brief Gets token type name for display
- * 
- * @param type Token type
- * @return char* String representation of token type
- */
-static char	*ft_get_token_type_name(t_token_type type)
-{
-	if (type == TOKEN_WORD)
-		return ("WORD");
-	else if (type == TOKEN_WILDCARD)
-		return ("WILDCARD");
-	else if (type == TOKEN_PIPE)
-		return ("PIPE");
-	else if (type == TOKEN_AND)
-		return ("AND");
-	else if (type == TOKEN_OR)
-		return ("OR");
-	else
-		return ("OTHER");
-}
-
-/**
- * @brief Tests wildcard expansion functionality
- * 
- * @param shell Shell structure
- * @return int 0 on success, 1 on error
- */
-static int	ft_test_wildcard_expansion(t_shell *shell)
-{
-	int		original_count;
-	int		expanded_count;
-	t_list	*curr;
-
-	ft_printf("=== TEST DE L'EXPANSION ===\n");
-	original_count = ft_count_tokens(shell->token);
-	ft_exp_wildcard(shell, &shell->token);
-	expanded_count = ft_count_tokens(shell->token);
-	ft_printf("Tokens avant expansion: %d\n", original_count);
-	ft_printf("Tokens apres expansion: %d\n", expanded_count);
-	if (expanded_count > original_count)
-		ft_printf("✓ Expansion detectee (+%d tokens)\n", 
-			expanded_count - original_count);
-	else if (expanded_count == original_count)
-		ft_printf("- Aucune expansion (pas de correspondance)\n");
-	else
-		ft_printf("✗ Erreur: Reduction du nombre de tokens\n");
-	ft_printf("\n");
-	return (0);
-}
-
-/**
  * @brief Counts tokens in the list
  * 
  * @param token_h Token list head
@@ -206,6 +177,35 @@ static int	ft_count_tokens(t_list *token_h)
 		curr = curr->next;
 	}
 	return (count);
+}
+
+/**
+ * @brief Tests wildcard expansion functionality
+ * 
+ * @param shell Shell structure
+ * @return int 0 on success, 1 on error
+ */
+static int	ft_test_wildcard_expansion(t_shell *shell)
+{
+	int		original_count;
+	int		expanded_count;
+	// t_list	*curr;
+
+	ft_printf("=== TEST DE L'EXPANSION ===\n");
+	original_count = ft_count_tokens(shell->token);
+	ft_exp_wildcard(shell, &shell->token);
+	expanded_count = ft_count_tokens(shell->token);
+	ft_printf("Tokens avant expansion: %d\n", original_count);
+	ft_printf("Tokens apres expansion: %d\n", expanded_count);
+	if (expanded_count > original_count)
+		ft_printf("✓ Expansion detectee (+%d tokens)\n", 
+			expanded_count - original_count);
+	else if (expanded_count == original_count)
+		ft_printf("- Aucune expansion (pas de correspondance)\n");
+	else
+		ft_printf("✗ Erreur: Reduction du nombre de tokens\n");
+	ft_printf("\n");
+	return (0);
 }
 
 /**

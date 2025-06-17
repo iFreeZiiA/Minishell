@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_match.c                                   :+:      :+:    :+:   */
+/*   wc_match.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 23:50:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/29 18:24:07 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/17 17:03:21 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ bool	ft_match_pattern(const char *pattern, const char *string)
  * @param star_p Pattern position after last star
  * @param star_s Pointer to string position after last star
  */
-void	ft_reset_pattern_match(const char **p, const char **s,
-			const char *star_p, const char **star_s)
+void	ft_reset_pattern_match(char **p, char **s, char *star_p, char **star_s)
 {
 	*p = star_p + 1;
 	*s = ++(*star_s);
