@@ -6,12 +6,21 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/12 11:12:00 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/17 18:59:49 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
+/**
+ * @brief Checks if a token is an operator token
+ * 
+ * This function determines if the given token represents an operator
+ * (pipe, logical AND, or logical OR).
+ * 
+ * @param token Pointer to token to check
+ * @return bool true if token is an operator, false otherwise
+ */
 bool	ft_is_operator_token(t_token *token)
 {
 	if (!token)
@@ -25,6 +34,15 @@ bool	ft_is_operator_token(t_token *token)
 	return (false);
 }
 
+/**
+ * @brief Checks if a token is a word-type token
+ * 
+ * This function determines if the given token represents a word, variable,
+ * or wildcard that can be part of a command.
+ * 
+ * @param token Pointer to token to check
+ * @return bool true if token is a word-type token, false otherwise
+ */
 bool	ft_is_word_token(t_token *token)
 {
 	if (!token)
@@ -38,6 +56,19 @@ bool	ft_is_word_token(t_token *token)
 	return (false);
 }
 
+/**
+ * @brief Finds the next operator at the current parentheses depth level
+ * 
+ * This function searches for operators within a token range while respecting
+ * parentheses nesting. It returns operators in order of precedence:
+ * 1. OR operator (lowest precedence)
+ * 2. AND operator (medium precedence)  
+ * 3. PIPE operator (highest precedence)
+ * 
+ * @param start Starting token in the search range
+ * @param end Ending token in the search range (exclusive)
+ * @return t_list* Pointer to the first operator found at depth 0, or NULL
+ */
 t_list	*ft_find_operator_at_level(t_list *start, t_list *end)
 {
 	t_list	*curr;
@@ -75,6 +106,15 @@ t_list	*ft_find_operator_at_level(t_list *start, t_list *end)
 	return (op_pipe);
 }
 
+/**
+ * @brief Checks if a token type represents a redirection operator
+ * 
+ * This function determines if the given token type is one of the
+ * redirection operators: input, output, heredoc, or append.
+ * 
+ * @param type Token type to check
+ * @return bool true if token is a redirection operator, false otherwise
+ */
 bool	ft_is_redirect_token(t_token_type type)
 {
 	if (type == TOKEN_REDIR_IN)
@@ -88,6 +128,21 @@ bool	ft_is_redirect_token(t_token_type type)
 	return (false);
 }
 
+/**
+ * @brief Parses a complete expression with operator precedence handling
+ * 
+ * This is the main recursive function that builds the AST by:
+ * 1. Handling parenthesized groups first
+ * 2. Finding operators at the current nesting level
+ * 3. Creating binary operator nodes with left and right children
+ * 4. Parsing individual commands when no operators are found
+ * 
+ * @param shell Pointer to shell structure for context
+ * @param token_h Head of the complete token list
+ * @param start Starting position in token list for this expression
+ * @param end Ending position in token list for this expression (exclusive)
+ * @return t_ast_node* Root node of the parsed expression, or NULL on error
+ */
 t_ast_node	*ft_parse_expression(t_shell *shell, t_list *token_h,
 					t_list *start, t_list *end)
 {

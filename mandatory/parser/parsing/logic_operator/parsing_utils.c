@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logical_parsing_utils.c                            :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/11 21:22:00 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/17 18:59:49 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 /**
  * @brief Finds the next operator at the specified precedence level
  * 
- * @param start Start of token sequence
- * @param end End of token sequence  
- * @param precedence Target precedence level
+ * This function searches for logical operators (AND, OR, PIPE) within a token
+ * range while respecting parentheses nesting. It only returns operators at
+ * the specified precedence level and depth 0 (not inside parentheses).
+ * 
+ * @param start Start of token sequence to search
+ * @param end End of token sequence (exclusive)
+ * @param precedence Target precedence level to find
  * @return t_list* Token containing the operator, NULL if not found
  */
 t_list	*ft_find_operator_by_precedence(t_list *start, t_list *end, int precedence)
@@ -48,12 +52,19 @@ t_list	*ft_find_operator_by_precedence(t_list *start, t_list *end, int precedenc
 }
 
 /**
- * @brief Parses expression with logical operators using precedence
+ * @brief Parses expression with logical operators using precedence rules
  * 
- * @param shell Shell structure
- * @param start Start token
- * @param end End token
- * @return t_ast_node* AST node with logical operators parsed
+ * This function implements recursive parsing of logical expressions with
+ * proper operator precedence handling:
+ * 1. Handles parenthesized groups first
+ * 2. Searches for operators by precedence (OR=1, AND=2, PIPE=3)
+ * 3. Creates binary operator nodes with left and right subtrees
+ * 4. Falls back to simple command parsing when no operators found
+ * 
+ * @param shell Shell structure for parsing context
+ * @param start Start token of expression to parse
+ * @param end End token of expression (exclusive)
+ * @return t_ast_node* AST node representing the parsed expression
  */
 t_ast_node	*ft_parse_logical_expression(t_shell *shell, t_list *start, t_list *end)
 {
@@ -101,12 +112,15 @@ t_ast_node	*ft_parse_logical_expression(t_shell *shell, t_list *start, t_list *e
 }
 
 /**
- * @brief Counts logical operators in token list for debugging
+ * @brief Counts logical operators in token list for debugging analysis
  * 
- * @param token_h Head of token list
- * @param and_count Pointer to AND operator count
- * @param or_count Pointer to OR operator count  
- * @param pipe_count Pointer to PIPE operator count
+ * This helper function traverses the token list and counts occurrences
+ * of each type of logical operator for debugging and analysis purposes.
+ * 
+ * @param token_h Head of token list to analyze
+ * @param and_count Pointer to store AND operator count
+ * @param or_count Pointer to store OR operator count
+ * @param pipe_count Pointer to store PIPE operator count
  */
 static void	ft_count_logical_operators(t_list *token_h, int *and_count, 
 									   int *or_count, int *pipe_count)
@@ -132,9 +146,13 @@ static void	ft_count_logical_operators(t_list *token_h, int *and_count,
 }
 
 /**
- * @brief Debug function to analyze logical operators in token list
+ * @brief Debug function to analyze and display logical operators statistics
  * 
- * @param shell Shell structure
+ * This debugging function provides detailed analysis of logical operators
+ * in the token list, including counts of each operator type and syntax
+ * validation status. Useful for troubleshooting parsing issues.
+ * 
+ * @param shell Shell structure containing the token list to analyze
  */
 void	ft_debug_logical_operators(t_shell *shell)
 {

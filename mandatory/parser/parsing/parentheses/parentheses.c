@@ -6,18 +6,22 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/12 10:23:26 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/17 18:59:49 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
 
 /**
- * @brief Finds the opening parenthesis for a given position
+ * @brief Finds the opening parenthesis that matches a closing parenthesis
  * 
- * @param start Starting token
- * @param current Current position
- * @return t_list* Opening parenthesis token
+ * This function traverses backwards from a closing parenthesis to find
+ * its corresponding opening parenthesis, tracking nesting depth to
+ * handle nested parentheses correctly.
+ * 
+ * @param start Starting boundary for the search
+ * @param current Position of the closing parenthesis
+ * @return t_list* Pointer to matching opening parenthesis token, or NULL
  */
 static t_list	*ft_find_opening_paren(t_list *start, t_list *current)
 {
@@ -44,12 +48,16 @@ static t_list	*ft_find_opening_paren(t_list *start, t_list *current)
 }
 
 /**
- * @brief Parses content between parentheses
+ * @brief Parses the expression content between matching parentheses
  * 
- * @param shell Shell structure
- * @param start Opening parenthesis
- * @param end Closing parenthesis
- * @return t_ast_node* Parsed AST node
+ * This function extracts and parses the expression contained within
+ * a pair of parentheses by calling the main expression parser on
+ * the content between the opening and closing parentheses.
+ * 
+ * @param shell Shell structure containing parsing context
+ * @param start Opening parenthesis token
+ * @param end Closing parenthesis token
+ * @return t_ast_node* AST node representing the parsed content
  */
 static t_ast_node	*ft_parse_paren_content(t_shell *shell, t_list *start,
 	t_list *end)
@@ -66,10 +74,13 @@ static t_ast_node	*ft_parse_paren_content(t_shell *shell, t_list *start,
 }
 
 /**
- * @brief Creates a group node from parentheses content
+ * @brief Creates a group AST node from parenthesized content
  * 
- * @param content Content AST node
- * @return t_ast_node* Group node
+ * This function wraps parsed content in a group node, which represents
+ * a subshell or grouped expression that should be treated as a single unit.
+ * 
+ * @param content The parsed AST content to wrap in a group
+ * @return t_ast_node* Group AST node containing the content
  */
 static t_ast_node	*ft_create_paren_group(t_ast_node *content)
 {
@@ -82,11 +93,16 @@ static t_ast_node	*ft_create_paren_group(t_ast_node *content)
 }
 
 /**
- * @brief Handles parentheses in token processing
+ * @brief Handles parentheses tokens during parsing
  * 
- * @param shell Shell structure
- * @param curr Current token
- * @return t_ast_node* Parsed parentheses group
+ * This function processes parentheses tokens by:
+ * 1. Finding the matching parenthesis (opening or closing)
+ * 2. Parsing the content between the parentheses
+ * 3. Creating a group node to represent the parenthesized expression
+ * 
+ * @param shell Shell structure containing parsing context
+ * @param curr Current token (should be a parenthesis)
+ * @return t_ast_node* Group AST node for the parenthesized expression
  */
 static t_ast_node	*ft_handle_parentheses_token(t_shell *shell, t_list *curr)
 {
@@ -115,13 +131,20 @@ static t_ast_node	*ft_handle_parentheses_token(t_shell *shell, t_list *curr)
 }
 
 /**
- * @brief Main parentheses parsing function
+ * @brief Main parentheses parsing function for expression ranges
  * 
- * @param shell Shell structure
- * @param token_h Token list head
- * @param start Start of expression
- * @param end End of expression
- * @return t_ast_node* Parsed AST with parentheses handling
+ * This function processes parentheses within an expression range:
+ * 1. Scans through tokens looking for parentheses
+ * 2. When found, handles the parenthesized group appropriately
+ * 3. Falls back to regular expression parsing if no parentheses found
+ * 
+ * This enables proper grouping and precedence handling in complex expressions.
+ * 
+ * @param shell Shell structure containing parsing context
+ * @param token_h Head of the complete token list
+ * @param start Starting position for parsing
+ * @param end Ending position for parsing (exclusive)
+ * @return t_ast_node* AST node representing the parsed expression
  */
 t_ast_node	*ft_parentheses(t_shell *shell, t_list *token_h, t_list *start,
 	t_list *end)

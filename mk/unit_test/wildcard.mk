@@ -1,8 +1,6 @@
 NAME_WC	= wcard_ut
 
-DIR_WC	= $(DIR_UT)
-WCD		= $(MAN)/parser/lexing/wildcard/
-# $(SRC_PRR)
+DIR_WC	= $(DIR_UT)# $(SRC_PRR)
 UT_WCD = $(WCD)main_test.c $(SRC_WCD) $(SRC_LXR) $(SRC_SUP) $(SRC_CUP)
 
 OBJ_WCD	= $(patsubst %.c, $(DIR_WC)%.o, $(UT_WCD))
@@ -24,6 +22,9 @@ $(DIR_WC)$(WCD)%.o: $(WCD)%.c | dir_wcard
 
 # $(DIR_PR)$(PRR)%.o: $(PRR)%.c | dir_parser
 # 	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_WC)$(CUP)%.o: $(CUP)%.c | dir_wcard
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 BAN_WC	= \
 " **********************************************" "\n" \

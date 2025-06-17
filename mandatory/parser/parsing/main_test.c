@@ -6,12 +6,22 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/12 11:15:06 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/17 18:59:49 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
+/**
+ * @brief Initializes shell structure for testing purposes
+ * 
+ * This function sets up a shell structure with basic configuration
+ * for testing the parser without full shell initialization.
+ * 
+ * @param shell Pointer to shell structure to initialize
+ * @param env Environment variables array
+ * @return int 0 on success, -1 on error
+ */
 static int	ft_init_shell_for_test(t_shell *shell, char **env)
 {
 	if (!shell)
@@ -29,6 +39,14 @@ static int	ft_init_shell_for_test(t_shell *shell, char **env)
 	return (0);
 }
 
+/**
+ * @brief Displays the token list for debugging purposes
+ * 
+ * This function prints each token in the list with its index, type, and value
+ * to help visualize the lexical analysis results.
+ * 
+ * @param tokens Linked list of tokens to display
+ */
 static void	ft_display_tokens(t_list *tokens)
 {
 	t_list	*curr;
@@ -52,6 +70,15 @@ static void	ft_display_tokens(t_list *tokens)
 	ft_printf("\n");
 }
 
+/**
+ * @brief Tests the main parsing function and displays results
+ * 
+ * This function calls the parser and displays the results including
+ * success/failure status and the generated AST structure if available.
+ * 
+ * @param shell Pointer to shell structure containing tokens
+ * @return int 0 on success, 1 on failure
+ */
 static int	ft_test_parse_function(t_shell *shell)
 {
 	int	result;
@@ -75,6 +102,22 @@ static int	ft_test_parse_function(t_shell *shell)
 	return (0);
 }
 
+/**
+ * @brief Main function for testing the parsing module
+ * 
+ * This function provides a standalone test environment for the parser:
+ * 1. Validates command line arguments
+ * 2. Initializes a minimal shell structure for testing
+ * 3. Performs lexical analysis on the input command
+ * 4. Displays tokens for debugging
+ * 5. Tests the parsing function and displays results
+ * 6. Cleans up allocated memory
+ * 
+ * @param argc Number of command line arguments
+ * @param argv Array of command line arguments
+ * @param env Environment variables array
+ * @return int Exit code (0 on success, 1 on failure)
+ */
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	shell;

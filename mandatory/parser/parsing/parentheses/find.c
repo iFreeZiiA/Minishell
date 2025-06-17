@@ -6,17 +6,20 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/12 10:24:31 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/17 18:59:49 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
 
 /**
- * @brief Increments depth counter for parentheses tracking
+ * @brief Updates the parentheses depth counter based on token type
  * 
- * @param token Current token
- * @param depth Pointer to depth counter
+ * This helper function increments the depth counter for opening parentheses
+ * and decrements it for closing parentheses, used for tracking nesting levels.
+ * 
+ * @param token Current token to process
+ * @param depth Pointer to the depth counter to update
  */
 static void	ft_update_paren_depth(t_token *token, int *depth)
 {
@@ -27,10 +30,14 @@ static void	ft_update_paren_depth(t_token *token, int *depth)
 }
 
 /**
- * @brief Finds matching closing parenthesis
+ * @brief Finds the closing parenthesis that matches an opening parenthesis
  * 
- * @param start Token with opening parenthesis
- * @return t_list* Token with matching closing parenthesis
+ * This function traverses forward from an opening parenthesis to find its
+ * corresponding closing parenthesis, properly handling nested parentheses
+ * by tracking depth levels.
+ * 
+ * @param start Token containing the opening parenthesis
+ * @return t_list* Token containing the matching closing parenthesis, or NULL
  */
 t_list	*ft_find_matching_paren(t_list *start)
 {
@@ -57,11 +64,15 @@ t_list	*ft_find_matching_paren(t_list *start)
 }
 
 /**
- * @brief Finds matching opening parenthesis
+ * @brief Finds the opening parenthesis that matches a closing parenthesis
  * 
- * @param start Starting point for search
- * @param end Token with closing parenthesis
- * @return t_list* Token with matching opening parenthesis
+ * This function traverses backward from a closing parenthesis to find its
+ * corresponding opening parenthesis, properly handling nested parentheses
+ * by tracking depth levels in reverse.
+ * 
+ * @param start Starting boundary for the backward search
+ * @param end Token containing the closing parenthesis
+ * @return t_list* Token containing the matching opening parenthesis, or NULL
  */
 t_list	*ft_find_matching_open_paren(t_list *start, t_list *end)
 {
@@ -91,10 +102,14 @@ t_list	*ft_find_matching_open_paren(t_list *start, t_list *end)
 }
 
 /**
- * @brief Skips over a parentheses group
+ * @brief Skips over an entire parentheses group to the next token
  * 
- * @param start Opening parenthesis
- * @return t_list* Token after the closing parenthesis
+ * This function finds the matching closing parenthesis for an opening
+ * parenthesis and returns the token immediately following the closing
+ * parenthesis, effectively skipping the entire parenthesized group.
+ * 
+ * @param start Token containing the opening parenthesis
+ * @return t_list* Token immediately after the closing parenthesis, or NULL
  */
 t_list	*ft_skip_parentheses_group(t_list *start)
 {
@@ -109,11 +124,15 @@ t_list	*ft_skip_parentheses_group(t_list *start)
 }
 
 /**
- * @brief Gets parentheses depth at specific position
+ * @brief Calculates the parentheses depth level at a specific position
  * 
- * @param token_h Token list head
- * @param target Target position
- * @return int Depth level at target position
+ * This function traverses from the beginning of the token list to a target
+ * position, counting the nesting level of parentheses at that point. This
+ * is useful for determining operator precedence and grouping contexts.
+ * 
+ * @param token_h Head of the token list
+ * @param target Target position to calculate depth for
+ * @return int Depth level at target position, or -1 on error
  */
 int	ft_get_parentheses_depth(t_list *token_h, t_list *target)
 {

@@ -2,16 +2,17 @@
 
 #  								    MANDATORY								  #
 MAN		= mandatory/
-LEX		= $(MAN)/parser/lexing/
+LEX		= $(MAN)parser/lexing/
 EXP		= $(LEX)expansion/
+WCD		= $(LEX)wildcard/
 PRR		= $(MAN)parser/parsing/
-PRT		= $(PRR)/parentheses/
+PRT		= $(PRR)parentheses/
 EXP_DIR	= $(PRR)expression/
 AST_DIR	= $(PRR)ast/
 SUP		= $(MAN)/deployment/setup/
-CUP		= $(MAN)/deployment/cleanup/
-BLT		= $(MAN)/builtin/
-SGL		= $(MAN)/signal/
+CUP		= $(MAN)deployment/cleanup/
+BLT		= $(MAN)builtin/
+SGL		= $(MAN)signal/
 
 SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c		\
 	$(EXP)expansion_utils.c $(EXP)exit_code.c $(EXP)exp_dquote.c			\

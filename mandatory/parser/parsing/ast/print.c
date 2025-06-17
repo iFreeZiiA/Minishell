@@ -6,12 +6,20 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/12 11:14:34 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/17 18:59:49 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
 
+/**
+ * @brief Prints indentation spaces for tree visualization
+ * 
+ * This helper function prints a specified number of indentation spaces
+ * to create a visual hierarchy when printing the AST tree structure.
+ * 
+ * @param level Number of indentation levels (each level = 2 spaces)
+ */
 static void	ft_print_indent(int level)
 {
 	int	i;
@@ -24,6 +32,15 @@ static void	ft_print_indent(int level)
 	}
 }
 
+/**
+ * @brief Converts AST node type to its string representation
+ * 
+ * This function maps AST node types to their corresponding string
+ * representations for debugging and visualization purposes.
+ * 
+ * @param type AST node type to convert
+ * @return char* String representation of the node type
+ */
 static char	*ft_get_node_type_str(node_type type)
 {
 	if (type == NODE_COMMAND)
@@ -39,6 +56,14 @@ static char	*ft_get_node_type_str(node_type type)
 	return ("UNKNOWN");
 }
 
+/**
+ * @brief Prints the arguments of a command in a formatted way
+ * 
+ * This helper function prints all arguments of a command with proper
+ * spacing and quotation marks for visualization.
+ * 
+ * @param cmd Command structure containing arguments to print
+ */
 static void	ft_print_command_args(t_command *cmd)
 {
 	int	i;
@@ -55,6 +80,17 @@ static void	ft_print_command_args(t_command *cmd)
 	}
 }
 
+/**
+ * @brief Prints the content and children of an AST node
+ * 
+ * This function handles the printing logic for different types of AST nodes:
+ * - Command nodes: prints their arguments
+ * - Group nodes: indicates subshell and prints content
+ * - Operator nodes: prints left and right children
+ * 
+ * @param ast AST node whose content should be printed
+ * @param level Current indentation level for proper formatting
+ */
 static void	ft_print_node_content(t_ast_node *ast, int level)
 {
 	t_command	*cmd;
@@ -84,6 +120,16 @@ static void	ft_print_node_content(t_ast_node *ast, int level)
 	}
 }
 
+/**
+ * @brief Recursively prints the entire AST tree structure
+ * 
+ * This function performs a recursive traversal of the AST tree and prints
+ * each node with proper indentation to visualize the tree structure.
+ * It handles null nodes gracefully for debugging purposes.
+ * 
+ * @param ast Root node of the AST tree to print
+ * @param level Current indentation level (0 for root)
+ */
 void	ft_print_ast_tree(t_ast_node *ast, int level)
 {
 	if (!ast)
