@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/11 18:14:49 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/17 16:43:17 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,10 @@ t_list	*ft_lexing(t_shell *shell)
 	}
 	status = 0;
 	if (ft_expansion(shell, &tok_h, &status) < 0)
+	// {
+		// ft_printerr("LEXINGERR\n");
 		return (ft_lstfree_t(tok_h));
+	// }
 	shell->token = tok_h;
 	return (tok_h);
 }
