@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/12 11:11:22 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/17 16:25:29 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,21 @@ static t_ast_node	*ft_build_ast(t_shell *shell)
 int	ft_parse(t_shell *shell)
 {
 	if (!shell || !shell->token)
+	{
+		ft_printerr("FT_PARSE0\n");
 		return (-1);
+	}
 	if (ft_preprocess_tokens(shell) < 0)
+	{
+		ft_printerr("FT_PARSE1\n");
 		return (-1);
+	}
 	shell->ast = ft_build_ast(shell);
 	if (!shell->ast)
+	{
+		ft_printerr("FT_PARSE2\n");
 		return (-1);
+	}
+	ft_print_ast_tree(shell->ast, 0);
 	return (0);
 }

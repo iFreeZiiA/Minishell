@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/14 13:56:00 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/17 16:48:30 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,18 @@ bool	ft_expand_var(t_shell *shell, t_list *tok_c, char *str, int var_pos)
 	return (true);
 }
 
-static int	ft_get_exp(t_shell *shell, t_list **tok_h,
-		t_list **tok_c, t_list **tok_n)
+// , t_list **tok_n
+static int	ft_get_exp(t_shell *shell, t_list **tok_h, t_list **tok_c)
 {
 	t_token	*token;
 	char	c;
-
-	if (!shell || !(*tok_h) || !(*tok_c) || !(*tok_n))
+	
+//  || !(*tok_n)
+	if (!shell || !(*tok_h) || !(*tok_c))
+	// {
+	// 	ft_printerr("GET_EXPERR0\n");
 		return (-1);
+	// }
 	token = (*tok_c)->content.token;
 	c = token->value[0];
 	if (token->type == TOKEN_STATUS)
@@ -88,17 +92,23 @@ static int	ft_get_exp(t_shell *shell, t_list **tok_h,
 		free(token->value);
 		token->value = ft_itoa(shell->env->last_exit_code);
 		if (!token->value)
+		// {
+		// 	ft_printerr("GET_EXPERR1\n");
 			return (-1);
+		// }
 		token->type = TOKEN_WORD;
 	}
 	else if (token->type == TOKEN_VAR && (c && (ft_isalnum(c) || c == '_')))
 	{
-		ft_printerr("GETEXP: %s: %d\n", token->value, token->type);
+		// ft_printerr("GETEXP: %s: %d\n", token->value, token->type);
 		c = token->value[0];
 		if (c && (ft_isalnum(c) || c == '_'))
 			*tok_c = ft_expand_token(shell, tok_h, tok_c);
 		if (!(*tok_c))
+		// {
+		// 	ft_printerr("GET_EXPERR2\n");
 			return (-1);
+		// }
 	}
 	return (0);
 }
@@ -118,21 +128,32 @@ int	ft_expansion(t_shell *shell, t_list **tok_h, int *status)
 	t_token	*token;
 
 	if (!shell || !(*tok_h) || !status)
+	// {
+	// 	ft_printerr("EXPANSIONERR0\n");
 		return (-1);
+	// }
 	tok_c = *tok_h;
 	while (tok_c)
 	{
 		token = tok_c->content.token;
 		tok_n = tok_c->next;
+		// ft_printerr("EXP, tok: %s\n", token->value);
 		if (token->type == TOKEN_STATUS || token->type == TOKEN_VAR)
 		{
-			if (ft_get_exp(shell, tok_h, &tok_c, &tok_n) == -1)
+			// , &tok_n
+			if (ft_get_exp(shell, tok_h, &tok_c) == -1)
+			// {
+			// 	ft_printerr("EXPANSIONERR1\n");
 				return (-1);
+			// }
 		}
 		else if (token->type == TOKEN_DQUOTE)
 		{
 			if (!ft_expand_dquote(shell, tok_c, status))
+			// {
+			// 	ft_printerr("EXPANSIONERR2\n");
 				return (-1);
+			// }
 		}
 		tok_c = tok_n;
 	}
