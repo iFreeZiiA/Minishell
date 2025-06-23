@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:04:08 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/12 18:04:54 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:43:17 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,12 @@ void	wait_all_pids(pid_t *pids, int count, t_env *env)
 	}
 }
 
-void	child_process(t_list *cmd_l, int in, int out, t_env *env)
+static void	exec_child_command(t_list *cmd_l, t_env *env)
 {
 	t_command	*cmd;
 	char		*path;
 
 	cmd = cmd_l->content.cmd;
-	if (in != -1)
-		dup2(in, STDIN_FILENO);
-	if (out != -1)
-		dup2(out, STDOUT_FILENO);
-	if (in != -1)
-		close(in);
-	if (out != -1)
-		close(out);
-	if (apply_redirections(cmd->redirs) != 0)
-		exit(1);
 	if (is_builtin(cmd->args[0]) && cmd_l->next == NULL)
 		exit(run_builtin(cmd->args, env));
 	path = get_path(cmd->args[0], env->env_vars);
@@ -64,4 +54,24 @@ void	child_process(t_list *cmd_l, int in, int out, t_env *env)
 	execve(path, cmd->args, env->env_vars);
 	perror("execve");
 	exit(127);
+}
+
+void	child_process(t_list *cmd_l, int in, int out, t_env *env)
+{
+	t_command	*cmd;
+
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	cmd = cmd_l->content.cmd;
+	if (in != -1)
+		dup2(in, STDIN_FILENO);
+	if (out != -1)
+		dup2(out, STDOUT_FILENO);
+	if (in != -1)
+		close(in);
+	if (out != -1)
+		close(out);
+	if (apply_redirections(cmd->redirs) != 0)
+		exit(1);
+	exec_child_command(cmd_l, env);
 }

@@ -12,7 +12,8 @@ SRC_A	= $(BLT)builtin_echo.c $(BLT)builtin_pwd.c					\
 		$(BLT)builtin_unset.c $(SGL)signal.c $(MAN)main.c			\
 		$(BLT)builtin_cd_utils.c $(EXE)ast_to_command_list.c		\
 		$(EXE)executor.c $(EXE)get_path.c $(EXE)pipe.c				\
-		$(EXE)pipe_utils.c											\
+		$(EXE)pipe_utils.c $(EXE)free_command_list.c				\
+		$(EXE)heredoc.c												\
 
 OBJ_A	= $(patsubst %.c, $(DIR_A)/%.o, $(SRC_A))
 

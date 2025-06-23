@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/12 18:52:36 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:37:14 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	execute_command(t_command *cmd, t_env *env)
 		return (ft_printerr("minishell : fork"),1);
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (apply_redirections(cmd->redirs) != 0)
 			exit (1);
 		if (is_builtin(cmd->args[0]))
