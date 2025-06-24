@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:53:36 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/12 18:04:29 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:53:36 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,40 @@ static int	exec_pipe_loop(t_list *cmds, t_env *env,
 	return (0);
 }
 
+static int	must_run_in_parent(char *cmd)
+{
+	return (
+		!ft_strcmp(cmd, "cd")
+		|| !ft_strcmp(cmd, "export")
+		|| !ft_strcmp(cmd, "unset")
+		|| !ft_strcmp(cmd, "exit")
+	);
+}
+
+static int	execute_single_command(t_list *cmd_h, t_env *env)
+{
+	t_command	*cmd;
+
+	cmd = cmd_h->content.cmd;
+	if (is_builtin(cmd->args[0]) && must_run_in_parent(cmd->args[0]))
+	{
+		if (apply_redirections(cmd->redirs) != 0)
+			return (1);
+		return (run_builtin(cmd->args, &(env->env_vars)));
+	}
+	return (execute_command(cmd, env));
+}
+
 int	execute_pipe(t_list *cmd_h, t_env *env)
 {
 	pid_t	*pids;
 	int		i;
 	int		prev;
+
+	if (!cmd_h)
+		return (1);
+	if (!cmd_h->next)
+		return execute_single_command(cmd_h, env);
 
 	i = 0;
 	prev = -1;

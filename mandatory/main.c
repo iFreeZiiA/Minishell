@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/24 17:32:26 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:08:18 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 	char	*input;
+	int		exit_code;
+	int		parse_result;
 	(void)argc;
 	(void)argv;
 
@@ -42,9 +44,14 @@ int	main(int argc, char **argv, char **envp)
 		shell.current_line = input;
 		shell.token = ft_lexing(&shell);
 		add_history(input);
-		if (ft_parsing(&shell) == -1)
+		parse_result = ft_parsing(&shell); // Ne pas appelle 2 fois ft_parsing dans la meme boucle
+		if (parse_result == 0 && shell.ast)
+		{
+			exit_code = executor_from_ast(shell.ast, shell.env);
+			shell.env->last_exit_code = exit_code; // $?
+		}
+		else if (parse_result == -1)
 			ft_printerr("WRONG ARG\n");
-		//EXECUTOR
 		free(input);
 	}
 	ft_cleanup(&shell, 0);
