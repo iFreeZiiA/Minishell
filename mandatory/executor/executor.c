@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/24 16:58:40 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:37:23 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	is_builtin(char *cmd)
 		|| !ft_strcmp(cmd, "exit")
 	);
 }
-static int	open_and_dup(t_redir *r)
+static int	open_normal_redir(t_redir *r)
 {
 	int	fd;
 
@@ -36,22 +36,37 @@ static int	open_and_dup(t_redir *r)
 		fd = open(r->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (r->type == REDIR_APPEND)
 		fd = open(r->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	else if (r->type == REDIR_HEREDOC)
-	{
-		fd = handle_heredoc(r->file);
-		if (fd == -1 || dup2(fd, STDIN_FILENO) < 0)
-			return (-1);
-		close(fd);
-		return (0);
-	}
 	else
 		return (-1);
 	if (fd < 0)
 		return (-1);
 	if (dup2(fd, (r->type == REDIR_IN ? 0 : 1)) < 0)
-		return (close(fd), -1);
+	{
+		close(fd);
+		return (-1);
+	}
 	close(fd);
 	return (0);
+}
+
+static int	open_and_dup(t_redir *r)
+{
+	int	fd;
+
+	if (r->type == REDIR_HEREDOC)
+	{
+		fd = handle_heredoc(r->file);
+		if (fd == -1)
+			return (-1);
+		if (dup2(fd, STDIN_FILENO) < 0)
+		{
+			close(fd);
+			return (-1);
+		}
+		close(fd);
+		return (0);
+	}
+	return (open_normal_redir(r));
 }
 
 int	apply_redirections(t_list *redirs)
@@ -64,10 +79,10 @@ int	apply_redirections(t_list *redirs)
 			return (1);
 		r = redirs->content.redir;
 		if (open_and_dup(r) != 0)
-	{
-		ft_dprintf(2, "minishell: %s: %s\n", r->file, strerror(errno));
-		return (1);
-	}
+		{
+			ft_printerr(2, "minishell: %s: %s\n", r->file, strerror(errno));
+			return (1);
+		}
 		redirs = redirs->next;
 	}
 	return (0);

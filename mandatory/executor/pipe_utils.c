@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:04:08 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/24 16:55:41 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:04:04 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ static void	exec_child_command(t_list *cmd_l, t_env *env)
 		exit(127);
 	}
 	execve(path, cmd->args, env->env_vars);
-	ft_dprintf(2, "minishell: %s: %s\n", cmd->args[0], strerror(errno));
-	exit(126);
+	ft_printerr(2, "minishell: %s: %s\n", cmd->args[0], strerror(errno));
+	if (errno == EACCES)
+		exit(126);
+	exit(127);
 }
 
 void	child_process(t_list *cmd_l, int in, int out, t_env *env)

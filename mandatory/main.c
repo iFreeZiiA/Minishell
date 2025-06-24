@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/11 18:03:03 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/06/24 17:32:26 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_setup(&shell, envp);
 	while (1)
 	{
+		g_sig = 0; //RESET le signal a chaque nouvelle commande, a conserver
 		input = readline("\001\033[1;35m\002minishell$ \001\033[0m\002");
 		if (ft_exit(input) == -1)
 			break;
