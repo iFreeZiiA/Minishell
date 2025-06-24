@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/23 17:37:14 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:58:40 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ int	apply_redirections(t_list *redirs)
 			return (1);
 		r = redirs->content.redir;
 		if (open_and_dup(r) != 0)
-			return (perror("minishell: redirection"), 1);
+	{
+		ft_dprintf(2, "minishell: %s: %s\n", r->file, strerror(errno));
+		return (1);
+	}
 		redirs = redirs->next;
 	}
 	return (0);

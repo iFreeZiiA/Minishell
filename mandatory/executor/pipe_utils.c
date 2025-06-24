@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:04:08 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/23 17:43:17 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:55:41 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ static void	exec_child_command(t_list *cmd_l, t_env *env)
 	path = get_path(cmd->args[0], env->env_vars);
 	if (!path)
 	{
-		perror("minishell: command not found");
+		ft_dprintf(2, "minishell: %s: command not found\n", cmd->args[0]);
 		exit(127);
 	}
 	execve(path, cmd->args, env->env_vars);
-	perror("execve");
-	exit(127);
+	ft_dprintf(2, "minishell: %s: %s\n", cmd->args[0], strerror(errno));
+	exit(126);
 }
 
 void	child_process(t_list *cmd_l, int in, int out, t_env *env)
