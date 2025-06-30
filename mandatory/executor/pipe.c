@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:53:36 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/24 18:53:36 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:35:54 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 		return (1);
 	if (!cmd_h->next)
 		return execute_single_command(cmd_h, env);
-
 	i = 0;
 	prev = -1;
 	pids = malloc(sizeof(pid_t) * ft_lstsize(cmd_h));

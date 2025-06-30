@@ -13,6 +13,7 @@ SUP		= $(MAN)/deployment/setup/
 CUP		= $(MAN)deployment/cleanup/
 BLT		= $(MAN)builtin/
 SGL		= $(MAN)signal/
+EXE		= $(MAN)executor/
 
 SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c		\
 	$(EXP)expansion_utils.c $(EXP)exit_code.c $(EXP)exp_dquote.c			\
@@ -40,8 +41,11 @@ SRC_BLT = $(BLT)/builtin_echo.c $(BLT)/builtin_pwd.c $(BLT)/run_builtin.c	\
 
 SRC_SGL = $(SGL)/signal.c
 
+SRC_EXE = $(EXE)ast_to_command_list.c $(EXE)executor.c $(EXE)get_path.c		\
+	$(EXE)pipe.c $(EXE)pipe_utils.c $(EXE)free_command_list.c $(EXE)heredoc.c 
+
 SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)			\
-	$(SRC_BLT) $(SRC_SGL) $(SRC_PRT)
+	$(SRC_BLT) $(SRC_SGL) $(SRC_PRT) $(SRC_EXE)
 
 #  								      BONUS  								  #
 # BNS		= bonus/

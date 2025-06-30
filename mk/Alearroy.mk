@@ -13,7 +13,7 @@ SRC_A	= $(BLT)builtin_echo.c $(BLT)builtin_pwd.c					\
 		$(BLT)builtin_cd_utils.c $(EXE)ast_to_command_list.c		\
 		$(EXE)executor.c $(EXE)get_path.c $(EXE)pipe.c				\
 		$(EXE)pipe_utils.c $(EXE)free_command_list.c				\
-		$(EXE)heredoc.c												\
+		$(EXE)heredoc.c 					\
 
 OBJ_A	= $(patsubst %.c, $(DIR_A)/%.o, $(SRC_A))
 
@@ -32,4 +32,4 @@ dir_mandatory_a:
 	@mkdir -p $(DIR_A)/$(EXE)
 
 # $(DIR_A)/%.o: %.c | dir_mandatory_a
-# 	@$(CC) $(CFLAGS) -c $< -o $@
+#	@$(CC) $(CFLAGS) -c $< -o $@

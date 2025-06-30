@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:04:08 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/24 17:04:04 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:24:53 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ static void	exec_child_command(t_list *cmd_l, t_env *env)
 
 	cmd = cmd_l->content.cmd;
 	if (is_builtin(cmd->args[0]) && cmd_l->next == NULL)
-		exit(run_builtin(cmd->args, env));
+		exit(run_builtin(cmd->args, &(env->env_vars)));
 	path = get_path(cmd->args[0], env->env_vars);
 	if (!path)
 	{
-		ft_dprintf(2, "minishell: %s: command not found\n", cmd->args[0]);
+		ft_printerr("minishell: %s: command not found\n", cmd->args[0]);
 		exit(127);
 	}
 	execve(path, cmd->args, env->env_vars);
-	ft_printerr(2, "minishell: %s: %s\n", cmd->args[0], strerror(errno));
+	ft_printerr("minishell: %s: %s\n", cmd->args[0], strerror(errno));
 	if (errno == EACCES)
 		exit(126);
 	exit(127);

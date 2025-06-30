@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/24 19:06:52 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/26 19:08:45 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 		shell.current_line = input;
 		shell.token = ft_lexing(&shell);
 		add_history(input);
-		parse_result = ft_parsing(&shell); // Ne pas appelle 2 fois ft_parsing dans la meme boucle
+		parse_result = ft_parse(&shell); // Ne pas appelle 2 fois ft_parsing dans la meme boucle
 		if (parse_result == 0 && shell.ast)
 		{
 			exit_code = executor_from_ast(shell.ast, shell.env);

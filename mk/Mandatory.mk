@@ -16,6 +16,7 @@ dir_mandatory:
 	@mkdir -p $(DIR)/$(EXP)
 	@mkdir -p $(DIR)/$(BLT)
 	@mkdir -p $(DIR)/$(SGL)
+	@mkdir -p $(DIR)/$(EXE)
 
 $(DIR)%.o: %.c | dir_mandatory
 	@$(CC) $(CFLAGS) -c $< -o $@

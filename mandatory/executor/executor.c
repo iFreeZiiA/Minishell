@@ -6,13 +6,13 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/24 17:37:23 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:26:29 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-static int	is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
@@ -80,7 +80,7 @@ int	apply_redirections(t_list *redirs)
 		r = redirs->content.redir;
 		if (open_and_dup(r) != 0)
 		{
-			ft_printerr(2, "minishell: %s: %s\n", r->file, strerror(errno));
+			ft_printerr("minishell: %s: %s\n", r->file, strerror(errno));
 			return (1);
 		}
 		redirs = redirs->next;
@@ -94,8 +94,8 @@ int	execute_command(t_command *cmd, t_env *env)
 	int		status;
 
 	pid = fork();
-	if (pid = -1)
-		return (ft_printerr("minishell : fork"),1);
+	if (pid == -1)
+		return (ft_printerr("minishell : fork\n"),1);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -103,10 +103,10 @@ int	execute_command(t_command *cmd, t_env *env)
 		if (apply_redirections(cmd->redirs) != 0)
 			exit (1);
 		if (is_builtin(cmd->args[0]))
-			exit(run_builtin(cmd->args, env));
+			exit(run_builtin(cmd->args, &(env->env_vars)));
 		execve(get_path(cmd->args[0], env->env_vars),
 			cmd->args, env->env_vars);
-		ft_printerr("minishell: execve");
+		ft_printerr("minishell: execve\n");
 		exit(127);
 	}
 	waitpid(pid, &status, 0);
