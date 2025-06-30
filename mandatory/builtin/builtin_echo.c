@@ -6,7 +6,7 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:47:21 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/08 18:21:24 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:44:19 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	has_n_flag(char *arg)
 
 int	builtin_echo(char **args)
 {
-	int i = 2;
+	int i = 1;
 	int newline = 1;
 
 	while (args[i] && has_n_flag(args[i]))
