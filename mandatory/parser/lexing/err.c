@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:24:16 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/11 11:40:41 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/19 14:08:10 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ void	*ft_tok_err(int *p_status, int status)
 int	ft_new_token_err(t_token *token, int ret)
 {
 	if (token)
+	{
+		if (token->value)
+			free(token->value);
 		free(token);
+	}
 	return (ret);
 }
 

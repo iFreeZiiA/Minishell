@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 12:00:10 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/17 16:43:17 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/19 14:09:29 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,9 @@ static int	ft_new_token(char *s, t_list **tok_h, int *i, bool *quote)
 	if (ft_fill_token(&tok, s, i, quote) < 0)
 		return (-1);
 	if (tok.token->type == TOKEN_SPACE)
-	{
-		free(tok.token->value);
-		free(tok.token);
-		return (0);
-	}
+		return (ft_new_token_err(tok.token, 0));
 	if (!ft_lstadd_back(tok_h, tok, TYPE_TOKEN))
-	{
-		free(tok.token->value);
 		return (ft_new_token_err(tok.token, -1));
-	}
 	return (0);
 }
 
