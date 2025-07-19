@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:45:35 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/11 10:57:19 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/19 22:02:50 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,12 @@ static inline void	ft_freetoken(t_list *tok_h)
 	while (tok_c)
 	{
 		tok_h = tok_c->next;
-		free(tok_c->content.token->value);
-		free(tok_c->content.token);
-		tok_c->content.token = NULL;
+		if ((tok_c->type == TYPE_TOKEN) && tok_c->content.token)
+		{
+			free(tok_c->content.token->value);
+			free(tok_c->content.token);
+			tok_c->content.token = NULL;
+		}
 		tok_c = tok_h;
 	}
 }

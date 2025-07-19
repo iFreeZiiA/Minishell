@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:17:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 18:38:02 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/19 22:03:07 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*ft_clean_node_tok(t_list *node)
 {
 	if (!node || node->type != TYPE_TOKEN)
 		return (NULL);
-	if (node->content.token)
+	if ((node->type == TYPE_TOKEN) && node->content.token)
 	{
 		if (node->content.token->value)
 			free(node->content.token->value);
