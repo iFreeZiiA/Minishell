@@ -1,45 +1,86 @@
-NAME_PR	= parser_ut
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    parsing.mk                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#              #
+#    Updated: 2025/07/19 15:39:56 by jjorda           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-DIR_PR	= $(DIR_UT)
-PRR		= $(MAN)/parser/parsing/
-EXP_DIR	= $(PRR)expression/
-AST_DIR	= $(PRR)ast/
+# ********************************* PARSING ********************************** #
 
-UT_PRR = $(PRR)main_test.c $(SRC_PRR) $(SRC_SUP) $(SRC_LXR) $(SRC_PRT)
+NAME_PS = parser_phase_5_1
 
-OBJ_PRR	= $(patsubst %.c, $(DIR_PR)%.o, $(UT_PRR))
+DIR_PS	= $(DIR_UT)
+PSR		= $(MAN)/parser/parsing/
+PSR_U	= $(PSR)utils/
 
-parsing:	$(LIB) $(NAME_PR)
+# Sources du module parsing Phase 5.1
+SRC_PSR	= $(PSR)parser.c $(PSR_U)ast.c $(PSR_U)token.c
 
-$(NAME_PR): $(OBJ_PRR)
-	@$(CC) $(CFLAGS) -o $@ $(OBJ_PRR) $(LIBFT) $(LIBMS) $(LIBFT) -lreadline
-	@$(PRINT) $(BAN_PR)
+# Unit test parsing Phase 5.1
+UT_PSR	= $(PSR)simple_test.c $(SRC_PSR) $(SRC_SUP)
 
-dir_parser: 
-	@mkdir -p $(DIR_PR)$(PRT)
-	@mkdir -p $(DIR_PR)$(MAN)/parser/lexing/expansion
-	@mkdir -p $(DIR_PR)$(EXP_DIR)
-	@mkdir -p $(DIR_PR)$(AST_DIR)
-	@mkdir -p $(DIR_PR)$(SUP)
+OBJ_PSR	= $(patsubst %.c, $(DIR_PS)%.o, $(UT_PSR))
 
-$(DIR_PR)$(PRR)%.o: $(PRR)%.c | dir_parser
+# ********************************** RULES *********************************** #
+
+parser: $(LIB) $(NAME_PS)
+
+$(NAME_PS): $(OBJ_PSR)
+	@$(CC) $(CFLAGS) -o $@ $(OBJ_PSR) $(LIBFT) $(LIBMS) $(LIBFT) -lreadline
+	@$(PRINT) $(BAN_PS)
+
+dir_parsing_5_1:
+	@mkdir -p $(DIR_PS)$(PSR)
+	@mkdir -p $(DIR_PS)$(PSR_U)
+	@mkdir -p $(DIR_PS)$(SUP)
+
+$(DIR_PS)$(PSR)%.o: $(PSR)%.c | dir_parsing_5_1
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(DIR_PR)$(EXP_DIR)%.o: $(EXP_DIR)%.c | dir_parser
+$(DIR_PS)$(SUP)%.o: $(SUP)%.c | dir_parsing_5_1
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(DIR_PR)$(AST_DIR)%.o: $(AST_DIR)%.c | dir_parser
-	@$(CC) $(CFLAGS) -c $< -o $@
+# ********************************* CLEAN *********************************** #
 
-BAN_PR	= \
+clean_parsing_5_1:
+	@$(RM) -f $(OBJ_PSR)
+
+fclean_parsing_5_1: clean_parsing_5_1
+	@$(RM) -f $(NAME_PS)
+
+re_parsing_5_1: fclean_parsing_5_1 parsing_5_1
+
+# ********************************* TESTS *********************************** #
+
+test_parsing_5_1: parsing_5_1
+	@echo "$(BLUE)=== TESTS PARSING PHASE 5.1 ===$(NC)"
+	@echo "$(YELLOW)Test de base:$(NC)"
+	@./$(NAME_PS)
+	@echo "$(YELLOW)Test commande simple:$(NC)"
+	@echo "echo hello" | ./$(NAME_PS)
+	@echo "$(YELLOW)Test avec arguments:$(NC)"
+	@echo "ls -la /tmp" | ./$(NAME_PS)
+
+# ********************************* BANNER *********************************** #
+
+BAN_PS = \
 " **********************************************" "\n" \
-"*$(Y)    ______      ______     _    _______     $(O)*" "\n" \
-"*$(Y)   (_____ \ /\ (_____ \   | |  (_______)    $(O)*" "\n" \
-"*$(Y)    _____) )  \ _____) )   \ \  _____       $(O)*" "\n" \
-"*$(Y)   |  ____/ /\ (_____ (     \ \|  ___)      $(O)*" "\n" \
-"*$(Y)   | |   | |__| |    | |_____) ) |_____     $(O)*" "\n" \
-"*$(Y)   |_|   |______|    |_(______/|_______)    $(O)*" "\n" \
-"*$(V) Made by : alearroy / jjorda                $(O)*" "\n" \
-"*$(V) Started : 04/04/2025                       $(O)*" "\n" \
-"*$(V) Finished :                                 $(O)*" "\n" \
+"*$(Y)   _____      ______     _____  _______ ______    $(O)*" "\n" \
+"*$(Y)  (_____ \ /\ (_____ \   / ____)(_______ _____ \   $(O)*" "\n" \
+"*$(Y)   _____) )  \ _____) ) ( (___  _____   _____) )  $(O)*" "\n" \
+"*$(Y)  |  ____/ /\ (_____ (   \___ \|  ___) |  __  /   $(O)*" "\n" \
+"*$(Y)  | |   | |__| |    | |____) ) |_____  | |  \ \   $(O)*" "\n" \
+"*$(Y)  |_|   |______|    |_(______/|_______)|_|   |_|  $(O)*" "\n" \
+"*$(V) PARSING PHASE 5.1 - Made by jjorda              $(O)*" "\n" \
+"*$(V) AST pour commandes simples                       $(O)*" "\n" \
+"*$(V) Started : 19/07/2025                             $(O)*" "\n" \
 "**********************************************"
+
+# ********************************* PHONY *********************************** #
+
+.PHONY: parsing_5_1 clean_parsing_5_1 fclean_parsing_5_1 re_parsing_5_1 test_parsing_5_1

@@ -1,54 +1,99 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   parser_phase_5_1.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/12 11:14:52 by jjorda           ###   ########.fr       */
+/*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
+/*   Updated: 2025/07/19 00:00:00 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#ifndef PARSER_PHASE_5_1_H
+# define PARSER_PHASE_5_1_H
 
 # include "../minishell.h"
 
-/* *************************** MAIN PARSING ENTRY *************************** */
+/* *************************** POINT D'ENTRÉE UNIQUE ************************ */
 
-int				ft_parse(t_shell *shell);
+/**
+ * @brief Point d'entrée unique du module parser - Phase 5.1
+ * Parse une liste de tokens et retourne un AST pour commandes simples
+ * 
+ * @param tokens Liste de tokens du lexer
+ * @param shell Structure shell (pour expansion future)
+ * @return t_ast_node* Noeud racine de l'AST ou NULL en cas d'erreur
+ */
+t_ast_node	*ft_parser(t_list *tokens, t_shell *shell);
 
-/* *************************** PARSING UTILITIES **************************** */
+/* *************************** UTILITAIRES AST *************************** */
 
-bool			ft_is_operator_token(t_token *token);
-bool			ft_is_word_token(t_token *token);
-t_list			*ft_find_operator_at_level(t_list *start, t_list *end);
-bool			ft_is_redirect_token(t_token_type type);
-t_ast_node		*ft_parse_expression(t_shell *shell, t_list *token_h,
-					t_list *start, t_list *end);
+/**
+ * @brief Libère récursivement un noeud AST et ses enfants
+ * 
+ * @param node Noeud AST à libérer
+ */
+void		ft_free_ast_node(t_ast_node *node);
 
-/* ************************* EXPRESSION PARSING **************************** */
+/**
+ * @brief Affiche la structure de l'AST de manière simple
+ * 
+ * @param ast Noeud AST à afficher
+ * @param depth Profondeur d'indentation
+ */
+void		ft_print_ast_simple(t_ast_node *ast, int depth);
 
-t_ast_node		*ft_parse_group(t_shell *shell, t_list *start, t_list *end);
-t_ast_node		*ft_parse_command(t_list *start, t_list *end);
-int				ft_parse_redirections(t_shell *shell, t_list *token_h,
-					t_command *cmd);
+/**
+ * @brief Valide la structure de l'AST généré
+ * 
+ * @param ast Noeud AST à valider
+ * @return int 0 si valide, -1 sinon
+ */
+int			ft_validate_ast_structure(t_ast_node *ast);
 
-/* ***************************** AST CREATION ***************************** */
+/* *************************** UTILITAIRES TOKENS *************************** */
 
-t_ast_node		*ft_create_command_node(char **args, t_list *redirs);
-t_ast_node		*ft_create_op_node(t_token_type type, t_ast_node *left,
-					t_ast_node *right);
-t_ast_node		*ft_create_group_node(t_ast_node *content);
+/**
+ * @brief Vérifie si un token est de type WORD
+ * 
+ * @param token Token à vérifier
+ * @return int 1 si WORD, 0 sinon
+ */
+int			ft_is_word_token(t_token *token);
 
-/* ****************************** AST CLEANUP ****************************** */
+/**
+ * @brief Vérifie si un token est un opérateur
+ * 
+ * @param token Token à vérifier
+ * @return int 1 si opérateur, 0 sinon
+ */
+int			ft_is_operator_token(t_token *token);
 
-void			ft_free_command(t_command *cmd);
-void			ft_free_ast(t_ast_node *ast);
+/**
+ * @brief Vérifie si un type de token est une redirection
+ * 
+ * @param type Type de token à vérifier
+ * @return int 1 si redirection, 0 sinon
+ */
+int			ft_is_redirect_token_type(t_token_type type);
 
-/* ****************************** AST DISPLAY ****************************** */
+/**
+ * @brief Compte les tokens d'un type donné dans une liste
+ * 
+ * @param tokens Liste de tokens
+ * @param type Type de token à compter
+ * @return int Nombre de tokens du type spécifié
+ */
+int			ft_count_tokens_by_type(t_list *tokens, t_token_type type);
 
-void			ft_print_ast_tree(t_ast_node *ast, int level);
+/**
+ * @brief Trouve le premier token d'un type donné
+ * 
+ * @param tokens Liste de tokens
+ * @param type Type de token recherché
+ * @return t_list* Premier token trouvé ou NULL
+ */
+t_list		*ft_find_first_token_type(t_list *tokens, t_token_type type);
 
 #endif
