@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:32 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/17 16:48:30 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/19 14:51:46 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,7 @@ int	ft_expansion(t_shell *shell, t_list **tok_h, int *status)
 		}
 		tok_c = tok_n;
 	}
+	if (ft_expand_wildcard(shell, tok_h) < 0)
+		return (-1);
 	return (0);
 }

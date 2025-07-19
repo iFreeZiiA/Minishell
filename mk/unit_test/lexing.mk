@@ -4,8 +4,11 @@ DIR_LX	= $(DIR_UT)
 LEX		= $(MAN)/parser/lexing/
 EXP		= $(LEX)expansion/
 
+WCD = $(LEX)wildcard/
+SRC_WCD = $(WCD)wildcard.c $(WCD)match.c $(WCD)files.c $(WCD)tokens.c
+
 SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c	\
-	$(EXP)utils.c $(EXP)exit_code.c $(EXP)dquote.c $(EXP)tok.c
+	$(EXP)utils.c $(EXP)exit_code.c $(EXP)dquote.c $(EXP)tok.c $(SRC_WCD)
 
 UT_LXR = $(LEX)main_test.c $(SRC_LXR) $(MAN)/deployment/setup/setup.c
 
@@ -21,6 +24,9 @@ dir_lexer:
 	@mkdir -p $(DIR_LX)$(EXP)
 
 $(DIR_LX)$(LEX)%.o: $(LEX)%.c | dir_lexer
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_LX)$(EXP)%.o: $(EXP)%.c | dir_lexer
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 BAN_LX	= \

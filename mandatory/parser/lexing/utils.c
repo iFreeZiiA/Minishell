@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:22:45 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/11 18:13:55 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/19 15:07:32 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,6 @@ t_token_type	ft_get_type(char *s, int *i, bool *quote)
 		return (ft_getite(TOKEN_PAREN_OPEN, i, 1));
 	else if (s[*i] == ')')
 		return (ft_getite(TOKEN_PAREN_CLOSE, i, 1));
-	else if (s[*i] == '*')
-		return (ft_getite(TOKEN_WILDCARD, i, 1));
 	else if (s[*i] == '=')
 		return (ft_getite(TOKEN_ASSIGN, i, 1));
 	else if (s[*i] == '\\')
