@@ -5,131 +5,188 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 19:14:55 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/12 15:45:32 by jjorda           ###   ########.fr       */
+/*   Created: 2025/07/20 10:00:00 by unit_test         #+#    #+#             */
+/*   Updated: 2025/07/20 17:38:14 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
-static char	*ft_gettype_name_bis(t_token_type type)
+/**
+ * @brief Print test result with color formatting
+ * 
+ * @param test_name Name of the test
+ * @param result Test result (0 = success, -1 = failure)
+ */
+void	ft_print_test_result(char *test_name, int result)
 {
-	if (type == 11)
-		return (ft_strdup("QUOTE"));
-	if (type == 12)
-		return (ft_strdup("DQUOTE"));
-	if (type == 13)
-		return (ft_strdup("PAREN_OPEN"));
-	if (type == 14)
-		return (ft_strdup("PAREN_CLOSE"));
-	if (type == 15)
-		return (ft_strdup("WILDCARD"));
-	if (type == 16)
-		return (ft_strdup("ASSIGN"));
-	if (type == 17)
-		return (ft_strdup("EOF"));
-	if (type == 18)
-		return (ft_strdup("BSLASH"));
-	return (ft_strdup("SPACE"));
-}
-
-char	*ft_gettype_name(t_token_type type)
-{
-	if (type == 0)
-		return (ft_strdup("WORD"));
-	if (type == 1)
-		return (ft_strdup("OR"));
-	if (type == 2)
-		return (ft_strdup("APPEND"));
-	if (type == 3)
-		return (ft_strdup("HEREDOC"));
-	if (type == 4)
-		return (ft_strdup("AND"));
-	if (type == 5)
-		return (ft_strdup("STATUS"));
-	if (type == 6)
-		return (ft_strdup("ERROR"));
-	if (type == 7)
-		return (ft_strdup("PIPE"));
-	if (type == 8)
-		return (ft_strdup("REDIR_OUT"));
-	if (type == 9)
-		return (ft_strdup("REDIR_IN"));
-	if (type == 10)
-		return (ft_strdup("VAR"));
-	return (ft_gettype_name_bis(type));
-}
-
-static void	ft_print_prompt(t_list *tok_h)
-{
-	t_list	*tok_curr;
-	t_token	*tok;
-
-	tok_curr = tok_h;
-	ft_printerr("\n\ncmd: '");
-	while (tok_curr)
-	{
-		tok = tok_curr->content.token;
-		if (!tok)
-			break ;
-		ft_printerr("%s", tok->value);
-		tok_curr = tok_curr->next;
-	}
-	ft_printerr("'\n\n");
+	if (result == 0)
+		ft_printf("✅ %s: PASS\n", test_name);
+	else
+		ft_printf("❌ %s: FAIL\n", test_name);
 }
 
 /**
- * @brief Prints the token list for debugging purposes
+ * @brief Count tokens of a specific type in the list
  * 
- * @param tok_h Head of the token list
+ * @param tokens Token list
+ * @param type Token type to count
+ * @return int Number of tokens found
  */
-void	ft_print_list(t_list *tok_h)
+int	ft_count_tokens_of_type(t_list *tokens, t_token_type type)
 {
-	t_list	*tok_curr;
-	t_token	*tok;
-	char	*name;
+	int		count;
+	t_token	*token;
 
-	if (!tok_h)
-		return ;
-	tok_curr = tok_h;
-	ft_printerr("\n");
-	while (tok_curr)
+	count = 0;
+	while (tokens)
 	{
-		tok = tok_curr->content.token;
-		if (!tok)
-			break ;
-		name = ft_gettype_name(tok->type);
-		if (!name)
-			return ;
-		ft_printerr("%s: %s\n", tok->value, name);
-		free(name);
-		tok_curr = tok_curr->next;
+		token = tokens->content.token;
+		if (token && token->type == type)
+			count++;
+		tokens = tokens->next;
 	}
-	ft_print_prompt(tok_h);
+	return (count);
 }
 
-int	main(int argc, char **argv, char **env)
+/**
+ * @brief Test basic tokenization of simple words
+ * 
+ * @return int 0 on success, -1 on failure
+ */
+int	ft_test_basic_tokenization(void)
 {
 	t_shell	shell;
-	t_list	*head;
+	t_list	*tokens;
+	int		word_count;
 
-	if (argc != 2)
+	ft_setup(&shell, NULL);
+	shell.current_line = "echo hello";
+	tokens = ft_lexing(&shell);
+	if (!tokens)
+		return (-1);
+	word_count = ft_count_tokens_of_type(tokens, TOKEN_WORD);
+	ft_lstfree_t(tokens);
+	return (word_count == 2 ? 0 : -1);
+}
+
+/**
+ * @brief Test pipe token recognition
+ * 
+ * @return int 0 on success, -1 on failure
+ */
+int	ft_test_pipe_tokenization(void)
+{
+	t_shell	shell;
+	t_list	*tokens;
+	int		pipe_count;
+	int		word_count;
+
+	ft_setup(&shell, NULL);
+	shell.current_line = "ls | grep test";
+	tokens = ft_lexing(&shell);
+	if (!tokens)
+		return (-1);
+	pipe_count = ft_count_tokens_of_type(tokens, TOKEN_PIPE);
+	word_count = ft_count_tokens_of_type(tokens, TOKEN_WORD);
+	ft_lstfree_t(tokens);
+	return (pipe_count == 1 && word_count >= 3 ? 0 : -1);
+}
+
+/**
+ * @brief Test redirection out token recognition
+ * 
+ * @return int 0 on success, -1 on failure
+ */
+int	ft_test_redirection_out_tokenization(void)
+{
+	t_shell	shell;
+	t_list	*tokens;
+	int		redir_count;
+
+	ft_setup(&shell, NULL);
+	shell.current_line = "echo hello > file";
+	tokens = ft_lexing(&shell);
+	if (!tokens)
+		return (-1);
+	redir_count = ft_count_tokens_of_type(tokens, TOKEN_REDIR_OUT);
+	ft_lstfree_t(tokens);
+	return (redir_count == 1 ? 0 : -1);
+}
+
+/**
+ * @brief Test redirection in token recognition
+ * 
+ * @return int 0 on success, -1 on failure
+ */
+int	ft_test_redirection_in_tokenization(void)
+{
+	t_shell	shell;
+	t_list	*tokens;
+	int		redir_count;
+
+	ft_setup(&shell, NULL);
+	shell.current_line = "cat < input";
+	tokens = ft_lexing(&shell);
+	if (!tokens)
+		return (-1);
+	redir_count = ft_count_tokens_of_type(tokens, TOKEN_REDIR_IN);
+	ft_lstfree_t(tokens);
+	return (redir_count == 1 ? 0 : -1);
+}
+
+/**
+ * @brief Test space handling between tokens
+ * 
+ * @return int 0 on success, -1 on failure
+ */
+int	ft_test_spaces_handling(void)
+{
+	t_shell	shell;
+	t_list	*tokens;
+	int		word_count;
+
+	ft_setup(&shell, NULL);
+	shell.current_line = "echo    hello    world";
+	tokens = ft_lexing(&shell);
+	if (!tokens)
+		return (-1);
+	word_count = ft_count_tokens_of_type(tokens, TOKEN_WORD);
+	ft_lstfree_t(tokens);
+	return (word_count == 3 ? 0 : -1);
+}
+
+int	main(void)
+{
+	int	result1;
+	int	result2;
+	int	result3;
+	int	result4;
+	int	result5;
+
+	ft_printf("=== Tests Phase 2 - Lexer Basique ===\n");
+	ft_printf("(Tokens: WORD, PIPE, REDIR_OUT, REDIR_IN)\n\n");
+	result1 = ft_test_basic_tokenization();
+	ft_print_test_result("Tokenization basique", result1);
+	result2 = ft_test_pipe_tokenization();
+	ft_print_test_result("Reconnaissance pipes", result2);
+	result3 = ft_test_redirection_out_tokenization();
+	ft_print_test_result("Reconnaissance redir OUT", result3);
+	result4 = ft_test_redirection_in_tokenization();
+	ft_print_test_result("Reconnaissance redir IN", result4);
+	result5 = ft_test_spaces_handling();
+	ft_print_test_result("Gestion espaces multiples", result5);
+	if (result1 == 0 && result2 == 0 && result3 == 0 
+		&& result4 == 0 && result5 == 0)
 	{
-		ft_printerr("Please enter an argument to lexe...\n");
+		ft_printf("\n✅ Phase 2 - Tous les tests réussis !\n");
+		ft_printf("Tokens de base reconnus correctement.\n");
 		return (0);
 	}
-	ft_setup(&shell, env);
-	shell.current_line = argv[1];
-	head = ft_lexing(&shell);
-	if (!head)
-		return (1);
-	ft_print_list(shell.token);
-	ft_lstfree_t(shell.token);
-	if (shell.env)
+	else
 	{
-		if (shell.env->local_env)
-			free(shell.env->local_env);
-		free(shell.env);
+		ft_printf("\n❌ Phase 2 - Certains tests ont échoué.\n");
+		ft_printf("Vérifiez la tokenisation de base.\n");
+		return (1);
 	}
-	return (0);
 }
