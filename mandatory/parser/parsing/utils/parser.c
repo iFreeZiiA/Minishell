@@ -5,14 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/20 16:21:18 by jjorda           ###   ########.fr       */
+/*   Created: 2025/07/19 17:00:00 by jjorda            #+#    #+#             */
+/*   Updated: 2025/07/20 16:38:50 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../header/minishell.h"
+#include "../../../../header/minishell.h"
 
-static int	ft_validate_token_list(t_list *tokens)
+/**
+ * @brief Valide la liste de tokens
+ * @param tokens Liste de tokens
+ * @return int 0 si valide, -1 sinon
+ */
+int	ft_validate_token_list(t_list *tokens)
 {
 	t_list	*current;
 
@@ -30,7 +35,12 @@ static int	ft_validate_token_list(t_list *tokens)
 	return (0);
 }
 
-static int	ft_count_word_tokens(t_list *tokens)
+/**
+ * @brief Compte les tokens WORD dans la liste
+ * @param tokens Liste de tokens
+ * @return int Nombre de tokens WORD
+ */
+int	ft_count_word_tokens(t_list *tokens)
 {
 	t_list	*current;
 	int		count;
@@ -46,7 +56,13 @@ static int	ft_count_word_tokens(t_list *tokens)
 	return (count);
 }
 
-static char	**ft_extract_command_args(t_list *tokens, int word_count)
+/**
+ * @brief Extrait les arguments de commande
+ * @param tokens Liste de tokens
+ * @param word_count Nombre de mots
+ * @return char** Tableau d'arguments
+ */
+char	**ft_extract_command_args(t_list *tokens, int word_count)
 {
 	char	**args;
 	t_list	*current;
@@ -77,55 +93,27 @@ static char	**ft_extract_command_args(t_list *tokens, int word_count)
 	return (args);
 }
 
-static t_ast_node	*ft_parse_simple_command(t_list *tokens)
-{
-	t_ast_node	*node;
-	t_command	*cmd;
-	char		**args;
-	int			word_count;
-
-	word_count = ft_count_word_tokens(tokens);
-	if (word_count == 0)
-		return (NULL);
-	args = ft_extract_command_args(tokens, word_count);
-	if (!args)
-		return (NULL);
-	node = malloc(sizeof(t_ast_node));
-	if (!node)
-		return (NULL);
-	cmd = malloc(sizeof(t_command));
-	if (!cmd)
-	{
-		free(node);
-		return (NULL);
-	}
-	cmd->args = args;
-	cmd->redirs = NULL;
-	node->type = NODE_COMMAND;
-	node->data = cmd;
-	node->left = NULL;
-	node->right = NULL;
-	return (node);
-}
-
 /**
- * @brief Point d'entrée du parser - Phase 6.1 avec support des pipes
- * Parse une liste de tokens et retourne un AST
- * 
- * @param tokens Liste de tokens du lexer
- * @param shell Structure shell
- * @return t_ast_node* Noeud racine de l'AST ou NULL en cas d'erreur
+ * @brief Libère structure command
+ * @param cmd Commande à libérer
  */
-t_ast_node	*ft_parser(t_list *tokens, t_shell *shell)
+void	ft_free_command_struct(t_command *cmd)
 {
-	t_list	*pipe_token;
+	int	i;
 
-	if (ft_validate_token_list(tokens) != 0)
-		return (NULL);
-	if (ft_validate_pipe_syntax(tokens) != 0)
-		return (NULL);
-	pipe_token = ft_find_pipe_token(tokens);
-	if (pipe_token)
-		return (ft_parse_pipe_expression(tokens, shell));
-	return (ft_parse_simple_command(tokens));
+	if (!cmd)
+		return ;
+	if (cmd->args)
+	{
+		i = 0;
+		while (cmd->args[i])
+		{
+			free(cmd->args[i]);
+			i++;
+		}
+		free(cmd->args);
+	}
+	if (cmd->redirs)
+		ft_free_redirection_list(cmd->redirs);
+	free(cmd);
 }
