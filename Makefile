@@ -11,6 +11,7 @@ include mk/jjorda.mk
 include mk/unit_test/lexing.mk
 include mk/unit_test/logical.mk
 include mk/unit_test/parentheses.mk
+include mk/unit_test/pipes.mk
 include mk/unit_test/wildcard.mk
 include mk/unit_test/parsing.mk
 include mk/unit_test/setup.mk

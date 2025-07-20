@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/19 15:37:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/20 15:52:03 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,19 @@ static char	**ft_extract_command_args(t_list *tokens, int word_count)
 	return (args);
 }
 
-static t_ast_node	*ft_create_simple_command_node(char **args)
+static t_ast_node	*ft_parse_simple_command(t_list *tokens)
 {
 	t_ast_node	*node;
 	t_command	*cmd;
+	char		**args;
+	int			word_count;
 
+	word_count = ft_count_word_tokens(tokens);
+	if (word_count == 0)
+		return (NULL);
+	args = ft_extract_command_args(tokens, word_count);
+	if (!args)
+		return (NULL);
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
 		return (NULL);
@@ -101,26 +109,23 @@ static t_ast_node	*ft_create_simple_command_node(char **args)
 }
 
 /**
- * @brief Point d'entrée unique du module parser - Phase 5.1
- * Parse une liste de tokens et retourne un AST pour commandes simples
+ * @brief Point d'entrée du parser - Phase 6.1 avec support des pipes
+ * Parse une liste de tokens et retourne un AST
  * 
  * @param tokens Liste de tokens du lexer
- * @param shell Structure shell (pour expansion future)
+ * @param shell Structure shell
  * @return t_ast_node* Noeud racine de l'AST ou NULL en cas d'erreur
  */
 t_ast_node	*ft_parser(t_list *tokens, t_shell *shell)
 {
-	char	**args;
-	int		word_count;
+	t_list	*pipe_token;
 
-	(void)shell;
 	if (ft_validate_token_list(tokens) != 0)
 		return (NULL);
-	word_count = ft_count_word_tokens(tokens);
-	if (word_count == 0)
+	if (ft_validate_pipe_syntax(tokens) != 0)
 		return (NULL);
-	args = ft_extract_command_args(tokens, word_count);
-	if (!args)
-		return (NULL);
-	return (ft_create_simple_command_node(args));
+	pipe_token = ft_find_pipe_token(tokens);
+	if (pipe_token)
+		return (ft_parse_pipe_expression(tokens, shell));
+	return (ft_parse_simple_command(tokens));
 }
