@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 18:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/26 18:00:19 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/26 22:42:26 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ft_test_integration(char *input, bool expected_success)
 		return (-1);
 	
 	if (shell.token)
-		result = ft_parse(&shell);
+		result = ft_parse_enhanced(&shell);
 	else
 		result = -1;
 	

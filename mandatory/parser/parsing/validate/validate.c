@@ -13,6 +13,52 @@
 #include "../../../../header/minishell.h"
 
 /**
+ * @brief Validates quotes are properly closed
+ * 
+ * @param tokens Token list to validate
+ * @return int 1 if valid, 0 if invalid
+ */
+// static int	ft_validate_quotes(t_list *tokens)
+// {
+// 	(void)tokens;
+// 	return (1);
+// }
+
+/**
+ * @brief Validates operator placement in sequence
+ * 
+ * @param tokens Token list to validate
+ * @return int 1 if valid, 0 if invalid
+ */
+static int	ft_validate_operators(t_list *tokens)
+{
+	t_list	*current;
+	t_token	*token;
+	t_token	*next_token;
+
+	current = tokens;
+	while (current && current->next)
+	{
+		token = (t_token *)current->content.token;
+		next_token = (t_token *)current->next->content.token;
+		if (token->type == TOKEN_AND || token->type == TOKEN_OR)
+		{
+			if (next_token->type == TOKEN_AND || next_token->type == TOKEN_OR
+				|| next_token->type == TOKEN_PIPE)
+				return (0);
+		}
+		if (token->type == TOKEN_PIPE)
+		{
+			if (next_token->type == TOKEN_AND || next_token->type == TOKEN_OR
+				|| next_token->type == TOKEN_PIPE)
+				return (0);
+		}
+		current = current->next;
+	}
+	return (1);
+}
+
+/**
  * @brief Validates pipe tokens in sequence
  * 
  * @param tokens Token list to validate
@@ -56,7 +102,13 @@ static int	ft_validate_redirections(t_list *tokens)
 	t_token	*token;
 	t_token	*next_token;
 
+	if (!tokens)
+		return (1);
 	current = tokens;
+	token = (t_token *)current->content.token;
+	if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
+		|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
+		return (0);
 	while (current)
 	{
 		token = (t_token *)current->content.token;
@@ -146,6 +198,8 @@ int	ft_validate_syntax(t_list *tokens)
 {
 	if (!tokens)
 		return (1);
+	if (!ft_validate_operators(tokens))
+		return (0);
 	if (!ft_validate_pipes(tokens))
 		return (0);
 	if (!ft_validate_redirections(tokens))

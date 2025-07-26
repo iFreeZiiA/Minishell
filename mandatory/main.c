@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/17 16:23:59 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/26 22:42:23 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		shell.current_line = input;
 		shell.token = ft_lexing(&shell);
 		add_history(input);
-		if (ft_parse(&shell) == -1)
+		if (ft_parse_enhanced(&shell) == -1)
 			ft_printerr("WRONG ARG\n");
 		//EXECUTOR
 		free(input);

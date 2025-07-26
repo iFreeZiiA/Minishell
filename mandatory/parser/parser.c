@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/26 17:25:32 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/26 22:42:29 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_parse_input(char *input, t_shell *shell)
 		return (-1);
 	}
 	shell->token = tokens;
-	if (ft_parse(shell) != 0)
+	if (ft_parse_enhanced(shell) != 0)
 	{
 		ft_cleanup_parsing_error(shell, tokens);
 		return (-1);

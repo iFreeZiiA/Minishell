@@ -104,7 +104,7 @@ static int	ft_process_input(char *input)
 {
 	t_shell		shell;
 	t_list		*tokens;
-	t_ast_node	*ast;
+	int			parse_result;
 	char		*test_env[3];
 
 	// Configuration d'un environnement de test sécurisé
@@ -134,16 +134,23 @@ static int	ft_process_input(char *input)
 	
 	ft_print_tokens(tokens);
 	
-	// Protection contre les crashes du parser
-	ast = NULL;
-	if (tokens)
-		ast = ft_parser(tokens, &shell);
+	// Utilisation du parser complet avec validation
+	shell.token = tokens;
+	parse_result = ft_parse_enhanced(&shell);
 	
-	ft_print_ast_info(ast);
+	if (parse_result != 0)
+	{
+		ft_printf("Error: Parsing failed (validation error)\n");
+		if (tokens)
+			ft_lstfree_t(tokens);
+		return (1);
+	}
+	
+	ft_print_ast_info(shell.ast);
 	
 	// Nettoyage sécurisé
-	if (ast)
-		ft_free_ast_node(ast);
+	if (shell.ast)
+		ft_free_ast_node(shell.ast);
 	if (tokens)
 		ft_lstfree_t(tokens);
 	

@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 19:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/26 17:21:35 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/26 22:42:31 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	ft_test_lexer_parser_integration(char *input)
 	}
 	
 	shell.token = tokens;
-	if (ft_parse(&shell) != 0)
+	if (ft_parse_enhanced(&shell) != 0)
 	{
 		ft_printf("  ✗ Parsing failed\n");
 		ft_lstfree_t(tokens);
@@ -116,7 +116,7 @@ static int	ft_test_error_handling(char *input)
 	shell.current_line = input;
 	shell.token = ft_lexing(&shell);
 	
-	if (shell.token && ft_parse(&shell) == 0)
+	if (shell.token && ft_parse_enhanced(&shell) == 0)
 	{
 		ft_printf("  ✗ Devrait échouer mais a réussi\n");
 		if (shell.ast)

@@ -8,7 +8,7 @@ dir_parsing:
 	@mkdir -p $(DIR_PSI)$(PSR_LOG)
 	@mkdir -p $(DIR_PSI)$(PSR_PAR)
 	@mkdir -p $(DIR_PSI)$(PSR_RED)
-# 	@mkdir -p $(DIR_PSI)$(PSR_HER)
+	@mkdir -p $(DIR_PSI)$(PSR_HER)
 	@mkdir -p $(DIR_PSI)$(PSR_WLD)
 	@mkdir -p $(DIR_PSI)$(PSR_VAL)
 	@mkdir -p $(DIR_PSI)$(LEX)
@@ -39,8 +39,8 @@ $(DIR_PSI)$(PSR_PAR)%.o: $(PSR_PAR)%.c | dir_parsing
 $(DIR_PSI)$(PSR_RED)%.o: $(PSR_RED)%.c | dir_parsing
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-# $(DIR_PSI)$(PSR_HER)%.o: $(PSR_HER)%.c | dir_parsing
-# 	@$(CC) $(CFLAGS) -c $< -o $@
+$(DIR_PSI)$(PSR_HER)%.o: $(PSR_HER)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(DIR_PSI)$(PSR_WLD)%.o: $(PSR_WLD)%.c | dir_parsing
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -103,7 +103,7 @@ PSR_PIP = $(PSR)pipes/
 PSR_LOG = $(PSR)logical/
 PSR_PAR = $(PSR)parentheses/
 PSR_RED = $(PSR)redir/
-# PSR_HER = $(PSR)heredoc/
+PSR_HER = $(PSR)heredoc/
 PSR_WLD = $(PSR)wildcard/
 PSR_VAL = $(PSR)validate/
 
@@ -113,7 +113,7 @@ PSR_VAL = $(PSR)validate/
 SRC_PSR_CORE = $(PSR)parser.c $(PSR)parse.c $(PSR_DIR)parser.c $(PSR_DIR)enhanced.c
 
 # Sources utilitaires
-SRC_PSR_UTILS = $(PSR_U)parser.c $(PSR_U)ast.c $(PSR_U)token.c
+SRC_PSR_UTILS = $(PSR_U)parser.c $(PSR_U)ast.c $(PSR_U)token.c $(PSR_U)logical.c
 
 # Sources operators (Phase 4 + 6 + 7)
 SRC_PSR_OPS = $(PSR_LOG)logical.c $(PSR_LOG)precedence.c
@@ -125,10 +125,10 @@ SRC_PSR_PAR = $(PSR_PAR)parentheses.c
 
 # Sources redirections + heredoc (Phase 6.2 + 10)
 SRC_PSR_RED = $(PSR_RED)redir.c $(PSR_RED)validate.c $(PSR_RED)input.c $(PSR_RED)output.c	\
-	$(PSR_U)redir.c
+	$(PSR_U)redir.c $(PSR_HER)heredoc.c
 
 # Sources validation (Phase 11)
-SRC_PSR_VAL = $(PSR_VAL)validate.c $(PSR_VAL)precedence.c
+SRC_PSR_VAL = $(PSR_VAL)validate.c $(PSR_VAL)precedence.c $(PSR_VAL)ast_optimizer.c
 
 # Sources wildcard (Phase 9) - si dans parsing
 SRC_PSR_WLD = $(PSR_WLD)wildcard.c $(PSR_WLD)wc_files.c $(PSR_WLD)wc_match.c $(PSR_WLD)wc_tokens.c

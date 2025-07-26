@@ -3,68 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/26 17:58:56 by jjorda           ###   ########.fr       */
+/*   Created: 2025/07/26 00:00:00 by user              #+#    #+#             */
+/*   Updated: 2025/07/26 00:00:00 by user              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
-t_ast_node	*ft_parse_pipe_expression(t_list *tokens, t_shell *shell);
+// Déclaration de la fonction
+int	ft_parse_enhanced(t_shell *shell);
 
 /**
- * @brief Détecte le type de parsing nécessaire selon les tokens
+ * @brief Detecte le type de parsing necessaire
  * 
  * @param tokens Liste de tokens
- * @return int Type de parsing: 1=simple, 2=pipes, 3=logical, 4=parentheses
+ * @return int Type de parsing (1=simple, 2=pipe, 3=logique)
  */
 static int	ft_detect_parsing_type(t_list *tokens)
 {
-	t_list	*curr;
+	t_list	*current;
 	t_token	*token;
 
-	if (!tokens)
-		return (0);
-	curr = tokens;
-	while (curr)
+	current = tokens;
+	while (current)
 	{
-		token = curr->content.token;
-		if (token->type == TOKEN_PAREN_OPEN || token->type == TOKEN_PAREN_CLOSE)
-			return (4);
+		token = (t_token *)current->content.token;
 		if (token->type == TOKEN_AND || token->type == TOKEN_OR)
 			return (3);
-		if (token->type == TOKEN_PIPE)
+		else if (token->type == TOKEN_PIPE)
 			return (2);
-		curr = curr->next;
+		current = current->next;
 	}
 	return (1);
 }
 
-
-
 /**
- * @brief Applique le parsing approprié selon le type détecté
+ * @brief Applique la strategie de parsing appropriee
  * 
  * @param shell Structure shell
- * @param parsing_type Type de parsing nécessaire
- * @return int 0 succès, -1 erreur
+ * @param parsing_type Type de parsing detecte
+ * @return int 0 succes, -1 erreur
  */
 static int	ft_apply_parsing_strategy(t_shell *shell, int parsing_type)
 {
 	t_ast_node	*result_ast;
+	t_list		*end_token;
 
-	result_ast = NULL;
-	if (parsing_type == 4)
+	end_token = shell->token;
+	while (end_token && end_token->next)
+		end_token = end_token->next;
+	if (parsing_type == 3)
 	{
-		result_ast = ft_parse_expression(shell->token, NULL, shell);
-	}
-	else if (parsing_type == 3)
-	{
-		if (ft_parse_logical_operators(shell) != 0)
-			return (-1);
-		return (0);
+		result_ast = ft_parse_logical_expression(shell, shell->token, end_token);
 	}
 	else if (parsing_type == 2)
 	{
@@ -81,10 +73,40 @@ static int	ft_apply_parsing_strategy(t_shell *shell, int parsing_type)
 }
 
 /**
- * @brief Valide les entrées avant parsing
+ * @brief Valide les quotes dans l'input brut
+ * 
+ * @param input Ligne de commande brute
+ * @return int 1 si valide, 0 si invalide
+ */
+static int	ft_validate_raw_quotes(char *input)
+{
+	int	i;
+	int	in_single;
+	int	in_double;
+
+	if (!input)
+		return (1);
+	i = 0;
+	in_single = 0;
+	in_double = 0;
+	while (input[i])
+	{
+		if (input[i] == '\'' && !in_double)
+			in_single = !in_single;
+		else if (input[i] == '"' && !in_single)
+			in_double = !in_double;
+		i++;
+	}
+	if (in_single || in_double)
+		return (0);
+	return (1);
+}
+
+/**
+ * @brief Valide les entrees avant parsing
  * 
  * @param shell Structure shell
- * @return int 0 succès, -1 erreur
+ * @return int 0 succes, -1 erreur
  */
 static int	ft_validate_parse_input(t_shell *shell)
 {
@@ -98,17 +120,21 @@ static int	ft_validate_parse_input(t_shell *shell)
 }
 
 /**
- * @brief Point d'entrée principal du parsing intégré
+ * @brief Point d'entree principal du parsing integre ameliore
  * Utilise toutes les fonctions des phases 2-11.4 au bon moment
  * 
  * @param shell Structure shell avec tokens du lexer
- * @return int 0 succès, -1 erreur
+ * @return int 0 succes, -1 erreur
  */
-int	ft_parse(t_shell *shell)
+int	ft_parse_enhanced(t_shell *shell)
 {
 	int	parsing_type;
 
 	if (ft_validate_parse_input(shell) != 0)
+		return (-1);
+	if (!ft_validate_raw_quotes(shell->current_line))
+		return (-1);
+	if (!ft_validate_syntax(shell->token))
 		return (-1);
 	if (ft_validate_logical_syntax(shell->token) == false)
 		return (-1);
