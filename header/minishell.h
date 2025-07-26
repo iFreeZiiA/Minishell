@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/20 16:30:14 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/26 09:32:59 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "parser/wildcard.h"
 # include "parser/parentheses.h"
 # include "parser/redir.h"
+# include "parser/heredoc.h"
 # include "minishell_executor.h"
 # include "signals.h"
 # include "executor.h"

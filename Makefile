@@ -14,6 +14,7 @@ include mk/unit_test/parentheses.mk
 include mk/unit_test/pipes.mk
 include mk/unit_test/redir.mk
 include mk/unit_test/wildcard.mk
+include mk/unit_test/heredoc.mk
 include mk/unit_test/parsing.mk
 include mk/unit_test/setup.mk
 include mk/unit_test/cleanup.mk
