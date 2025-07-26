@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/20 15:52:26 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/26 17:55:04 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,6 @@ t_list		*ft_find_pipe_token(t_list *tokens);
  */
 t_ast_node	*ft_create_pipe_node(t_ast_node *left, t_ast_node *right);
 
-/**
- * @brief Parse une expression avec pipe
- * 
- * @param tokens Liste de tokens
- * @param shell Structure shell
- * @return t_ast_node* Nœud AST pipe
- */
-t_ast_node	*ft_parse_pipe_expression(t_list *tokens, t_shell *shell);
 
 /**
  * @brief Valide la syntaxe des pipes
@@ -124,11 +116,11 @@ void		ft_free_ast_node(t_ast_node *node);
 void		ft_print_ast_simple(t_ast_node *ast, int depth);
 
 /**
- * @brief Valide la structure de l'AST généré
- * 
- * @param ast Noeud AST à valider
- * @return int 0 si valide, -1 sinon
- */
+//  * @brief Valide la structure de l'AST généré
+//  * 
+//  * @param ast Noeud AST à valider
+//  * @return int 0 si valide, -1 sinon
+//  */
 int			ft_validate_ast_structure(t_ast_node *ast);
 
 /* *************************** UTILITAIRES TOKENS *************************** */

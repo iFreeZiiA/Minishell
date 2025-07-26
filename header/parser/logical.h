@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/20 17:00:21 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/26 17:55:13 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,14 @@ int			ft_count_logical_operators(t_list *token_h);
  * @return bool true if logical operators present
  */
 bool		ft_has_logical_operators(t_list *token_h);
+
+/**
+ * @brief Parse une expression avec pipe
+ * 
+ * @param tokens Liste de tokens
+ * @param shell Structure shell
+ * @return t_ast_node* Nœud AST pipe
+ */
+t_ast_node	*ft_parse_pipe_expression(t_list *tokens, t_shell *shell);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/20 17:00:56 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/26 17:29:21 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
-static int	ft_validate_token_list(t_list *tokens)
+int	ft_validate_token_list(t_list *tokens)
 {
 	t_list	*current;
 
@@ -30,7 +30,7 @@ static int	ft_validate_token_list(t_list *tokens)
 	return (0);
 }
 
-static int	ft_count_word_tokens(t_list *tokens)
+int	ft_count_word_tokens(t_list *tokens)
 {
 	t_list	*current;
 	int		count;
@@ -46,7 +46,7 @@ static int	ft_count_word_tokens(t_list *tokens)
 	return (count);
 }
 
-static char	**ft_extract_command_args(t_list *tokens, int word_count)
+char	**ft_extract_command_args(t_list *tokens, int word_count)
 {
 	char	**args;
 	t_list	*current;
@@ -77,7 +77,7 @@ static char	**ft_extract_command_args(t_list *tokens, int word_count)
 	return (args);
 }
 
-static t_ast_node	*ft_create_simple_command_node(char **args)
+t_ast_node	*ft_create_simple_command_node(char **args)
 {
 	t_ast_node	*node;
 	t_command	*cmd;

@@ -12,6 +12,8 @@
 
 #include "../../../../header/minishell.h"
 
+static t_ast_node	*ft_handle_parentheses(t_list *tokens, t_shell *shell);
+
 /**
  * @brief Gets precedence level for token type
  * 
@@ -95,6 +97,36 @@ static t_ast_node	*ft_create_binary_node(t_list *op_token, t_ast_node *left, t_a
 }
 
 /**
+ * @brief Main expression parser with precedence handling
+ * 
+ * @param start Start of token range
+ * @param end End of token range
+ * @param shell Shell structure
+ * @return t_ast_node* Parsed expression AST
+ */
+t_ast_node	*ft_parse_expression(t_list *start, t_list *end, t_shell *shell)
+{
+	t_list		*op_token;
+	t_ast_node	*left;
+	t_ast_node	*right;
+	t_ast_node	*paren_result;
+
+	if (!start || start == end)
+		return (NULL);
+	paren_result = ft_handle_parentheses(start, shell);
+	if (paren_result)
+		return (paren_result);
+	op_token = ft_find_lowest_precedence(start, end);
+	if (!op_token)
+		return (ft_parser(start, shell));
+	left = ft_parse_expression(start, op_token, shell);
+	right = ft_parse_expression(op_token->next, end, shell);
+	if (!left || !right)
+		return (NULL);
+	return (ft_create_binary_node(op_token, left, right));
+}
+
+/**
  * @brief Handles parentheses grouping in expression
  * 
  * @param tokens Token list
@@ -128,34 +160,4 @@ static t_ast_node	*ft_handle_parentheses(t_list *tokens, t_shell *shell)
 		start = start->next;
 	}
 	return (NULL);
-}
-
-/**
- * @brief Main expression parser with precedence handling
- * 
- * @param start Start of token range
- * @param end End of token range
- * @param shell Shell structure
- * @return t_ast_node* Parsed expression AST
- */
-t_ast_node	*ft_parse_expression(t_list *start, t_list *end, t_shell *shell)
-{
-	t_list		*op_token;
-	t_ast_node	*left;
-	t_ast_node	*right;
-	t_ast_node	*paren_result;
-
-	if (!start || start == end)
-		return (NULL);
-	paren_result = ft_handle_parentheses(start, shell);
-	if (paren_result)
-		return (paren_result);
-	op_token = ft_find_lowest_precedence(start, end);
-	if (!op_token)
-		return (ft_parser(start, shell));
-	left = ft_parse_expression(start, op_token, shell);
-	right = ft_parse_expression(op_token->next, end, shell);
-	if (!left || !right)
-		return (NULL);
-	return (ft_create_binary_node(op_token, left, right));
 }

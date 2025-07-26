@@ -107,21 +107,21 @@ static int	ft_validate_depth(t_ast_node *node, int depth)
  * @param root Root node of AST
  * @return int 1 if valid structure, 0 if invalid
  */
-int	ft_validate_ast_structure(t_ast_node *root)
-{
-	t_ast_node	*visited[1000];
-	int			count;
-	int			max_depth;
+// int	ft_validate_ast_structure(t_ast_node *root)
+// {
+// 	t_ast_node	*visited[1000];
+// 	int			count;
+// 	int			max_depth;
 
-	if (!root)
-		return (1);
-	if (!ft_validate_command_node(root) && !ft_validate_operator_node(root))
-		return (0);
-	count = 0;
-	if (!ft_check_cycles(root, visited, &count))
-		return (0);
-	max_depth = ft_validate_depth(root, 0);
-	if (max_depth > 50)
-		return (0);
-	return (1);
-}
+// 	if (!root)
+// 		return (1);
+// 	if (!ft_validate_command_node(root) && !ft_validate_operator_node(root))
+// 		return (0);
+// 	count = 0;
+// 	if (!ft_check_cycles(root, visited, &count))
+// 		return (0);
+// 	max_depth = ft_validate_depth(root, 0);
+// 	if (max_depth > 50)
+// 		return (0);
+// 	return (1);
+// }

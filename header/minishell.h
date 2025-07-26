@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/26 10:07:23 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/26 17:45:49 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "parser/redir.h"
 # include "parser/heredoc.h"
 # include "parser/validate.h"
+# include "parser/integration.h"
 # include "minishell_executor.h"
 # include "signals.h"
 # include "executor.h"
@@ -136,6 +137,6 @@ t_ast_node	*ft_create_group_node(t_ast_node *content);
  * @param cmd Command structure to add redirections to
  * @return int 0 on success, -1 on error
  */
-int			ft_parse_redirections(t_shell *shell, t_list *token_h, t_command *cmd);
+// int			ft_parse_redirections(t_shell *shell, t_list *token_h, t_command *cmd);
 
 #endif
