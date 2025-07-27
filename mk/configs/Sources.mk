@@ -96,6 +96,7 @@ SRC_BLT = $(BLT)/builtin_echo.c $(BLT)/builtin_pwd.c $(BLT)/run_builtin.c	\
 
 SRC_SGL = $(SGL)/signal.c
 
+<<<<<<< HEAD
 # Liste explicite de tous les fichiers .c dans mandatory/ (excluant les tests)
 SRC_MAIN = $(MAN)main.c
 
@@ -147,6 +148,13 @@ SRC_UTILS = $(MAN)utils/missing_functions.c
 SRC		= $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_SIGNAL) $(SRC_EXECUTOR) \
 	$(SRC_DEPLOYMENT) $(SRC_PARSER_BASE) $(SRC_LEXING) $(SRC_EXPANSION) \
 	$(SRC_WILDCARD) $(SRC_PARSING_UTILS) $(SRC_PARSING_FEATURES) $(SRC_UTILS)
+=======
+SRC_EXE = $(EXE)ast_to_command_list.c $(EXE)executor.c $(EXE)get_path.c		\
+	$(EXE)pipe.c $(EXE)pipe_utils.c $(EXE)free_command_list.c $(EXE)heredoc.c 
+
+SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)			\
+	$(SRC_BLT) $(SRC_SGL) $(SRC_PRT) $(SRC_EXE)
+>>>>>>> origin/dev
 
 #  								      BONUS  								  #
 # BNS		= bonus/

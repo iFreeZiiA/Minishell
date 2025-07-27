@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/27 15:38:16 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/27 15:44:57 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 	char	*input;
+	int		exit_code;
+	int		parse_result;
 	(void)argc;
 	(void)argv;
 
@@ -44,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	while (1)
 	{
+		g_sig = 0; //RESET le signal a chaque nouvelle commande, a conserver
 		input = readline("\001\033[1;35m\002minishell$ \001\033[0m\002");
 		if (ft_exit(input) == -1)
 			break;

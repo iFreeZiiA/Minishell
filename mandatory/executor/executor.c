@@ -6,13 +6,17 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/07/27 15:32:32 by jjorda           ###   ########.fr       */
+=======
+/*   Updated: 2025/06/30 19:26:29 by alearroy         ###   ########.fr       */
+>>>>>>> origin/dev
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-static int	is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
@@ -26,29 +30,63 @@ static int	is_builtin(char *cmd)
 		|| !ft_strcmp(cmd, "exit")
 	);
 }
+static int	open_normal_redir(t_redir *r)
+{
+	int	fd;
 
-static int	apply_redirections(t_list *redirs)
+	if (r->type == REDIR_IN)
+		fd = open(r->file, O_RDONLY);
+	else if (r->type == REDIR_OUT)
+		fd = open(r->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else if (r->type == REDIR_APPEND)
+		fd = open(r->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	else
+		return (-1);
+	if (fd < 0)
+		return (-1);
+	if (dup2(fd, (r->type == REDIR_IN ? 0 : 1)) < 0)
+	{
+		close(fd);
+		return (-1);
+	}
+	close(fd);
+	return (0);
+}
+
+static int	open_and_dup(t_redir *r)
+{
+	int	fd;
+
+	if (r->type == REDIR_HEREDOC)
+	{
+		fd = handle_heredoc(r->file);
+		if (fd == -1)
+			return (-1);
+		if (dup2(fd, STDIN_FILENO) < 0)
+		{
+			close(fd);
+			return (-1);
+		}
+		close(fd);
+		return (0);
+	}
+	return (open_normal_redir(r));
+}
+
+int	apply_redirections(t_list *redirs)
 {
 	t_redir	*r;
-	int		fd;
 
 	while (redirs)
 	{
 		if (redirs->type != TYPE_REDIR)
 			return (1);
 		r = redirs->content.redir;
-		if (r->type == REDIR_IN)
-			fd = open(r->file, O_RDONLY);
-		else if (r->type == REDIR_OUT)
-			fd = open(r->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		else if (r->type == REDIR_APPEND)
-			fd = open(r->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		else
-			return (1); // Pas ici qu'on fait les heredocs;'\]
-		if (fd < 0 || dup2(fd,
-			(r->type == REDIR_IN ? STDIN_FILENO : STDOUT_FILENO)) < 0)
-			return (perror("minishell: redir"), 1);
-		close(fd);
+		if (open_and_dup(r) != 0)
+		{
+			ft_printerr("minishell: %s: %s\n", r->file, strerror(errno));
+			return (1);
+		}
 		redirs = redirs->next;
 	}
 	return (0);
@@ -61,16 +99,26 @@ int	execute_command(t_command *cmd, t_env *env)
 
 	pid = fork();
 	if (pid == -1)
+<<<<<<< HEAD
 		return (ft_printerr("minishell : fork"),1);
+=======
+		return (ft_printerr("minishell : fork\n"),1);
+>>>>>>> origin/dev
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (apply_redirections(cmd->redirs) != 0)
 			exit (1);
 		if (is_builtin(cmd->args[0]))
+<<<<<<< HEAD
 			exit(run_builtin(cmd->args, &env->env_vars));
+=======
+			exit(run_builtin(cmd->args, &(env->env_vars)));
+>>>>>>> origin/dev
 		execve(get_path(cmd->args[0], env->env_vars),
 			cmd->args, env->env_vars);
-		ft_printerr("minishell: execve");
+		ft_printerr("minishell: execve\n");
 		exit(127);
 	}
 	waitpid(pid, &status, 0);
@@ -80,6 +128,7 @@ int	execute_command(t_command *cmd, t_env *env)
 		env->last_exit_code = 128 + WTERMSIG(status);
 	return (env->last_exit_code);
 }
+<<<<<<< HEAD
 
 static void	close_pipe_and_update(int *prev, int *pipe_fd)
 {
@@ -165,3 +214,5 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 	free(pids);
 	return (0);
 }
+=======
+>>>>>>> origin/dev

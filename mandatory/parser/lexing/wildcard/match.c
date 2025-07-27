@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:30:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/19 14:31:19 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/27 15:45:27 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ bool	ft_match_pattern(const char *pattern, const char *string)
  * @param star_p Star pattern position
  * @param star_s Star string position
  */
-void	ft_reset_pattern_match(const char **p, const char **s,
-			const char *star_p, const char **star_s)
+void	ft_reset_pattern_match(char **p, char **s, char *star_p, char **star_s)
 {
 	if (!star_p)
 	{
