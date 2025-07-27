@@ -1,34 +1,106 @@
 # *********************************** FILES *********************************** #
 
 #  								    MANDATORY								  #
-MAN		= mandatory/
-LEX		= $(MAN)/parser/lexing/
+dir_parsing:
+	@mkdir -p $(DIR_PSI)$(PSR)
+	@mkdir -p $(DIR_PSI)$(PSR_U)
+# 	@mkdir -p $(DIR_PSI)$(PSR_OPS)
+	@mkdir -p $(DIR_PSI)$(PSR_PIP)
+	@mkdir -p $(DIR_PSI)$(PSR_LOG)
+	@mkdir -p $(DIR_PSI)$(PSR_PAR)
+	@mkdir -p $(DIR_PSI)$(PSR_RED)
+	@mkdir -p $(DIR_PSI)$(PSR_HER)
+	@mkdir -p $(DIR_PSI)$(PSR_WLD)
+	@mkdir -p $(DIR_PSI)$(PSR_VAL)
+	@mkdir -p $(DIR_PSI)$(LEX)
+	@mkdir -p $(DIR_PSI)$(EXP)
+	@mkdir -p $(DIR_PSI)$(SUP)
+	@mkdir -p $(DIR_PSI)$(CUP)
+
+# ******************************** COMPILATION ******************************* #
+
+$(DIR_PSI)$(PSR)%.o: $(PSR)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(PSR_U)%.o: $(PSR_U)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+# $(DIR_PSI)$(PSR_OPS)%.o: $(PSR_OPS)%.c | dir_parsing
+# 	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(PSR_PIP)%.o: $(PSR_PIP)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(PSR_LOG)%.o: $(PSR_LOG)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(PSR_PAR)%.o: $(PSR_PAR)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(PSR_RED)%.o: $(PSR_RED)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(PSR_HER)%.o: $(PSR_HER)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(PSR_WLD)%.o: $(PSR_WLD)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(PSR_VAL)%.o: $(PSR_VAL)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(LEX)%.o: $(LEX)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(EXP)%.o: $(EXP)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(SUP)%.o: $(SUP)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_PSI)$(CUP)%.o: $(CUP)%.c | dir_parsing
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+MAN		 = mandatory/
+PSR		= $(MAN)parser/
+LEX		= $(PSR)lexing/
 EXP		= $(LEX)expansion/
-PSR		= $(MAN)/parser/parsing/
-PSR_U	= $(PSR)utils/
-PRT		= $(PRR)/parentheses/
-EXP_DIR	= $(PRR)expression/
-AST_DIR	= $(PRR)ast/
-SUP		= $(MAN)/deployment/setup/
-CUP		= $(MAN)/deployment/cleanup/
-BLT		= $(MAN)/builtin/
-SGL		= $(MAN)/signal/
+EXP		= $(LEX)wildcard/
+PSI		= $(PSR)parsing/
+HER 	= $(PSR)heredoc/
+LOG 	= $(PSR)logical/
+PAR 	= $(PSR)parentheses/
+PIP 	= $(PSR)pipes/
+RED 	= $(PSR)redir/
+UTI		= $(PSR)utils/
+VAL 	= $(PSR)validate/
+BLT		= $(MAN)builtin/
+SGL		= $(MAN)signal/
 
 SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c		\
-	$(EXP)expansion_utils.c $(EXP)exit_code.c $(EXP)exp_dquote.c			\
-	$(EXP)exp_tok.c
+	$(EXP)utils.c $(EXP)exit_code.c $(EXP)dquote.c $(EXP)tok.c				\
+	$(WCD)wildcard.c $(WCD)files.c $(WCD)match.c $(WCD)tokens.c
 
-SRC_PRT = $(PRT)parentheses.c $(PRT)find.c $(PRT)check.c $(PRT)depth.c		\
-	$(PRT)utils.c
+SRC_HER	= $(HER)heredoc.c
 
-SRC_PSR	= $(PSR)parser.c $(PSR_U)ast.c $(PSR_U)token.c
+SRC_LOG	= $(LOG)logical.c $(LOG)precedence.c
+
+SRC_PRT = $(PRT)parentheses.c
+
+SRC_PIP	= $(PIP)operators.c $(PIP)pipes.c
+
+SRC_RED	= $(RED)input.c $(RED)output.c $(RED)redir.c $(RED)validate.c
+
+SRC_UTI	= $(UTI)ast.c $(UTI)logical.c $(UTI)parser.c $(UTI)redir.c $(UTI)token.c
+
+SRC_VAL	= $(VAL)ast_optimizer.c $(VAL)ast.c $(VAL)precedence.c $(VAL)validate.c
+
+SRC_PSR	= $(PSR)parse.c $(PSR)parser_util.c $(PSR)parser.c
+
+SRC_PSI	= $(PSI)enhanced.c $(PSI)parser.c $(SRC_HER) $(SRC_PRT) $(SRC_PIP)	\
+	$(SRC_RED) $(SRC_UTI) $(SRC_VAL) $(SRC_PSR)
 
 SRC_SUP	= $(SUP)setup.c $(SUP)environment.c
-
-SRC_LGR = $(LGOP)logical
-
-SRC_WCD = $(WCD)wildcard.c $(WCD)wc_files.c $(WCD)wc_match.c				\
-	$(WCD)wc_tokens.c
 
 SRC_CUP	= $(CUP)cleanup.c
 
@@ -38,8 +110,8 @@ SRC_BLT = $(BLT)/builtin_echo.c $(BLT)/builtin_pwd.c $(BLT)/run_builtin.c	\
 
 SRC_SGL = $(SGL)/signal.c
 
-SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)			\
-	$(SRC_BLT) $(SRC_SGL) $(SRC_PRT)
+SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PSI) $(SRC_SUP) $(SRC_CUP)			\
+	$(SRC_BLT) $(SRC_SGL)
 
 #  								      BONUS  								  #
 # BNS		= bonus/
