@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/14 13:56:24 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/27 18:43:31 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,13 @@ void			*ft_tok_err(int *p_status, int status);
 void			*ft_lstfree_t(t_list *tok_h);
 
 /**
- * @brief Frees a token node and its content
+ * @brief Creates a new token error
  * 
- * @param node The token node to free
- * @return void* Always NULL
+ * @param token The token to check
+ * @param ret Return value
+ * @return int The return value
  */
-void			*ft_clean_node_tok(t_list *node);
-
 int				ft_new_token_err(t_token *token, int ret);
-// int	ft_getend(char *s, int *i, bool *quote, bool word);
-// t_token_type	ft_getiteration(t_token_type type, int *i, int add);
-// char	*ft_expand_exit_code(char *str, int exit_code);
-/* --------------------------------- UTILS ---------------------------------- */
-
-/**
- * @brief Identifies the token type at the current position
- * 
- * @param s The input string
- * @param i Pointer to the current position
- * @param quote Flag to track quote status
- * @return t_token_type The identified token type
- */
-t_token_type	ft_get_type(char *s, int *i, bool *quote);
 
 /**
  * @brief Performs basic syntax validation on the token list
@@ -64,106 +49,43 @@ t_token_type	ft_get_type(char *s, int *i, bool *quote);
  */
 int				ft_lexer_checker(t_shell *shell);
 
+/* --------------------------------- UTILS ---------------------------------- */
+
+// Fonctions utilitaires de base
+int				ft_is_operator(char c);
+int				ft_is_space(char c);
+void			ft_skip_spaces(char *line, int *i);
+t_token			*ft_create_token(char *value, t_token_type type);
+
+// Fonctions d'extraction
+char			*ft_extract_word(char *line, int *i);
+char			*ft_extract_operator(char *line, int *i);
+t_token_type	ft_get_operator_type(char *op);
+
+// Fonctions de tokenisation
+int				ft_add_token(t_list **tokens, char *value, t_token_type type);
+t_list			*ft_lexing_simple(t_shell *shell);
+
+// Fonctions d'expansion variables
+int				ft_env_var_match(char *env_line, char *var_name);
+char			*ft_expand_var(char *str, char **envp, t_shell *shell);
+char			*ft_get_var_value(char *var_name, char **envp, t_shell *shell);
+char			*ft_expand_string(char *str, char **envp, t_shell *shell);
+char			*ft_extract_var_name(char *str, int pos);
+char			*ft_replace_var(char *str, int pos, int var_len, char *replacement);
+
+// Fonctions d'expansion finale
+char			*ft_remove_quotes(char *str);
+void			ft_expand_tokens(t_list *tokens, char **envp, t_shell *shell);
+
 /* --------------------------------- LEXING --------------------------------- */
 
 /**
- * @brief Main lexing function to tokenize a string
+ * @brief Main lexing function - point d'entrée principal
  * 
  * @param shell The shell structure
  * @return t_list* Head of the token list, NULL on error
  */
-t_list			*ft_lexing(t_shell *shell);
-char	*ft_gettype_name(t_token_type type);
-
-/* -------------------------------- EXPANSION ------------------------------- */
-
-/**
- * @brief Main expansion function to process all token expansions
- * 
- * @param shell The shell structure
- * @param tok_h The token list head
- * @param status Pointer to status variable
- * @return int 0 on success, -1 on error
- */
-int				ft_expansion(t_shell *shell, t_list **tok_h, int *status);
-
-/**
- * @brief Expands the $? status variable to its value
- * 
- * @param shell The shell structure
- * @param tok_c Current token node
- * @param str The string containing the status variable
- * @return bool true on success, false on error
- */
-bool			ft_expand_status(t_shell *shell, t_list *tok_c, char *str);
-
-/**
- * @brief Expands a variable in a string to its value
- * 
- * @param shell The shell structure
- * @param tok_c Current token node
- * @param str The string containing the variable
- * @param var_pos Position of the variable in the string
- * @return bool true on success, false on error
- */
-bool			ft_expand_var(t_shell *shell, t_list *tok_c, char *str, int var_pos);
-
-/**
- * @brief Creates a new token with expanded variable value
- * 
- * @param value The variable value
- * @return t_token* New token structure, NULL on error
- */
-t_token			*ft_create_var_token(char *value);
-
-/**
- * @brief Checks if a key is valid for environment variables
- * 
- * @param key The key to check
- * @return bool true if valid, false otherwise
- */
-bool			ft_is_valid_env_key(const char *key);
-
-/**
- * @brief Replaces a variable name with its value in a string
- * 
- * @param original Original string
- * @param var_pos Position of the variable in the string
- * @param var_len Length of the variable name
- * @param replacement Value to replace the variable with
- * @return char* New string with the variable replaced, NULL on error
- */
-char			*ft_replace_var(char *original, int var_pos, int var_len, char *replacement);
-
-/**
- * @brief Extracts a variable name from a string
- *
- * @param str The string containing the variable
- * @param pos Position of the variable in the string
- * @return char* The variable name, NULL on error
- */
-char			*ft_extract_var_name(char *str, int pos);
-
-/**
- * @brief Searches for a variable in the environment
- *
- * @param env_vars Array of environment variables
- * @param key The variable key to search for
- * @return char* The variable value, NULL if not found
- */
-char			*ft_find_env_var(char **env_vars, const char *key);
-
-/**
- * @brief Handles $? expansion
- *
- * @param str The string to process
- * @param exit_code The last exit code
- * @return char* New string with exit code expanded, NULL on error
- */
-char			*ft_expand_exit_code(char *str, int exit_code);
-
-bool	ft_expand_dquote(t_shell *shell, t_list *tok_c, int *status);
-t_list	*ft_expand_token(t_shell *shell, t_list **tok_h, 
-	t_list **tok_c);
+t_list			*ft_lexing_new(t_shell *shell);
 
 #endif
