@@ -6,18 +6,18 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:56:49 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/11 11:21:16 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/27 15:32:32 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
-/**
- * @brief Duplicates environment variables array
- * 
- * @param envp Original environment variables
- * @return char** Duplicated environment array, NULL on error
+/*
+ * Fonctions ft_envdup et update_env_var commentées car elles sont 
+ * déjà définies dans les fichiers builtin
  */
+
+/*
 char	**ft_envdup(char **envp)
 {
 	char	**new_env;
@@ -56,6 +56,7 @@ char	**ft_envdup(char **envp)
 	
 	return (new_env);
 }
+*/
 
 /**
  * @brief Helper function to join three strings
@@ -83,14 +84,7 @@ char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3)
 	return (result);
 }
 
-/**
- * @brief Updates or adds an environment variable
- * 
- * @param env Pointer to environment array
- * @param key Variable key
- * @param value Variable value
- * @return int 0 on success, -1 on error
- */
+/*
 int	update_env_var(char ***env, const char *key, const char *value)
 {
 	int		i;
@@ -147,3 +141,4 @@ int	update_env_var(char ***env, const char *key, const char *value)
 	*env = new_env;
 	return (0);
 }
+*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/11 14:53:16 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/07/27 15:32:32 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ int	execute_command(t_command *cmd, t_env *env)
 	int		status;
 
 	pid = fork();
-	if (pid = -1)
+	if (pid == -1)
 		return (ft_printerr("minishell : fork"),1);
 	if (pid == 0)
 	{
 		if (apply_redirections(cmd->redirs) != 0)
 			exit (1);
 		if (is_builtin(cmd->args[0]))
-			exit(run_builtin(cmd->args, env));
+			exit(run_builtin(cmd->args, &env->env_vars));
 		execve(get_path(cmd->args[0], env->env_vars),
 			cmd->args, env->env_vars);
 		ft_printerr("minishell: execve");
@@ -120,7 +120,7 @@ static void	child_process(t_list *cmd_l, int in, int out, t_env *env)
 	if (apply_redirections(cmd->redirs) != 0)
 		exit(1);
 	if (is_builtin(cmd->args[0]) && !cmd_l->next)
-		exit(run_builtin(cmd->args, env));
+		exit(run_builtin(cmd->args, &env->env_vars));
 	execve(get_path(cmd->args[0], env->env_vars),
 		cmd->args, env->env_vars);
 	perror("execve");
@@ -133,7 +133,6 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 	int		pipe_fd[2];
 	int		prev;
 	int		i;
-	t_command *cmd;
 
 	i = 0;
 	prev = -1;
@@ -142,7 +141,6 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 		return (1);
 	while (cmd_h)
 	{
-		cmd = cmd_h->content.cmd;
 		if (cmd_h->next)
 		{
 			if (pipe(pipe_fd) == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:28:12 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/08 18:21:27 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/07/27 15:38:16 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,17 @@ int	builtin_env(char **env)
 {
 	int	i;
 
+	if (!env)
+	{
+		printf("env: no environment variables\n");
+		return (1);
+	}
+	
 	i = 0;
 	while (env[i])
 	{
 		if (ft_strchr(env[i], '='))
-			ft_printf("%s\n", env[i]);
+			printf("%s\n", env[i]);
 		i++;
 	}
 	return (0);

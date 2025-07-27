@@ -1,21 +1,7 @@
 # *********************************** FILES *********************************** #
 
 #  								    MANDATORY								  #
-dir_parsing:
-	@mkdir -p $(DIR_PSI)$(PSR)
-	@mkdir -p $(DIR_PSI)$(PSR_U)
-# 	@mkdir -p $(DIR_PSI)$(PSR_OPS)
-	@mkdir -p $(DIR_PSI)$(PSR_PIP)
-	@mkdir -p $(DIR_PSI)$(PSR_LOG)
-	@mkdir -p $(DIR_PSI)$(PSR_PAR)
-	@mkdir -p $(DIR_PSI)$(PSR_RED)
-	@mkdir -p $(DIR_PSI)$(PSR_HER)
-	@mkdir -p $(DIR_PSI)$(PSR_WLD)
-	@mkdir -p $(DIR_PSI)$(PSR_VAL)
-	@mkdir -p $(DIR_PSI)$(LEX)
-	@mkdir -p $(DIR_PSI)$(EXP)
-	@mkdir -p $(DIR_PSI)$(SUP)
-	@mkdir -p $(DIR_PSI)$(CUP)
+# dir_parsing supprimé pour éviter les conflits avec les unit tests
 
 # ******************************** COMPILATION ******************************* #
 
@@ -93,7 +79,7 @@ SRC_RED	= $(RED)input.c $(RED)output.c $(RED)redir.c $(RED)validate.c
 
 SRC_UTI	= $(UTI)ast.c $(UTI)logical.c $(UTI)parser.c $(UTI)redir.c $(UTI)token.c
 
-SRC_VAL	= $(VAL)ast_optimizer.c $(VAL)ast.c $(VAL)precedence.c $(VAL)validate.c
+SRC_VAL	= $(VAL)ast_optimizer.c $(VAL)precedence.c $(VAL)validate.c
 
 SRC_PSR	= $(PSR)parse.c $(PSR)parser_util.c $(PSR)parser.c
 
@@ -110,8 +96,57 @@ SRC_BLT = $(BLT)/builtin_echo.c $(BLT)/builtin_pwd.c $(BLT)/run_builtin.c	\
 
 SRC_SGL = $(SGL)/signal.c
 
-SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PSI) $(SRC_SUP) $(SRC_CUP)			\
-	$(SRC_BLT) $(SRC_SGL)
+# Liste explicite de tous les fichiers .c dans mandatory/ (excluant les tests)
+SRC_MAIN = $(MAN)main.c
+
+SRC_BUILTIN = $(MAN)builtin/builtin_cd_utils.c $(MAN)builtin/builtin_pwd.c \
+	$(MAN)builtin/run_builtin.c $(MAN)builtin/builtin_unset.c \
+	$(MAN)builtin/builtin_export.c $(MAN)builtin/builtin_env.c \
+	$(MAN)builtin/builtin_exit.c $(MAN)builtin/builtin_echo.c \
+	$(MAN)builtin/builtin_cd.c
+
+SRC_SIGNAL = $(MAN)signal/signal.c
+
+SRC_EXECUTOR = $(MAN)executor/executor.c $(MAN)executor/ast_to_command_list.c \
+	$(MAN)executor/get_path.c
+
+SRC_DEPLOYMENT = $(MAN)deployment/setup/setup.c $(MAN)deployment/setup/environment.c \
+	$(MAN)deployment/cleanup/cleanup.c
+
+SRC_PARSER_BASE = $(MAN)parser/enhanced.c $(MAN)parser/parser.c
+
+SRC_LEXING = $(MAN)parser/lexing/lexing.c $(MAN)parser/lexing/err.c \
+	$(MAN)parser/lexing/utils.c
+
+SRC_EXPANSION = $(MAN)parser/lexing/expansion/tok.c \
+	$(MAN)parser/lexing/expansion/dquote.c \
+	$(MAN)parser/lexing/expansion/utils.c \
+	$(MAN)parser/lexing/expansion/expansion.c \
+	$(MAN)parser/lexing/expansion/exit_code.c
+
+SRC_WILDCARD = $(MAN)parser/lexing/wildcard/wildcard.c \
+	$(MAN)parser/lexing/wildcard/match.c \
+	$(MAN)parser/lexing/wildcard/files.c \
+	$(MAN)parser/lexing/wildcard/tokens.c
+
+SRC_PARSING_UTILS = $(MAN)parser/parsing/utils/ast.c \
+	$(MAN)parser/parsing/utils/logical.c $(MAN)parser/parsing/utils/parser.c \
+	$(MAN)parser/parsing/utils/redir.c $(MAN)parser/parsing/utils/token.c
+
+SRC_PARSING_FEATURES = $(MAN)parser/parsing/parentheses/parentheses.c \
+	$(MAN)parser/parsing/pipes/operators.c $(MAN)parser/parsing/pipes/pipes.c \
+	$(MAN)parser/parsing/logical/logical.c $(MAN)parser/parsing/logical/precedence.c \
+	$(MAN)parser/parsing/redir/input.c $(MAN)parser/parsing/redir/output.c \
+	$(MAN)parser/parsing/redir/redir.c $(MAN)parser/parsing/redir/validate.c \
+	$(MAN)parser/parsing/heredoc/heredoc.c \
+	$(MAN)parser/parsing/validate/ast_optimizer.c $(MAN)parser/parsing/validate/ast.c \
+	$(MAN)parser/parsing/validate/precedence.c $(MAN)parser/parsing/validate/validate.c
+
+SRC_UTILS = $(MAN)utils/missing_functions.c
+
+SRC		= $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_SIGNAL) $(SRC_EXECUTOR) \
+	$(SRC_DEPLOYMENT) $(SRC_PARSER_BASE) $(SRC_LEXING) $(SRC_EXPANSION) \
+	$(SRC_WILDCARD) $(SRC_PARSING_UTILS) $(SRC_PARSING_FEATURES) $(SRC_UTILS)
 
 #  								      BONUS  								  #
 # BNS		= bonus/

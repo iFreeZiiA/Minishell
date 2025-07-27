@@ -12,12 +12,12 @@
 
 #include "../../../../header/minishell.h"
 
-/**
- * @brief Validates command node data integrity
- * 
- * @param node Command node to validate
- * @return int 1 if valid, 0 if invalid
+/*
+ * Fonctions de validation mises en commentaire car non utilisées actuellement
+ * Elles peuvent être réactivées plus tard si nécessaire
  */
+
+/*
 static int	ft_validate_command_node(t_ast_node *node)
 {
 	t_command	*cmd;
@@ -32,12 +32,6 @@ static int	ft_validate_command_node(t_ast_node *node)
 	return (1);
 }
 
-/**
- * @brief Validates operator node children
- * 
- * @param node Operator node to validate
- * @return int 1 if valid, 0 if invalid
- */
 static int	ft_validate_operator_node(t_ast_node *node)
 {
 	if (!node)
@@ -50,14 +44,6 @@ static int	ft_validate_operator_node(t_ast_node *node)
 	return (1);
 }
 
-/**
- * @brief Checks AST for circular references
- * 
- * @param node Current node
- * @param visited Array of visited nodes
- * @param count Current visit count
- * @return int 1 if no cycles, 0 if cycle detected
- */
 static int	ft_check_cycles(t_ast_node *node, t_ast_node **visited, int *count)
 {
 	int	i;
@@ -80,13 +66,6 @@ static int	ft_check_cycles(t_ast_node *node, t_ast_node **visited, int *count)
 	return (1);
 }
 
-/**
- * @brief Validates AST depth to prevent stack overflow
- * 
- * @param node Current node
- * @param depth Current depth
- * @return int Maximum depth found
- */
 static int	ft_validate_depth(t_ast_node *node, int depth)
 {
 	int	left_depth;
@@ -101,27 +80,26 @@ static int	ft_validate_depth(t_ast_node *node, int depth)
 	return (right_depth);
 }
 
-/**
- * @brief Main AST structure validation function
- * 
- * @param root Root node of AST
- * @return int 1 if valid structure, 0 if invalid
- */
-// int	ft_validate_ast_structure(t_ast_node *root)
-// {
-// 	t_ast_node	*visited[1000];
-// 	int			count;
-// 	int			max_depth;
+int	ft_validate_ast_structure(t_ast_node *root)
+{
+	t_ast_node	*visited[1000];
+	int			count;
+	int			max_depth;
 
-// 	if (!root)
-// 		return (1);
-// 	if (!ft_validate_command_node(root) && !ft_validate_operator_node(root))
-// 		return (0);
-// 	count = 0;
-// 	if (!ft_check_cycles(root, visited, &count))
-// 		return (0);
-// 	max_depth = ft_validate_depth(root, 0);
-// 	if (max_depth > 50)
-// 		return (0);
-// 	return (1);
-// }
+	if (!root)
+		return (1);
+	// Validation commentée temporairement
+	// if (!ft_validate_command_node(root) && !ft_validate_operator_node(root))
+	//	return (0);
+	count = 0;
+	// if (!ft_check_cycles(root, visited, &count))
+	//	return (0);
+	// max_depth = ft_validate_depth(root, 0);
+	// if (max_depth > 50)
+	//	return (0);
+	(void)visited;
+	(void)count; 
+	(void)max_depth;
+	return (1);
+}
+*/
