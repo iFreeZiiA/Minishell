@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/17 18:59:49 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/05 19:47:34 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,12 @@ t_list	*ft_find_operator_at_level(t_list *start, t_list *end)
  * @param type Token type to check
  * @return bool true if token is a redirection operator, false otherwise
  */
-bool	ft_is_redirect_token(t_token_type type)
+/**
+ * @brief Checks if a token type represents a redirection operator
+ * @param type Token type to check
+ * @return bool true if token is a redirection operator, false otherwise
+ */
+bool	ft_is_redirection_token_type(t_token_type type)
 {
 	if (type == TOKEN_REDIR_IN)
 		return (true);

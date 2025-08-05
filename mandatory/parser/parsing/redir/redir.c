@@ -6,11 +6,14 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/20 16:49:09 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/05 19:47:34 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
+
+// Déclaration de notre fonction compatible qui marche
+int ft_process_single_redirection_compat(t_list *redir_token, t_command *cmd);
 
 /**
  * @brief Parse toutes les redirections d'une commande
@@ -33,7 +36,7 @@ int	ft_parse_redirections(t_shell *shell, t_list *tokens, t_command *cmd)
 	{
 		if (ft_is_redirection_token(current->content.token))
 		{
-			result = ft_process_single_redirection(current, cmd);
+			result = ft_process_single_redirection_compat(current, cmd);
 			if (result != 0)
 				return (-1);
 		}

@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/17 18:59:49 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/02 14:20:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static t_ast_node	*ft_parse_group_content(t_shell *shell, t_list *start,
 	t_ast_node	*content;
 
 	content_start = start->next;
-	content = ft_parse_expression(shell, shell->token, content_start, end);
+	content = ft_parse_expression(content_start, end, shell);
 	return (content);
 }
 

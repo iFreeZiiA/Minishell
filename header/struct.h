@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/21 12:15:01 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/05 19:47:34 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ typedef struct s_shell {
 
 typedef enum e_content_type
 {
-	TYPE_REDIR,
+	TYPE_REDIR = 1,
 	TYPE_TOKEN,
 	TYPE_COMMAND,
 	TYPE_GENERIC

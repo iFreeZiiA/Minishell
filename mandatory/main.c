@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/27 15:44:57 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/02 12:40:13 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,11 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 	char	*input;
-	int		exit_code;
-	int		parse_result;
 	(void)argc;
 	(void)argv;
 
 	setup_interactive_signals();
 	ft_setup(&shell, envp);
-	printf("DEBUG: Environment setup completed\n");
-	printf("DEBUG: Number of env vars: ");
-	if (shell.env && shell.env->env_vars) {
-		int count = 0;
-		while (shell.env->env_vars[count]) count++;
-		printf("%d\n", count);
-	} else {
-		printf("0 (env_vars is NULL)\n");
-	}
 	while (1)
 	{
 		g_sig = 0; //RESET le signal a chaque nouvelle commande, a conserver
@@ -51,42 +40,24 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_exit(input) == -1)
 			break;
 		shell.current_line = input;
-		shell.token = ft_lexing(&shell);
+		shell.token = ft_lexing_new(&shell);
 		add_history(input);
-		printf("DEBUG: Parsing command: %s\n", input);
-		if (ft_parse_enhanced(&shell) == -1)
-			ft_printerr("WRONG ARG\n");
+		
+		// Utiliser le nouveau parser avec opérateurs logiques
+		int parse_result = ft_parse_input(input, &shell);
+		// printf("DEBUG: ft_parse_input returned %d, shell.ast = %p\n", parse_result, shell.ast);
+		
+		if (parse_result == 0 && shell.ast)
+		{
+			// printf("DEBUG: Calling executor_from_ast\n");
+			executor_from_ast(shell.ast, shell.env);
+		}
 		else
 		{
-			printf("DEBUG: Parse successful, executing simple command\n");
-			// Executor simple pour test
-			if (shell.token)
-			{
-				t_list *current = shell.token;
-				while (current)
-				{
-					if (current->type == TYPE_TOKEN)
-					{
-						t_token *token = current->content.token;
-						if (token && token->type == TOKEN_WORD)
-						{
-							if (!ft_strcmp(token->value, "env"))
-							{
-								printf("DEBUG: Executing env builtin\n");
-								builtin_env(shell.env->env_vars);
-							}
-							else if (!ft_strcmp(token->value, "pwd"))
-							{
-								printf("DEBUG: Executing pwd builtin\n");
-								builtin_pwd();
-							}
-							break;
-						}
-					}
-					current = current->next;
-				}
-			}
+			// printf("DEBUG: Parse failed or AST is NULL\n");
+			ft_printerr("WRONG ARG\n");
 		}
+		
 		//EXECUTOR
 		free(input);
 	}

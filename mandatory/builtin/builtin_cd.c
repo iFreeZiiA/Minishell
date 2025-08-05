@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:48:15 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/10 16:25:37 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/08/02 12:40:13 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,34 @@ static char	**alloc_env_with_new(char **env, char *new)
 		return (NULL);
 	i = -1;
 	while (env[++i])
-		new_env[i] = env[i];
+	{
+		new_env[i] = ft_strdup(env[i]);
+		if (!new_env[i])
+		{
+			while (--i >= 0)
+				free(new_env[i]);
+			free(new_env);
+			return (NULL);
+		}
+	}
 	new_env[i++] = new;
 	new_env[i] = NULL;
 	return (new_env);
+}
+
+static void	ft_free_env(char **env)
+{
+	int	i;
+
+	if (!env)
+		return ;
+	i = 0;
+	while (env[i])
+	{
+		free(env[i]);
+		i++;
+	}
+	free(env);
 }
 
 int	update_env_var(char ***env, const char *key, const char *value)
@@ -89,7 +113,7 @@ int	update_env_var(char ***env, const char *key, const char *value)
 	new_env = alloc_env_with_new(*env, new);
 	if (!new_env)
 		return (free(new), 1);
-	free(*env);
+	ft_free_env(*env);
 	*env = new_env;
 	return (0);
 }

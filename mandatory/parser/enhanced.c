@@ -92,7 +92,13 @@ static t_ast_node	*ft_create_enhanced_command(t_list *tokens, t_shell *shell)
  */
 t_ast_node	*ft_enhanced_parser(t_list *tokens, t_shell *shell)
 {
+	// printf("DEBUG: ft_enhanced_parser called\n");
+	
 	if (ft_validate_token_list(tokens) != 0)
+	{
+		// printf("DEBUG: Token validation failed\n");
 		return (NULL);
+	}
+	// printf("DEBUG: Token validation passed, creating enhanced command\n");
 	return (ft_create_enhanced_command(tokens, shell));
 }

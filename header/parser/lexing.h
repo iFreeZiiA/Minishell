@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:43:30 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/27 18:43:31 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/02 12:40:13 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int				ft_lexer_checker(t_shell *shell);
 
 // Fonctions utilitaires de base
 int				ft_is_operator(char c);
+int				ft_is_separator(char c);
 int				ft_is_space(char c);
 void			ft_skip_spaces(char *line, int *i);
 t_token			*ft_create_token(char *value, t_token_type type);

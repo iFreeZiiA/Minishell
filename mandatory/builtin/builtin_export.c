@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:58:25 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/08 18:21:34 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/08/02 12:40:13 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,19 @@ int	builtin_export(char **args, char ***env)
 			ft_putstr_fd("': not a valid identifier\n", 2);
 		}
 		else
-			update_env_var(env, args[i], ft_strchr(args[i], '=') ?
-				ft_strchr(args[i], '=') + 1 : "");
+		{
+			char *equals_pos = ft_strchr(args[i], '=');
+			if (equals_pos)
+			{
+				*equals_pos = '\0';
+				update_env_var(env, args[i], equals_pos + 1);
+				*equals_pos = '=';
+			}
+			else
+			{
+				update_env_var(env, args[i], "");
+			}
+		}
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:45:35 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/19 22:02:50 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/05 19:47:34 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static inline void	ft_freeast(t_ast_node *ast)
 		cmd = (t_command *) ast->data;
 		ft_free_vctr((void **) cmd->args);
 		if (cmd->redirs)
-			ft_freelst(cmd->redirs, 3);
+			ft_freelst(cmd->redirs, 2);
 		free(ast->data);
 	}
 	ft_freeast(ast->left);
@@ -83,10 +83,22 @@ static inline void	ft_freetoken(t_list *tok_h)
 
 void	ft_freeenv(t_env *env)
 {
+	int	i;
+
 	if (!env)
 		return ;
 	if (env->local_env)
 		ft_free_vctr((void **) env->local_env);
+	if (env->env_vars)
+	{
+		i = 0;
+		while (env->env_vars[i])
+		{
+			free(env->env_vars[i]);
+			i++;
+		}
+		free(env->env_vars);
+	}
 	free(env);
 	env = NULL;
 }

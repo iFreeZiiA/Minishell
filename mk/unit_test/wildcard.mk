@@ -49,7 +49,6 @@ dir_wcard:
 $(DIR_WC)$(WCD)%.o: $(WCD)%.c | dir_wcard
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-<<<<<<< HEAD
 $(DIR_WC)$(SUP)%.o: $(SUP)%.c | dir_wcard
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -99,14 +98,6 @@ test_manual: wildcard
 
 # ********************************* BANNER *********************************** #
 
-=======
-# $(DIR_PR)$(PRR)%.o: $(PRR)%.c | dir_parser
-# 	@$(CC) $(CFLAGS) -c $< -o $@
-
-$(DIR_WC)$(CUP)%.o: $(CUP)%.c | dir_wcard
-	@$(CC) $(CFLAGS) -c $< -o $@
-
->>>>>>> origin/dev
 BAN_WC	= \
 " **********************************************" "\n" \
 "*$(Y)  _    _ _____ _      _____   _____  ___  ___  ___    $(O)*" "\n" \

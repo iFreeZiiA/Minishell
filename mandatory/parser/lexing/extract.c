@@ -78,5 +78,9 @@ t_token_type	ft_get_operator_type(char *op)
 		return (TOKEN_APPEND);
 	if (!ft_strcmp(op, "<<"))
 		return (TOKEN_HEREDOC);
+	if (!ft_strcmp(op, "("))
+		return (TOKEN_PAREN_OPEN);
+	if (!ft_strcmp(op, ")"))
+		return (TOKEN_PAREN_CLOSE);
 	return (TOKEN_WORD);
 }

@@ -125,7 +125,7 @@ static int	ft_process_input(char *input)
 	}
 	
 	shell.current_line = input;
-	tokens = ft_lexing(&shell);
+	tokens = ft_lexing_simple(&shell);
 	if (!tokens)
 	{
 		ft_printf("Error: Tokenization failed\n");

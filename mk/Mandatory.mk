@@ -12,17 +12,13 @@ dir_mandatory:
 	@mkdir -p $(DIR)/$(MAN)deployment/cleanup
 	@mkdir -p $(DIR)/$(MAN)executor
 	@mkdir -p $(DIR)/$(MAN)parser
-	@mkdir -p $(DIR)/$(MAN)parser/lexing
-	@mkdir -p $(DIR)/$(MAN)parser/lexing/expansion
-	@mkdir -p $(DIR)/$(MAN)parser/lexing/wildcard
-	@mkdir -p $(DIR)/$(MAN)parser/parsing
-	@mkdir -p $(DIR)/$(MAN)parser/parsing/parentheses
-	@mkdir -p $(DIR)/$(MAN)parser/parsing/pipes
-	@mkdir -p $(DIR)/$(MAN)parser/parsing/logical
-	@mkdir -p $(DIR)/$(MAN)parser/parsing/redir
-	@mkdir -p $(DIR)/$(MAN)parser/parsing/heredoc
-	@mkdir -p $(DIR)/$(MAN)parser/parsing/validate
-	@mkdir -p $(DIR)/$(MAN)parser/parsing/utils
+	@mkdir -p $(DIR)/$(MAN)parser/src/lexing
+	@mkdir -p $(DIR)/$(MAN)parser/src/parsing/groups
+	@mkdir -p $(DIR)/$(MAN)parser/src/parsing/pipe
+	@mkdir -p $(DIR)/$(MAN)parser/src/parsing/logic
+	@mkdir -p $(DIR)/$(MAN)parser/src/parsing/redirect
+	@mkdir -p $(DIR)/$(MAN)parser/src/parsing/heredoc
+	@mkdir -p $(DIR)/$(MAN)parser/src/parsing/utils
 	@mkdir -p $(DIR)/$(MAN)utils
 
 # Règles de compilation pour tous les fichiers .c dans les sous-répertoires

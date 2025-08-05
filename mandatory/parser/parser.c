@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/26 22:42:29 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/02 12:40:13 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,24 @@ int	ft_parse_input(char *input, t_shell *shell)
 	if (ft_validate_input(input, shell) != 0)
 		return (-1);
 	shell->current_line = input;
-	tokens = ft_lexing(shell);
+	tokens = ft_lexing_new(shell);
 	if (!tokens)
 	{
 		shell->ast = NULL;
 		return (-1);
 	}
+	
+	// Debug: afficher les tokens avec détails
+	// ft_debug_tokens(tokens);
+	
 	shell->token = tokens;
 	if (ft_parse_enhanced(shell) != 0)
 	{
+		// printf("DEBUG: ft_parse_enhanced FAILED\n");
 		ft_cleanup_parsing_error(shell, tokens);
 		return (-1);
 	}
+	// printf("DEBUG: ft_parse_enhanced SUCCESS\n");
 	return (0);
 }
 

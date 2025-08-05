@@ -51,24 +51,31 @@ static int	ft_apply_parsing_strategy(t_shell *shell, int parsing_type)
 	t_ast_node	*result_ast;
 	t_list		*end_token;
 
+	// printf("DEBUG: Parsing type detected = %d\n", parsing_type);
+	
 	end_token = shell->token;
 	while (end_token && end_token->next)
 		end_token = end_token->next;
 	if (parsing_type == 3)
 	{
+		// printf("DEBUG: Using logical parsing\n");
 		result_ast = ft_parse_logical_expression(shell, shell->token, end_token);
 	}
 	else if (parsing_type == 2)
 	{
+		// printf("DEBUG: Using pipe parsing\n");
 		result_ast = ft_parse_pipe_expression(shell->token, shell);
 	}
 	else
 	{
+		// printf("DEBUG: Using simple parsing\n");
 		result_ast = ft_parser(shell->token, shell);
 	}
+	// printf("DEBUG: result_ast = %p\n", result_ast);
 	if (!result_ast)
 		return (-1);
 	shell->ast = result_ast;
+	// printf("DEBUG: shell->ast assigned = %p\n", shell->ast);
 	return (0);
 }
 
@@ -130,16 +137,34 @@ int	ft_parse_enhanced(t_shell *shell)
 {
 	int	parsing_type;
 
+	// printf("DEBUG: ft_parse_enhanced called\n");
+	
 	if (ft_validate_parse_input(shell) != 0)
+	{
+		// printf("DEBUG: parse input validation failed\n");
 		return (-1);
+	}
 	if (!ft_validate_raw_quotes(shell->current_line))
+	{
+		// printf("DEBUG: raw quotes validation failed\n");
 		return (-1);
+	}
 	if (!ft_validate_syntax(shell->token))
+	{
+		// printf("DEBUG: syntax validation failed\n");
 		return (-1);
+	}
 	if (ft_validate_logical_syntax(shell->token) == false)
+	{
+		// printf("DEBUG: logical syntax validation failed\n");
 		return (-1);
+	}
 	parsing_type = ft_detect_parsing_type(shell->token);
+	// printf("DEBUG: parsing_type = %d\n", parsing_type);
 	if (parsing_type == 0)
+	{
+		// printf("DEBUG: parsing type is 0 (invalid)\n");
 		return (-1);
+	}
 	return (ft_apply_parsing_strategy(shell, parsing_type));
 }

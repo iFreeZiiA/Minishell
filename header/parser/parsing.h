@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/26 17:55:04 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/07/27 16:45:40 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
  * @return t_ast_node* Noeud racine de l'AST ou NULL en cas d'erreur
  */
 t_ast_node	*ft_parser(t_list *tokens, t_shell *shell);
+t_ast_node	*ft_parser_new(t_list *tokens, t_shell *shell);
 
 /* ****************************** OPERATORS ********************************* */
 
@@ -46,7 +47,6 @@ t_list		*ft_find_pipe_token(t_list *tokens);
  */
 t_ast_node	*ft_create_pipe_node(t_ast_node *left, t_ast_node *right);
 
-
 /**
  * @brief Valide la syntaxe des pipes
  * 
@@ -54,6 +54,50 @@ t_ast_node	*ft_create_pipe_node(t_ast_node *left, t_ast_node *right);
  * @return int 0 si valide, -1 sinon
  */
 int			ft_validate_pipe_syntax(t_list *tokens);
+
+/* ************************* OPÉRATEURS LOGIQUES **************************** */
+
+/**
+ * @brief Trouve le premier opérateur logique (&&, ||) dans la liste
+ * 
+ * @param tokens Liste de tokens
+ * @return t_list* Token opérateur trouvé ou NULL
+ */
+t_list		*ft_find_logical_operator(t_list *tokens);
+
+/**
+ * @brief Crée un nœud AST de type AND (&&)
+ * 
+ * @param left Commande de gauche
+ * @param right Commande de droite
+ * @return t_ast_node* Nouveau nœud AND
+ */
+t_ast_node	*ft_create_and_node(t_ast_node *left, t_ast_node *right);
+
+/**
+ * @brief Crée un nœud AST de type OR (||)
+ * 
+ * @param left Commande de gauche
+ * @param right Commande de droite
+ * @return t_ast_node* Nouveau nœud OR
+ */
+t_ast_node	*ft_create_or_node(t_ast_node *left, t_ast_node *right);
+
+/**
+ * @brief Parse les opérateurs logiques avec gestion des précédences
+ * 
+ * @param shell Structure shell
+ * @return int 0 succès, -1 erreur
+ */
+int			ft_parse_logical_operators(t_shell *shell);
+
+/**
+ * @brief Valide la syntaxe des opérateurs logiques
+ * 
+ * @param tokens Liste de tokens
+ * @return bool true si valide, false sinon
+ */
+bool		ft_validate_logical_syntax(t_list *tokens);
 
 /* ******************************** PIPES ************************************ */
 
@@ -130,5 +174,10 @@ int			ft_is_operator_token(t_token *token);
 int			ft_is_redirect_token_type(t_token_type type);
 int			ft_count_tokens_by_type(t_list *tokens, t_token_type type);
 t_list		*ft_find_first_token_type(t_list *tokens, t_token_type type);
+
+/* *************************** FONCTIONS DEBUG *************************** */
+
+void		ft_debug_tokens(t_list *tokens);
+char		*ft_get_token_type_name(t_token_type type);
 
 #endif

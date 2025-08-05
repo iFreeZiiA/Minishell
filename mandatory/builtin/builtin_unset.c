@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:35:51 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/13 16:22:53 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/08/02 12:40:13 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,36 @@ char	**alloc_env(char **env, int skip)
 	while (env[i])
 	{
 		if (i != skip)
-			new[count++] = env[i];
-		else
-			free(env[i]);
+		{
+			new[count] = ft_strdup(env[i]);
+			if (!new[count])
+			{
+				while (--count >= 0)
+					free(new[count]);
+				free(new);
+				return (NULL);
+			}
+			count++;
+		}
 		i++;
 	}
 	new[count] = NULL;
 	return (new);
+}
+
+static void	ft_free_env_unset(char **env)
+{
+	int	i;
+
+	if (!env)
+		return ;
+	i = 0;
+	while (env[i])
+	{
+		free(env[i]);
+		i++;
+	}
+	free(env);
 }
 
 int	builtin_unset(char **args, char ***env)
@@ -52,7 +75,7 @@ int	builtin_unset(char **args, char ***env)
 	new = alloc_env(*env, idx);
 	if (!new)
 		return (1);
-	free(*env);
+	ft_free_env_unset(*env);
 	*env = new;
 	return (0);
 }

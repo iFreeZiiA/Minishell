@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:47:48 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/10 19:16:15 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/08/02 14:20:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+#include <string.h>
 
 
 static char	*search_cmd_in_paths(char **paths, char *cmd)
@@ -46,7 +47,7 @@ char	*get_path(char *cmd, char **envp)
 		return (NULL);
 	if (ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
-	while (*envp && ft_strncmp(*envp, "PATH=", 5))
+	while (*envp && strncmp(*envp, "PATH=", 5))
 		envp++;
 	if (!*envp)
 		return (NULL);

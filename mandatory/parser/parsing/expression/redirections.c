@@ -45,7 +45,7 @@ static redir_type	ft_token_to_redir_type(t_token_type token_type)
  * @param filename Name of the file for redirection
  * @return t_redir* Pointer to created redirection, or NULL on failure
  */
-static t_redir	*ft_create_redirection(redir_type type, char *filename)
+t_redir	*ft_create_redirection(redir_type type, char *filename)
 {
 	t_redir	*redir;
 
@@ -99,7 +99,7 @@ static int	ft_add_redirection_to_cmd(t_command *cmd, t_redir *redir)
  * @param cmd Command to add the redirection to
  * @return int 0 on success, -1 on failure
  */
-static int	ft_process_single_redirection(t_list *curr, t_command *cmd)
+int	ft_process_single_redirection(t_list *curr, t_command *cmd)
 {
 	t_redir		*redir;
 	redir_type	type;
@@ -140,7 +140,7 @@ int	ft_parse_redirections(t_shell *shell, t_list *token_h, t_command *cmd)
 	curr = token_h;
 	while (curr)
 	{
-		if (ft_is_redirect_token(curr->content.token->type))
+		if (ft_is_redirection_token(curr->content.token))
 		{
 			if (ft_process_single_redirection(curr, cmd) < 0)
 				return (-1);

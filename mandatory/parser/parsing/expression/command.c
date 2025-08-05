@@ -1,4 +1,7 @@
-/* ************************************************************************** */
+/* ******************************	if (ft_is_word_token(curr->content.token))
+		count++;
+	else if (ft_is_redirection_token(curr->content.token))
+		curr = curr->next;		else if (ft_is_redirection_token(curr->content.token))***************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
@@ -33,7 +36,7 @@ static int	ft_count_command_args(t_list *start, t_list *end)
 	{
 		if (ft_is_word_token(curr->content.token))
 			count++;
-		else if (ft_is_redirect_token(curr->content.token->type))
+		else if (ft_is_redirection_token(curr->content.token))
 			curr = curr->next;
 		if (curr)
 			curr = curr->next;
@@ -92,7 +95,7 @@ static char	**ft_fill_args_array(t_list *start, t_list *end, int arg_count)
 				return (ft_leak(args, i));
 			i++;
 		}
-		else if (ft_is_redirect_token(curr->content.token->type))
+		else if (ft_is_redirection_token(curr->content.token))
 			curr = curr->next;
 		if (curr)
 			curr = curr->next;

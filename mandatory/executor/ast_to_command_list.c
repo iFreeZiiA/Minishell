@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_to_command_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:15:34 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/24 18:23:28 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/08/02 14:20:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,21 @@ t_list	*ast_to_command_list(t_ast_node *ast)
 		right->prev = tmp;
 		return (left);
 	}
-	if (ast->type == NODE_COMMAND)
+	else if (ast->type == NODE_COMMAND)
+	{
 		add_command_node(&cmds, (t_command *)ast->data);
+	}
+	else if (ast->type == NODE_GROUP)
+	{
+		// Pour les parenthèses, traiter le contenu du groupe
+		return (ast_to_command_list(ast->left));
+	}
+	else if (ast->type == NODE_AND || ast->type == NODE_OR)
+	{
+		// Pour && et ||, on ne convertit que la première commande
+		// L'execution conditionnelle sera gérée par executor_from_ast
+		return (ast_to_command_list(ast->left));
+	}
 	return (cmds);
 }
 
@@ -64,13 +77,58 @@ int	executor_from_ast(t_ast_node *ast, t_env *env)
 {
 	t_list	*cmds;
 	int		status;
+	int		left_status;
 
+	// printf("DEBUG: executor_from_ast called with node type = %d\n", ast ? ast->type : -1);
+	
 	if (!ast)
+	{
+		// printf("DEBUG: ast is NULL\n");
 		return (1);
+	}
+	
+	// Gestion des opérateurs logiques && et ||
+	if (ast->type == NODE_AND)
+	{
+		// printf("DEBUG: Executing NODE_AND\n");
+		left_status = executor_from_ast(ast->left, env);
+		// printf("DEBUG: NODE_AND left_status = %d\n", left_status);
+		if (left_status == 0)  // Si left réussit, exécuter right
+		{
+			// printf("DEBUG: NODE_AND executing right\n");
+			return (executor_from_ast(ast->right, env));
+		}
+		return (left_status);
+	}
+	else if (ast->type == NODE_OR)
+	{
+		// printf("DEBUG: Executing NODE_OR\n");
+		left_status = executor_from_ast(ast->left, env);
+		// printf("DEBUG: NODE_OR left_status = %d\n", left_status);
+		if (left_status != 0)  // Si left échoue, exécuter right
+		{
+			// printf("DEBUG: NODE_OR executing right\n");
+			return (executor_from_ast(ast->right, env));
+		}
+		return (left_status);
+	}
+	else if (ast->type == NODE_GROUP)
+	{
+		// printf("DEBUG: Executing NODE_GROUP\n");
+		// Pour les parenthèses, exécuter le contenu du groupe
+		return (executor_from_ast(ast->left, env));
+	}
+	
+	// printf("DEBUG: Using standard execution path for type %d\n", ast->type);
+	// Gestion standard pour pipes et commandes simples
 	cmds = ast_to_command_list(ast);
 	if (!cmds)
+	{
+		// printf("DEBUG: ast_to_command_list returned NULL\n");
 		return (1);
+	}
 	status = execute_pipe(cmds, env);
+	// printf("DEBUG: execute_pipe returned status = %d\n", status);
 	free_command_list(cmds);
 	return (status);
 }

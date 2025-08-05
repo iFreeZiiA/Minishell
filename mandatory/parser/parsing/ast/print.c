@@ -6,11 +6,14 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/17 18:59:49 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/02 14:20:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
+
+// Forward declaration
+static void	ft_print_ast_tree(t_ast_node *ast, int level);
 
 /**
  * @brief Prints indentation spaces for tree visualization
@@ -130,7 +133,7 @@ static void	ft_print_node_content(t_ast_node *ast, int level)
  * @param ast Root node of the AST tree to print
  * @param level Current indentation level (0 for root)
  */
-void	ft_print_ast_tree(t_ast_node *ast, int level)
+static void	ft_print_ast_tree(t_ast_node *ast, int level)
 {
 	if (!ast)
 	{
