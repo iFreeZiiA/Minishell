@@ -60,7 +60,7 @@ int	ft_parse_input(char *input, t_shell *shell)
 	if (ft_validate_input(input, shell) != 0)
 		return (-1);
 	shell->current_line = input;
-	tokens = ft_lexing_new(shell);
+	tokens = ft_lex_new(shell);
 	if (!tokens)
 	{
 		shell->ast = NULL;

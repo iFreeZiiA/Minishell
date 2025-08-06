@@ -28,13 +28,13 @@ int	ft_is_space(char c)
 	return (0);
 }
 
-void	ft_skip_spaces(char *line, int *i)
+void	ft_skip_sp(char *line, int *i)
 {
 	while (line[*i] && ft_is_space(line[*i]))
 		(*i)++;
 }
 
-t_token	*ft_create_token(char *value, t_token_type type)
+t_token	*ft_new_token(char *value, t_token_type type)
 {
 	t_token	*token;
 

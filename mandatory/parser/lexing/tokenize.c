@@ -12,12 +12,12 @@
 
 #include "../../../header/minishell.h"
 
-int	ft_add_token(t_list **tokens, char *value, t_token_type type)
+int	ft_add_tok(t_list **tokens, char *value, t_token_type type)
 {
 	t_content	content;
 	t_token		*token;
 
-	token = ft_create_token(value, type);
+	token = ft_new_token(value, type);
 	if (!token)
 		return (-1);
 	content.token = token;
@@ -29,8 +29,8 @@ static int	ft_process_operator(t_list **tokens, char *line, int *i)
 {
 	char	*op;
 
-	op = ft_extract_operator(line, i);
-	if (ft_add_token(tokens, op, ft_get_operator_type(op)) == -1)
+	op = ft_ext_op(line, i);
+	if (ft_add_tok(tokens, op, ft_get_op_type(op)) == -1)
 		return (-1);
 	return (0);
 }
@@ -39,13 +39,13 @@ static int	ft_process_word(t_list **tokens, char *line, int *i)
 {
 	char	*word;
 
-	word = ft_extract_word(line, i);
-	if (ft_add_token(tokens, word, TOKEN_WORD) == -1)
+	word = ft_ext_word(line, i);
+	if (ft_add_tok(tokens, word, TOKEN_WORD) == -1)
 		return (-1);
 	return (0);
 }
 
-t_list	*ft_lexing_simple(t_shell *shell)
+t_list	*ft_lex_simple(t_shell *shell)
 {
 	t_list	*tokens;
 	char	*line;
@@ -58,7 +58,7 @@ t_list	*ft_lexing_simple(t_shell *shell)
 	i = 0;
 	while (line[i])
 	{
-		ft_skip_spaces(line, &i);
+		ft_skip_sp(line, &i);
 		if (!line[i])
 			break ;
 		if (ft_is_operator(line[i]))

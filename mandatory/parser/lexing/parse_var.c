@@ -12,7 +12,7 @@
 
 #include "../../../header/minishell.h"
 
-char	*ft_extract_var_name(char *str, int pos)
+char	*ft_ext_var_name(char *str, int pos)
 {
 	int		start;
 	int		len;
@@ -36,7 +36,7 @@ char	*ft_extract_var_name(char *str, int pos)
 	return (var_name);
 }
 
-char	*ft_replace_var(char *str, int pos, int var_len, char *replacement)
+char	*ft_repl_var(char *str, int pos, int var_len, char *replacement)
 {
 	char	*before;
 	char	*after;
@@ -60,11 +60,11 @@ static int	ft_process_variable(char **result, int *i, char **envp,
 	char	*var_value;
 	char	*new_result;
 
-	var_name = ft_extract_var_name(*result, *i);
+	var_name = ft_ext_var_name(*result, *i);
 	if (var_name)
 	{
-		var_value = ft_get_var_value(var_name, envp, shell);
-		new_result = ft_replace_var(*result, *i, ft_strlen(var_name)
+		var_value = ft_get_var_val(var_name, envp, shell);
+		new_result = ft_repl_var(*result, *i, ft_strlen(var_name)
 				+ 1, var_value);
 		free(*result);
 		free(var_name);
@@ -76,7 +76,7 @@ static int	ft_process_variable(char **result, int *i, char **envp,
 	return (0);
 }
 
-char	*ft_expand_string(char *str, char **envp, t_shell *shell)
+char	*ft_exp_string(char *str, char **envp, t_shell *shell)
 {
 	char	*result;
 	int		i;

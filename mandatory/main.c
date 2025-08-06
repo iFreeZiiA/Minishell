@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **envp)
 			free(input);
 			continue;
 		}
-		shell.token = ft_lexing_new(&shell);
+		shell.token = ft_lex_new(&shell);
 		add_history(input);
 		syntax_result = ft_validate_complete_syntax(input, shell.token);
 		if (syntax_result != 0)

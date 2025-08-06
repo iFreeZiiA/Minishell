@@ -66,7 +66,7 @@ int	ft_new_token_err(t_token *token, int ret)
  * @return int 0 on success, negative value on error
  */
 
-int	ft_lexer_checker(t_shell *shell)
+int	ft_lex_check(t_shell *shell)
 {
 	t_list	*curr;
 	t_token	*token;

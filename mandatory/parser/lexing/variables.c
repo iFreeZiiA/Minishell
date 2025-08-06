@@ -12,7 +12,7 @@
 
 #include "../../../header/minishell.h"
 
-int	ft_env_var_match(char *env_line, char *var_name)
+int	ft_env_match(char *env_line, char *var_name)
 {
 	int	i;
 
@@ -36,7 +36,7 @@ static char	*ft_get_exit_code(t_shell *shell)
 		return (ft_strdup("0"));
 }
 
-char	*ft_expand_var(char *str, char **envp, t_shell *shell)
+char	*ft_exp_var(char *str, char **envp, t_shell *shell)
 {
 	char	*var_name;
 	char	*var_value;
@@ -51,7 +51,7 @@ char	*ft_expand_var(char *str, char **envp, t_shell *shell)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_env_var_match(envp[i], var_name))
+		if (ft_env_match(envp[i], var_name))
 		{
 			var_value = envp[i] + ft_strlen(var_name) + 1;
 			result = ft_strdup(var_value);
@@ -62,7 +62,7 @@ char	*ft_expand_var(char *str, char **envp, t_shell *shell)
 	return (ft_strdup(""));
 }
 
-char	*ft_get_var_value(char *var_name, char **envp, t_shell *shell)
+char	*ft_get_var_val(char *var_name, char **envp, t_shell *shell)
 {
 	char	*var_value;
 	int		i;
@@ -72,7 +72,7 @@ char	*ft_get_var_value(char *var_name, char **envp, t_shell *shell)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_env_var_match(envp[i], var_name))
+		if (ft_env_match(envp[i], var_name))
 		{
 			var_value = envp[i] + ft_strlen(var_name) + 1;
 			return (ft_strdup(var_value));

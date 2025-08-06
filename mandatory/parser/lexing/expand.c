@@ -12,7 +12,7 @@
 
 #include "../../../header/minishell.h"
 
-char	*ft_remove_quotes(char *str)
+char	*ft_rm_quotes(char *str)
 {
 	int		len;
 	char	*result;
@@ -27,7 +27,7 @@ char	*ft_remove_quotes(char *str)
 	return (ft_strdup(str));
 }
 
-void	ft_expand_tokens(t_list *tokens, char **envp, t_shell *shell)
+void	ft_exp_tokens(t_list *tokens, char **envp, t_shell *shell)
 {
 	t_list	*current;
 	t_token	*token;
@@ -44,9 +44,9 @@ void	ft_expand_tokens(t_list *tokens, char **envp, t_shell *shell)
 			token = current->content.token;
 			if (token->type == TOKEN_WORD)
 			{
-				expanded = ft_expand_string(token->value, envp, shell);
+				expanded = ft_exp_string(token->value, envp, shell);
 				free(token->value);
-				cleaned = ft_remove_quotes(expanded);
+				cleaned = ft_rm_quotes(expanded);
 				free(expanded);
 				token->value = cleaned;
 			}
@@ -55,13 +55,13 @@ void	ft_expand_tokens(t_list *tokens, char **envp, t_shell *shell)
 	}
 }
 
-t_list	*ft_lexing_new(t_shell *shell)
+t_list	*ft_lex_new(t_shell *shell)
 {
 	t_list	*tokens;
 
-	tokens = ft_lexing_simple(shell);
+	tokens = ft_lex_simple(shell);
 	if (!tokens)
 		return (NULL);
-	ft_expand_tokens(tokens, shell->env->env_vars, shell);
+	ft_exp_tokens(tokens, shell->env->env_vars, shell);
 	return (tokens);
 }

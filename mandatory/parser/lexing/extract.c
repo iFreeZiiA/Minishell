@@ -21,7 +21,7 @@ static void	ft_skip_quotes(char *line, int *i, char quote_char)
 		(*i)++;
 }
 
-char	*ft_extract_word(char *line, int *i)
+char	*ft_ext_word(char *line, int *i)
 {
 	int		start;
 	int		len;
@@ -42,7 +42,7 @@ char	*ft_extract_word(char *line, int *i)
 	return (word);
 }
 
-char	*ft_extract_operator(char *line, int *i)
+char	*ft_ext_op(char *line, int *i)
 {
 	char	*op;
 	int		start;
@@ -62,7 +62,7 @@ char	*ft_extract_operator(char *line, int *i)
 	return (op);
 }
 
-t_token_type	ft_get_operator_type(char *op)
+t_token_type	ft_get_op_type(char *op)
 {
 	if (!ft_strcmp(op, "|"))
 		return (TOKEN_PIPE);
