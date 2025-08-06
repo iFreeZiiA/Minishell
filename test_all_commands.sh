@@ -79,33 +79,78 @@ run_command_test() {
     echo -e "${YELLOW}Test $TOTAL_TESTS: $description${NC}"
     echo -e "${CYAN}   Command: $command${NC}"
     
-    # Exécuter la commande
+    # Créer fichiers temporaires pour comparaison stricte avec bash
+    local bash_output="bash_cmd_$TOTAL_TESTS.out"
+    local bash_error="bash_cmd_$TOTAL_TESTS.err"
+    local mini_output="mini_cmd_$TOTAL_TESTS.out"
+    local mini_error="mini_cmd_$TOTAL_TESTS.err"
+    
+    # Exécuter avec bash pour référence
     if [[ "$command" == "exit"* ]]; then
-        # Cas spécial pour exit
-        echo -e "$command\nexit" | $TIMEOUT_CMD "$ORIGINAL_DIR/$MINISHELL" >/dev/null 2>&1
+        echo -e "$command" | $TIMEOUT_CMD bash > "$bash_output" 2> "$bash_error"
     else
-        echo -e "$command\nexit" | $TIMEOUT_CMD "$ORIGINAL_DIR/$MINISHELL" >/dev/null 2>&1
+        echo -e "$command\necho BASH_CODE:\$?\nexit" | $TIMEOUT_CMD bash > "$bash_output" 2> "$bash_error"
+    fi
+    local bash_exit_code=$?
+    
+    # Exécuter avec minishell
+    if [[ "$command" == "exit"* ]]; then
+        echo -e "$command" | $TIMEOUT_CMD "$ORIGINAL_DIR/$MINISHELL" > "$mini_output" 2> "$mini_error"
+    else
+        echo -e "$command\necho MINI_CODE:\$?\nexit" | $TIMEOUT_CMD "$ORIGINAL_DIR/$MINISHELL" > "$mini_output" 2> "$mini_error"
+    fi
+    local mini_exit_code=$?
+    
+    # Nettoyer la sortie minishell (retirer prompts)
+    grep -v "minishell\$" "$mini_output" | grep -v "^exit$" > "${mini_output}.clean" 2>/dev/null
+    mv "${mini_output}.clean" "$mini_output" 2>/dev/null
+    
+    # Extraire les codes de sortie si présents (avec regex pour éviter $? non expandé)
+    local bash_code=$(grep -o "BASH_CODE:[0-9]*" "$bash_output" 2>/dev/null | cut -d: -f2 | tail -1)
+    local mini_code=$(grep -o "MINI_CODE:[0-9]*" "$mini_output" 2>/dev/null | cut -d: -f2 | tail -1)
+    
+    # Comparer comportements d'erreur
+    local bash_has_error=false
+    local mini_has_error=false
+    [ -s "$bash_error" ] && bash_has_error=true
+    [ -s "$mini_error" ] && mini_has_error=true
+    
+    # Évaluer le résultat
+    local test_passed=false
+    
+    if [ "$expect_success" = "true" ]; then
+        # Pour les commandes qui devraient réussir
+        if [ $mini_exit_code -eq 0 ] || [ $mini_exit_code -eq 124 ]; then  # 124 = timeout (normal)
+            if [ -n "$bash_code" ] && [ -n "$mini_code" ]; then
+                # Si on a des codes de sortie, les comparer
+                if [ "$bash_code" = "$mini_code" ]; then
+                    test_passed=true
+                fi
+            else
+                # Sinon, juste vérifier que ça ne crash pas
+                test_passed=true
+            fi
+        fi
+    else
+        # Pour les commandes qui devraient échouer
+        if [ $mini_exit_code -ne 0 ] && [ $mini_exit_code -ne 124 ]; then
+            test_passed=true
+        fi
     fi
     
-    local exit_code=$?
+    # Nettoyer fichiers temporaires
+    rm -f "$bash_output" "$bash_error" "$mini_output" "$mini_error" 2>/dev/null
     
-    # Vérifier le résultat
-    if [ "$expect_success" = "true" ]; then
-        if [ $exit_code -eq 0 ] || [ $exit_code -eq 124 ]; then  # 124 = timeout (normal pour certaines commandes)
-            echo -e "${GREEN}   ✅ PASSED${NC}"
-            PASSED_TESTS=$((PASSED_TESTS + 1))
-        else
-            echo -e "${RED}   ❌ FAILED (exit code: $exit_code)${NC}"
-            FAILED_TESTS=$((FAILED_TESTS + 1))
-        fi
+    # Afficher le résultat
+    if [ "$test_passed" = "true" ]; then
+        echo -e "${GREEN}   ✅ PASSED${NC}"
+        PASSED_TESTS=$((PASSED_TESTS + 1))
     else
-        if [ $exit_code -ne 0 ] && [ $exit_code -ne 124 ]; then
-            echo -e "${GREEN}   ✅ PASSED (correctly failed)${NC}"
-            PASSED_TESTS=$((PASSED_TESTS + 1))
-        else
-            echo -e "${RED}   ❌ FAILED (should have failed)${NC}"
-            FAILED_TESTS=$((FAILED_TESTS + 1))
+        echo -e "${RED}   ❌ FAILED${NC}"
+        if [ -n "$bash_code" ] && [ -n "$mini_code" ] && [ "$bash_code" != "$mini_code" ]; then
+            echo -e "${RED}      Code différent: bash=$bash_code, mini=$mini_code${NC}"
         fi
+        FAILED_TESTS=$((FAILED_TESTS + 1))
     fi
     echo ""
 }

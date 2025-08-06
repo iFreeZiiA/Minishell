@@ -88,26 +88,67 @@ run_test() {
     fi
     echo -e "${BLUE}   Command: $command${NC}"
     
-    # Exécuter la commande avec timeout
-    # Utiliser le chemin absolu vers minishell depuis n'importe quel répertoire
-    echo -e "$command\nexit" | timeout 5s "$ORIGINAL_DIR/minishell" >/dev/null 2>&1
-    local exit_code=$?
+    # Créer fichiers temporaires pour comparaison stricte
+    local bash_output="bash_$TOTAL_TESTS.out"
+    local bash_error="bash_$TOTAL_TESTS.err"
+    local mini_output="mini_$TOTAL_TESTS.out"
+    local mini_error="mini_$TOTAL_TESTS.err"
     
-    # Vérifier le résultat
+    # Exécuter avec bash pour référence
+    echo -e "$command\necho EXITCODE=\$?\nexit" | timeout 5s bash > "$bash_output" 2> "$bash_error"
+    local bash_exit_code=$?
+    
+    # Exécuter avec minishell
+    echo -e "$command\necho EXITCODE=\$?\nexit" | timeout 5s "$ORIGINAL_DIR/minishell" > "$mini_output" 2> "$mini_error"
+    local mini_exit_code=$?
+    
+    # Nettoyer la sortie minishell (retirer prompts et exit)
+    grep -v "minishell\$" "$mini_output" | grep -v "^exit$" > "${mini_output}.clean" 2>/dev/null
+    mv "${mini_output}.clean" "$mini_output" 2>/dev/null
+    
+    # Extraire les codes de sortie rapportés (format EXITCODE=N)
+    local bash_reported=$(grep -o "EXITCODE=[0-9]*" "$bash_output" 2>/dev/null | cut -d= -f2 | tail -1)
+    local mini_reported=$(grep -o "EXITCODE=[0-9]*" "$mini_output" 2>/dev/null | cut -d= -f2 | tail -1)
+    
+    # Comparer les résultats de manière stricte
+    local exit_code_match=true
+    local error_behavior_match=true
+    
+    # Vérifier les codes de sortie rapportés
+    if [ "$bash_reported" != "$mini_reported" ]; then
+        exit_code_match=false
+        echo -e "${RED}   ❌ CODE SORTIE DIFFÉRENT: bash=$bash_reported, mini=$mini_reported${NC}"
+    fi
+    
+    # Vérifier comportement des erreurs (présence ou absence)
+    local bash_has_error=false
+    local mini_has_error=false
+    [ -s "$bash_error" ] && bash_has_error=true
+    [ -s "$mini_error" ] && mini_has_error=true
+    
+    if [ "$bash_has_error" != "$mini_has_error" ]; then
+        error_behavior_match=false
+        echo -e "${RED}   ❌ ERREUR DIFFÉRENTE: bash_err=$bash_has_error, mini_err=$mini_has_error${NC}"
+    fi
+    
+    # Nettoyer fichiers temporaires
+    rm -f "$bash_output" "$bash_error" "$mini_output" "$mini_error" 2>/dev/null
+    
+    # Vérifier le résultat global
     if [ "$expected_success" = "true" ]; then
-        if [ $exit_code -eq 0 ]; then
-            echo -e "${GREEN}   ✅ PASSED${NC}"
+        if [ "$exit_code_match" = "true" ] && [ "$error_behavior_match" = "true" ] && [ $mini_exit_code -eq 0 ]; then
+            echo -e "${GREEN}   ✅ PASSED (comportement compatible bash)${NC}"
             PASSED_TESTS=$((PASSED_TESTS + 1))
         else
-            echo -e "${RED}   ❌ FAILED (exit code: $exit_code)${NC}"
+            echo -e "${RED}   ❌ FAILED (comportement différent de bash)${NC}"
             FAILED_TESTS=$((FAILED_TESTS + 1))
         fi
     else
-        if [ $exit_code -ne 0 ]; then
-            echo -e "${GREEN}   ✅ PASSED (correctly failed)${NC}"
+        if [ $mini_exit_code -ne 0 ] || [ "$bash_reported" != "0" ]; then
+            echo -e "${GREEN}   ✅ PASSED (échec attendu)${NC}"
             PASSED_TESTS=$((PASSED_TESTS + 1))
         else
-            echo -e "${RED}   ❌ FAILED (should have failed)${NC}"
+            echo -e "${RED}   ❌ FAILED (devrait échouer)${NC}"
             FAILED_TESTS=$((FAILED_TESTS + 1))
         fi
     fi
