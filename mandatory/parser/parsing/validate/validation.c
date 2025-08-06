@@ -17,7 +17,6 @@ static int	ft_validate_quotes_and_operators(t_list *tokens);
 static int	ft_validate_pipes_placement(t_list *tokens);
 static int	ft_validate_redirections_placement(t_list *tokens);
 static int	ft_validate_logical_operators_placement(t_list *tokens);
-
 /**
  * @brief Validation syntaxique complète conforme à bash
  * 
@@ -44,7 +43,6 @@ int	ft_validate_syntax_bash_compliant(t_list *tokens)
 		return (result);
 	return (0);
 }
-
 /**
  * @brief Valide les quotes et opérateurs de base
  * 
@@ -74,7 +72,6 @@ static int	ft_validate_quotes_and_operators(t_list *tokens)
 	}
 	return (0);
 }
-
 /**
  * @brief Valide le placement des pipes
  * 
@@ -101,13 +98,13 @@ static int	ft_validate_pipes_placement(t_list *tokens)
 			}
 			has_command_before = 0;
 		}
+
 		else if (token->type == TOKEN_WORD)
 			has_command_before = 1;
 		current = current->next;
 	}
 	return (0);
 }
-
 /**
  * @brief Valide le placement des redirections
  * 
@@ -142,7 +139,6 @@ static int	ft_validate_redirections_placement(t_list *tokens)
 	}
 	return (0);
 }
-
 /**
  * @brief Valide le placement des opérateurs logiques
  * 
@@ -169,6 +165,7 @@ static int	ft_validate_logical_operators_placement(t_list *tokens)
 			}
 			has_command_before = 0;
 		}
+
 		else if (token->type == TOKEN_WORD)
 			has_command_before = 1;
 		current = current->next;

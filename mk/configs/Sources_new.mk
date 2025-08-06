@@ -63,12 +63,7 @@ SRC_LEXING = mandatory/parser/lexing/err.c \
 # ******************************** PARSING ********************************** #
 # AST
 SRC_PARSING_AST = mandatory/parser/parsing/ast/create.c \
-	mandatory/parser/parsing/ast/free.c \
-	mandatory/parser/parsing/ast/ast_utils.c \
-	mandatory/parser/parsing/ast/command_builder.c
-
-# Core parser
-SRC_PARSING_CORE = mandatory/parser/parsing/parser_core.c
+	mandatory/parser/parsing/ast/free.c
 
 # Opérateurs logiques
 SRC_PARSING_LOGICAL = mandatory/parser/parsing/logical/logical.c \
@@ -86,9 +81,6 @@ SRC_PARSING_REDIR = mandatory/parser/parsing/redir/input.c \
 
 # Utilitaires
 SRC_PARSING_UTILS = mandatory/parser/parsing/utils/redir.c \
-	mandatory/parser/parsing/utils/token_utils.c \
-	mandatory/parser/parsing/utils/token_list.c \
-	mandatory/parser/parsing/utils/debug_utils.c \
 	mandatory/parser/parsing/parse.c
 
 # Validation
@@ -99,7 +91,7 @@ SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
 	mandatory/parser/parsing/validate/validation_advanced.c
 
 # Regroupement parsing
-SRC_PARSING = $(SRC_PARSING_AST) $(SRC_PARSING_CORE) $(SRC_PARSING_LOGICAL) $(SRC_PARSING_PIPES) \
+SRC_PARSING = $(SRC_PARSING_AST) $(SRC_PARSING_LOGICAL) $(SRC_PARSING_PIPES) \
 	$(SRC_PARSING_REDIR) $(SRC_PARSING_UTILS) $(SRC_PARSING_VALIDATE)
 
 # ****************************** SOURCES FINALES *************************** #

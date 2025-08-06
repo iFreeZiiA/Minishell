@@ -43,13 +43,13 @@ int	ft_parse_input_redirection(t_list *tokens, t_command *cmd)
 		return (-1);
 	return (0);
 }
-
 /**
  * @brief Parse heredoc <<
  * @param tokens Position du token <<
  * @param cmd Commande cible
  * @return int 0 succès, -1 erreur
  */
+
 int	ft_parse_heredoc_redirection(t_list *tokens, t_command *cmd)
 {
 	char		*delimiter;
@@ -70,12 +70,12 @@ int	ft_parse_heredoc_redirection(t_list *tokens, t_command *cmd)
 		return (-1);
 	return (0);
 }
-
 /**
  * @brief Valide le fichier d'entrée
  * @param filename Nom du fichier
  * @return int 0 valide, -1 invalide
  */
+
 int	ft_validate_input_file(char *filename)
 {
 	if (!filename)
@@ -84,12 +84,12 @@ int	ft_validate_input_file(char *filename)
 		return (-1);
 	return (0);
 }
-
 /**
  * @brief Extrait le délimiteur heredoc
  * @param tokens Liste de tokens
  * @return char* Délimiteur ou NULL
  */
+
 char	*ft_extract_heredoc_delimiter(t_list *tokens)
 {
 	t_list	*next_token;

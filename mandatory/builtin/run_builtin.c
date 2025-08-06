@@ -48,12 +48,10 @@ char	**ft_envdup(char **envp)
 	copy[i] = NULL;
 	return (copy);
 }
-
 /* int	main(int argc, char **argv, char **envp)
 {
 	char	**env;
 	(void)argc;
-
 	env = ft_envdup(envp);
 	run_builtin(argv, &env);
 	return (0);

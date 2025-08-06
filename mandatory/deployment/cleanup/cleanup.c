@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:45:35 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/05 19:47:34 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:00:29 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static inline void	ft_freelst(t_list *lst, int type)
 			free(curr->content.redir->file);
 			free(curr->content.redir);
 		}
+
 		else if (type == 3)
 		{
 			ft_free_vctr((void **) curr->content.cmd->args);
@@ -39,16 +40,15 @@ static inline void	ft_freelst(t_list *lst, int type)
 		curr = lst;
 	}
 }
-
 static inline void	ft_freeast(t_ast_node *ast)
 {
 	t_command	*cmd;
-	// t_redir		*red;
 
 	if (!ast)
 		return ;
 	if (ast->type == NODE_REDIR)
 		ft_freelst(ast->data, 2);
+
 	else if (ast->type == NODE_COMMAND)
 	{
 		cmd = (t_command *) ast->data;
@@ -60,7 +60,6 @@ static inline void	ft_freeast(t_ast_node *ast)
 	ft_freeast(ast->left);
 	ft_freeast(ast->right);
 }
-
 static inline void	ft_freetoken(t_list *tok_h)
 {
 	t_list	*tok_c;
@@ -102,8 +101,8 @@ void	ft_freeenv(t_env *env)
 	free(env);
 	env = NULL;
 }
-
 // TODO: clean of the 't_list **cmd'
+
 void	ft_cleanup(t_shell *shell, int status)
 {
 	if (!shell)

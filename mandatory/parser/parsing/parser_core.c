@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   parser_core.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 14:59:41 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/06 19:47:37 by jjorda           ###   ########.fr       */
+/*   Created: 2025/08/06 20:00:00 by jjorda            #+#    #+#             */
+/*   Updated: 2025/08/06 20:06:43 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/minishell.h"
+#include "../../../header/minishell.h"
 
-int	builtin_pwd(void)
+t_ast_node	*ft_parser(t_list *tokens, t_shell *shell)
 {
-	char *cwd;
+	t_ast_node	*result;
 
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		ft_printerr("minishell: pwd");
-		return (1);
-	}
-	ft_printf("%s\n", cwd);
-	free(cwd);
+	result = ft_enhanced_parser(tokens, shell);
+	return (result);
+}
+
+int	ft_validate_token_list(t_list *tokens)
+{
+	(void)tokens;
 	return (0);
+}
+
+void	free_command_list(t_list *cmd_list)
+{
+	(void)cmd_list;
 }

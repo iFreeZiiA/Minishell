@@ -43,13 +43,13 @@ int	ft_parse_output_redirection(t_list *tokens, t_command *cmd)
 		return (-1);
 	return (0);
 }
-
 /**
  * @brief Parse redirection append >>
  * @param tokens Position du token >>
  * @param cmd Commande cible
  * @return int 0 succès, -1 erreur
  */
+
 int	ft_parse_append_redirection(t_list *tokens, t_command *cmd)
 {
 	char		*filename;
@@ -75,12 +75,12 @@ int	ft_parse_append_redirection(t_list *tokens, t_command *cmd)
 		return (-1);
 	return (0);
 }
-
 /**
  * @brief Valide le fichier de sortie
  * @param filename Nom du fichier
  * @return int 0 valide, -1 invalide
  */
+
 int	ft_validate_output_file(char *filename)
 {
 	if (!filename)
@@ -91,12 +91,12 @@ int	ft_validate_output_file(char *filename)
 		return (-1);
 	return (0);
 }
-
 /**
  * @brief Vérifie permissions d'écriture
  * @param filename Nom du fichier
  * @return int 0 autorisé, -1 refusé
  */
+
 int	ft_check_write_permissions(char *filename)
 {
 	if (!filename)

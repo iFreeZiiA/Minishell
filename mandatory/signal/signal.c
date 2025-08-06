@@ -13,7 +13,6 @@
 #include "../../header/minishell.h"
 
 volatile sig_atomic_t	g_sig = 0;
-
 static void	handle_sigint(int sig)
 {
 	g_sig = sig;

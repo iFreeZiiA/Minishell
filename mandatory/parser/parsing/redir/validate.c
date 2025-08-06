@@ -39,13 +39,13 @@ int	ft_validate_redirection_syntax(t_list *tokens)
 	}
 	return (0);
 }
-
 /**
  * @brief Vérifie ordre des tokens redirection
  * @param redir_token Token de redirection
  * @param file_token Token fichier suivant
  * @return int 0 valide, -1 invalide
  */
+
 int	ft_validate_redirection_order(t_list *redir_token, t_list *file_token)
 {
 	if (!redir_token || !redir_token->content.token)
@@ -58,12 +58,12 @@ int	ft_validate_redirection_order(t_list *redir_token, t_list *file_token)
 		return (-1);
 	return (0);
 }
-
 /**
  * @brief Vérifie conflits entre redirections
  * @param redirs Liste des redirections
  * @return int 0 pas de conflit, -1 conflit
  */
+
 int	ft_check_redirection_conflicts(t_list *redirs)
 {
 	t_list	*current;
@@ -86,12 +86,12 @@ int	ft_check_redirection_conflicts(t_list *redirs)
 		return (-1);
 	return (0);
 }
-
 /**
  * @brief Valide nom de fichier
  * @param filename Nom à valider
  * @return int 0 valide, -1 invalide
  */
+
 int	ft_validate_filename(char *filename)
 {
 	int	i;

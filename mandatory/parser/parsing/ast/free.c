@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/17 18:59:49 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:07:34 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static void	ft_free_node_data(t_ast_node *ast)
  * 
  * @param ast Root node of the AST tree to free
  */
+
 void	ft_free_ast(t_ast_node *ast)
 {
 	if (!ast)

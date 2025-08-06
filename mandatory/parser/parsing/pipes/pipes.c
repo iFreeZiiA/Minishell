@@ -39,13 +39,13 @@ t_list	*ft_extract_left_tokens(t_list *tokens, t_list *pipe_pos)
 	}
 	return (left_tokens);
 }
-
 /**
  * @brief Duplique un nœud de token
  * 
  * @param original Nœud original
  * @return t_list* Nouveau nœud dupliqué
  */
+
 t_list	*ft_duplicate_token_node(t_list *original)
 {
 	t_list		*new_node;
@@ -68,13 +68,13 @@ t_list	*ft_duplicate_token_node(t_list *original)
 	new_node = ft_lstnew_tok(new_token);
 	return (new_node);
 }
-
 /**
  * @brief Ajoute un token à la fin d'une liste
  * 
  * @param list Pointeur vers la liste
  * @param new_node Nouveau nœud à ajouter
  */
+
 void	ft_add_token_to_list(t_list **list, t_list *new_node)
 {
 	t_list	*current;
@@ -92,13 +92,13 @@ void	ft_add_token_to_list(t_list **list, t_list *new_node)
 	current->next = new_node;
 	new_node->prev = current;
 }
-
 /**
  * @brief Compte le nombre de pipes dans la liste
  * 
  * @param tokens Liste de tokens
  * @return int Nombre de pipes
  */
+
 int	ft_count_pipes(t_list *tokens)
 {
 	t_list	*current;
@@ -116,13 +116,13 @@ int	ft_count_pipes(t_list *tokens)
 	}
 	return (count);
 }
-
 /**
  * @brief Vérifie si une liste contient uniquement des tokens valides
  * 
  * @param tokens Liste de tokens
  * @return int 1 si valide, 0 sinon
  */
+
 int	ft_is_valid_command_sequence(t_list *tokens)
 {
 	t_list	*current;

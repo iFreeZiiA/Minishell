@@ -34,12 +34,12 @@ int	ft_count_redirections(t_list *tokens)
 	}
 	return (count);
 }
-
 /**
  * @brief Extrait fichier après token redirection
  * @param redir_token Token de redirection
  * @return char* Nom du fichier ou NULL
  */
+
 char	*ft_extract_redirection_file(t_list *redir_token)
 {
 	t_list	*next_token;
@@ -53,12 +53,12 @@ char	*ft_extract_redirection_file(t_list *redir_token)
 		return (NULL);
 	return (ft_strdup(next_token->content.token->value));
 }
-
 /**
  * @brief Vérifie si token est une redirection
  * @param token Token à vérifier
  * @return int 1 si redirection, 0 sinon
  */
+
 int	ft_is_redirection_token(t_token *token)
 {
 	if (!token)
@@ -73,13 +73,13 @@ int	ft_is_redirection_token(t_token *token)
 		return (1);
 	return (0);
 }
-
 /**
  * @brief Traite une redirection unique
  * @param redir_token Token de redirection
  * @param cmd Commande cible
  * @return int 0 succès, -1 erreur
  */
+
 int	ft_process_single_redirection(t_list *redir_token, t_command *cmd)
 {
 	t_token_type	type;
@@ -97,12 +97,12 @@ int	ft_process_single_redirection(t_list *redir_token, t_command *cmd)
 		return (ft_parse_append_redirection(redir_token, cmd));
 	return (-1);
 }
-
 /**
  * @brief Extrait répertoire d'un chemin de fichier
  * @param filepath Chemin complet
  * @return char* Répertoire ou NULL
  */
+
 char	*ft_extract_directory(char *filepath)
 {
 	char	*last_slash;
@@ -118,12 +118,12 @@ char	*ft_extract_directory(char *filepath)
 		return (ft_strdup("/"));
 	return (ft_substr(filepath, 0, dir_len));
 }
-
 /**
  * @brief Vérifie si redirection est d'entrée
  * @param redir Redirection à vérifier
  * @return int 1 si entrée, 0 sinon
  */
+
 int	ft_is_input_redirection(t_redir *redir)
 {
 	if (!redir)
@@ -134,12 +134,12 @@ int	ft_is_input_redirection(t_redir *redir)
 		return (1);
 	return (0);
 }
-
 /**
  * @brief Vérifie si redirection est de sortie
  * @param redir Redirection à vérifier
  * @return int 1 si sortie, 0 sinon
  */
+
 int	ft_is_output_redirection(t_redir *redir)
 {
 	if (!redir)
@@ -150,11 +150,11 @@ int	ft_is_output_redirection(t_redir *redir)
 		return (1);
 	return (0);
 }
-
 /**
  * @brief Libère liste redirections
  * @param redirs Liste à libérer
  */
+
 void	ft_free_redirection_list(t_list *redirs)
 {
 	t_list	*current;

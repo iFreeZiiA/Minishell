@@ -11,9 +11,8 @@
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
 #include <string.h>
-
-
 static char	*search_cmd_in_paths(char **paths, char *cmd)
 {
 	char	*joined;

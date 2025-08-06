@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:47:21 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/30 19:47:47 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:47:37 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 static int	has_n_flag(char *arg)
 {
-	int i = 1;
+	int i;
 
+	i = 1;
 	if (!arg || arg[0] != '-')
-		return 0;
+		return (0);
 	while (arg[i])
 	{
 		if (arg[i] != 'n')

@@ -44,7 +44,7 @@ int	apply_redirections(t_list *redirs)
 		else if (r->type == REDIR_APPEND)
 			fd = open(r->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		else
-			return (1); // Pas ici qu'on fait les heredocs
+			return (1);
 		if (fd < 0 || dup2(fd,
 			(r->type == REDIR_IN ? STDIN_FILENO : STDOUT_FILENO)) < 0)
 			return (perror("minishell: redir"), 1);
@@ -65,12 +65,11 @@ int	execute_command(t_command *cmd, t_env *env)
 	if (pid == 0)
 	{
 		char *cmd_path;
-		
+
 		if (apply_redirections(cmd->redirs) != 0)
 			exit (1);
 		if (is_builtin(cmd->args[0]))
 			exit(run_builtin(cmd->args, &env->env_vars));
-		
 		cmd_path = get_path(cmd->args[0], env->env_vars);
 		if (!cmd_path)
 		{
@@ -79,7 +78,6 @@ int	execute_command(t_command *cmd, t_env *env)
 			ft_printerr("\n");
 			exit(127);
 		}
-		
 		execve(cmd_path, cmd->args, env->env_vars);
 		free(cmd_path);
 		ft_printerr("minishell: execve");
@@ -133,7 +131,6 @@ void	child_process(t_list *cmd_l, int in, int out, t_env *env)
 		exit(1);
 	if (is_builtin(cmd->args[0]) && !cmd_l->next)
 		exit(run_builtin(cmd->args, &env->env_vars));
-	
 	char *cmd_path = get_path(cmd->args[0], env->env_vars);
 	if (!cmd_path)
 	{
@@ -142,7 +139,6 @@ void	child_process(t_list *cmd_l, int in, int out, t_env *env)
 		ft_printerr("\n");
 		exit(127);
 	}
-	
 	execve(cmd_path, cmd->args, env->env_vars);
 	free(cmd_path);
 	perror("execve");
@@ -155,7 +151,6 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 	int		pipe_fd[2];
 	int		prev;
 	int		i;
-
 	i = 0;
 	prev = -1;
 	pids = malloc(sizeof(pid_t) * ft_lstsize(cmd_h));

@@ -46,7 +46,6 @@ char	**alloc_env(char **env, int skip)
 	new[count] = NULL;
 	return (new);
 }
-
 static void	ft_free_env_unset(char **env)
 {
 	int	i;

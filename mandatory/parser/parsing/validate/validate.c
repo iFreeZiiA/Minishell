@@ -23,7 +23,6 @@
 // 	(void)tokens;
 // 	return (1);
 // }
-
 /**
  * @brief Validates operator placement in sequence
  * 
@@ -57,7 +56,6 @@ static int	ft_validate_operators(t_list *tokens)
 	}
 	return (1);
 }
-
 /**
  * @brief Validates pipe tokens in sequence
  * 
@@ -81,6 +79,7 @@ static int	ft_validate_pipes(t_list *tokens)
 				return (0);
 			has_command = 0;
 		}
+
 		else if (token->type == TOKEN_WORD)
 			has_command = 1;
 		current = current->next;
@@ -89,7 +88,6 @@ static int	ft_validate_pipes(t_list *tokens)
 		return (0);
 	return (1);
 }
-
 /**
  * @brief Validates redirection token placement
  * 
@@ -125,7 +123,6 @@ static int	ft_validate_redirections(t_list *tokens)
 	}
 	return (1);
 }
-
 /**
  * @brief Validates logical operator placement
  * 
@@ -149,6 +146,7 @@ static int	ft_validate_logical_ops(t_list *tokens)
 				return (0);
 			has_command = 0;
 		}
+
 		else if (token->type == TOKEN_WORD)
 			has_command = 1;
 		current = current->next;
@@ -157,7 +155,6 @@ static int	ft_validate_logical_ops(t_list *tokens)
 		return (0);
 	return (1);
 }
-
 /**
  * @brief Validates parentheses balance in token sequence
  * 
@@ -177,6 +174,7 @@ static int	ft_validate_parentheses(t_list *tokens)
 		token = (t_token *)current->content.token;
 		if (token->type == TOKEN_PAREN_OPEN)
 			balance++;
+
 		else if (token->type == TOKEN_PAREN_CLOSE)
 		{
 			balance--;
@@ -187,13 +185,13 @@ static int	ft_validate_parentheses(t_list *tokens)
 	}
 	return (balance == 0);
 }
-
 /**
  * @brief Main validation function for syntax checking
  * 
  * @param tokens Token list to validate
  * @return int 1 if syntax is valid, 0 if invalid
  */
+
 int	ft_validate_syntax(t_list *tokens)
 {
 	if (!tokens)

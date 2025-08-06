@@ -28,13 +28,13 @@ bool	ft_is_logical_operator_token(t_token *token)
 		return (true);
 	return (false);
 }
-
 /**
  * @brief Gets operator precedence for parsing
  * 
  * @param type Token type
  * @return int Precedence level (higher = more priority)
  */
+
 int	ft_get_operator_precedence(t_token_type type)
 {
 	if (type == TOKEN_PIPE)
@@ -45,13 +45,13 @@ int	ft_get_operator_precedence(t_token_type type)
 		return (1);
 	return (0);
 }
-
 /**
  * @brief Validates logical operator syntax
  * 
  * @param token_h Head of token list
  * @return bool true if syntax is valid
  */
+
 bool	ft_validate_logical_syntax(t_list *token_h)
 {
 	t_list	*curr;
@@ -77,13 +77,13 @@ bool	ft_validate_logical_syntax(t_list *token_h)
 	}
 	return (true);
 }
-
 /**
  * @brief Main logical parsing entry point
  * 
  * @param shell Shell structure
  * @return int 0 on success, -1 on error
  */
+
 int	ft_parse_logical_operators(t_shell *shell)
 {
 	t_list		*last_token;

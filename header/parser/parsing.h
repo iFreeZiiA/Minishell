@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 18:01:59 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:06:43 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,18 @@ void		ft_print_ast_simple(t_ast_node *ast, int depth);
 int			ft_validate_ast_structure(t_ast_node *ast);
 
 /* *************************** UTILITAIRES TOKENS *************************** */
+
+int			ft_validate_token_list(t_list *tokens);
+int			ft_count_word_tokens(t_list *tokens);
+char		**ft_extract_command_args(t_list *tokens, int count);
+int			ft_count_word_tokens_until_pipe(t_list *tokens);
+char		**ft_extract_command_args_until_pipe(t_list *tokens, int count);
+bool		ft_has_redirections_until_pipe(t_list *tokens);
+t_list		*ft_create_clean_token_list(t_list *tokens);
+void		ft_free_token_list(t_list *tokens);
+t_ast_node	*ft_create_simple_command_node(char **args);
+t_ast_node	*ft_create_command_with_redirections(t_list *tokens, t_shell *shell);
+void		free_command_list(t_list *cmd_list);
 
 int			ft_is_word_token(t_token *token);
 int			ft_is_operator_token(t_token *token);

@@ -14,7 +14,6 @@
 
 // Déclaration de la fonction
 int	ft_parse_enhanced(t_shell *shell);
-
 /**
  * @brief Detecte le type de parsing necessaire
  * 
@@ -38,7 +37,6 @@ static int	ft_detect_parsing_type(t_list *tokens)
 	}
 	return (1);
 }
-
 /**
  * @brief Applique la strategie de parsing appropriee
  * 
@@ -52,7 +50,6 @@ static int	ft_apply_parsing_strategy(t_shell *shell, int parsing_type)
 	t_list		*end_token;
 
 	// printf("DEBUG: Parsing type detected = %d\n", parsing_type);
-	
 	end_token = shell->token;
 	while (end_token && end_token->next)
 		end_token = end_token->next;
@@ -61,6 +58,7 @@ static int	ft_apply_parsing_strategy(t_shell *shell, int parsing_type)
 		// printf("DEBUG: Using logical parsing\n");
 		result_ast = ft_parse_logical_expression(shell, shell->token, end_token);
 	}
+
 	else if (parsing_type == 2)
 	{
 		// printf("DEBUG: Using pipe parsing\n");
@@ -78,7 +76,6 @@ static int	ft_apply_parsing_strategy(t_shell *shell, int parsing_type)
 	// printf("DEBUG: shell->ast assigned = %p\n", shell->ast);
 	return (0);
 }
-
 /**
  * @brief Valide les quotes dans l'input brut
  * 
@@ -100,6 +97,7 @@ static int	ft_validate_raw_quotes(char *input)
 	{
 		if (input[i] == '\'' && !in_double)
 			in_single = !in_single;
+
 		else if (input[i] == '"' && !in_single)
 			in_double = !in_double;
 		i++;
@@ -108,7 +106,6 @@ static int	ft_validate_raw_quotes(char *input)
 		return (0);
 	return (1);
 }
-
 /**
  * @brief Valide les entrees avant parsing
  * 
@@ -125,7 +122,6 @@ static int	ft_validate_parse_input(t_shell *shell)
 		return (-1);
 	return (0);
 }
-
 /**
  * @brief Point d'entree principal du parsing integre ameliore
  * Utilise toutes les fonctions des phases 2-11.4 au bon moment
@@ -133,38 +129,21 @@ static int	ft_validate_parse_input(t_shell *shell)
  * @param shell Structure shell avec tokens du lexer
  * @return int 0 succes, -1 erreur
  */
+
 int	ft_parse_enhanced(t_shell *shell)
 {
 	int	parsing_type;
 
-	// printf("DEBUG: ft_parse_enhanced called\n");
-	
 	if (ft_validate_parse_input(shell) != 0)
-	{
-		// printf("DEBUG: parse input validation failed\n");
 		return (-1);
-	}
 	if (!ft_validate_raw_quotes(shell->current_line))
-	{
-		// printf("DEBUG: raw quotes validation failed\n");
 		return (-1);
-	}
 	if (!ft_validate_syntax(shell->token))
-	{
-		// printf("DEBUG: syntax validation failed\n");
 		return (-1);
-	}
 	if (ft_validate_logical_syntax(shell->token) == false)
-	{
-		// printf("DEBUG: logical syntax validation failed\n");
 		return (-1);
-	}
 	parsing_type = ft_detect_parsing_type(shell->token);
-	// printf("DEBUG: parsing_type = %d\n", parsing_type);
 	if (parsing_type == 0)
-	{
-		// printf("DEBUG: parsing type is 0 (invalid)\n");
 		return (-1);
-	}
 	return (ft_apply_parsing_strategy(shell, parsing_type));
 }

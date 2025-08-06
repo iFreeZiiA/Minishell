@@ -55,15 +55,18 @@ t_list	*ast_to_command_list(t_ast_node *ast)
 		right->prev = tmp;
 		return (left);
 	}
+
 	else if (ast->type == NODE_COMMAND)
 	{
 		add_command_node(&cmds, (t_command *)ast->data);
 	}
+
 	else if (ast->type == NODE_GROUP)
 	{
 		// Pour les parenthèses, traiter le contenu du groupe
 		return (ast_to_command_list(ast->left));
 	}
+
 	else if (ast->type == NODE_AND || ast->type == NODE_OR)
 	{
 		// Pour && et ||, on ne convertit que la première commande
@@ -80,45 +83,44 @@ int	executor_from_ast(t_ast_node *ast, t_env *env)
 	int		left_status;
 
 	// printf("DEBUG: executor_from_ast called with node type = %d\n", ast ? ast->type : -1);
-	
 	if (!ast)
 	{
 		// printf("DEBUG: ast is NULL\n");
 		return (1);
 	}
-	
 	// Gestion des opérateurs logiques && et ||
 	if (ast->type == NODE_AND)
 	{
 		// printf("DEBUG: Executing NODE_AND\n");
 		left_status = executor_from_ast(ast->left, env);
 		// printf("DEBUG: NODE_AND left_status = %d\n", left_status);
-		if (left_status == 0)  // Si left réussit, exécuter right
+		if (left_status == 0)
 		{
 			// printf("DEBUG: NODE_AND executing right\n");
 			return (executor_from_ast(ast->right, env));
 		}
 		return (left_status);
 	}
+
 	else if (ast->type == NODE_OR)
 	{
 		// printf("DEBUG: Executing NODE_OR\n");
 		left_status = executor_from_ast(ast->left, env);
 		// printf("DEBUG: NODE_OR left_status = %d\n", left_status);
-		if (left_status != 0)  // Si left échoue, exécuter right
+		if (left_status != 0)
 		{
 			// printf("DEBUG: NODE_OR executing right\n");
 			return (executor_from_ast(ast->right, env));
 		}
 		return (left_status);
 	}
+
 	else if (ast->type == NODE_GROUP)
 	{
 		// printf("DEBUG: Executing NODE_GROUP\n");
 		// Pour les parenthèses, exécuter le contenu du groupe
 		return (executor_from_ast(ast->left, env));
 	}
-	
 	// printf("DEBUG: Using standard execution path for type %d\n", ast->type);
 	// Gestion standard pour pipes et commandes simples
 	cmds = ast_to_command_list(ast);
@@ -132,4 +134,3 @@ int	executor_from_ast(t_ast_node *ast, t_env *env)
 	free_command_list(cmds);
 	return (status);
 }
-

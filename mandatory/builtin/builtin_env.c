@@ -12,7 +12,6 @@
 
 #include "../../header/minishell.h"
 
-
 int	builtin_env(char **env)
 {
 	int	i;
@@ -22,7 +21,6 @@ int	builtin_env(char **env)
 		printf("env: no environment variables\n");
 		return (1);
 	}
-	
 	i = 0;
 	while (env[i])
 	{

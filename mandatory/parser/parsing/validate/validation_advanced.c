@@ -49,13 +49,13 @@ int	ft_validate_parentheses_balance(t_list *tokens)
 	}
 	return (0);
 }
-
 /**
  * @brief Valide la structure des commandes composées
  * 
  * @param tokens Liste des tokens
  * @return int 0 si valide, 2 si erreur
  */
+
 int	ft_validate_compound_commands(t_list *tokens)
 {
 	t_list	*current;
@@ -82,13 +82,13 @@ int	ft_validate_compound_commands(t_list *tokens)
 	}
 	return (0);
 }
-
 /**
  * @brief Valide les heredocs
  * 
  * @param tokens Liste des tokens
  * @return int 0 si valide, 2 si erreur
  */
+
 int	ft_validate_heredoc_syntax(t_list *tokens)
 {
 	t_list	*current;
@@ -118,7 +118,6 @@ int	ft_validate_heredoc_syntax(t_list *tokens)
 	}
 	return (0);
 }
-
 /**
  * @brief Valide la syntaxe complète - fonction principale
  * 
@@ -126,6 +125,7 @@ int	ft_validate_heredoc_syntax(t_list *tokens)
  * @param tokens Liste des tokens (peut être NULL si pas encore tokenisée)
  * @return int 0 si valide, 2 si erreur de syntaxe
  */
+
 int	ft_validate_complete_syntax(char *input, t_list *tokens)
 {
 	int	result;
@@ -151,13 +151,13 @@ int	ft_validate_complete_syntax(char *input, t_list *tokens)
 		return (result);
 	return (0);
 }
-
 /**
  * @brief Vérifie si une entrée est vide ou contient seulement des espaces
  * 
  * @param input Chaîne d'entrée
  * @return int 1 si vide, 0 sinon
  */
+
 int	ft_is_empty_or_whitespace(char *input)
 {
 	int	i;

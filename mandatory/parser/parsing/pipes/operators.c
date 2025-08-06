@@ -33,7 +33,6 @@ t_list	*ft_find_pipe_token(t_list *tokens)
 	}
 	return (NULL);
 }
-
 /**
  * @brief Crée un nœud AST de type pipe
  * 
@@ -41,6 +40,7 @@ t_list	*ft_find_pipe_token(t_list *tokens)
  * @param right Commande de droite
  * @return t_ast_node* Nouveau nœud pipe
  */
+
 t_ast_node	*ft_create_pipe_node(t_ast_node *left, t_ast_node *right)
 {
 	t_ast_node	*node;
@@ -56,7 +56,6 @@ t_ast_node	*ft_create_pipe_node(t_ast_node *left, t_ast_node *right)
 	node->right = right;
 	return (node);
 }
-
 /**
  * @brief Parse une expression avec pipe
  * 
@@ -64,6 +63,7 @@ t_ast_node	*ft_create_pipe_node(t_ast_node *left, t_ast_node *right)
  * @param shell Structure shell
  * @return t_ast_node* Nœud AST pipe
  */
+
 t_ast_node	*ft_parse_pipe_expression(t_list *tokens, t_shell *shell)
 {
 	t_list		*pipe_pos;
@@ -85,13 +85,13 @@ t_ast_node	*ft_parse_pipe_expression(t_list *tokens, t_shell *shell)
 		return (NULL);
 	return (ft_create_pipe_node(left_node, right_node));
 }
-
 /**
  * @brief Valide la syntaxe des pipes
  * 
  * @param tokens Liste de tokens
  * @return int 0 si valide, -1 sinon
  */
+
 int	ft_validate_pipe_syntax(t_list *tokens)
 {
 	t_list	*current;

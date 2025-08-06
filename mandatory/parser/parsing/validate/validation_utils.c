@@ -26,7 +26,6 @@ int	ft_is_operator_token(t_token *token)
 		|| token->type == TOKEN_AND 
 		|| token->type == TOKEN_OR);
 }
-
 /**
  * @brief Vérifie une séquence invalide de tokens
  * 
@@ -34,6 +33,7 @@ int	ft_is_operator_token(t_token *token)
  * @param current Token actuel
  * @return int 1 si séquence invalide, 0 sinon
  */
+
 int	ft_check_invalid_token_sequence(t_token *prev, t_token *current)
 {
 	if (!current)
@@ -50,13 +50,13 @@ int	ft_check_invalid_token_sequence(t_token *prev, t_token *current)
 		return (1);
 	return (0);
 }
-
 /**
  * @brief Vérifie s'il y a une commande après un pipe
  * 
  * @param pipe_node Nœud contenant le pipe
  * @return int 1 si commande trouvée, 0 sinon
  */
+
 int	ft_has_command_after_pipe(t_list *pipe_node)
 {
 	t_list	*current;
@@ -76,13 +76,13 @@ int	ft_has_command_after_pipe(t_list *pipe_node)
 	}
 	return (0);
 }
-
 /**
  * @brief Vérifie s'il y a une commande après un opérateur logique
  * 
  * @param logical_node Nœud contenant l'opérateur logique
  * @return int 1 si commande trouvée, 0 sinon
  */
+
 int	ft_has_command_after_logical(t_list *logical_node)
 {
 	t_list	*current;

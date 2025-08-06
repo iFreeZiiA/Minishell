@@ -34,7 +34,6 @@ static bool	ft_has_redirections(t_list *tokens)
 	}
 	return (false);
 }
-
 /**
  * @brief Traite les redirections et met à jour la commande
  * 
@@ -49,7 +48,6 @@ static int	ft_process_redirections(t_list *tokens, t_shell *shell, t_command *cm
 		return (0);
 	return (ft_parse_redirections(shell, tokens, cmd));
 }
-
 /**
  * @brief Crée un nœud AST command enrichi avec redirections
  * 
@@ -81,7 +79,6 @@ static t_ast_node	*ft_create_enhanced_command(t_list *tokens, t_shell *shell)
 	}
 	return (node);
 }
-
 /**
  * @brief Parser principal amélioré utilisant toutes les fonctions
  * Remplace l'ancienne version de ft_parser pour être plus complet
@@ -90,10 +87,10 @@ static t_ast_node	*ft_create_enhanced_command(t_list *tokens, t_shell *shell)
  * @param shell Structure shell
  * @return t_ast_node* Noeud racine de l'AST ou NULL en cas d'erreur
  */
+
 t_ast_node	*ft_enhanced_parser(t_list *tokens, t_shell *shell)
 {
 	// printf("DEBUG: ft_enhanced_parser called\n");
-	
 	if (ft_validate_token_list(tokens) != 0)
 	{
 		// printf("DEBUG: Token validation failed\n");

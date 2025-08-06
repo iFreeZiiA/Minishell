@@ -27,7 +27,6 @@ static char	*get_env_value(char **env, const char *key)
 	}
 	return (NULL);
 }
-
 static char	*get_cd_target(char **args, char ***env)
 {
 	char	*target;
@@ -45,7 +44,6 @@ static char	*get_cd_target(char **args, char ***env)
 		target = args[1];
 	return (target);
 }
-
 static char	**alloc_env_with_new(char **env, char *new)
 {
 	char	**new_env;
@@ -73,7 +71,6 @@ static char	**alloc_env_with_new(char **env, char *new)
 	new_env[i] = NULL;
 	return (new_env);
 }
-
 static void	ft_free_env(char **env)
 {
 	int	i;
@@ -145,4 +142,3 @@ int	builtin_cd(char **args, char ***env)
 	free(newpwd);
 	return (0);
 }
-

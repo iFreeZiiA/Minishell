@@ -6,11 +6,9 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 18:01:59 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:09:54 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../../../../header/minishell.h"
 
 #include "../../../../header/minishell.h"
 
@@ -21,19 +19,17 @@
  * @param end Token de fin
  * @return t_list* Nouvelle liste de tokens copiés
  */
-static t_list *ft_create_token_sublist(t_list *start, t_list *end)
+static t_list	*ft_create_token_sublist(t_list *start, t_list *end)
 {
-	t_list *result = NULL;
-	t_list *curr = start;
-	t_list *new_node;
-	t_token *token_copy;
-	
+	t_list	*result = NULL;
+	t_list	*curr = start;
+	t_list	*new_node;
+	t_token	*token_copy;
+
 	if (!start || !end)
 		return (NULL);
-		
 	while (curr && curr != end->next)
 	{
-		// Copier le token
 		token_copy = malloc(sizeof(t_token));
 		if (!token_copy)
 		{
@@ -48,8 +44,6 @@ static t_list *ft_create_token_sublist(t_list *start, t_list *end)
 			ft_lstfree_t(result);
 			return (NULL);
 		}
-		
-		// Créer le nœud de liste
 		new_node = ft_lstnew_tok(token_copy);
 		if (!new_node)
 		{
@@ -58,8 +52,6 @@ static t_list *ft_create_token_sublist(t_list *start, t_list *end)
 			ft_lstfree_t(result);
 			return (NULL);
 		}
-		
-		// Ajouter à la liste
 		if (!result)
 			result = new_node;
 		else
@@ -72,7 +64,6 @@ static t_list *ft_create_token_sublist(t_list *start, t_list *end)
 		}
 		curr = curr->next;
 	}
-	
 	return (result);
 }
 
@@ -81,11 +72,11 @@ static t_list *ft_create_token_sublist(t_list *start, t_list *end)
  * 
  * @param sublist Sous-liste à libérer
  */
-static void ft_free_token_sublist(t_list *sublist)
+static void	ft_free_token_sublist(t_list *sublist)
 {
-	t_list *curr = sublist;
-	t_list *next;
-	
+	t_list	*curr = sublist;
+	t_list	*next;
+
 	while (curr)
 	{
 		next = curr->next;
@@ -105,7 +96,6 @@ static void ft_free_token_sublist(t_list *sublist)
  * @param token_type Token type to convert
  * @return node_type Corresponding AST node type
  */
-
 /**
  * @brief Finds operator with specific precedence
  * 
@@ -174,25 +164,15 @@ t_ast_node	*ft_parse_logical_expression(t_shell *shell, t_list *start, t_list *e
 	t_ast_node	*right;
 	node_type	op_type;
 
-	// printf("DEBUG: ft_parse_logical_expression called\n");
-	
 	if (!start || !end)
-	{
-		// printf("DEBUG: start or end is NULL\n");
 		return (NULL);
-	}
-	
-	// printf("DEBUG: Looking for operators with precedence 1, 2, 3\n");
 	op_token = ft_find_operator_by_precedence(start, end, 1);
 	if (!op_token)
 		op_token = ft_find_operator_by_precedence(start, end, 2);
 	if (!op_token)
 		op_token = ft_find_operator_by_precedence(start, end, 3);
-	
 	if (!op_token)
 	{
-		// printf("DEBUG: No operator found, calling ft_parser\n");
-		// Créer une sous-liste de tokens pour ft_parser
 		t_list *sub_tokens = ft_create_token_sublist(start, end);
 		if (!sub_tokens)
 			return (NULL);
@@ -200,19 +180,10 @@ t_ast_node	*ft_parse_logical_expression(t_shell *shell, t_list *start, t_list *e
 		ft_free_token_sublist(sub_tokens);
 		return (result);
 	}
-	
-	// printf("DEBUG: Operator found, parsing left and right\n");
 	left = ft_parse_logical_expression(shell, start, op_token->prev);
 	right = ft_parse_logical_expression(shell, op_token->next, end);
-	
-	// printf("DEBUG: left = %p, right = %p\n", left, right);
-	
 	if (!left || !right)
-	{
-		// printf("DEBUG: left or right is NULL\n");
 		return (NULL);
-	}
 	op_type = ft_token_to_node_type(op_token->content.token->type);
-	// printf("DEBUG: Creating operator node with type %d\n", op_type);
 	return (ft_create_op_node(op_type, left, right));
 }
