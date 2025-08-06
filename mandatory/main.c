@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 19:47:41 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:55:15 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_exit(input) == -1)
 			break;
 		shell.current_line = input;
-		if (ft_is_empty_or_whitespace(input))
+		if (ft_is_empty_ws(input))
 		{
 			free(input);
 			continue;
@@ -51,14 +51,7 @@ int	main(int argc, char **argv, char **envp)
 			free(input);
 			continue;
 		}
-		shell.token = ft_lex_new(&shell);
 		add_history(input);
-		syntax_result = ft_validate_complete_syntax(input, shell.token);
-		if (syntax_result != 0)
-		{
-			free(input);
-			continue;
-		}
 		int parse_result = ft_parse_input(input, &shell);
 		if (parse_result == 0 && shell.ast)
 		{

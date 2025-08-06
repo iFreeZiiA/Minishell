@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 21:48:47 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:55:15 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 # include "../minishell.h"
 
-/* ******************************** CONSTANTS ******************************** */
+/* ******************************** CONSTANTS ********************* */
 
-# define MAX_SYNTAX_ERRORS		32
-# define MAX_ERROR_MESSAGE		256
+# define MAX_SYNTAX_ERRORS	32
+# define MAX_ERROR_MESSAGE	256
 # define MAX_VALIDATION_DEPTH	64
 
-/* ******************************** STRUCTURES ******************************* */
+/* ******************************** STRUCTURES ******************** */
 
 /**
  * @brief Error types for validation
@@ -81,7 +81,7 @@
 /* *************************** VALIDATION FUNCTIONS ************************* */
 
 /* validation.c */
-int					ft_validate_syntax(t_list *tokens);
+int		ft_val_syntax(t_list *tokens);
 // t_syntax_error		*ft_get_syntax_errors(t_list *tokens);
 // void				ft_print_syntax_error(t_syntax_error *error);
 // bool				ft_detect_syntax_error(char *command);
@@ -115,15 +115,21 @@ int					ft_validate_syntax(t_list *tokens);
 // void					ft_reset_validation_context(t_validation_context *ctx);
 
 /* Specific validations */
-int						ft_validate_pipes(t_list *tokens);
-int						ft_validate_redirections(t_list *tokens);
-int						ft_validate_parentheses_balance(t_list *tokens);
-int						ft_validate_operators(t_list *tokens);
-int						ft_validate_compound_commands(t_list *tokens);
-int						ft_validate_heredoc_syntax(t_list *tokens);
-int						ft_validate_complete_syntax(char *input, t_list *tokens);
-int						ft_is_empty_or_whitespace(char *input);
-void					ft_print_heredoc_error(t_token *next_token);
-int						ft_check_paren_close(int *paren_count);
+int		ft_val_pipes(t_list *tokens);
+int		ft_val_redir(t_list *tokens);
+int		ft_val_paren_bal(t_list *tokens);
+int		ft_val_ops(t_list *tokens);
+int		ft_val_comp_cmds(t_list *tokens);
+int		ft_val_heredoc_syn(t_list *tokens);
+int		ft_val_comp_syntax(char *input, t_list *tokens);
+int		ft_is_empty_ws(char *input);
+void	ft_print_heredoc(t_token *next_token);
+int		ft_check_paren(int *paren_count);
+
+/* utils.c */
+int		ft_is_op_token(t_token *token);
+int		ft_check_inv_tok_seq(t_token *prev, t_token *current);
+int		ft_has_cmd_after_pipe(t_list *pipe_node);
+int		ft_has_cmd_after_log(t_list *logical_node);
 
 #endif

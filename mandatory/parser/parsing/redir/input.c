@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/20 16:48:53 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:40:57 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param cmd Commande cible
  * @return int 0 succès, -1 erreur
  */
-int	ft_parse_input_redirection(t_list *tokens, t_command *cmd)
+int	ft_parse_in_redir(t_list *tokens, t_command *cmd)
 {
 	char		*filename;
 	t_redir		*redir;
@@ -26,15 +26,15 @@ int	ft_parse_input_redirection(t_list *tokens, t_command *cmd)
 
 	if (!tokens || !cmd)
 		return (-1);
-	filename = ft_extract_redirection_file(tokens);
+	filename = ft_ext_redir_file(tokens);
 	if (!filename)
 		return (-1);
-	if (ft_validate_input_file(filename) != 0)
+	if (ft_val_in_file(filename) != 0)
 	{
 		free(filename);
 		return (-1);
 	}
-	redir = ft_create_redirection(REDIR_IN, filename);
+	redir = ft_new_redir(REDIR_IN, filename);
 	free(filename);
 	if (!redir)
 		return (-1);
@@ -50,7 +50,7 @@ int	ft_parse_input_redirection(t_list *tokens, t_command *cmd)
  * @return int 0 succès, -1 erreur
  */
 
-int	ft_parse_heredoc_redirection(t_list *tokens, t_command *cmd)
+int	ft_parse_heredoc(t_list *tokens, t_command *cmd)
 {
 	char		*delimiter;
 	t_redir		*redir;
@@ -58,10 +58,10 @@ int	ft_parse_heredoc_redirection(t_list *tokens, t_command *cmd)
 
 	if (!tokens || !cmd)
 		return (-1);
-	delimiter = ft_extract_heredoc_delimiter(tokens);
+	delimiter = ft_ext_heredoc_delim(tokens);
 	if (!delimiter)
 		return (-1);
-	redir = ft_create_redirection(REDIR_HEREDOC, delimiter);
+	redir = ft_new_redir(REDIR_HEREDOC, delimiter);
 	free(delimiter);
 	if (!redir)
 		return (-1);
@@ -76,7 +76,7 @@ int	ft_parse_heredoc_redirection(t_list *tokens, t_command *cmd)
  * @return int 0 valide, -1 invalide
  */
 
-int	ft_validate_input_file(char *filename)
+int	ft_val_in_file(char *filename)
 {
 	if (!filename)
 		return (-1);
@@ -90,7 +90,7 @@ int	ft_validate_input_file(char *filename)
  * @return char* Délimiteur ou NULL
  */
 
-char	*ft_extract_heredoc_delimiter(t_list *tokens)
+char	*ft_ext_heredoc_delim(t_list *tokens)
 {
 	t_list	*next_token;
 

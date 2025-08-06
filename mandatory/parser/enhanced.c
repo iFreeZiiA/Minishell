@@ -6,11 +6,55 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:42:22 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:40:57 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
+/**
+ * @brief Détecte la présence d'opérateurs logiques dans les tokens
+ * 
+ * @param tokens Liste de tokens
+ * @return bool true si opérateurs logiques détectés
+ */
+static bool	ft_has_logical_ops(t_list *tokens)
+{
+	t_list	*curr;
+	t_token	*token;
+
+	curr = tokens;
+	while (curr)
+	{
+		token = curr->content.token;
+		if (token->type == TOKEN_AND || token->type == TOKEN_OR)
+			return (true);
+		curr = curr->next;
+	}
+	return (false);
+}
+
+/**
+ * @brief Détecte la présence de pipes dans les tokens
+ * 
+ * @param tokens Liste de tokens
+ * @return bool true si pipes détectés
+ */
+static bool	ft_has_pipes(t_list *tokens)
+{
+	t_list	*curr;
+	t_token	*token;
+
+	curr = tokens;
+	while (curr)
+	{
+		token = curr->content.token;
+		if (token->type == TOKEN_PIPE)
+			return (true);
+		curr = curr->next;
+	}
+	return (false);
+}
 
 /**
  * @brief Détecte la présence de redirections dans les tokens
@@ -27,8 +71,7 @@ static bool	ft_has_redirections(t_list *tokens)
 	while (curr)
 	{
 		token = curr->content.token;
-		if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
-			|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
+		if (ft_is_redir_tok(token))
 			return (true);
 		curr = curr->next;
 	}
@@ -48,7 +91,7 @@ static int	ft_process_redirections(t_list *tokens, t_shell *shell,
 {
 	if (!ft_has_redirections(tokens))
 		return (0);
-	return (ft_parse_redirections(shell, tokens, cmd));
+	return (ft_parse_redir(shell, tokens, cmd));
 }
 
 /**
@@ -71,7 +114,7 @@ static t_ast_node	*ft_create_enhanced_command(t_list *tokens, t_shell *shell)
 	args = ft_extract_command_args(tokens, word_count);
 	if (!args)
 		return (NULL);
-	node = ft_create_simple_command_node(args);
+	node = ft_new_simple_cmd(args);
 	if (!node)
 		return (NULL);
 	cmd = (t_command *)node->data;
@@ -93,7 +136,24 @@ static t_ast_node	*ft_create_enhanced_command(t_list *tokens, t_shell *shell)
  */
 t_ast_node	*ft_enhanced_parser(t_list *tokens, t_shell *shell)
 {
+	t_list	*last_token;
+
 	if (ft_validate_token_list(tokens) != 0)
 		return (NULL);
+	
+	// Priorité 1: Opérateurs logiques (plus haute précédence)
+	if (ft_has_logical_ops(tokens))
+	{
+		last_token = ft_lstlast(tokens);
+		if (!last_token)
+			return (NULL);
+		return (ft_parse_logical_expression(shell, tokens, last_token));
+	}
+	
+	// Priorité 2: Si des pipes sont détectés, utiliser le parser de pipes
+	if (ft_has_pipes(tokens))
+		return (ft_parse_pipe_expression(tokens, shell));
+	
+	// Priorité 3: Sinon, traiter comme une commande simple
 	return (ft_create_enhanced_command(tokens, shell));
 }

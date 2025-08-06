@@ -180,5 +180,5 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 	}
 	wait_all_pids(pids, i, env);
 	free(pids);
-	return (0);
+	return (env->last_exit_code);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validation_errors.c                                :+:      :+:    :+:   */
+/*   err.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 18:30:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:43:08 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:40:57 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_print_syntax_error_bash(t_token *token)
 		return ;
 	}
 	if (token->type == TOKEN_PIPE || token->type == TOKEN_AND
-		|| token->type == TOKEN_OR || ft_is_redirection_token(token))
+		|| token->type == TOKEN_OR || ft_is_redir_tok(token))
 		ft_print_token_error_message(token);
 	else
 		ft_print_value_error_message(token);

@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 21:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 21:47:42 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:40:57 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @param token Token à vérifier
  * @return int 1 si redirection, 0 sinon
  */
-int	ft_is_redirection_token(t_token *token)
+int	ft_is_redir_tok(t_token *token)
 {
 	if (!token)
 		return (0);
@@ -30,7 +30,7 @@ int	ft_is_redirection_token(t_token *token)
  * @param redir_token Token de redirection
  * @return char* Nom du fichier ou NULL
  */
-char	*ft_extract_redirection_file(t_list *redir_token)
+char	*ft_ext_redir_file(t_list *redir_token)
 {
 	t_list	*next_token;
 
@@ -49,7 +49,7 @@ char	*ft_extract_redirection_file(t_list *redir_token)
  * @param redir Structure redirection
  * @return int 1 si sortie, 0 sinon
  */
-int	ft_is_output_redirection(t_redir *redir)
+int	ft_is_out_redir(t_redir *redir)
 {
 	if (!redir)
 		return (0);
@@ -62,7 +62,7 @@ int	ft_is_output_redirection(t_redir *redir)
  * @param filename Nom du fichier
  * @return t_redir* Nouvelle redirection
  */
-t_redir	*ft_create_redirection(redir_type type, char *filename)
+t_redir	*ft_new_redir(redir_type type, char *filename)
 {
 	t_redir	*redir;
 

@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/20 16:48:59 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:40:57 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param cmd Commande cible
  * @return int 0 succès, -1 erreur
  */
-int	ft_parse_output_redirection(t_list *tokens, t_command *cmd)
+int	ft_parse_out_redir(t_list *tokens, t_command *cmd)
 {
 	char		*filename;
 	t_redir		*redir;
@@ -26,15 +26,15 @@ int	ft_parse_output_redirection(t_list *tokens, t_command *cmd)
 
 	if (!tokens || !cmd)
 		return (-1);
-	filename = ft_extract_redirection_file(tokens);
+	filename = ft_ext_redir_file(tokens);
 	if (!filename)
 		return (-1);
-	if (ft_validate_output_file(filename) != 0)
+	if (ft_val_out_file(filename) != 0)
 	{
 		free(filename);
 		return (-1);
 	}
-	redir = ft_create_redirection(REDIR_OUT, filename);
+	redir = ft_new_redir(REDIR_OUT, filename);
 	free(filename);
 	if (!redir)
 		return (-1);
@@ -50,7 +50,7 @@ int	ft_parse_output_redirection(t_list *tokens, t_command *cmd)
  * @return int 0 succès, -1 erreur
  */
 
-int	ft_parse_append_redirection(t_list *tokens, t_command *cmd)
+int	ft_parse_append(t_list *tokens, t_command *cmd)
 {
 	char		*filename;
 	t_redir		*redir;
@@ -58,15 +58,15 @@ int	ft_parse_append_redirection(t_list *tokens, t_command *cmd)
 
 	if (!tokens || !cmd)
 		return (-1);
-	filename = ft_extract_redirection_file(tokens);
+	filename = ft_ext_redir_file(tokens);
 	if (!filename)
 		return (-1);
-	if (ft_validate_output_file(filename) != 0)
+	if (ft_val_out_file(filename) != 0)
 	{
 		free(filename);
 		return (-1);
 	}
-	redir = ft_create_redirection(REDIR_APPEND, filename);
+	redir = ft_new_redir(REDIR_APPEND, filename);
 	free(filename);
 	if (!redir)
 		return (-1);
@@ -81,13 +81,13 @@ int	ft_parse_append_redirection(t_list *tokens, t_command *cmd)
  * @return int 0 valide, -1 invalide
  */
 
-int	ft_validate_output_file(char *filename)
+int	ft_val_out_file(char *filename)
 {
 	if (!filename)
 		return (-1);
 	if (ft_strlen(filename) == 0)
 		return (-1);
-	if (ft_check_write_permissions(filename) != 0)
+	if (ft_check_write_perm(filename) != 0)
 		return (-1);
 	return (0);
 }
@@ -97,7 +97,7 @@ int	ft_validate_output_file(char *filename)
  * @return int 0 autorisé, -1 refusé
  */
 
-int	ft_check_write_permissions(char *filename)
+int	ft_check_write_perm(char *filename)
 {
 	if (!filename)
 		return (-1);

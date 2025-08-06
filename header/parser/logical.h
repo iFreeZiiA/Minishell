@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 21:49:52 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:24:37 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../minishell.h"
 
-/* ----------------------------- LOGICAL PARSING ----------------------------- */
+/* -------------------------- LOGICAL PARSING -------------------------- */
 
 /**
  * @brief Main logical parsing entry point
@@ -49,7 +49,7 @@ bool		ft_is_logical_operator_token(t_token *token);
  */
 int			ft_get_operator_precedence(t_token_type type);
 
-/* --------------------------- LOGICAL PARSING UTILS ------------------------- */
+/* ----------------------- LOGICAL PARSING UTILS ----------------------- */
 
 /**
  * @brief Finds operator with specific precedence
@@ -59,7 +59,8 @@ int			ft_get_operator_precedence(t_token_type type);
  * @param precedence Target precedence level
  * @return t_list* Operator token or NULL
  */
-t_list		*ft_find_operator_by_precedence(t_list *start, t_list *end, int precedence);
+t_list		*ft_find_operator_by_precedence(t_list *start, t_list *end,
+				int precedence);
 
 /**
  * @brief Converts token type to AST node type
@@ -67,7 +68,7 @@ t_list		*ft_find_operator_by_precedence(t_list *start, t_list *end, int preceden
  * @param token_type Token type to convert
  * @return node_type Corresponding AST node type
  */
-node_type	ft_token_to_node_type(t_token_type token_type);
+node_type	ft_tok_to_node(t_token_type token_type);
 
 /**
  * @brief Parses expression with operator precedence
@@ -77,9 +78,10 @@ node_type	ft_token_to_node_type(t_token_type token_type);
  * @param end End token
  * @return t_ast_node* Parsed expression AST
  */
-t_ast_node	*ft_parse_logical_expression(t_shell *shell, t_list *start, t_list *end);
+t_ast_node	*ft_parse_logical_expression(t_shell *shell, t_list *start,
+				t_list *end);
 
-/* --------------------------- LOGICAL PRINT UTILS --------------------------- */
+/* ----------------------- LOGICAL PRINT UTILS ----------------------- */
 
 /**
  * @brief Prints logical AST for debugging

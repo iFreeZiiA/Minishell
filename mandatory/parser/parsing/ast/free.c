@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:07:34 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:24:19 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	ft_free_redirections_list(t_list *redirs)
  * 
  * @param cmd Command structure to free
  */
-void	ft_free_command(t_command *cmd)
+void	ft_free_cmd(t_command *cmd)
 {
 	if (!cmd)
 		return ;
@@ -90,7 +90,7 @@ void	ft_free_command(t_command *cmd)
 static void	ft_free_node_data(t_ast_node *ast)
 {
 	if (ast->type == NODE_COMMAND && ast->data)
-		ft_free_command((t_command *)ast->data);
+		ft_free_cmd((t_command *)ast->data);
 }
 
 /**

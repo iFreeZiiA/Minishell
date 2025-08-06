@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_utils.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:41:15 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:24:19 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param args Tableau d'arguments
  * @return t_ast_node* Nouveau nœud ou NULL si erreur
  */
-t_ast_node	*ft_create_simple_command_node(char **args)
+t_ast_node	*ft_new_simple_cmd(char **args)
 {
 	t_ast_node	*node;
 	t_command	*cmd;

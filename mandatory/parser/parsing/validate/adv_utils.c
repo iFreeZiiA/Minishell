@@ -1,44 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   advanced_utils.c                                   :+:      :+:    :+:   */
+/*   adv_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 21:17:17 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 23:10:21 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
 
-static int	ft_validate_input_tokens(t_list *tokens)
+static int	ft_val_input_tokens(t_list *tokens)
 {
 	int	result;
 
-	result = ft_validate_syntax(tokens);
+	result = ft_val_syntax(tokens);
 	if (result != 0)
 		return (result);
-	result = ft_validate_parentheses_balance(tokens);
+	result = ft_val_paren_bal(tokens);
 	if (result != 0)
 		return (result);
 	return (0);
 }
 
-static int	ft_validate_command_structure(t_list *tokens)
+static int	ft_val_cmd_struct(t_list *tokens)
 {
 	int	result;
 
-	result = ft_validate_compound_commands(tokens);
+	result = ft_val_comp_cmds(tokens);
 	if (result != 0)
 		return (result);
-	result = ft_validate_heredoc_syntax(tokens);
+	result = ft_val_heredoc_syn(tokens);
 	if (result != 0)
 		return (result);
 	return (0);
 }
 
-int	ft_validate_complete_syntax(char *input, t_list *tokens)
+int	ft_val_comp_syntax(char *input, t_list *tokens)
 {
 	int	result;
 
@@ -49,16 +49,16 @@ int	ft_validate_complete_syntax(char *input, t_list *tokens)
 		return (result);
 	if (!tokens)
 		return (0);
-	result = ft_validate_input_tokens(tokens);
+	result = ft_val_input_tokens(tokens);
 	if (result != 0)
 		return (result);
-	result = ft_validate_command_structure(tokens);
+	result = ft_val_cmd_struct(tokens);
 	if (result != 0)
 		return (result);
 	return (0);
 }
 
-int	ft_is_empty_or_whitespace(char *input)
+int	ft_is_empty_ws(char *input)
 {
 	int	i;
 
@@ -74,7 +74,7 @@ int	ft_is_empty_or_whitespace(char *input)
 	return (1);
 }
 
-int	ft_check_paren_close(int *paren_count)
+int	ft_check_paren(int *paren_count)
 {
 	(*paren_count)--;
 	if (*paren_count < 0)

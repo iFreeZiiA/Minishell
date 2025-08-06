@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/20 16:48:45 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:40:57 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @param tokens Liste de tokens
  * @return int 0 valide, -1 erreur syntaxe
  */
-int	ft_validate_redirection_syntax(t_list *tokens)
+int	ft_val_redir_syntax(t_list *tokens)
 {
 	t_list	*current;
 	t_list	*next;
@@ -27,12 +27,12 @@ int	ft_validate_redirection_syntax(t_list *tokens)
 	current = tokens;
 	while (current)
 	{
-		if (ft_is_redirection_token(current->content.token))
+		if (ft_is_redir_tok(current->content.token))
 		{
 			next = current->next;
 			if (!next)
 				return (-1);
-			if (ft_validate_redirection_order(current, next) != 0)
+			if (ft_val_redir_order(current, next) != 0)
 				return (-1);
 		}
 		current = current->next;
@@ -46,7 +46,7 @@ int	ft_validate_redirection_syntax(t_list *tokens)
  * @return int 0 valide, -1 invalide
  */
 
-int	ft_validate_redirection_order(t_list *redir_token, t_list *file_token)
+int	ft_val_redir_order(t_list *redir_token, t_list *file_token)
 {
 	if (!redir_token || !redir_token->content.token)
 		return (-1);
@@ -54,7 +54,7 @@ int	ft_validate_redirection_order(t_list *redir_token, t_list *file_token)
 		return (-1);
 	if (file_token->content.token->type != TOKEN_WORD)
 		return (-1);
-	if (ft_validate_filename(file_token->content.token->value) != 0)
+	if (ft_val_filename(file_token->content.token->value) != 0)
 		return (-1);
 	return (0);
 }
@@ -64,7 +64,7 @@ int	ft_validate_redirection_order(t_list *redir_token, t_list *file_token)
  * @return int 0 pas de conflit, -1 conflit
  */
 
-int	ft_check_redirection_conflicts(t_list *redirs)
+int	ft_check_redir_conf(t_list *redirs)
 {
 	t_list	*current;
 	int		output_count;
@@ -77,7 +77,7 @@ int	ft_check_redirection_conflicts(t_list *redirs)
 	{
 		if (current->type == TYPE_REDIR)
 		{
-			if (ft_is_output_redirection(current->content.redir))
+			if (ft_is_out_redir(current->content.redir))
 				output_count++;
 		}
 		current = current->next;
@@ -92,7 +92,7 @@ int	ft_check_redirection_conflicts(t_list *redirs)
  * @return int 0 valide, -1 invalide
  */
 
-int	ft_validate_filename(char *filename)
+int	ft_val_filename(char *filename)
 {
 	int	i;
 

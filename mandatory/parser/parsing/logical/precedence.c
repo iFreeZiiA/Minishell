@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:53:16 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:24:19 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_ast_node	*ft_parse_logical_expression(t_shell *shell, t_list *start,
 	right = ft_parse_logical_expression(shell, op_token->next, end);
 	if (!left || !right)
 		return (NULL);
-	op_type = ft_token_to_node_type(op_token->content.token->type);
+	op_type = ft_tok_to_node(op_token->content.token->type);
 	return (ft_create_op_node(op_type, left, right));
 }
 

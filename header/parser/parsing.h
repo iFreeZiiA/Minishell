@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 21:47:42 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:24:19 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int			ft_parse_logical_operators(t_shell *shell);
  */
 bool		ft_validate_logical_syntax(t_list *tokens);
 
-/* ******************************** PIPES ************************************ */
+/* ******************************* PIPES ********************************* */
 
 /**
  * @brief Extrait les tokens à gauche du pipe
@@ -177,12 +177,12 @@ char		**ft_extract_command_args_until_pipe(t_list *tokens, int count);
 bool		ft_has_redirections_until_pipe(t_list *tokens);
 t_list		*ft_create_clean_token_list(t_list *tokens);
 void		ft_free_token_list(t_list *tokens);
-t_ast_node	*ft_create_simple_command_node(char **args);
-t_ast_node	*ft_create_command_with_redirections(t_list *tokens, t_shell *shell);
-t_ast_node	*ft_build_command_node(t_list *tokens, t_shell *shell);
-char		**ft_extract_args_from_tokens(t_list *clean_tokens, int word_count);
-int	ft_process_command_redirections(t_shell *shell, t_list *clean_tokens,
-		t_ast_node *node);
+t_ast_node	*ft_new_simple_cmd(char **args);
+t_ast_node	*ft_new_cmd_redir(t_list *tokens, t_shell *shell);
+t_ast_node	*ft_build_cmd_node(t_list *tokens, t_shell *shell);
+char		**ft_ext_args_toks(t_list *clean_tokens, int word_count);
+int			ft_proc_cmd_redir(t_shell *shell, t_list *clean_tokens,
+				t_ast_node *node);
 void		free_command_list(t_list *cmd_list);
 
 int			ft_is_word_token(t_token *token);

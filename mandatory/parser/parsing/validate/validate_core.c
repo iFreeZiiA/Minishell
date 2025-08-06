@@ -6,13 +6,13 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 21:25:23 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:55:15 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
 
-int	ft_validate_pipes(t_list *tokens)
+int	ft_val_pipes(t_list *tokens)
 {
 	t_list	*current;
 	t_token	*token;
@@ -38,7 +38,7 @@ int	ft_validate_pipes(t_list *tokens)
 	return (1);
 }
 
-static int	ft_validate_logical_ops(t_list *tokens)
+static int	ft_val_logical_ops(t_list *tokens)
 {
 	t_list	*current;
 	t_token	*token;
@@ -64,7 +64,7 @@ static int	ft_validate_logical_ops(t_list *tokens)
 	return (1);
 }
 
-static int	ft_validate_parentheses(t_list *tokens)
+static int	ft_val_paren(t_list *tokens)
 {
 	t_list	*current;
 	t_token	*token;
@@ -88,19 +88,19 @@ static int	ft_validate_parentheses(t_list *tokens)
 	return (balance == 0);
 }
 
-int	ft_validate_syntax(t_list *tokens)
+int	ft_val_syntax(t_list *tokens)
 {
 	if (!tokens)
-		return (1);
-	if (!ft_validate_operators(tokens))
 		return (0);
-	if (!ft_validate_pipes(tokens))
-		return (0);
-	if (!ft_validate_redirections(tokens))
-		return (0);
-	if (!ft_validate_logical_ops(tokens))
-		return (0);
-	if (!ft_validate_parentheses(tokens))
-		return (0);
-	return (1);
+	if (!ft_val_ops(tokens))
+		return (2);
+	if (!ft_val_pipes(tokens))
+		return (2);
+	if (!ft_val_redir(tokens))
+		return (2);
+	if (!ft_val_logical_ops(tokens))
+		return (2);
+	if (!ft_val_paren(tokens))
+		return (2);
+	return (0);
 }

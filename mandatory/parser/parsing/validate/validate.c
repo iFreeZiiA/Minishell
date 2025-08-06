@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 20:24:51 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 21:25:23 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:55:15 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param tokens Token list to validate
  * @return int 1 if valid, 0 if invalid
  */
-int	ft_validate_operators(t_list *tokens)
+int	ft_val_ops(t_list *tokens)
 {
 	t_list	*current;
 	t_token	*token;
@@ -53,7 +53,7 @@ static int	ft_validate_first_token(t_list *tokens)
 	if (!tokens)
 		return (1);
 	token = (t_token *)tokens->content.token;
-	if (ft_is_redirection_token(token))
+	if (ft_is_redir_tok(token))
 		return (0);
 	return (1);
 }
@@ -64,7 +64,7 @@ static int	ft_validate_redir_sequence(t_list *current)
 	t_token	*next_token;
 
 	token = (t_token *)current->content.token;
-	if (ft_is_redirection_token(token))
+	if (ft_is_redir_tok(token))
 	{
 		if (!current->next)
 			return (0);
@@ -75,7 +75,7 @@ static int	ft_validate_redir_sequence(t_list *current)
 	return (1);
 }
 
-int	ft_validate_redirections(t_list *tokens)
+int	ft_val_redir(t_list *tokens)
 {
 	t_list	*current;
 

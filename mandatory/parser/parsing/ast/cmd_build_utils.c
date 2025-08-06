@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_builder_utils.c                            :+:      :+:    :+:   */
+/*   cmd_build_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 21:03:20 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:40:57 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	ft_process_redirections(t_shell *shell, t_list *clean_tokens,
 {
 	if (ft_has_redirections_until_pipe(clean_tokens))
 	{
-		if (ft_parse_redirections(shell, clean_tokens, cmd) != 0)
+		if (ft_parse_redir(shell, clean_tokens, cmd) != 0)
 			return (-1);
 	}
 	return (0);
@@ -27,7 +27,7 @@ static t_ast_node	*ft_create_node_with_cleanup(char **args, t_list *tokens)
 {
 	t_ast_node	*node;
 
-	node = ft_create_simple_command_node(args);
+	node = ft_new_simple_cmd(args);
 	if (!node)
 	{
 		ft_free_token_list(tokens);
@@ -51,7 +51,7 @@ static int	ft_setup_command_tokens(t_list *tokens, t_list **clean_tokens,
 	return (0);
 }
 
-int	ft_process_command_redirections(t_shell *shell, t_list *clean_tokens,
+int	ft_proc_cmd_redir(t_shell *shell, t_list *clean_tokens,
 		t_ast_node *node)
 {
 	t_command	*cmd;
@@ -66,7 +66,7 @@ int	ft_process_command_redirections(t_shell *shell, t_list *clean_tokens,
 	return (0);
 }
 
-t_ast_node	*ft_build_command_node(t_list *tokens, t_shell *shell)
+t_ast_node	*ft_build_cmd_node(t_list *tokens, t_shell *shell)
 {
 	t_ast_node	*node;
 	char		**args;
@@ -75,7 +75,7 @@ t_ast_node	*ft_build_command_node(t_list *tokens, t_shell *shell)
 
 	if (ft_setup_command_tokens(tokens, &clean_tokens, &word_count) != 0)
 		return (NULL);
-	args = ft_extract_args_from_tokens(clean_tokens, word_count);
+	args = ft_ext_args_toks(clean_tokens, word_count);
 	if (!args)
 	{
 		ft_free_token_list(clean_tokens);
@@ -84,7 +84,7 @@ t_ast_node	*ft_build_command_node(t_list *tokens, t_shell *shell)
 	node = ft_create_node_with_cleanup(args, clean_tokens);
 	if (!node)
 		return (NULL);
-	if (ft_process_command_redirections(shell, clean_tokens, node) != 0)
+	if (ft_proc_cmd_redir(shell, clean_tokens, node) != 0)
 		return (NULL);
 	ft_free_token_list(clean_tokens);
 	return (node);
