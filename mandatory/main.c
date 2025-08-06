@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/02 12:40:13 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 18:19:15 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,32 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_exit(input) == -1)
 			break;
 		shell.current_line = input;
+		
+		// Validation syntaxique avant tokenisation
+		if (ft_is_empty_or_whitespace(input))
+		{
+			free(input);
+			continue;
+		}
+		
+		// Validation des quotes dans l'input brut
+		int syntax_result = ft_validate_quotes_in_input(input);
+		if (syntax_result != 0)
+		{
+			free(input);
+			continue;
+		}
+		
 		shell.token = ft_lexing_new(&shell);
 		add_history(input);
+		
+		// Validation syntaxique complète des tokens
+		syntax_result = ft_validate_complete_syntax(input, shell.token);
+		if (syntax_result != 0)
+		{
+			free(input);
+			continue;
+		}
 		
 		// Utiliser le nouveau parser avec opérateurs logiques
 		int parse_result = ft_parse_input(input, &shell);
@@ -55,7 +79,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			// printf("DEBUG: Parse failed or AST is NULL\n");
-			ft_printerr("WRONG ARG\n");
+			ft_printerr("bash: syntax error in command line\n");
 		}
 		
 		//EXECUTOR

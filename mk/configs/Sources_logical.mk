@@ -50,7 +50,11 @@ SRC_PARSING_LOGICAL = $(MAN)parser/parsing/ast/create.c \
 	$(MAN)parser/parsing/utils/redir.c \
 	$(MAN)parser/parsing/parse.c
 
-SRC_PARSING_VALIDATE = $(MAN)parser/parsing/validate/validate.c
+SRC_PARSING_VALIDATE = $(MAN)parser/parsing/validate/validate.c \
+	$(MAN)parser/parsing/validate/validation.c \
+	$(MAN)parser/parsing/validate/validation_utils.c \
+	$(MAN)parser/parsing/validate/validation_errors.c \
+	$(MAN)parser/parsing/validate/validation_advanced.c
 
 # Sources complètes pour opérateurs logiques
 SRC = $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_SIGNAL) $(SRC_EXECUTOR) \

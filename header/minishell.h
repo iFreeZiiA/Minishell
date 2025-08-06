@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/26 17:45:49 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 18:19:15 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,25 @@ t_list	*ft_find_matching_paren(t_list *start);
  * @return bool true if valid, false otherwise
  */
 // bool	ft_validate_parentheses(t_list *token_h);
+
+/* ============================================================================
+ * NOUVELLES FONCTIONS DE VALIDATION SYNTAXIQUE BASH-COMPLIANT
+ * ============================================================================ */
+int		ft_validate_syntax_bash_compliant(t_list *tokens);
+int		ft_validate_complete_syntax(char *input, t_list *tokens);
+int		ft_validate_quotes_in_input(char *input);
+int		ft_validate_parentheses_balance(t_list *tokens);
+int		ft_validate_compound_commands(t_list *tokens);
+int		ft_validate_heredoc_syntax(t_list *tokens);
+int		ft_is_operator_token(t_token *token);
+int		ft_check_invalid_token_sequence(t_token *prev, t_token *current);
+int		ft_has_command_after_pipe(t_list *pipe_node);
+int		ft_has_command_after_logical(t_list *logical_node);
+int		ft_is_empty_or_whitespace(char *input);
+void	ft_print_syntax_error_bash(t_token *token);
+void	ft_print_redirection_error_bash(t_token *token);
+void	ft_print_logical_error_bash(t_token *token);
+char	*ft_get_token_name_for_error(t_token_type type);
 
 /**
  * @brief Parses a group (parentheses)

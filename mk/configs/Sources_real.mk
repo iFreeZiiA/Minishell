@@ -64,7 +64,11 @@ SRC_PARSING_UTILS = $(MAN)parser/parsing/utils/ast.c \
 
 SRC_PARSING_VALIDATE = $(MAN)parser/parsing/validate/ast.c \
 	$(MAN)parser/parsing/validate/ast_optimizer.c $(MAN)parser/parsing/validate/precedence.c \
-	$(MAN)parser/parsing/validate/validate.c
+	$(MAN)parser/parsing/validate/validate.c \
+	$(MAN)parser/parsing/validate/validation.c \
+	$(MAN)parser/parsing/validate/validation_utils.c \
+	$(MAN)parser/parsing/validate/validation_errors.c \
+	$(MAN)parser/parsing/validate/validation_advanced.c
 
 SRC_PARSING_OTHER = $(MAN)parser/parsing/parse.c $(MAN)parser/parsing/parser.c \
 	$(MAN)parser/parsing/parser_util.c $(MAN)parser/parsing/utils.c \

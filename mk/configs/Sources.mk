@@ -49,9 +49,16 @@ SRC_REDIRECTIONS = mandatory/parser/parsing/redir/redir.c \
 	mandatory/parser/parsing/redir/validate.c \
 	mandatory/parser/parsing/utils/redir.c
 
+# Validation syntaxique
+SRC_VALIDATION = mandatory/parser/parsing/validate/validate.c \
+	mandatory/parser/parsing/validate/validation.c \
+	mandatory/parser/parsing/validate/validation_utils.c \
+	mandatory/parser/parsing/validate/validation_errors.c \
+	mandatory/parser/parsing/validate/validation_advanced.c
+
 # Combinaison finale AVEC redirections
 SRC = $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_SIGNAL) $(SRC_EXECUTOR) \
-	$(SRC_DEPLOYMENT) $(SRC_PARSER_BASE) $(SRC_LEXING) $(SRC_PARSING_CORE) $(SRC_REDIRECTIONS)
+	$(SRC_DEPLOYMENT) $(SRC_PARSER_BASE) $(SRC_LEXING) $(SRC_PARSING_CORE) $(SRC_REDIRECTIONS) $(SRC_VALIDATION)
 
 BONUS_SOURCES = bonus/main.c
 
