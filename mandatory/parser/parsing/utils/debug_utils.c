@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:06:43 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:23:19 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	ft_debug_tokens(t_list *tokens)
 	ft_printf("DEBUG: === TOKEN ANALYSIS ===\n");
 	while (current)
 	{
-		ft_printf("DEBUG: Token %d - Type: %s, Value: '%s'\n", 
-				count, 
+		ft_printf("DEBUG: Token %d - Type: %s, Value: '%s'\n",
+				count,
 				ft_get_token_type_name(current->content.token->type),
 				current->content.token->value ? current->content.token->value : "NULL");
 		current = current->next;

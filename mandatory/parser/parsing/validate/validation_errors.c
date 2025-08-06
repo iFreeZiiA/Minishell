@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 18:30:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 18:19:15 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:29:43 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,22 @@ void	ft_print_syntax_error_bash(t_token *token)
 	}
 	if (token->type == TOKEN_PIPE)
 		ft_printerr("bash: syntax error near unexpected token `|'\n");
-
 	else if (token->type == TOKEN_AND)
 		ft_printerr("bash: syntax error near unexpected token `&&'\n");
 	else if (token->type == TOKEN_OR)
 		ft_printerr("bash: syntax error near unexpected token `||'\n");
 	else if (token->value)
-		ft_printerr("bash: syntax error near unexpected token `%s'\n", 
+		ft_printerr("bash: syntax error near unexpected token `%s'\n",
 			token->value);
 	else
 		ft_printerr("bash: syntax error near unexpected token\n");
 }
+
 /**
  * @brief Affiche une erreur de redirection conforme à bash
  * 
  * @param token Token causant l'erreur
  */
-
 void	ft_print_redirection_error_bash(t_token *token)
 {
 	if (!token)
@@ -52,7 +51,6 @@ void	ft_print_redirection_error_bash(t_token *token)
 	}
 	if (token->type == TOKEN_PIPE)
 		ft_printerr("bash: syntax error near unexpected token `|'\n");
-
 	else if (token->type == TOKEN_AND)
 		ft_printerr("bash: syntax error near unexpected token `&&'\n");
 	else if (token->type == TOKEN_OR)
@@ -60,7 +58,7 @@ void	ft_print_redirection_error_bash(t_token *token)
 	else if (ft_is_redirection_token(token))
 	{
 		if (token->value)
-			ft_printerr("bash: syntax error near unexpected token `%s'\n", 
+			ft_printerr("bash: syntax error near unexpected token `%s'\n",
 				token->value);
 		else
 			ft_printerr("bash: syntax error near unexpected token\n");
@@ -68,12 +66,12 @@ void	ft_print_redirection_error_bash(t_token *token)
 	else
 		ft_printerr("bash: syntax error near unexpected token `newline'\n");
 }
+
 /**
  * @brief Affiche une erreur d'opérateur logique conforme à bash
  * 
  * @param token Token causant l'erreur
  */
-
 void	ft_print_logical_error_bash(t_token *token)
 {
 	if (!token)
@@ -83,19 +81,18 @@ void	ft_print_logical_error_bash(t_token *token)
 	}
 	if (token->type == TOKEN_AND)
 		ft_printerr("bash: syntax error near unexpected token `&&'\n");
-
 	else if (token->type == TOKEN_OR)
 		ft_printerr("bash: syntax error near unexpected token `||'\n");
 	else
 		ft_printerr("bash: syntax error near unexpected token\n");
 }
+
 /**
  * @brief Obtient le nom d'un token pour les messages d'erreur
  * 
  * @param type Type de token
  * @return char* Nom du token
  */
-
 char	*ft_get_token_name_for_error(t_token_type type)
 {
 	if (type == TOKEN_PIPE)
@@ -118,13 +115,13 @@ char	*ft_get_token_name_for_error(t_token_type type)
 		return (")");
 	return ("token");
 }
+
 /**
  * @brief Valide les quotes dans l'entrée utilisateur
  * 
  * @param input Chaîne d'entrée
  * @return int 0 si valide, 2 si erreur
  */
-
 int	ft_validate_quotes_in_input(char *input)
 {
 	int		i;

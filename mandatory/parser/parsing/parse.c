@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/26 00:00:00 by user              ###   ########.fr       */
+/*   Updated: 2025/08/06 20:21:37 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/minishell.h"
 
-// Déclaration de la fonction
 int	ft_parse_enhanced(t_shell *shell);
+
 /**
  * @brief Detecte le type de parsing necessaire
  * 
@@ -37,6 +37,7 @@ static int	ft_detect_parsing_type(t_list *tokens)
 	}
 	return (1);
 }
+
 /**
  * @brief Applique la strategie de parsing appropriee
  * 
@@ -49,33 +50,22 @@ static int	ft_apply_parsing_strategy(t_shell *shell, int parsing_type)
 	t_ast_node	*result_ast;
 	t_list		*end_token;
 
-	// printf("DEBUG: Parsing type detected = %d\n", parsing_type);
 	end_token = shell->token;
 	while (end_token && end_token->next)
 		end_token = end_token->next;
 	if (parsing_type == 3)
-	{
-		// printf("DEBUG: Using logical parsing\n");
-		result_ast = ft_parse_logical_expression(shell, shell->token, end_token);
-	}
-
+		result_ast = ft_parse_logical_expression(shell, shell->token,
+				end_token);
 	else if (parsing_type == 2)
-	{
-		// printf("DEBUG: Using pipe parsing\n");
 		result_ast = ft_parse_pipe_expression(shell->token, shell);
-	}
 	else
-	{
-		// printf("DEBUG: Using simple parsing\n");
 		result_ast = ft_parser(shell->token, shell);
-	}
-	// printf("DEBUG: result_ast = %p\n", result_ast);
 	if (!result_ast)
 		return (-1);
 	shell->ast = result_ast;
-	// printf("DEBUG: shell->ast assigned = %p\n", shell->ast);
 	return (0);
 }
+
 /**
  * @brief Valide les quotes dans l'input brut
  * 
@@ -97,7 +87,6 @@ static int	ft_validate_raw_quotes(char *input)
 	{
 		if (input[i] == '\'' && !in_double)
 			in_single = !in_single;
-
 		else if (input[i] == '"' && !in_single)
 			in_double = !in_double;
 		i++;
@@ -106,6 +95,7 @@ static int	ft_validate_raw_quotes(char *input)
 		return (0);
 	return (1);
 }
+
 /**
  * @brief Valide les entrees avant parsing
  * 
@@ -122,6 +112,7 @@ static int	ft_validate_parse_input(t_shell *shell)
 		return (-1);
 	return (0);
 }
+
 /**
  * @brief Point d'entree principal du parsing integre ameliore
  * Utilise toutes les fonctions des phases 2-11.4 au bon moment
@@ -129,7 +120,6 @@ static int	ft_validate_parse_input(t_shell *shell)
  * @param shell Structure shell avec tokens du lexer
  * @return int 0 succes, -1 erreur
  */
-
 int	ft_parse_enhanced(t_shell *shell)
 {
 	int	parsing_type;

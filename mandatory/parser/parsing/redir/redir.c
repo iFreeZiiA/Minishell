@@ -6,14 +6,14 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/05 19:47:34 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:22:50 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
 
-// Déclaration de notre fonction compatible qui marche
-int ft_process_single_redirection_compat(t_list *redir_token, t_command *cmd);
+int	ft_process_single_redirection_compat(t_list *redir_token, t_command *cmd);
+
 /**
  * @brief Parse toutes les redirections d'une commande
  * @param shell Structure shell
@@ -45,12 +45,12 @@ int	ft_parse_redirections(t_shell *shell, t_list *tokens, t_command *cmd)
 		return (-1);
 	return (0);
 }
+
 /**
  * @brief Identifie le type de redirection
  * @param token Token de redirection
  * @return redir_type Type identifié
  */
-
 redir_type	ft_get_redirection_type(t_token *token)
 {
 	if (!token)
@@ -65,12 +65,12 @@ redir_type	ft_get_redirection_type(t_token *token)
 		return (REDIR_APPEND);
 	return (-1);
 }
+
 /**
  * @brief Trouve le prochain token de redirection
  * @param tokens Liste de tokens
  * @return t_list* Premier token de redirection trouvé
  */
-
 t_list	*ft_find_next_redirection(t_list *tokens)
 {
 	t_list	*current;
@@ -86,13 +86,13 @@ t_list	*ft_find_next_redirection(t_list *tokens)
 	}
 	return (NULL);
 }
+
 /**
  * @brief Crée une structure redirection
  * @param type Type de redirection
  * @param filename Nom du fichier
  * @return t_redir* Nouvelle redirection
  */
-
 t_redir	*ft_create_redirection(redir_type type, char *filename)
 {
 	t_redir	*redir;

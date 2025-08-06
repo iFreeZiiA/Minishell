@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 18:01:59 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:19:17 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	ft_cleanup_parsing_error(t_shell *shell, t_list *tokens)
 		shell->ast = NULL;
 	}
 }
+
 /**
  * @brief Valide l'input avant traitement
  * 
@@ -43,6 +44,7 @@ static int	ft_validate_input(char *input, t_shell *shell)
 		return (-1);
 	return (0);
 }
+
 /**
  * @brief Point d'entrée unifié pour lexing + parsing complet
  * Utilise toutes les fonctions des phases 2-11.4 dans le bon ordre
@@ -51,7 +53,6 @@ static int	ft_validate_input(char *input, t_shell *shell)
  * @param shell Structure shell
  * @return int 0 succès, -1 erreur
  */
-
 int	ft_parse_input(char *input, t_shell *shell)
 {
 	t_list	*tokens;
@@ -65,18 +66,15 @@ int	ft_parse_input(char *input, t_shell *shell)
 		shell->ast = NULL;
 		return (-1);
 	}
-	// Debug: afficher les tokens avec détails
-	// ft_debug_tokens(tokens);
 	shell->token = tokens;
 	if (ft_parse_enhanced(shell) != 0)
 	{
-		// printf("DEBUG: ft_parse_enhanced FAILED\n");
 		ft_cleanup_parsing_error(shell, tokens);
 		return (-1);
 	}
-	// printf("DEBUG: ft_parse_enhanced SUCCESS\n");
 	return (0);
 }
+
 /**
  * @brief Fonction alternative pour usage dans le main existant
  * Garde la compatibilité avec l'interface actuelle
@@ -84,7 +82,6 @@ int	ft_parse_input(char *input, t_shell *shell)
  * @param shell Structure shell initialisée
  * @return int 0 succès, -1 erreur
  */
-
 int	ft_process_command_line(t_shell *shell)
 {
 	if (!shell || !shell->current_line)

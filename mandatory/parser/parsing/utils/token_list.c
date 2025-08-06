@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:06:43 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:24:13 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ bool	ft_has_redirections_until_pipe(t_list *tokens)
 	while (curr && curr->content.token->type != TOKEN_PIPE)
 	{
 		token = curr->content.token;
-		if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT ||
-			token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
+		if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
+			|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
 			return (true);
 		curr = curr->next;
 	}
