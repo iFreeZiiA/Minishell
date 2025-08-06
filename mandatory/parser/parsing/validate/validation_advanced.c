@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 18:30:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 18:19:15 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:41:15 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int	ft_validate_complete_syntax(char *input, t_list *tokens)
 		return (result);
 	if (!tokens)
 		return (0);
-	result = ft_validate_syntax_bash_compliant(tokens);
+	result = ft_validate_syntax(tokens);
 	if (result != 0)
 		return (result);
 	result = ft_validate_parentheses_balance(tokens);

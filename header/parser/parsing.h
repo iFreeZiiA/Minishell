@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:06:43 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:41:15 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int			ft_is_valid_command_sequence(t_list *tokens);
  * 
  * @param node Noeud AST à libérer
  */
-void		ft_free_ast_node(t_ast_node *node);
+void		ft_free_ast(t_ast_node *node);
 
 /**
  * @brief Affiche la structure de l'AST de manière simple

@@ -85,15 +85,12 @@ SRC_PARSING_REDIR = mandatory/parser/parsing/redir/input.c \
 	mandatory/parser/parsing/redir/validate.c
 
 # Utilitaires
-SRC_PARSING_UTILS = mandatory/parser/parsing/utils/redir.c \
-	mandatory/parser/parsing/utils/token_utils.c \
+SRC_PARSING_UTILS = mandatory/parser/parsing/utils/token_utils.c \
 	mandatory/parser/parsing/utils/token_list.c \
-	mandatory/parser/parsing/utils/debug_utils.c \
-	mandatory/parser/parsing/parse.c
+	mandatory/parser/parsing/utils/debug_utils.c
 
 # Validation
 SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
-	mandatory/parser/parsing/validate/validation.c \
 	mandatory/parser/parsing/validate/validation_utils.c \
 	mandatory/parser/parsing/validate/validation_errors.c \
 	mandatory/parser/parsing/validate/validation_advanced.c

@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:19:17 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:41:15 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_cleanup_parsing_error(t_shell *shell, t_list *tokens)
 		ft_lstfree_t(tokens);
 	if (shell && shell->ast)
 	{
-		ft_free_ast_node(shell->ast);
+		ft_free_ast(shell->ast);
 		shell->ast = NULL;
 	}
 }
@@ -67,7 +67,8 @@ int	ft_parse_input(char *input, t_shell *shell)
 		return (-1);
 	}
 	shell->token = tokens;
-	if (ft_parse_enhanced(shell) != 0)
+	shell->ast = ft_parser(shell->token, shell);
+	if (!shell->ast)
 	{
 		ft_cleanup_parsing_error(shell, tokens);
 		return (-1);

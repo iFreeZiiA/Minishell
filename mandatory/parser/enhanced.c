@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 18:01:59 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:42:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ static bool	ft_has_redirections(t_list *tokens)
 	while (curr)
 	{
 		token = curr->content.token;
-		if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT ||
-			token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
+		if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
+			|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
 			return (true);
 		curr = curr->next;
 	}
 	return (false);
 }
+
 /**
  * @brief Traite les redirections et met à jour la commande
  * 
@@ -42,12 +43,14 @@ static bool	ft_has_redirections(t_list *tokens)
  * @param cmd Structure commande à enrichir
  * @return int 0 succès, -1 erreur
  */
-static int	ft_process_redirections(t_list *tokens, t_shell *shell, t_command *cmd)
+static int	ft_process_redirections(t_list *tokens, t_shell *shell,
+		t_command *cmd)
 {
 	if (!ft_has_redirections(tokens))
 		return (0);
 	return (ft_parse_redirections(shell, tokens, cmd));
 }
+
 /**
  * @brief Crée un nœud AST command enrichi avec redirections
  * 
@@ -74,11 +77,12 @@ static t_ast_node	*ft_create_enhanced_command(t_list *tokens, t_shell *shell)
 	cmd = (t_command *)node->data;
 	if (ft_process_redirections(tokens, shell, cmd) != 0)
 	{
-		ft_free_ast_node(node);
+		ft_free_ast(node);
 		return (NULL);
 	}
 	return (node);
 }
+
 /**
  * @brief Parser principal amélioré utilisant toutes les fonctions
  * Remplace l'ancienne version de ft_parser pour être plus complet
@@ -87,15 +91,9 @@ static t_ast_node	*ft_create_enhanced_command(t_list *tokens, t_shell *shell)
  * @param shell Structure shell
  * @return t_ast_node* Noeud racine de l'AST ou NULL en cas d'erreur
  */
-
 t_ast_node	*ft_enhanced_parser(t_list *tokens, t_shell *shell)
 {
-	// printf("DEBUG: ft_enhanced_parser called\n");
 	if (ft_validate_token_list(tokens) != 0)
-	{
-		// printf("DEBUG: Token validation failed\n");
 		return (NULL);
-	}
-	// printf("DEBUG: Token validation passed, creating enhanced command\n");
 	return (ft_create_enhanced_command(tokens, shell));
 }

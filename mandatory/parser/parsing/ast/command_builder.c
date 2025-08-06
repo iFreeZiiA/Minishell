@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:06:46 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:41:15 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_ast_node	*ft_create_command_with_redirections(t_list *tokens, t_shell *shell)
 	cmd = (t_command *)node->data;
 	if (ft_process_redirections(shell, clean_tokens, cmd) != 0)
 	{
-		ft_free_ast_node(node);
+		ft_free_ast(node);
 		ft_free_token_list(clean_tokens);
 		return (NULL);
 	}
