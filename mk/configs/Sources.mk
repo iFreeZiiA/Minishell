@@ -1,5 +1,11 @@
 # ************************************************************************** #
-#                                                                            #
+#              # Validation
+SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
+	mandatory/parser/parsing/validate/utils.c \
+	mandatory/parser/parsing/validate/err.c \
+	mandatory/parser/parsing/validate/advanced.c \
+	mandatory/parser/parsing/validate/adv_utils.c \
+	mandatory/parser/parsing/validate/validate_core.c                                                      #
 #                                                        :::      ::::::::   #
 #   Sources_new.mk                                     :+:      :+:    :+:   #
 #                                                    +:+ +:+         +:+     #
@@ -64,15 +70,17 @@ SRC_LEXING = mandatory/parser/lexing/err.c \
 # AST
 SRC_PARSING_AST = mandatory/parser/parsing/ast/create.c \
 	mandatory/parser/parsing/ast/free.c \
-	mandatory/parser/parsing/ast/ast_utils.c \
-	mandatory/parser/parsing/ast/command_builder.c
+	mandatory/parser/parsing/ast/utils.c \
+	mandatory/parser/parsing/ast/cmd_build.c \
+	mandatory/parser/parsing/ast/cmd_build_utils.c
 
 # Core parser
 SRC_PARSING_CORE = mandatory/parser/parsing/parser_core.c
 
 # Opérateurs logiques
 SRC_PARSING_LOGICAL = mandatory/parser/parsing/logical/logical.c \
-	mandatory/parser/parsing/logical/precedence.c
+	mandatory/parser/parsing/logical/precedence.c \
+	mandatory/parser/parsing/logical/utils.c
 
 # Pipes
 SRC_PARSING_PIPES = mandatory/parser/parsing/pipes/operators.c \
@@ -82,6 +90,7 @@ SRC_PARSING_PIPES = mandatory/parser/parsing/pipes/operators.c \
 SRC_PARSING_REDIR = mandatory/parser/parsing/redir/input.c \
 	mandatory/parser/parsing/redir/output.c \
 	mandatory/parser/parsing/redir/redir.c \
+	mandatory/parser/parsing/redir/utils.c \
 	mandatory/parser/parsing/redir/validate.c
 
 # Utilitaires
@@ -91,9 +100,11 @@ SRC_PARSING_UTILS = mandatory/parser/parsing/utils/token_utils.c \
 
 # Validation
 SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
-	mandatory/parser/parsing/validate/validation_utils.c \
-	mandatory/parser/parsing/validate/validation_errors.c \
-	mandatory/parser/parsing/validate/validation_advanced.c
+	mandatory/parser/parsing/validate/utils.c \
+	mandatory/parser/parsing/validate/err.c \
+	mandatory/parser/parsing/validate/advanced.c \
+	mandatory/parser/parsing/validate/adv_utils.c \
+	mandatory/parser/parsing/validate/validate_core.c
 
 # Regroupement parsing
 SRC_PARSING = $(SRC_PARSING_AST) $(SRC_PARSING_CORE) $(SRC_PARSING_LOGICAL) $(SRC_PARSING_PIPES) \

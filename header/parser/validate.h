@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/26 17:38:18 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 21:17:07 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,18 @@ void					ft_free_validation_context(t_validation_context *ctx);
 void					ft_reset_validation_context(t_validation_context *ctx);
 
 /* Specific validations */
-// int						ft_validate_pipes(t_list *tokens);
-// int						ft_validate_redirections(t_list *tokens);
-// int						ft_validate_quotes(t_list *tokens);
-// int						ft_validate_parentheses_balance(t_list *tokens);
-// int						ft_validate_operators(t_list *tokens);
-// int						ft_validate_commands(t_list *tokens);
+int						ft_validate_pipes(t_list *tokens);
+int						ft_validate_redirections(t_list *tokens);
+int						ft_validate_quotes(t_list *tokens);
+int						ft_validate_parentheses_balance(t_list *tokens);
+int						ft_validate_operators(t_list *tokens);
+int						ft_validate_commands(t_list *tokens);
+int						ft_validate_compound_commands(t_list *tokens);
+int						ft_validate_heredoc_syntax(t_list *tokens);
+int						ft_validate_complete_syntax(char *input, t_list *tokens);
+int						ft_is_empty_or_whitespace(char *input);
+void					ft_print_heredoc_error(t_token *next_token);
+int						ft_check_paren_close(int *paren_count);
 
 /* *************************** REGRESSION TESTING *************************** */
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validation_utils.c                                 :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 18:30:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:28:52 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 21:17:27 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,13 @@ int	ft_has_command_after_logical(t_list *logical_node)
 		current = current->next;
 	}
 	return (0);
+}
+
+void	ft_print_heredoc_error(t_token *next_token)
+{
+	if (next_token)
+		ft_printerr("bash: syntax error near unexpected token `%s'\n",
+			next_token->value);
+	else
+		ft_printerr("bash: syntax error near unexpected token `newline'\n");
 }

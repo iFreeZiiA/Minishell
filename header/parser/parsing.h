@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:41:15 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 21:17:07 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,10 @@ t_list		*ft_create_clean_token_list(t_list *tokens);
 void		ft_free_token_list(t_list *tokens);
 t_ast_node	*ft_create_simple_command_node(char **args);
 t_ast_node	*ft_create_command_with_redirections(t_list *tokens, t_shell *shell);
+t_ast_node	*ft_build_command_node(t_list *tokens, t_shell *shell);
+char		**ft_extract_args_from_tokens(t_list *clean_tokens, int word_count);
+int	ft_process_command_redirections(t_shell *shell, t_list *clean_tokens,
+		t_ast_node *node);
 void		free_command_list(t_list *cmd_list);
 
 int			ft_is_word_token(t_token *token);

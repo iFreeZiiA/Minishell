@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/26 17:55:13 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:53:02 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,52 @@ bool		ft_has_logical_operators(t_list *token_h);
  * @return t_ast_node* Nœud AST pipe
  */
 t_ast_node	*ft_parse_pipe_expression(t_list *tokens, t_shell *shell);
+
+/* ----------------------- PRECEDENCE UTILS FUNCTIONS ----------------------- */
+
+/**
+ * @brief Crée une copie d'un token pour les listes de précédence
+ * 
+ * @param curr Nœud de liste contenant le token à copier
+ * @return t_token* Token copié ou NULL
+ */
+t_token		*ft_create_token_copy_precedence(t_list *curr);
+
+/**
+ * @brief Parse une commande simple dans le contexte de précédence
+ * 
+ * @param shell Structure shell
+ * @param start Token de début
+ * @param end Token de fin
+ * @return t_ast_node* Nœud AST de la commande
+ */
+t_ast_node	*ft_parse_simple_command_precedence(t_shell *shell, t_list *start,
+				t_list *end);
+
+/**
+ * @brief Ajoute un token à une sous-liste de précédence
+ * 
+ * @param result Pointeur vers la liste résultat
+ * @param token_copy Token à ajouter
+ * @return int 1 si succès, 0 si erreur
+ */
+int			ft_add_token_to_sublist_precedence(t_list **result,
+				t_token *token_copy);
+
+/**
+ * @brief Crée une sous-liste de tokens pour le parsing de précédence
+ * 
+ * @param start Token de début
+ * @param end Token de fin
+ * @return t_list* Nouvelle liste de tokens
+ */
+t_list		*ft_create_token_sublist_precedence(t_list *start, t_list *end);
+
+/**
+ * @brief Libère une sous-liste de tokens de précédence
+ * 
+ * @param sublist Sous-liste à libérer
+ */
+void		ft_free_token_sublist_precedence(t_list *sublist);
 
 #endif
