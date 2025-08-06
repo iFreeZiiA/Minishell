@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/26 22:41:49 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 21:50:24 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_ast_node	*ft_enhanced_parser(t_list *tokens, t_shell *shell);
  * @param shell Structure shell avec tokens du lexer
  * @return int 0 succès, -1 erreur
  */
-int	ft_parse_enhanced(t_shell *shell);
+// int	ft_parse_enhanced(t_shell *shell);
 
 /* *************************** FONCTIONS UTILITAIRES ********************** */
 
@@ -86,6 +86,6 @@ char		**ft_extract_command_args(t_list *tokens, int word_count);
 
 t_ast_node	*ft_create_simple_command_node(char **args);
 
-t_ast_node	*ft_parse_expression(t_list *start, t_list *end, t_shell *shell);
+// t_ast_node	*ft_parse_expression(t_list *start, t_list *end, t_shell *shell);
 
 #endif

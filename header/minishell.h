@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 18:19:15 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 21:51:57 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
  * @param shell The shell structure
  * @return int Exit code
  */
-int		ft_execute_ast(t_shell *shell);
+// int		ft_execute_ast(t_shell *shell);
 
 /**
  * @brief Executes logical operators with short-circuit evaluation
@@ -55,7 +55,7 @@ int		ft_execute_ast(t_shell *shell);
  * @param env Environment
  * @return int Exit code
  */
-int		ft_execute_logical(t_ast_node *node, t_env *env);
+// int		ft_execute_logical(t_ast_node *node, t_env *env);
 
 /**
  * @brief Executes a subshell
@@ -64,7 +64,7 @@ int		ft_execute_logical(t_ast_node *node, t_env *env);
  * @param parent_env Parent environment
  * @return int Exit code
  */
-int		ft_execute_subshell(t_ast_node *content, t_env *parent_env);
+// int		ft_execute_subshell(t_ast_node *content, t_env *parent_env);
 
 /**
  * @brief Finds matching closing parenthesis
@@ -85,7 +85,7 @@ t_list	*ft_find_matching_paren(t_list *start);
 /* ============================================================================
  * NOUVELLES FONCTIONS DE VALIDATION SYNTAXIQUE BASH-COMPLIANT
  * ============================================================================ */
-int		ft_validate_syntax_bash_compliant(t_list *tokens);
+// int		ft_validate_syntax_bash_compliant(t_list *tokens);
 int		ft_validate_complete_syntax(char *input, t_list *tokens);
 int		ft_validate_quotes_in_input(char *input);
 int		ft_validate_parentheses_balance(t_list *tokens);
@@ -97,8 +97,8 @@ int		ft_has_command_after_pipe(t_list *pipe_node);
 int		ft_has_command_after_logical(t_list *logical_node);
 int		ft_is_empty_or_whitespace(char *input);
 void	ft_print_syntax_error_bash(t_token *token);
-void	ft_print_redirection_error_bash(t_token *token);
-void	ft_print_logical_error_bash(t_token *token);
+// void	ft_print_redirection_error_bash(t_token *token);
+// void	ft_print_logical_error_bash(t_token *token);
 char	*ft_get_token_name_for_error(t_token_type type);
 
 /**
@@ -117,7 +117,7 @@ char	*ft_get_token_name_for_error(t_token_type type);
  * @param shell Shell structure
  * @param tok_h Token list head pointer
  */
-void	ft_exp_wildcard(t_shell *shell, t_list **tok_h);
+// void	ft_exp_wildcard(t_shell *shell, t_list **tok_h);
 
 /* ----------------------------- AST UTILITIES ----------------------------- */
 
@@ -138,7 +138,7 @@ t_ast_node	*ft_create_command_node(char **args, t_list *redirs);
  * @param right Right child node
  * @return t_ast_node* New operator node, NULL on error
  */
-t_ast_node	*ft_create_operator_node(node_type type, t_ast_node *left, t_ast_node *right);
+// t_ast_node	*ft_create_operator_node(node_type type, t_ast_node *left, t_ast_node *right);
 
 /**
  * @brief Creates a group node in the AST
@@ -156,6 +156,6 @@ t_ast_node	*ft_create_group_node(t_ast_node *content);
  * @param cmd Command structure to add redirections to
  * @return int 0 on success, -1 on error
  */
-// int			ft_parse_redirections(t_shell *shell, t_list *token_h, t_command *cmd);
+int			ft_parse_redirections(t_shell *shell, t_list *token_h, t_command *cmd);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:41:32 by alearroy          #+#    #+#             */
-/*   Updated: 2025/06/30 19:23:33 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/08/06 21:52:14 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	close_pipe_and_update(int *prev, int *pipe_fd);
 void	wait_all_pids(pid_t *pids, int count, t_env *env);
 void	child_process(t_list *cmd_l, int in, int out, t_env *env);
 void	free_command_list(t_list *cmds);
-int		handle_heredoc(char *delimiter);
+// int		handle_heredoc(char *delimiter);
 int		is_builtin(char *cmd);
 
 #endif

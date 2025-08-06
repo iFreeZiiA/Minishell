@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 16:20:08 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/20 16:40:25 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 21:49:38 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int         ft_check_redirection_conflicts(t_list *redirs);
 int         ft_validate_filename(char *filename);
 
 // Utilitaires
-int         ft_count_redirections(t_list *tokens);
+// int         ft_count_redirections(t_list *tokens);
 char        *ft_extract_redirection_file(t_list *redir_token);
 int         ft_is_redirection_token(t_token *token);
 int         ft_process_single_redirection(t_list *redir_token, t_command *cmd);
-char        *ft_extract_directory(char *filepath);
-int         ft_is_input_redirection(t_redir *redir);
+// char        *ft_extract_directory(char *filepath);
+// int         ft_is_input_redirection(t_redir *redir);
 int         ft_is_output_redirection(t_redir *redir);
-void	ft_free_redirection_list(t_list *redirs);
+// void	ft_free_redirection_list(t_list *redirs);

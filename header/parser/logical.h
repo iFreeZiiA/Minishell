@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:53:02 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 21:49:52 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_ast_node	*ft_parse_logical_expression(t_shell *shell, t_list *start, t_list *e
  * @param node AST node to print
  * @param level Indentation level
  */
-void		ft_print_logical_ast(t_ast_node *node, int level);
+// void		ft_print_logical_ast(t_ast_node *node, int level);
 
 /**
  * @brief Gets string representation of logical operator
@@ -95,7 +95,7 @@ void		ft_print_logical_ast(t_ast_node *node, int level);
  * @param type AST node type
  * @return char* String representation
  */
-char		*ft_get_logical_op_str(node_type type);
+// char		*ft_get_logical_op_str(node_type type);
 
 /**
  * @brief Validates logical AST structure
@@ -103,7 +103,7 @@ char		*ft_get_logical_op_str(node_type type);
  * @param node AST node to validate
  * @return bool true if valid
  */
-bool		ft_validate_logical_ast(t_ast_node *node);
+// bool		ft_validate_logical_ast(t_ast_node *node);
 
 /**
  * @brief Counts logical operators in token list
@@ -111,7 +111,7 @@ bool		ft_validate_logical_ast(t_ast_node *node);
  * @param token_h Head of token list
  * @return int Number of logical operators
  */
-int			ft_count_logical_operators(t_list *token_h);
+// int			ft_count_logical_operators(t_list *token_h);
 
 /**
  * @brief Checks if token list has logical operators
@@ -119,7 +119,7 @@ int			ft_count_logical_operators(t_list *token_h);
  * @param token_h Head of token list
  * @return bool true if logical operators present
  */
-bool		ft_has_logical_operators(t_list *token_h);
+// bool		ft_has_logical_operators(t_list *token_h);
 
 /**
  * @brief Parse une expression avec pipe

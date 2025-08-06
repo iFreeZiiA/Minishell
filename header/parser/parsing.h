@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 21:17:07 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 21:47:42 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,10 +190,5 @@ int			ft_is_operator_token(t_token *token);
 int			ft_is_redirect_token_type(t_token_type type);
 int			ft_count_tokens_by_type(t_list *tokens, t_token_type type);
 t_list		*ft_find_first_token_type(t_list *tokens, t_token_type type);
-
-/* *************************** FONCTIONS DEBUG *************************** */
-
-void		ft_debug_tokens(t_list *tokens);
-char		*ft_get_token_type_name(t_token_type type);
 
 #endif

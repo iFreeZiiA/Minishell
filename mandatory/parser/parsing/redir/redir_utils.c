@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 21:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 21:17:07 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 21:47:42 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,30 @@ int	ft_is_output_redirection(t_redir *redir)
 	if (!redir)
 		return (0);
 	return (redir->type == REDIR_OUT || redir->type == REDIR_APPEND);
+}
+
+/**
+ * @brief Crée une structure redirection
+ * @param type Type de redirection
+ * @param filename Nom du fichier
+ * @return t_redir* Nouvelle redirection
+ */
+t_redir	*ft_create_redirection(redir_type type, char *filename)
+{
+	t_redir	*redir;
+
+	if (!filename)
+		return (NULL);
+	redir = malloc(sizeof(t_redir));
+	if (!redir)
+		return (NULL);
+	redir->type = type;
+	redir->file = ft_strdup(filename);
+	if (!redir->file)
+	{
+		free(redir);
+		return (NULL);
+	}
+	redir->fd = -1;
+	return (redir);
 }

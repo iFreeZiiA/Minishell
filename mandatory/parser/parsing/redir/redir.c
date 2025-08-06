@@ -6,13 +6,48 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 21:17:07 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 21:47:42 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../header/minishell.h"
 
-int	ft_process_single_redirection_compat(t_list *redir_token, t_command *cmd);
+static int	ft_add_redirection_to_command(t_redir *redirection,
+		t_command *cmd, char *filename)
+{
+	t_content	content;
+
+	content.redir = redirection;
+	if (!ft_lstadd_back(&cmd->redirs, content, TYPE_REDIR))
+	{
+		free(filename);
+		return (-1);
+	}
+	free(filename);
+	return (0);
+}
+
+int	ft_process_single_redirection(t_list *redir_token, t_command *cmd)
+{
+	t_token		*token;
+	char		*filename;
+	t_redir		*redirection;
+
+	if (!redir_token || !redir_token->content.token || !cmd)
+		return (-1);
+	token = redir_token->content.token;
+	filename = ft_extract_redirection_file(redir_token);
+	if (!filename)
+		return (-1);
+	redirection = ft_create_redirection(ft_get_redirection_type(token),
+			filename);
+	if (!redirection)
+	{
+		free(filename);
+		return (-1);
+	}
+	return (ft_add_redirection_to_command(redirection, cmd, filename));
+}
 
 /**
  * @brief Parse toutes les redirections d'une commande
@@ -35,7 +70,7 @@ int	ft_parse_redirections(t_shell *shell, t_list *tokens, t_command *cmd)
 	{
 		if (ft_is_redirection_token(current->content.token))
 		{
-			result = ft_process_single_redirection_compat(current, cmd);
+			result = ft_process_single_redirection(current, cmd);
 			if (result != 0)
 				return (-1);
 		}
@@ -85,30 +120,4 @@ t_list	*ft_find_next_redirection(t_list *tokens)
 		current = current->next;
 	}
 	return (NULL);
-}
-
-/**
- * @brief Crée une structure redirection
- * @param type Type de redirection
- * @param filename Nom du fichier
- * @return t_redir* Nouvelle redirection
- */
-t_redir	*ft_create_redirection(redir_type type, char *filename)
-{
-	t_redir	*redir;
-
-	if (!filename)
-		return (NULL);
-	redir = malloc(sizeof(t_redir));
-	if (!redir)
-		return (NULL);
-	redir->type = type;
-	redir->file = ft_strdup(filename);
-	if (!redir->file)
-	{
-		free(redir);
-		return (NULL);
-	}
-	redir->fd = -1;
-	return (redir);
 }

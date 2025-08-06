@@ -53,8 +53,7 @@ SRC_DEPLOYMENT = mandatory/deployment/setup/setup.c \
 # ******************************* PARSER *********************************** #
 # Parser de base
 SRC_PARSER_BASE = mandatory/parser/enhanced.c \
-	mandatory/parser/parser.c \
-	mandatory/parser/stub_functions.c
+	mandatory/parser/parser.c
 
 # ******************************** LEXING *********************************** #
 
@@ -95,8 +94,7 @@ SRC_PARSING_REDIR = mandatory/parser/parsing/redir/input.c \
 
 # Utilitaires
 SRC_PARSING_UTILS = mandatory/parser/parsing/utils/token_utils.c \
-	mandatory/parser/parsing/utils/token_list.c \
-	mandatory/parser/parsing/utils/debug_utils.c
+	mandatory/parser/parsing/utils/token_list.c
 
 # Validation
 SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
