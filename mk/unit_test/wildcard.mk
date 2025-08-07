@@ -5,112 +5,65 @@
 #                                                    +:+ +:+         +:+     #
 #   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        #
 #                                                +#+#+#+#+#+   +#+           #
-#   Created: 2025/07/19 15:30:00 by jjorda            #+#    #+#             #
-#   Updated: 2025/07/19 15:30:00 by jjorda           ###   ########.fr       #
+#   Created: 2025/08/07 23:20:00 by jjorda            #+#    #+#             #
+#   Updated: 2025/08/07 23:20:00 by jjorda           ###   ########.fr       #
 #                                                                            #
 # ************************************************************************** #
 
-# *********************************** NAME *********************************** #
+# ================================= PHASE 9: WILDCARDS ================================= #
 
-NAME_WC	= wcard_ut
+# Test basique des wildcards
+test_wildcard: $(NAME)
+	@echo "$(GREEN)🧪 Tests Wildcards de base$(NC)"
+	@./test_wildcard.sh
 
-# ********************************** PATHS *********************************** #
+# Tests avancés des wildcards 
+test_wildcard_advanced: $(NAME)
+	@echo "$(GREEN)🔬 Tests Wildcards avancés$(NC)"
+	@./test_wildcard_advanced.sh
 
-DIR_WC	= $(DIR_UT)
-WCD		= $(MAN)/parser/lexing/wildcard/
+# Test spécifique phase 9
+test_phase_9: $(NAME)
+	@echo "$(GREEN)🧪 Phase 9: Tests Wildcards$(NC)"
+	@echo "$(YELLOW)Testing wildcard expansion (*)$(NC)"
+	@./test_wildcard.sh
 
-# ********************************* SOURCES ********************************** #
+# Test d'intégration avec le reste du système
+test_wildcard_integration: $(NAME)
+	@echo "$(GREEN)🔗 Test intégration wildcards$(NC)"
+	@mkdir -p test_integration
+	@cd test_integration && touch test1.c test2.c main.h parser.h
+	@cd test_integration && echo "echo *.c | wc -w" | ../$(NAME) > minishell_out.txt
+	@cd test_integration && echo "echo *.c | wc -w" | bash > bash_out.txt
+	@cd test_integration && diff minishell_out.txt bash_out.txt > /dev/null && echo "$(GREEN)✅ Wildcards + Pipes OK$(NC)" || echo "$(RED)❌ Problème intégration$(NC)"
+	@rm -rf test_integration
 
-SRC_WCD	= $(WCD)wildcard.c $(WCD)match.c $(WCD)files.c $(WCD)tokens.c
+# Tests avec d'autres fonctionnalités bonus
+test_wildcard_heredoc: $(NAME)
+	@echo "$(GREEN)🔗 Test Wildcards + Heredoc$(NC)"
+	@mkdir -p test_wh && cd test_wh && touch file1.txt file2.txt
+	@cd test_wh && printf "cat << EOF\n*.txt\nEOF\n" | ../$(NAME) > minishell_out.txt
+	@cd test_wh && printf "cat << EOF\n*.txt\nEOF\n" | bash > bash_out.txt
+	@cd test_wh && diff minishell_out.txt bash_out.txt > /dev/null && echo "$(GREEN)✅ Wildcard + Heredoc OK$(NC)" || echo "$(YELLOW)⚠️  Différence détectée$(NC)"
+	@rm -rf test_wh
 
-UT_WCD	= $(WCD)main_test.c $(SRC_WCD) $(SRC_SUP) $(SRC_LXR) $(SRC_CUP)
+# Tests de performance wildcards
+test_wildcard_performance: $(NAME)
+	@echo "$(GREEN)⚡ Test performance wildcards$(NC)"
+	@mkdir -p test_perf
+	@cd test_perf && for i in {1..100}; do touch file$$i.txt; done
+	@cd test_perf && time (echo "echo *.txt | wc -w" | ../$(NAME) > /dev/null)
+	@rm -rf test_perf
 
-# ********************************* OBJECTS ********************************** #
-
-OBJ_WCD	= $(patsubst %.c, $(DIR_WC)%.o, $(UT_WCD))
-
-# ********************************** RULES *********************************** #
-
-wildcard:	$(LIB) $(NAME_WC)
-	@echo "$(GREEN)✓ Module wildcard compilé avec succès$(NC)"
-	@echo "$(YELLOW)Usage: ./$(NAME_WC) [\"commande avec wildcards\"]$(NC)"
-	@echo "$(YELLOW)Script: ./test_wildcard.sh$(NC)"
-
-$(NAME_WC):	$(OBJ_WCD)
-	@$(CC) $(CFLAGS) -o $@ $(OBJ_WCD) $(LIBFT) $(LIBMS) $(LIBFT) -lreadline
-	@$(PRINT) $(BAN_WC)
-
-dir_wcard:
-	@mkdir -p $(DIR_WC)$(SUP)
-	@mkdir -p $(DIR_WC)$(CUP)
-	@mkdir -p $(DIR_WC)$(LXR)
-	@mkdir -p $(DIR_WC)$(WCD)
-
-$(DIR_WC)$(WCD)%.o: $(WCD)%.c | dir_wcard
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-$(DIR_WC)$(SUP)%.o: $(SUP)%.c | dir_wcard
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-$(DIR_WC)$(LEX)%.o: $(LEX)%.c | dir_wcard
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-$(DIR_WC)$(EXP)%.o: $(EXP)%.c | dir_wcard
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-$(DIR_WC)$(CUP)%.o: $(CUP)%.c | dir_wcard
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-# ********************************** CLEAN *********************************** #
-
+# Nettoyage spécifique wildcards
 clean_wildcard:
-	@rm -rf $(DIR_WC)$(WCD)
-	@echo "$(RED)✗ Objets wildcard supprimés$(NC)"
+	@rm -f test_wildcard_*.txt test_integration
+	@rm -rf test_*
+	@echo "$(GREEN)🧹 Nettoyage wildcard terminé$(NC)"
 
-fclean_wildcard: clean_wildcard
-	@rm -f $(NAME_WC)
-	@echo "$(RED)✗ Exécutable wildcard supprimé$(NC)"
+# Tests complets wildcards
+test_wildcard_all: test_wildcard test_wildcard_integration test_wildcard_heredoc
+	@echo "$(GREEN)🎉 Tous les tests wildcards terminés$(NC)"
 
-re_wildcard: fclean_wildcard wildcard
-
-# ********************************* TESTING ********************************** #
-
-test_wildcard: wildcard
-	@echo "$(BLUE)=== TESTS AUTOMATISÉS WILDCARD ===$(NC)"
-	@if [ -f "test_wildcard.sh" ]; then \
-		chmod +x test_wildcard.sh && ./test_wildcard.sh; \
-	else \
-		echo "$(RED)Erreur: test_wildcard.sh non trouvé$(NC)"; \
-	fi
-
-test_manual: wildcard
-	@echo "$(BLUE)=== TESTS MANUELS WILDCARD ===$(NC)"
-	@echo "$(YELLOW)Tests de base:$(NC)"
-	@./$(NAME_WC)
-	@echo "$(YELLOW)Test avec pattern *.c:$(NC)"
-	@./$(NAME_WC) "*.c"
-	@echo "$(YELLOW)Test avec pattern *test*:$(NC)"
-	@./$(NAME_WC) "*test*"
-
-# ********************************* BANNER *********************************** #
-
-BAN_WC	= \
-" **********************************************" "\n" \
-"*$(Y)  _    _ _____ _      _____   _____  ___  ___  ___    $(O)*" "\n" \
-"*$(Y) | |  | |_   _| |    |  __ \ / ____ / _ \|  _ \|  _ \   $(O)*" "\n" \
-"*$(Y) | |  | | | | | |    | |  | | |    | |_| | |_) | | | |  $(O)*" "\n" \
-"*$(Y) | |/\| | | | | |    | |  | | |    |  _  |  _ <| | | |  $(O)*" "\n" \
-"*$(Y) \  /\  /_| |_| |____| |__| | |____| | | | |_) | |_| |  $(O)*" "\n" \
-"*$(Y)  \/  \/ \___/\_____/|_____/ \_____|_| |_|____/|____/   $(O)*" "\n" \
-"*$(V) Made by : alearroy / jjorda                           $(O)*" "\n" \
-"*$(V) Started : 19/07/2025                                  $(O)*" "\n" \
-"*$(V) Finished : 19/07/2025                                 $(O)*" "\n" \
-"**********************************************"
-
-# ********************************* PHONY *********************************** #
-
-.PHONY: wildcard clean_wildcard fclean_wildcard re_wildcard test_wildcard test_manual
+.PHONY: test_wildcard test_wildcard_advanced test_phase_9 test_wildcard_integration \
+        test_wildcard_heredoc test_wildcard_performance clean_wildcard test_wildcard_all

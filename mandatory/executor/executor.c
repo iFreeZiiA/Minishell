@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/07 22:39:22 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/07 23:33:39 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,34 @@ int	apply_redirections(t_list *redirs)
 			return (1);
 		r = redirs->content.redir;
 		if (r->type == REDIR_IN)
+		{
 			fd = open(r->file, O_RDONLY);
+			if (fd < 0 || dup2(fd, STDIN_FILENO) < 0)
+				return (perror("minishell: redir"), 1);
+			close(fd);
+		}
 		else if (r->type == REDIR_OUT)
+		{
 			fd = open(r->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			if (fd < 0 || dup2(fd, STDOUT_FILENO) < 0)
+				return (perror("minishell: redir"), 1);
+			close(fd);
+		}
 		else if (r->type == REDIR_APPEND)
+		{
 			fd = open(r->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			if (fd < 0 || dup2(fd, STDOUT_FILENO) < 0)
+				return (perror("minishell: redir"), 1);
+			close(fd);
+		}
+		else if (r->type == REDIR_HEREDOC)
+		{
+			if (r->fd < 0 || dup2(r->fd, STDIN_FILENO) < 0)
+				return (perror("minishell: heredoc"), 1);
+			close(r->fd);
+		}
 		else
 			return (1);
-		if (fd < 0 || dup2(fd,
-			(r->type == REDIR_IN ? STDIN_FILENO : STDOUT_FILENO)) < 0)
-			return (perror("minishell: redir"), 1);
-		close(fd);
 		redirs = redirs->next;
 	}
 	return (0);

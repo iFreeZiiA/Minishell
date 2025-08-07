@@ -104,9 +104,26 @@ SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
 	mandatory/parser/parsing/validate/adv_utils.c \
 	mandatory/parser/parsing/validate/validate_core.c
 
+# Heredoc
+SRC_PARSING_HEREDOC = mandatory/parser/heredoc/heredoc.c \
+	mandatory/parser/heredoc/heredoc_process.c
+
+# Wildcard
+SRC_PARSING_WILDCARD = mandatory/parser/wildcard/wildcard.c \
+	mandatory/parser/wildcard/wildcard_match.c \
+	mandatory/parser/wildcard/wildcard_files.c \
+	mandatory/parser/wildcard/wildcard_utils.c
+
+# Parentheses
+SRC_PARSING_PARENTHESES = mandatory/parser/parentheses/parentheses.c \
+	mandatory/parser/parentheses/parentheses_validate.c \
+	mandatory/parser/parentheses/parentheses_find.c \
+	mandatory/parser/parentheses/parentheses_parse.c \
+	mandatory/parser/parentheses/parentheses_logic.c
+
 # Regroupement parsing
 SRC_PARSING = $(SRC_PARSING_AST) $(SRC_PARSING_CORE) $(SRC_PARSING_LOGICAL) $(SRC_PARSING_PIPES) \
-	$(SRC_PARSING_REDIR) $(SRC_PARSING_UTILS) $(SRC_PARSING_VALIDATE)
+	$(SRC_PARSING_REDIR) $(SRC_PARSING_UTILS) $(SRC_PARSING_VALIDATE) $(SRC_PARSING_HEREDOC) $(SRC_PARSING_WILDCARD) $(SRC_PARSING_PARENTHESES)
 
 # ****************************** SOURCES FINALES *************************** #
 

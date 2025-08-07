@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/07 22:39:22 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/07 23:33:39 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,12 @@ static int	ft_process_redirections(t_list *tokens, t_shell *shell,
 {
 	if (!ft_has_redirections(tokens))
 		return (0);
-	return (ft_parse_redir(shell, tokens, cmd));
+	if (ft_parse_redir(shell, tokens, cmd) != 0)
+		return (-1);
+	// Traiter les heredocs après le parsing des redirections
+	if (ft_process_heredocs(cmd) != 0)
+		return (-1);
+	return (0);
 }
 
 /**
@@ -140,6 +145,10 @@ t_ast_node	*ft_enhanced_parser(t_list *tokens, t_shell *shell)
 
 	if (ft_validate_token_list(tokens) != 0)
 		return (NULL);
+	
+	// Priorité 0: Parenthèses (plus haute précédence)
+	if (ft_has_parentheses(tokens))
+		return (ft_parse_with_parentheses(shell, tokens));
 	
 	// Priorité 1: Opérateurs logiques (plus haute précédence)
 	if (ft_has_logical_ops(tokens))

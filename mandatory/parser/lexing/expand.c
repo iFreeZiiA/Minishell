@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:30:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 22:11:31 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/07 23:33:39 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ t_list	*ft_lex_new(t_shell *shell)
 	if (!tokens)
 		return (NULL);
 	ft_exp_tokens(tokens, shell->env->env_vars, shell);
+	ft_expand_wildcards(shell, &tokens);
 	return (tokens);
 }
