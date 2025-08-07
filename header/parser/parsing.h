@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 22:24:19 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/07 22:39:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,9 @@ int			ft_count_word_tokens(t_list *tokens);
 char		**ft_extract_command_args(t_list *tokens, int count);
 int			ft_count_word_tokens_until_pipe(t_list *tokens);
 char		**ft_extract_command_args_until_pipe(t_list *tokens, int count);
+int			ft_count_command_args_only(t_list *tokens);
+char		**ft_extract_command_args_only(t_list *tokens, int count);
+bool		ft_is_redirection_file(t_list *current, t_list *prev);
 bool		ft_has_redirections_until_pipe(t_list *tokens);
 t_list		*ft_create_clean_token_list(t_list *tokens);
 void		ft_free_token_list(t_list *tokens);

@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 23:30:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/07 22:39:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,32 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 	char	*input;
+	int		is_interactive;
 
 	(void)argc;
 	(void)argv;
 	setup_interactive_signals();
 	ft_setup(&shell, envp);
+	is_interactive = isatty(STDIN_FILENO);
 	while (1)
 	{
 		g_sig = 0;
-		input = readline("\001\033[1;35m\002minishell$ \001\033[0m\002");
+		if (is_interactive)
+			input = readline("\001\033[1;35m\002minishell$ \001\033[0m\002");
+		else
+		{
+			size_t len = 0;
+			input = NULL;
+			if (getline(&input, &len, stdin) == -1)
+			{
+				free(input);
+				break;
+			}
+			// Enlever le newline à la fin
+			len = ft_strlen(input);
+			if (len > 0 && input[len - 1] == '\n')
+				input[len - 1] = '\0';
+		}
 		if (ft_exit(input) == -1)
 			break;
 		shell.current_line = input;

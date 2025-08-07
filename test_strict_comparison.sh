@@ -73,6 +73,11 @@ run_strict_test() {
     local description="$2"
     local test_exit_code="${3:-true}"  # true = tester aussi le code de sortie
     
+    # Nettoyer les fichiers temporaires avant chaque test  
+    rm -f output.txt temp.txt *.tmp 2>/dev/null
+    # Recréer les fichiers de test nécessaires
+    echo "Test content" > test_file.txt
+    
     TOTAL_TESTS=$((TOTAL_TESTS + 1))
     
     echo -e "${YELLOW}Test $TOTAL_TESTS: $description${NC}"
@@ -84,8 +89,9 @@ run_strict_test() {
     local minishell_output="minishell_output_$TOTAL_TESTS.txt"
     local minishell_error="minishell_error_$TOTAL_TESTS.txt"
     
-    # Exécuter avec bash
-    echo -e "$command\necho EXIT_CODE:\$?\nexit" | $TIMEOUT_CMD bash > "$bash_output" 2> "$bash_error"
+    # Exécuter avec bash et appliquer le même filtrage
+    echo -e "$command\necho EXIT_CODE:\$?\nexit" | $TIMEOUT_CMD bash 2> "$bash_error" | \
+    grep -v "^exit$" > "$bash_output"
     local bash_exit_code=$?
 
     # Exécuter avec minishell et nettoyer directement  
@@ -95,8 +101,7 @@ run_strict_test() {
     echo -e "$command\necho EXIT_CODE:\$?\nexit" | $TIMEOUT_CMD "$ORIGINAL_DIR/$MINISHELL" 2> "$minishell_error" | \
     sed 's/\x1b\[[0-9;]*m//g' | \
     grep -v "^minishell" | \
-    grep -v "^exit$" | \
-    sed '/^[[:space:]]*$/d' > "$minishell_output"
+    grep -v "^exit$" > "$minishell_output"
     local minishell_exit_code=$?
 
     # Variables pour les résultats
@@ -229,16 +234,16 @@ test_variables_strict() {
     run_strict_test "echo \$?" "Code de sortie initial"
     run_strict_test "echo \$NONEXISTENT" "Variable inexistante"
     
-    # Test séquences pour $?
-    run_strict_test "true; echo \$?" "Code après true"
-    run_strict_test "false; echo \$?" "Code après false"
+    # Test codes de sortie avec commandes séparées (sans ;)
+    # Note: Tests sans ; car non requis dans le projet Minishell
 }
 
 test_redirections_strict() {
     print_section_header "REDIRECTIONS (Ultra-Strict)"
     
-    run_strict_test "echo test > output.txt; cat output.txt" "Redirection simple"
-    run_strict_test "echo append >> output.txt; cat output.txt" "Redirection append"
+    # Tests des redirections de base (sans ; car non requis)
+    run_strict_test "echo test > output.txt && cat output.txt" "Redirection avec AND"
+    run_strict_test "echo append >> output.txt && cat output.txt" "Redirection append avec AND"
     run_strict_test "cat < test_file.txt" "Redirection entrée"
     run_strict_test "cat < nonexistent.txt" "Redirection fichier inexistant"
 }

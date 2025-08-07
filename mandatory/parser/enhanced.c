@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 23:30:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/07 22:39:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,10 @@ static t_ast_node	*ft_create_enhanced_command(t_list *tokens, t_shell *shell)
 	char		**args;
 	int			word_count;
 
-	word_count = ft_count_word_tokens(tokens);
+	word_count = ft_count_command_args_only(tokens);
 	if (word_count == 0)
 		return (NULL);
-	args = ft_extract_command_args(tokens, word_count);
+	args = ft_extract_command_args_only(tokens, word_count);
 	if (!args)
 		return (NULL);
 	node = ft_new_simple_cmd(args);

@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/06 23:30:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/07 22:39:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,16 @@ int	execute_command(t_command *cmd, t_env *env)
 {
 	pid_t	pid;
 	int		status;
+
+	// Built-ins qui modifient l'état du shell doivent s'exécuter dans le processus parent
+	if (is_builtin(cmd->args[0]) && 
+		(!ft_strcmp(cmd->args[0], "cd") || !ft_strcmp(cmd->args[0], "export") || 
+		 !ft_strcmp(cmd->args[0], "unset") || !ft_strcmp(cmd->args[0], "exit")))
+	{
+		if (apply_redirections(cmd->redirs) != 0)
+			return (1);
+		return (run_builtin(cmd->args, &env->env_vars));
+	}
 
 	pid = fork();
 	if (pid == -1)
@@ -151,6 +161,22 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 	int		pipe_fd[2];
 	int		prev;
 	int		i;
+	t_command *cmd;
+	
+	// Si c'est une seule commande et que c'est un built-in qui modifie l'état
+	if (cmd_h && !cmd_h->next)
+	{
+		cmd = cmd_h->content.cmd;
+		if (is_builtin(cmd->args[0]) && 
+			(!ft_strcmp(cmd->args[0], "cd") || !ft_strcmp(cmd->args[0], "export") || 
+			 !ft_strcmp(cmd->args[0], "unset") || !ft_strcmp(cmd->args[0], "exit")))
+		{
+			if (apply_redirections(cmd->redirs) != 0)
+				return (1);
+			return (run_builtin(cmd->args, &env->env_vars));
+		}
+	}
+	
 	i = 0;
 	prev = -1;
 	pids = malloc(sizeof(pid_t) * ft_lstsize(cmd_h));

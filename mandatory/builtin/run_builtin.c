@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:38:09 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/11 19:50:44 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/07 22:39:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ int	run_builtin(char **args, char ***env)
 	if (!ft_strcmp(args[0], "pwd"))
 		return (builtin_pwd());
 	if (!ft_strcmp(args[0], "cd"))
-		return (builtin_cd(args, env));
+	{
+		// Utiliser directement l'ancienne interface pour éviter les problèmes mémoire
+		return (builtin_cd_direct(args, env));
+	}
 	if (!ft_strcmp(args[0], "env"))
 		return (builtin_env(*env));
 	if (!ft_strcmp(args[0], "unset"))
