@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:19:37 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:00:59 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 20:34:39 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ int	ft_setup(t_shell *shell, char **env)
 	shell->prompt = NULL;
 	shell->ast = NULL;
 	shell->token = NULL;
+	shell->last_exit_code = 0;
 	return (0);
 }

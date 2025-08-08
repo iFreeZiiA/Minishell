@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 23:30:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 20:34:39 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,28 @@ int	ft_parse_input(char *input, t_shell *shell)
 	int		syntax_result;
 
 	if (ft_validate_input(input, shell) != 0)
-		return (-1);
+		return (EXIT_FAILURE);
 	shell->current_line = input;
 	tokens = ft_lex_new(shell);
 	if (!tokens)
 	{
 		shell->ast = NULL;
-		return (-1);
+		return (EXIT_FAILURE);
 	}
 	shell->token = tokens;
 	syntax_result = ft_val_comp_syntax(input, shell->token);
 	if (syntax_result != 0)
 	{
 		ft_cleanup_parsing_error(shell, tokens);
-		return (-1);
+		return (EXIT_SYNTAX);
 	}
 	shell->ast = ft_parser(shell->token, shell);
 	if (!shell->ast)
 	{
 		ft_cleanup_parsing_error(shell, tokens);
-		return (-1);
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /**

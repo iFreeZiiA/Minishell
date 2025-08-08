@@ -1,11 +1,11 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_cd_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/04 14:48:15 by alearroy          #+#    #+#             */
+/*   Created: 2025/08/08 19:20:00 by jjorda            #+#    #+#             */
 /*   Updated: 2025/08/08 19:21:28 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -21,6 +21,24 @@ static char	*get_env_value_shell(t_shell *shell, const char *key)
 	if (!shell || !shell->env || !shell->env->env_vars)
 		return (NULL);
 	env = shell->env->env_vars;
+	len = ft_strlen(key);
+	i = 0;
+	while (env[i])
+	{
+		if (!strncmp(env[i], key, len) && env[i][len] == '=')
+			return (env[i] + len + 1);
+		i++;
+	}
+	return (NULL);
+}
+
+static char	*get_env_value_direct(char **env, const char *key)
+{
+	size_t	len;
+	int		i;
+
+	if (!env || !key)
+		return (NULL);
 	len = ft_strlen(key);
 	i = 0;
 	while (env[i])
@@ -61,35 +79,59 @@ static char	*get_cd_target(char **args, t_shell *shell)
 	return (target);
 }
 
-static int	ft_update_shell_env(t_shell *shell, const char *key,
-		const char *value)
-{
-	return (update_env_var(&(shell->env->env_vars), key, value));
-}
-
-int	builtin_cd(char **args, t_shell *shell)
+static char	*get_cd_target_direct(char **args, char ***env)
 {
 	char	*target;
-	char	*oldpwd;
-	char	*newpwd;
 
-	oldpwd = getcwd(NULL, 0);
-	target = get_cd_target(args, shell);
-	if (!target)
+	target = NULL;
+	if (!args[1])
 	{
-		free(oldpwd);
-		return (1);
+		target = get_env_value_direct(*env, "HOME");
+		if (!target)
+		{
+			ft_printerr("minishell: cd: HOME not set\n");
+			return (NULL);
+		}
 	}
-	if (chdir(target) != 0)
+	else if (!ft_strcmp(args[1], "-"))
 	{
-		perror("minishell: cd");
-		free(oldpwd);
-		return (1);
+		target = get_env_value_direct(*env, "OLDPWD");
+		if (!target)
+		{
+			ft_printerr("minishell: cd: OLDPWD not set\n");
+			return (NULL);
+		}
+		ft_printf("%s\n", target);
 	}
-	newpwd = getcwd(NULL, 0);
-	ft_update_shell_env(shell, "OLDPWD", oldpwd);
-	ft_update_shell_env(shell, "PWD", newpwd);
-	free(oldpwd);
-	free(newpwd);
-	return (0);
+	else
+		target = args[1];
+	return (target);
+}
+
+static char	**alloc_env_with_new(char **env, char *new)
+{
+	char	**new_env;
+	int		i;
+
+	i = 0;
+	while (env[i])
+		i++;
+	new_env = malloc(sizeof(char *) * (i + 2));
+	if (!new_env)
+		return (NULL);
+	i = -1;
+	while (env[++i])
+	{
+		new_env[i] = ft_strdup(env[i]);
+		if (!new_env[i])
+		{
+			while (--i >= 0)
+				free(new_env[i]);
+			free(new_env);
+			return (NULL);
+		}
+	}
+	new_env[i++] = new;
+	new_env[i] = NULL;
+	return (new_env);
 }

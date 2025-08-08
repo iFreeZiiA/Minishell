@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:56:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/07 22:39:22 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 20:50:50 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,15 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (ft_exit(input) == -1)
 			break;
+		
+		// Protection contre les inputs trop longs pour éviter les segfaults
+		if (ft_strlen(input) > 100000)
+		{
+			write(2, "minishell: command too long\n", 29);
+			free(input);
+			continue;
+		}
+		
 		shell.current_line = input;
 		if (ft_is_empty_ws(input))
 		{
@@ -65,6 +74,25 @@ int	main(int argc, char **argv, char **envp)
 		int syntax_result = ft_validate_quotes_in_input(input);
 		if (syntax_result != 0)
 		{
+			shell.last_exit_code = EXIT_SYNTAX;
+			if (!is_interactive)
+			{
+				free(input);
+				break;
+			}
+			free(input);
+			continue;
+		}
+		
+		// Validation contre les substitutions de commandes non supportées
+		if (ft_validate_substitutions(input) != 0)
+		{
+			shell.last_exit_code = EXIT_SYNTAX;
+			if (!is_interactive)
+			{
+				free(input);
+				break;
+			}
 			free(input);
 			continue;
 		}
@@ -72,14 +100,36 @@ int	main(int argc, char **argv, char **envp)
 		int parse_result = ft_parse_input(input, &shell);
 		if (parse_result == 0 && shell.ast)
 		{
-			executor_from_ast(shell.ast, shell.env);
+			int exec_result = executor_from_ast(shell.ast, shell.env);
+			shell.last_exit_code = exec_result;
+			ft_free_ast(shell.ast);
+			shell.ast = NULL;
 		}
 		else
 		{
-			ft_printerr("bash: syntax error in command line\n");
+			// En cas d'erreur de parsing, définir le code de sortie approprié
+			if (parse_result == EXIT_SYNTAX)
+				shell.last_exit_code = EXIT_SYNTAX;
+			else
+				shell.last_exit_code = EXIT_FAILURE;
+				
+			// En cas d'erreur, s'assurer que ast est NULL
+			if (shell.ast)
+			{
+				ft_free_ast(shell.ast);
+				shell.ast = NULL;
+			}
+			// L'erreur est déjà affichée par ft_parse_input via ft_val_syntax
+			
+			// En mode non-interactif, sortir immédiatement avec le code d'erreur
+			if (!is_interactive)
+			{
+				free(input);
+				break;
+			}
 		}
 		free(input);
 	}
 	ft_cleanup(&shell, 0);
-	return (0);
+	return (shell.last_exit_code);
 }

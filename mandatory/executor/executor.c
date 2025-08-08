@@ -6,11 +6,45 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:43:27 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/07 23:33:39 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 20:50:50 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
+// Fonction pour créer une structure shell temporaire pour l'expansion
+static void	ft_create_temp_shell(t_shell *temp_shell, t_env *env)
+{
+	temp_shell->env = env;
+}
+
+// Fonction pour faire l'expansion des variables dans les arguments de commande
+static void	ft_expand_command_args(t_command *cmd, t_env *env)
+{
+	t_shell	temp_shell;
+	int		i;
+	char	*expanded;
+	char	*cleaned;
+
+	if (!cmd || !cmd->args || !env)
+		return ;
+	
+	ft_create_temp_shell(&temp_shell, env);
+	
+	i = 0;
+	while (cmd->args[i])
+	{
+		expanded = ft_exp_string(cmd->args[i], env->env_vars, &temp_shell);
+		if (expanded)
+		{
+			cleaned = ft_rm_quotes(expanded);
+			free(cmd->args[i]);
+			free(expanded);
+			cmd->args[i] = cleaned;
+		}
+		i++;
+	}
+}
 
 int	is_builtin(char *cmd)
 {
@@ -75,6 +109,9 @@ int	execute_command(t_command *cmd, t_env *env)
 {
 	pid_t	pid;
 	int		status;
+
+	// Faire l'expansion des variables avec l'environnement actuel
+	ft_expand_command_args(cmd, env);
 
 	// Built-ins qui modifient l'état du shell doivent s'exécuter dans le processus parent
 	if (is_builtin(cmd->args[0]) && 
@@ -148,6 +185,10 @@ void	child_process(t_list *cmd_l, int in, int out, t_env *env)
 	t_command *cmd;
 
 	cmd = cmd_l->content.cmd;
+	
+	// Faire l'expansion des variables avec l'environnement actuel
+	ft_expand_command_args(cmd, env);
+	
 	if (in != -1)
 		dup2(in, STDIN_FILENO);
 	if (out != -1)
@@ -184,6 +225,10 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 	if (cmd_h && !cmd_h->next)
 	{
 		cmd = cmd_h->content.cmd;
+		
+		// Faire l'expansion des variables avec l'environnement actuel
+		ft_expand_command_args(cmd, env);
+		
 		if (is_builtin(cmd->args[0]) && 
 			(!ft_strcmp(cmd->args[0], "cd") || !ft_strcmp(cmd->args[0], "export") || 
 			 !ft_strcmp(cmd->args[0], "unset") || !ft_strcmp(cmd->args[0], "exit")))

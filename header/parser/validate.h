@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 22:55:15 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 20:34:39 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,9 @@ int		ft_val_comp_syntax(char *input, t_list *tokens);
 int		ft_is_empty_ws(char *input);
 void	ft_print_heredoc(t_token *next_token);
 int		ft_check_paren(int *paren_count);
+
+/* validate_substitutions.c */
+int		ft_validate_substitutions(char *input);
 
 /* utils.c */
 int		ft_is_op_token(t_token *token);

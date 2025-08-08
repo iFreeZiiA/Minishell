@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 22:24:19 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 19:14:54 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,44 @@ t_list	*ft_find_operator_by_precedence(t_list *start, t_list *end,
 	return (NULL);
 }
 
+t_list	*ft_find_rightmost_operator_by_precedence(t_list *start, t_list *end,
+		int precedence)
+{
+	t_list	*curr;
+	t_token	*token;
+	t_list	*rightmost;
+	int		current_prec;
+
+	if (!start || !end)
+		return (NULL);
+	rightmost = NULL;
+	curr = start;
+	while (curr && curr != end->next)
+	{
+		token = curr->content.token;
+		if (ft_is_logical_operator_token(token) || token->type == TOKEN_PIPE)
+		{
+			current_prec = ft_get_operator_precedence(token->type);
+			if (current_prec == precedence)
+				rightmost = curr;
+		}
+		curr = curr->next;
+	}
+	return (rightmost);
+}
+
 static t_list	*ft_find_operator_at_precedence(t_list *start, t_list *end)
 {
 	t_list	*op_token;
 
-	op_token = ft_find_operator_by_precedence(start, end, 1);
-	if (!op_token)
-		op_token = ft_find_operator_by_precedence(start, end, 2);
-	if (!op_token)
-		op_token = ft_find_operator_by_precedence(start, end, 3);
+	// Chercher d'abord les pipes (priorité 2)
+	op_token = ft_find_operator_by_precedence(start, end, 2);
+	if (op_token)
+		return (op_token);
+	
+	// Pour && et || (même priorité 1), chercher de droite à gauche
+	// pour respecter l'associativité de bash
+	op_token = ft_find_rightmost_operator_by_precedence(start, end, 1);
 	return (op_token);
 }
 

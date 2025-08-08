@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:33:52 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/29 11:00:29 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 20:34:39 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 # define EMPTY_FILE		"The file is empty."
 
 # define STD_ERR		1
+
+/* ********************************** EXIT CODES *************************** */
+
+# define EXIT_SUCCESS	0
+# define EXIT_FAILURE	1
+# define EXIT_SYNTAX	2
 
 # define PIPE			'|'
 # define R_OUT			'>'

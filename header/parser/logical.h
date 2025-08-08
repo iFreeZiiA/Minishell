@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 22:24:37 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 19:14:54 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,17 @@ int			ft_get_operator_precedence(t_token_type type);
  * @return t_list* Operator token or NULL
  */
 t_list		*ft_find_operator_by_precedence(t_list *start, t_list *end,
+				int precedence);
+
+/**
+ * @brief Finds rightmost operator with specific precedence (for left-to-right evaluation)
+ * 
+ * @param start Start of token range
+ * @param end End of token range
+ * @param precedence Target precedence level
+ * @return t_list* Rightmost operator token or NULL
+ */
+t_list		*ft_find_rightmost_operator_by_precedence(t_list *start, t_list *end,
 				int precedence);
 
 /**

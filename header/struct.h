@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/05 19:47:34 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 20:34:39 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct s_shell {
 	char		*prompt;
 	t_list		*token;			// Résultat du lexer
 	t_ast_node	*ast;			// Arbre syntaxique après parsing
+	int			last_exit_code;	// Code de sortie de la dernière commande
 }	t_shell;
 
 /* ---------------------------------- LIST ---------------------------------- */

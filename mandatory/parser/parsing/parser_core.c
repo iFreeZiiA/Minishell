@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 20:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:06:43 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 20:34:39 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,18 @@ t_ast_node	*ft_parser(t_list *tokens, t_shell *shell)
 
 int	ft_validate_token_list(t_list *tokens)
 {
-	(void)tokens;
-	return (0);
+	int validation_result;
+
+	if (!tokens)
+		return (EXIT_SYNTAX);
+	
+	validation_result = ft_val_syntax(tokens);
+	if (validation_result != 0)
+	{
+		ft_printerr("minishell: syntax error\n");
+		return (EXIT_SYNTAX);
+	}
+	return (EXIT_SUCCESS);
 }
 
 void	free_command_list(t_list *cmd_list)

@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:38:09 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/07 22:39:22 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 20:34:39 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,13 @@ int	run_builtin(char **args, char ***env)
 		return (builtin_pwd());
 	if (!ft_strcmp(args[0], "cd"))
 	{
-		// Utiliser directement l'ancienne interface pour éviter les problèmes mémoire
-		return (builtin_cd_direct(args, env));
+		// Créer une structure shell temporaire pour l'interface
+		t_shell shell;
+		t_env env_struct;
+		
+		env_struct.env_vars = *env;
+		shell.env = &env_struct;
+		return (builtin_cd(args, &shell));
 	}
 	if (!ft_strcmp(args[0], "env"))
 		return (builtin_env(*env));

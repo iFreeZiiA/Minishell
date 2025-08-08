@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/07/20 16:55:09 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/08 19:14:54 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ bool	ft_is_logical_operator_token(t_token *token)
 int	ft_get_operator_precedence(t_token_type type)
 {
 	if (type == TOKEN_PIPE)
-		return (3);
-	if (type == TOKEN_AND)
 		return (2);
+	if (type == TOKEN_AND)
+		return (1);
 	if (type == TOKEN_OR)
 		return (1);
 	return (0);
