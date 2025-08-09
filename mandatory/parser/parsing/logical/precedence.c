@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   precedence.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 11:14:07 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:10:28 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,9 @@ static t_list	*ft_find_operator_at_precedence(t_list *start, t_list *end)
 {
 	t_list	*op_token;
 
-	// Chercher d'abord les pipes (priorité 2)
 	op_token = ft_find_operator_by_precedence(start, end, 2);
 	if (op_token)
 		return (op_token);
-	
-	// Pour && et || (même priorité 1), chercher de droite à gauche
-	// pour respecter l'associativité de bash
 	op_token = ft_find_rightmost_operator_by_precedence(start, end, 1);
 	return (op_token);
 }
@@ -111,18 +107,4 @@ t_ast_node	*ft_parse_logical_expression(t_shell *shell, t_list *start,
 		return (NULL);
 	op_type = ft_tok_to_node(op_token->content.token->type);
 	return (ft_create_op_node(op_type, left, right));
-}
-
-t_ast_node	*ft_parse_simple_command_precedence(t_shell *shell, t_list *start,
-		t_list *end)
-{
-	t_list		*sub_tokens;
-	t_ast_node	*result;
-
-	sub_tokens = ft_create_token_sublist_precedence(start, end);
-	if (!sub_tokens)
-		return (NULL);
-	result = ft_parser(sub_tokens, shell);
-	ft_free_token_sublist_precedence(sub_tokens);
-	return (result);
 }
