@@ -71,6 +71,7 @@ SRC_PARSER_BASE = mandatory/parser/enhanced.c \
 SRC_LEXING = mandatory/parser/lexing/err.c \
 	mandatory/parser/lexing/utils.c \
 	mandatory/parser/lexing/extract.c \
+	mandatory/parser/lexing/quote_processing.c \
 	mandatory/parser/lexing/tokenize.c \
 	mandatory/parser/lexing/variables.c \
 	mandatory/parser/lexing/parse_var.c \

@@ -60,13 +60,11 @@ static int	ft_process_variable(char **result, int *i, char **envp,
 	char	*var_value;
 	char	*new_result;
 	int		replacement_len;
-	int		replacement_len;
 
 	var_name = ft_ext_var_name(*result, *i);
 	if (var_name)
 	{
 		var_value = ft_get_var_val(var_name, envp, shell);
-		replacement_len = ft_strlen(var_value);
 		replacement_len = ft_strlen(var_value);
 		new_result = ft_repl_var(*result, *i, ft_strlen(var_name)
 				+ 1, var_value);

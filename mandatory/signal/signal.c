@@ -6,10 +6,9 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/08/09 16:44:08 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:49:08 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../header/minishell.h"
 

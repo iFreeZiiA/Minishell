@@ -63,6 +63,14 @@ char			*ft_ext_word(char *line, int *i);
 char			*ft_ext_op(char *line, int *i);
 t_token_type	ft_get_op_type(char *op);
 
+// Fonctions de traitement des quotes
+char			*ft_process_quoted_word(char *word);
+char			*ft_handle_simple_quotes(char *word, int len);
+char			*ft_handle_assignment_quotes(char *word, char *equals_pos,
+					int len);
+char			*ft_handle_double_assignment(char *word, char *equals_pos,
+					int len);
+
 // Fonctions de tokenisation
 int				ft_add_tok(t_list **tokens, char *value, t_token_type type);
 t_list			*ft_lex_simple(t_shell *shell);
