@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:58:25 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/09 14:30:00 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:15:13 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	is_valid_identifier(const char *s)
 	}
 	return (1);
 }
-
 
 static int	print_export(char **env)
 {
