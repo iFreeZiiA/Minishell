@@ -8,6 +8,9 @@ PRESERVE_FILES=(
     "mandatory/parser/lexing/quote_processing.c"
     "header/parser/lexing.h"
     "mandatory/signal/signal.c"
+    "mandatory/builtin/builtin_echo.c"
+    "mandatory/builtin/builtin_export.c"
+    "mandatory/executor/expansion_utils.c"
 )
 
 echo "=== Résolution automatique des conflits ==="
@@ -53,9 +56,36 @@ resolve_conflicts() {
     echo "✅ Tous les conflits ont été résolus!"
 }
 
-# Résoudre les conflits actuels
-resolve_conflicts
+# Boucle pour résoudre tous les conflits automatiquement
+while true; do
+    # Vérifier s'il y a des conflits
+    if git status --porcelain | grep -q "^UU\|^AA\|^DD"; then
+        echo ""
+        echo "=== Nouveaux conflits détectés ==="
+        resolve_conflicts
+        echo "🔄 Continuation du rebase..."
+        git rebase --continue
+        
+        # Vérifier le code de sortie du rebase
+        if [ $? -eq 0 ]; then
+            echo "🎉 Rebase terminé avec succès!"
+            break
+        fi
+    else
+        # Pas de conflits, essayer de continuer le rebase
+        echo "🔄 Continuation du rebase..."
+        git rebase --continue
+        
+        if [ $? -eq 0 ]; then
+            echo "🎉 Rebase terminé avec succès!"
+            break
+        fi
+    fi
+    
+    # Petite pause pour éviter une boucle trop rapide
+    sleep 1
+done
 
-# Continuer le rebase
-echo "🔄 Continuation du rebase..."
-git rebase --continue
+echo ""
+echo "✅ Processus terminé!"
+git status
