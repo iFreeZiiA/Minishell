@@ -1,64 +1,147 @@
-# *********************************** FILES *********************************** #
+# ************************************************************************** #
+#              # Validation
+SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
+	mandatory/parser/parsing/validate/utils.c \
+	mandatory/parser/parsing/validate/err.c \
+	mandatory/parser/parsing/validate/advanced.c \
+	mandatory/parser/parsing/validate/adv_utils.c \
+	mandatory/parser/parsing/validate/validate_core.c                                                      #
+#                                                        :::      ::::::::   #
+#   Sources_new.mk                                     :+:      :+:    :+:   #
+#                                                    +:+ +:+         +:+     #
+#   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        #
+#                                                +#+#+#+#+#+   +#+           #
+#   Created: 2025/08/06 00:00:00 by jjorda            #+#    #+#             #
+#   Updated: 2025/08/06 00:00:00 by jjorda           ###   ########.fr       #
+#                                                                            #
+# ************************************************************************** #
 
-#  								    MANDATORY								  #
-MAN		= mandatory/
-LEX		= $(MAN)parser/lexing/
-EXP		= $(LEX)expansion/
-WCD		= $(LEX)wildcard/
-PRR		= $(MAN)parser/parsing/
-PRT		= $(PRR)parentheses/
-EXP_DIR	= $(PRR)expression/
-AST_DIR	= $(PRR)ast/
-SUP		= $(MAN)/deployment/setup/
-CUP		= $(MAN)deployment/cleanup/
-BLT		= $(MAN)builtin/
-SGL		= $(MAN)signal/
-EXE		= $(MAN)executor/
+# Sources propres basées sur les fichiers réellement compilés et fonctionnels
 
-SRC_LXR = $(LEX)lexing.c $(LEX)err.c $(LEX)utils.c $(EXP)expansion.c		\
-	$(EXP)expansion_utils.c $(EXP)exit_code.c $(EXP)exp_dquote.c			\
-	$(EXP)exp_tok.c
+# ********************************* CORE *********************************** #
 
-SRC_PRT = $(PRT)parentheses.c $(PRT)find.c $(PRT)check.c $(PRT)depth.c		\
-	$(PRT)utils.c
+SRC_MAIN = mandatory/main.c \
+	mandatory/main_utils.c \
+	mandatory/main_process.c
 
-SRC_PRR	= $(PRR)parse.c $(PRR)utils.c $(EXP_DIR)group.c $(EXP_DIR)command.c	\
-	$(EXP_DIR)redirections.c $(AST_DIR)create.c $(AST_DIR)free.c			\
-	$(AST_DIR)print.c
+# ******************************** BUILTIN ********************************** #
 
-SRC_SUP	= $(SUP)setup.c $(SUP)environment.c
+SRC_BUILTIN = mandatory/builtin/builtin_cd_utils.c \
+	mandatory/builtin/builtin_pwd.c \
+	mandatory/builtin/run_builtin.c \
+	mandatory/builtin/builtin_unset.c \
+	mandatory/builtin/builtin_export.c \
+	mandatory/builtin/builtin_env.c \
+	mandatory/builtin/builtin_exit.c \
+	mandatory/builtin/builtin_echo.c \
+	mandatory/builtin/builtin_cd.c
 
-SRC_LGR = $(LGOP)logical
+# ******************************* EXECUTOR ********************************* #
 
-SRC_WCD = $(WCD)wildcard.c $(WCD)wc_files.c $(WCD)wc_match.c				\
-	$(WCD)wc_tokens.c
+SRC_EXECUTOR = mandatory/executor/executor.c \
+	mandatory/executor/ast_to_command_list.c \
+	mandatory/executor/get_path.c \
+	mandatory/executor/execute_utils.c \
+	mandatory/executor/redirections.c \
+	mandatory/executor/execute_simple.c \
+	mandatory/executor/execute_pipe.c \
+	mandatory/executor/pipe_helpers.c \
+	mandatory/executor/child_process_utils.c
 
-SRC_CUP	= $(CUP)cleanup.c
+# ******************************* SIGNAL *********************************** #
 
-SRC_BLT = $(BLT)/builtin_echo.c $(BLT)/builtin_pwd.c $(BLT)/run_builtin.c	\
-	$(BLT)/builtin_cd.c $(BLT)/builtin_env.c $(BLT)/builtin_exit.c 			\
-	$(BLT)/builtin_export.c $(BLT)/builtin_unset.c $(BLT)/builtin_cd_utils.c
+SRC_SIGNAL = mandatory/signal/signal.c
 
-SRC_SGL = $(SGL)/signal.c
+# ****************************** DEPLOYMENT ******************************** #
 
-SRC_EXE = $(EXE)ast_to_command_list.c $(EXE)executor.c $(EXE)get_path.c		\
-	$(EXE)pipe.c $(EXE)pipe_utils.c $(EXE)free_command_list.c $(EXE)heredoc.c 
+SRC_DEPLOYMENT = mandatory/deployment/setup/setup.c \
+	mandatory/deployment/setup/environment.c \
+	mandatory/deployment/cleanup/cleanup.c
 
-SRC		= $(MAN)/main.c $(SRC_LXR) $(SRC_PRR) $(SRC_SUP) $(SRC_CUP)			\
-	$(SRC_BLT) $(SRC_SGL) $(SRC_PRT) $(SRC_EXE)
+# ******************************* PARSER *********************************** #
+# Parser de base
+SRC_PARSER_BASE = mandatory/parser/enhanced.c \
+	mandatory/parser/parser.c
 
-#  								      BONUS  								  #
-# BNS		= bonus/
-# BNSC		= _bonus.c
-# SRC_BNS	= $(BNS)main.c
+# ******************************** LEXING *********************************** #
 
-#  								    UNIT_TEST 								  #
+SRC_LEXING = mandatory/parser/lexing/err.c \
+	mandatory/parser/lexing/utils.c \
+	mandatory/parser/lexing/extract.c \
+	mandatory/parser/lexing/tokenize.c \
+	mandatory/parser/lexing/variables.c \
+	mandatory/parser/lexing/parse_var.c \
+	mandatory/parser/lexing/expand.c
 
-DIR_UT		= $(DIR_OBJ)/unit_test/
-UT			= $(LEX) $(PRR) $(SUP) $(CUP)
+# ******************************** PARSING ********************************** #
+# AST
+SRC_PARSING_AST = mandatory/parser/parsing/ast/create.c \
+	mandatory/parser/parsing/ast/free.c \
+	mandatory/parser/parsing/ast/utils.c \
+	mandatory/parser/parsing/ast/cmd_build.c \
+	mandatory/parser/parsing/ast/cmd_build_utils.c
 
-NAME_UT		= $(NAME_LX) $(NAME_PR) $(NAME_SUP) $(NAME_CUP)
-NAME_ALL	= $(NAME_A) $(NAME_J)
+# Core parser
+SRC_PARSING_CORE = mandatory/parser/parsing/parser_core.c
+
+# Opérateurs logiques
+SRC_PARSING_LOGICAL = mandatory/parser/parsing/logical/logical.c \
+	mandatory/parser/parsing/logical/precedence.c \
+	mandatory/parser/parsing/logical/utils.c
+
+# Pipes
+SRC_PARSING_PIPES = mandatory/parser/parsing/pipes/operators.c \
+	mandatory/parser/parsing/pipes/pipes.c
+
+# Redirections
+SRC_PARSING_REDIR = mandatory/parser/parsing/redir/input.c \
+	mandatory/parser/parsing/redir/output.c \
+	mandatory/parser/parsing/redir/redir.c \
+	mandatory/parser/parsing/redir/utils.c \
+	mandatory/parser/parsing/redir/validate.c
+
+# Utilitaires
+SRC_PARSING_UTILS = mandatory/parser/parsing/utils/token_utils.c \
+	mandatory/parser/parsing/utils/token_list.c
+
+# Validation
+SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
+	mandatory/parser/parsing/validate/utils.c \
+	mandatory/parser/parsing/validate/err.c \
+	mandatory/parser/parsing/validate/advanced.c \
+	mandatory/parser/parsing/validate/adv_utils.c \
+	mandatory/parser/parsing/validate/validate_core.c \
+	mandatory/parser/parsing/validate/validate_substitutions.c
+
+# Heredoc
+SRC_PARSING_HEREDOC = mandatory/parser/heredoc/heredoc.c \
+	mandatory/parser/heredoc/heredoc_process.c
+
+# Wildcard
+SRC_PARSING_WILDCARD = mandatory/parser/wildcard/wildcard.c \
+	mandatory/parser/wildcard/wildcard_match.c \
+	mandatory/parser/wildcard/wildcard_files.c \
+	mandatory/parser/wildcard/wildcard_utils.c
+
+# Parentheses
+SRC_PARSING_PARENTHESES = mandatory/parser/parentheses/parentheses.c \
+	mandatory/parser/parentheses/parentheses_validate.c \
+	mandatory/parser/parentheses/parentheses_find.c \
+	mandatory/parser/parentheses/parentheses_parse.c \
+	mandatory/parser/parentheses/parentheses_logic.c
+
+# Regroupement parsing
+SRC_PARSING = $(SRC_PARSING_AST) $(SRC_PARSING_CORE) $(SRC_PARSING_LOGICAL) $(SRC_PARSING_PIPES) \
+	$(SRC_PARSING_REDIR) $(SRC_PARSING_UTILS) $(SRC_PARSING_VALIDATE) $(SRC_PARSING_HEREDOC) $(SRC_PARSING_WILDCARD) $(SRC_PARSING_PARENTHESES)
+
+# ****************************** SOURCES FINALES *************************** #
+
+SRC = $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_SIGNAL) $(SRC_EXECUTOR) \
+	$(SRC_DEPLOYMENT) $(SRC_PARSER_BASE) $(SRC_LEXING) $(SRC_PARSING)
+
+# ********************************* BONUS *********************************** #
+
+BONUS_SOURCES = bonus/main.c
 
 # ************************************ LIB *********************************** #
 
@@ -74,21 +157,6 @@ LIBMS		= $(DIR_LIBMS)/libms.a
 
 # ********************************* OBJECTS ********************************** #
 
-DIR_OBJ	= obj
-DIR		= $(DIR_OBJ)/
-DIR_BNS	= $(DIR_OBJ)/
-OBJ		= $(patsubst %.c, $(DIR)%.o, $(SRC))
-OBJ_BNS	= $(patsubst %.c, $(DIR_BNS)%.o, $(SRC_BNS))
-
-BANNER	= \
-" **********************************************" "\n" \
-"*$(Y) ______    _     _ _______ _       _        $(O)*" "\n" \
-"*$(Y)|  ___ \  | |   | (_______) |     | |       $(O)*" "\n" \
-"*$(Y)| | _ | | | |__ | |_____  | |     | |       $(O)*" "\n" \
-"*$(Y)| || || | |  __)| |  ___) | |     | |       $(O)*" "\n" \
-"*$(Y)| || || |_| |   | | |_____| |_____| |_____  $(O)*" "\n" \
-"*$(Y)|_||_||_(_)_|   |_|_______)_______)_______) $(O)*" "\n" \
-"*$(V) Made by : alearroy / jjorda                $(O)*" "\n" \
-"*$(V) Started : 04/04/2025                       $(O)*" "\n" \
-"*$(V) Finished :                                 $(O)*" "\n" \
-"**********************************************"
+DIR_OBJ		= obj
+DIR			= $(DIR_OBJ)/
+OBJ			= $(patsubst %.c, $(DIR)%.o, $(SRC))

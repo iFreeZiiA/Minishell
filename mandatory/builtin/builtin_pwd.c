@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:59:41 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/08 18:21:37 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/08/09 10:59:59 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	builtin_pwd(void)
 {
-	char *cwd;
+	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
@@ -26,4 +26,3 @@ int	builtin_pwd(void)
 	free(cwd);
 	return (0);
 }
-

@@ -1,40 +1,69 @@
-NAME_WC	= wcard_ut
+# ************************************************************************** #
+#                                                                            #
+#                                                        :::      ::::::::   #
+#   wildcard.mk                                        :+:      :+:    :+:   #
+#                                                    +:+ +:+         +:+     #
+#   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        #
+#                                                +#+#+#+#+#+   +#+           #
+#   Created: 2025/08/07 23:20:00 by jjorda            #+#    #+#             #
+#   Updated: 2025/08/07 23:20:00 by jjorda           ###   ########.fr       #
+#                                                                            #
+# ************************************************************************** #
 
-DIR_WC	= $(DIR_UT)# $(SRC_PRR)
-UT_WCD = $(WCD)main_test.c $(SRC_WCD) $(SRC_LXR) $(SRC_SUP) $(SRC_CUP)
+# ================================= PHASE 9: WILDCARDS ================================= #
 
-OBJ_WCD	= $(patsubst %.c, $(DIR_WC)%.o, $(UT_WCD))
+# Test basique des wildcards
+test_wildcard: $(NAME)
+	@echo "$(GREEN)🧪 Tests Wildcards de base$(NC)"
+	@./test_wildcard.sh
 
-wildcard:	$(LIB) $(NAME_WC)
+# Tests avancés des wildcards 
+test_wildcard_advanced: $(NAME)
+	@echo "$(GREEN)🔬 Tests Wildcards avancés$(NC)"
+	@./test_wildcard_advanced.sh
 
-$(NAME_WC): $(OBJ_WCD)
-	@$(CC) $(CFLAGS) -o $@ $(OBJ_WCD) $(LIBFT) $(LIBMS) $(LIBFT) -lreadline
-	@$(PRINT) $(BAN_WC)
+# Test spécifique phase 9
+test_phase_9: $(NAME)
+	@echo "$(GREEN)🧪 Phase 9: Tests Wildcards$(NC)"
+	@echo "$(YELLOW)Testing wildcard expansion (*)$(NC)"
+	@./test_wildcard.sh
 
-dir_wcard:
-	@mkdir -p $(DIR_WC)$(SUP)
-	@mkdir -p $(DIR_WC)$(CUP)
-	@mkdir -p $(DIR_WC)$(LXR)
-	@mkdir -p $(DIR_WC)$(WCD)
+# Test d'intégration avec le reste du système
+test_wildcard_integration: $(NAME)
+	@echo "$(GREEN)🔗 Test intégration wildcards$(NC)"
+	@mkdir -p test_integration
+	@cd test_integration && touch test1.c test2.c main.h parser.h
+	@cd test_integration && echo "echo *.c | wc -w" | ../$(NAME) > minishell_out.txt
+	@cd test_integration && echo "echo *.c | wc -w" | bash > bash_out.txt
+	@cd test_integration && diff minishell_out.txt bash_out.txt > /dev/null && echo "$(GREEN)✅ Wildcards + Pipes OK$(NC)" || echo "$(RED)❌ Problème intégration$(NC)"
+	@rm -rf test_integration
 
-$(DIR_WC)$(WCD)%.o: $(WCD)%.c | dir_wcard
-	@$(CC) $(CFLAGS) -c $< -o $@
+# Tests avec d'autres fonctionnalités bonus
+test_wildcard_heredoc: $(NAME)
+	@echo "$(GREEN)🔗 Test Wildcards + Heredoc$(NC)"
+	@mkdir -p test_wh && cd test_wh && touch file1.txt file2.txt
+	@cd test_wh && printf "cat << EOF\n*.txt\nEOF\n" | ../$(NAME) > minishell_out.txt
+	@cd test_wh && printf "cat << EOF\n*.txt\nEOF\n" | bash > bash_out.txt
+	@cd test_wh && diff minishell_out.txt bash_out.txt > /dev/null && echo "$(GREEN)✅ Wildcard + Heredoc OK$(NC)" || echo "$(YELLOW)⚠️  Différence détectée$(NC)"
+	@rm -rf test_wh
 
-# $(DIR_PR)$(PRR)%.o: $(PRR)%.c | dir_parser
-# 	@$(CC) $(CFLAGS) -c $< -o $@
+# Tests de performance wildcards
+test_wildcard_performance: $(NAME)
+	@echo "$(GREEN)⚡ Test performance wildcards$(NC)"
+	@mkdir -p test_perf
+	@cd test_perf && for i in {1..100}; do touch file$$i.txt; done
+	@cd test_perf && time (echo "echo *.txt | wc -w" | ../$(NAME) > /dev/null)
+	@rm -rf test_perf
 
-$(DIR_WC)$(CUP)%.o: $(CUP)%.c | dir_wcard
-	@$(CC) $(CFLAGS) -c $< -o $@
+# Nettoyage spécifique wildcards
+clean_wildcard:
+	@rm -f test_wildcard_*.txt test_integration
+	@rm -rf test_*
+	@echo "$(GREEN)🧹 Nettoyage wildcard terminé$(NC)"
 
-BAN_WC	= \
-" **********************************************" "\n" \
-"*$(Y)   _       _______ _    _ _______ ______    $(O)*" "\n" \
-"*$(Y)  | |     (_______) \  / (_______|_____ \   $(O)*" "\n" \
-"*$(Y)  | |      _____   \ \/ / _____   _____) )  $(O)*" "\n" \
-"*$(Y)  | |     |  ___)   )  ( |  ___) |  ___ (   $(O)*" "\n" \
-"*$(Y)  | |_____| |_____ / /\ \| |_____| |   | |  $(O)*" "\n" \
-"*$(Y)  |_______)_______)_/  \_\_______)_|   |_|  $(O)*" "\n" \
-"*$(V) Made by : alearroy / jjorda                $(O)*" "\n" \
-"*$(V) Started : 04/04/2025                       $(O)*" "\n" \
-"*$(V) Finished :                                 $(O)*" "\n" \
-"**********************************************"
+# Tests complets wildcards
+test_wildcard_all: test_wildcard test_wildcard_integration test_wildcard_heredoc
+	@echo "$(GREEN)🎉 Tous les tests wildcards terminés$(NC)"
+
+.PHONY: test_wildcard test_wildcard_advanced test_phase_9 test_wildcard_integration \
+        test_wildcard_heredoc test_wildcard_performance clean_wildcard test_wildcard_all

@@ -61,15 +61,3 @@ int	ft_printerr(const char *str, ...)
 	va_end(args);
 	return (count);
 }
-
-/* int	main(int args, char **argv)
-{
-	char	*str;
-
-	str = NULL;
-	(void) args;
-	(void) argv;
-	printf("printf: %d\n", printf(" %x ", (unsigned int) LONG_MAX));
-	ft_printf("ft_printf: %d", ft_printf(" %x ", (unsigned long) LONG_MAX));
-	return (1);
-} */

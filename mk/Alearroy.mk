@@ -2,9 +2,8 @@ NAME_A	= alearroy
 DIR_A	= obj
 
 MAN		= mandatory/
-BLT		= $(MAN)builtin/
-SGL		= $(MAN)signal/
-EXE		= $(MAN)executor/
+BLT		= $(MAN)builtin
+SGL		= $(MAN)signal
 
 SRC_A	= $(BLT)builtin_echo.c $(BLT)builtin_pwd.c					\
 		$(BLT)run_builtin.c $(BLT)builtin_cd.c $(BLT)builtin_env.c	\

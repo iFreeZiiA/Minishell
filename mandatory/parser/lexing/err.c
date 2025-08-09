@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:24:16 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/11 11:40:41 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 22:11:31 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	*ft_lstfree_t(t_list *tok_h)
 	}
 	return (NULL);
 }
-
 /**
  * @brief Sets a status code and returns NULL
  * 
@@ -42,6 +41,7 @@ void	*ft_lstfree_t(t_list *tok_h)
  * @param status Status code to set
  * @return void* Always NULL
  */
+
 void	*ft_tok_err(int *p_status, int status)
 {
 	if (p_status)
@@ -52,17 +52,21 @@ void	*ft_tok_err(int *p_status, int status)
 int	ft_new_token_err(t_token *token, int ret)
 {
 	if (token)
+	{
+		if (token->value)
+			free(token->value);
 		free(token);
+	}
 	return (ret);
 }
-
 /**
  * @brief Performs basic syntax validation on the token list
  * 
  * @param shell The shell structure
  * @return int 0 on success, negative value on error
  */
-int	ft_lexer_checker(t_shell *shell)
+
+int	ft_lex_check(t_shell *shell)
 {
 	t_list	*curr;
 	t_token	*token;

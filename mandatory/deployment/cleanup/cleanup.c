@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:45:35 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/11 10:57:19 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/06 20:00:29 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static inline void	ft_freelst(t_list *lst, int type)
 			free(curr->content.redir->file);
 			free(curr->content.redir);
 		}
+
 		else if (type == 3)
 		{
 			ft_free_vctr((void **) curr->content.cmd->args);
@@ -39,28 +40,26 @@ static inline void	ft_freelst(t_list *lst, int type)
 		curr = lst;
 	}
 }
-
 static inline void	ft_freeast(t_ast_node *ast)
 {
 	t_command	*cmd;
-	// t_redir		*red;
 
 	if (!ast)
 		return ;
 	if (ast->type == NODE_REDIR)
 		ft_freelst(ast->data, 2);
+
 	else if (ast->type == NODE_COMMAND)
 	{
 		cmd = (t_command *) ast->data;
 		ft_free_vctr((void **) cmd->args);
 		if (cmd->redirs)
-			ft_freelst(cmd->redirs, 3);
+			ft_freelst(cmd->redirs, 2);
 		free(ast->data);
 	}
 	ft_freeast(ast->left);
 	ft_freeast(ast->right);
 }
-
 static inline void	ft_freetoken(t_list *tok_h)
 {
 	t_list	*tok_c;
@@ -71,24 +70,39 @@ static inline void	ft_freetoken(t_list *tok_h)
 	while (tok_c)
 	{
 		tok_h = tok_c->next;
-		free(tok_c->content.token->value);
-		free(tok_c->content.token);
-		tok_c->content.token = NULL;
+		if ((tok_c->type == TYPE_TOKEN) && tok_c->content.token)
+		{
+			free(tok_c->content.token->value);
+			free(tok_c->content.token);
+			tok_c->content.token = NULL;
+		}
 		tok_c = tok_h;
 	}
 }
 
 void	ft_freeenv(t_env *env)
 {
+	int	i;
+
 	if (!env)
 		return ;
 	if (env->local_env)
 		ft_free_vctr((void **) env->local_env);
+	if (env->env_vars)
+	{
+		i = 0;
+		while (env->env_vars[i])
+		{
+			free(env->env_vars[i]);
+			i++;
+		}
+		free(env->env_vars);
+	}
 	free(env);
 	env = NULL;
 }
-
 // TODO: clean of the 't_list **cmd'
+
 void	ft_cleanup(t_shell *shell, int status)
 {
 	if (!shell)

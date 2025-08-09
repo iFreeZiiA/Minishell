@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/12 11:14:52 by jjorda           ###   ########.fr       */
+/*   Created: 2025/07/19 00:00:00 by jjorda            #+#    #+#             */
+/*   Updated: 2025/08/07 22:39:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,183 @@
 
 # include "../minishell.h"
 
-/* *************************** MAIN PARSING ENTRY *************************** */
+/* *************************** POINT D'ENTRÉE UNIQUE ************************ */
 
-int				ft_parse(t_shell *shell);
+/**
+ * @brief Point d'entrée unique du module parser - Phase 6.1
+ * Parse une liste de tokens et retourne un AST avec support des pipes
+ * 
+ * @param tokens Liste de tokens du lexer
+ * @param shell Structure shell
+ * @return t_ast_node* Noeud racine de l'AST ou NULL en cas d'erreur
+ */
+t_ast_node	*ft_parser(t_list *tokens, t_shell *shell);
+t_ast_node	*ft_parser_new(t_list *tokens, t_shell *shell);
 
-/* *************************** PARSING UTILITIES **************************** */
+/* ****************************** OPERATORS ********************************* */
 
-bool			ft_is_operator_token(t_token *token);
-bool			ft_is_word_token(t_token *token);
-t_list			*ft_find_operator_at_level(t_list *start, t_list *end);
-bool			ft_is_redirect_token(t_token_type type);
-t_ast_node		*ft_parse_expression(t_shell *shell, t_list *token_h,
-					t_list *start, t_list *end);
+/**
+ * @brief Trouve le premier token pipe dans la liste
+ * 
+ * @param tokens Liste de tokens
+ * @return t_list* Token pipe trouvé ou NULL
+ */
+t_list		*ft_find_pipe_token(t_list *tokens);
 
-/* ************************* EXPRESSION PARSING **************************** */
+/**
+ * @brief Crée un nœud AST de type pipe
+ * 
+ * @param left Commande de gauche
+ * @param right Commande de droite
+ * @return t_ast_node* Nouveau nœud pipe
+ */
+t_ast_node	*ft_create_pipe_node(t_ast_node *left, t_ast_node *right);
 
-t_ast_node		*ft_parse_group(t_shell *shell, t_list *start, t_list *end);
-t_ast_node		*ft_parse_command(t_list *start, t_list *end);
-int				ft_parse_redirections(t_shell *shell, t_list *token_h,
-					t_command *cmd);
+/**
+ * @brief Valide la syntaxe des pipes
+ * 
+ * @param tokens Liste de tokens
+ * @return int 0 si valide, -1 sinon
+ */
+int			ft_validate_pipe_syntax(t_list *tokens);
 
-/* ***************************** AST CREATION ***************************** */
+/* ************************* OPÉRATEURS LOGIQUES **************************** */
 
-t_ast_node		*ft_create_command_node(char **args, t_list *redirs);
-t_ast_node		*ft_create_op_node(t_token_type type, t_ast_node *left,
-					t_ast_node *right);
-t_ast_node		*ft_create_group_node(t_ast_node *content);
+/**
+ * @brief Trouve le premier opérateur logique (&&, ||) dans la liste
+ * 
+ * @param tokens Liste de tokens
+ * @return t_list* Token opérateur trouvé ou NULL
+ */
+t_list		*ft_find_logical_operator(t_list *tokens);
 
-/* ****************************** AST CLEANUP ****************************** */
+/**
+ * @brief Crée un nœud AST de type AND (&&)
+ * 
+ * @param left Commande de gauche
+ * @param right Commande de droite
+ * @return t_ast_node* Nouveau nœud AND
+ */
+t_ast_node	*ft_create_and_node(t_ast_node *left, t_ast_node *right);
 
-void			ft_free_command(t_command *cmd);
-void			ft_free_ast(t_ast_node *ast);
+/**
+ * @brief Crée un nœud AST de type OR (||)
+ * 
+ * @param left Commande de gauche
+ * @param right Commande de droite
+ * @return t_ast_node* Nouveau nœud OR
+ */
+t_ast_node	*ft_create_or_node(t_ast_node *left, t_ast_node *right);
 
-/* ****************************** AST DISPLAY ****************************** */
+/**
+ * @brief Parse les opérateurs logiques avec gestion des précédences
+ * 
+ * @param shell Structure shell
+ * @return int 0 succès, -1 erreur
+ */
+int			ft_parse_logical_operators(t_shell *shell);
 
-void			ft_print_ast_tree(t_ast_node *ast, int level);
+/**
+ * @brief Valide la syntaxe des opérateurs logiques
+ * 
+ * @param tokens Liste de tokens
+ * @return bool true si valide, false sinon
+ */
+bool		ft_validate_logical_syntax(t_list *tokens);
+
+/* ******************************* PIPES ********************************* */
+
+/**
+ * @brief Extrait les tokens à gauche du pipe
+ * 
+ * @param tokens Liste de tokens
+ * @param pipe_pos Position du token pipe
+ * @return t_list* Liste des tokens de gauche
+ */
+t_list		*ft_extract_left_tokens(t_list *tokens, t_list *pipe_pos);
+
+/**
+ * @brief Duplique un nœud de token
+ * 
+ * @param original Nœud original
+ * @return t_list* Nouveau nœud dupliqué
+ */
+t_list		*ft_duplicate_token_node(t_list *original);
+
+/**
+ * @brief Ajoute un token à la fin d'une liste
+ * 
+ * @param list Pointeur vers la liste
+ * @param new_node Nouveau nœud à ajouter
+ */
+void		ft_add_token_to_list(t_list **list, t_list *new_node);
+
+/**
+ * @brief Compte le nombre de pipes dans la liste
+ * 
+ * @param tokens Liste de tokens
+ * @return int Nombre de pipes
+ */
+int			ft_count_pipes(t_list *tokens);
+
+/**
+ * @brief Vérifie si une liste contient uniquement des tokens valides
+ * 
+ * @param tokens Liste de tokens
+ * @return int 1 si valide, 0 sinon
+ */
+int			ft_is_valid_command_sequence(t_list *tokens);
+
+/* *************************** UTILITAIRES AST *************************** */
+
+/**
+ * @brief Libère récursivement un nœud AST et ses enfants
+ * 
+ * @param node Noeud AST à libérer
+ */
+void		ft_free_ast(t_ast_node *node);
+
+/**
+ * @brief Affiche la structure de l'AST de manière simple
+ * 
+ * @param ast Noeud AST à afficher
+ * @param depth Profondeur d'indentation
+ */
+void		ft_print_ast_simple(t_ast_node *ast, int depth);
+
+/**
+//  * @brief Valide la structure de l'AST généré
+//  * 
+//  * @param ast Noeud AST à valider
+//  * @return int 0 si valide, -1 sinon
+//  */
+int			ft_validate_ast_structure(t_ast_node *ast);
+
+/* *************************** UTILITAIRES TOKENS *************************** */
+
+int			ft_validate_token_list(t_list *tokens);
+int			ft_count_word_tokens(t_list *tokens);
+char		**ft_extract_command_args(t_list *tokens, int count);
+int			ft_count_word_tokens_until_pipe(t_list *tokens);
+char		**ft_extract_command_args_until_pipe(t_list *tokens, int count);
+int			ft_count_command_args_only(t_list *tokens);
+char		**ft_extract_command_args_only(t_list *tokens, int count);
+bool		ft_is_redirection_file(t_list *current, t_list *prev);
+bool		ft_has_redirections_until_pipe(t_list *tokens);
+t_list		*ft_create_clean_token_list(t_list *tokens);
+void		ft_free_token_list(t_list *tokens);
+t_ast_node	*ft_new_simple_cmd(char **args);
+t_ast_node	*ft_new_cmd_redir(t_list *tokens, t_shell *shell);
+t_ast_node	*ft_build_cmd_node(t_list *tokens, t_shell *shell);
+char		**ft_ext_args_toks(t_list *clean_tokens, int word_count);
+int			ft_proc_cmd_redir(t_shell *shell, t_list *clean_tokens,
+				t_ast_node *node);
+void		free_command_list(t_list *cmd_list);
+
+int			ft_is_word_token(t_token *token);
+int			ft_is_operator_token(t_token *token);
+int			ft_is_redirect_token_type(t_token_type type);
+int			ft_count_tokens_by_type(t_list *tokens, t_token_type type);
+t_list		*ft_find_first_token_type(t_list *tokens, t_token_type type);
 
 #endif

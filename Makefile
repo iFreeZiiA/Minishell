@@ -2,7 +2,7 @@ include mk/configs/Config.mk
 include mk/configs/Colors.mk
 include mk/configs/Sources.mk
 include mk/Mandatory.mk
-# include mk/Bonus.mk
+include mk/Bonus.mk
 include mk/Clean.mk
 include mk/Fclean.mk
 include mk/Re.mk
@@ -11,7 +11,11 @@ include mk/jjorda.mk
 include mk/unit_test/lexing.mk
 include mk/unit_test/logical.mk
 include mk/unit_test/parentheses.mk
+include mk/unit_test/pipes.mk
+include mk/unit_test/redir.mk
 include mk/unit_test/wildcard.mk
+include mk/unit_test/heredoc.mk
+include mk/unit_test/validate.mk
 include mk/unit_test/parsing.mk
 include mk/unit_test/setup.mk
 include mk/unit_test/cleanup.mk

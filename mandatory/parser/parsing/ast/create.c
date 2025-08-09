@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/06/17 18:59:49 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:14:07 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static t_command	*ft_create_command_struct(char **args, t_list *redirs)
  * @param redirs List of redirections for this command
  * @return t_ast_node* Pointer to created AST node, or NULL on failure
  */
-t_ast_node	*ft_create_command_node(char **args, t_list *redirs)
+t_ast_node	*ft_new_cmd_node(char **args, t_list *redirs)
 {
 	t_command	*cmd;
 	t_ast_node	*node;
@@ -72,9 +72,9 @@ t_ast_node	*ft_create_command_node(char **args, t_list *redirs)
  * AST node types for proper tree construction.
  * 
  * @param token_type Token type to convert
- * @return node_type Corresponding AST node type
+ * @return t_node_type Corresponding AST node type
  */
-node_type	ft_token_to_node_type(t_token_type token_type)
+t_node_type	ft_tok_to_node(t_token_type token_type)
 {
 	if (token_type == TOKEN_PIPE)
 		return (NODE_PIPE);
@@ -96,13 +96,13 @@ node_type	ft_token_to_node_type(t_token_type token_type)
  * @param right Right child AST node
  * @return t_ast_node* Pointer to created operator node, or NULL on failure
  */
-t_ast_node	*ft_create_op_node(t_token_type type, t_ast_node *left,
+t_ast_node	*ft_new_op_node(t_token_type type, t_ast_node *left,
 	t_ast_node *right)
 {
 	t_ast_node	*node;
-	node_type	ntype;
+	t_node_type	ntype;
 
-	ntype = ft_token_to_node_type(type);
+	ntype = ft_tok_to_node(type);
 	if (ntype == NODE_COMMAND)
 		return (NULL);
 	node = malloc(sizeof(t_ast_node));
@@ -124,7 +124,7 @@ t_ast_node	*ft_create_op_node(t_token_type type, t_ast_node *left,
  * @param content The AST node representing the content inside parentheses
  * @return t_ast_node* Pointer to created group node, or NULL on failure
  */
-t_ast_node	*ft_create_group_node(t_ast_node *content)
+t_ast_node	*ft_new_grp_node(t_ast_node *content)
 {
 	t_ast_node	*node;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_executor.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 15:09:38 by alearroy          #+#    #+#             */
-/*   Updated: 2025/04/08 16:09:31 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/08/09 10:59:59 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 
 int		run_builtin(char **args, char ***env);
 char	**ft_envdup(char **envp);
-int		get_env_index(char **env, const char *key);
+int		find_env_var(char **env, const char *key);
+int		update_env_var(char ***env, const char *key, const char *value);
 int		update_env_var(char ***env, const char *key, const char *value);
 int		builtin_echo(char **args);
-int		builtin_cd(char **args, char ***env);
+int		builtin_cd(char **args, t_shell *shell);
+int		builtin_cd_direct(char **args, char ***env);
 int		builtin_pwd(void);
 int		builtin_env(char **env);
 int		builtin_unset(char **args, char ***env);
