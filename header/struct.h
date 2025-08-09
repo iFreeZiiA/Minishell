@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:45:58 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/08 20:34:39 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:21:53 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,92 +17,101 @@ typedef struct s_list	t_list;
 
 /* --------------------------------- LEXING --------------------------------- */
 
-typedef enum e_token_type {
-	TOKEN_WORD,					// 0 Cmd, args, files ...
-	TOKEN_OR,					// 1 ||
-	TOKEN_APPEND,				// 2 >>
-	TOKEN_HEREDOC,				// 3 <<
-	TOKEN_AND,					// 4 &&
-	TOKEN_STATUS,				// 5 $?
-	TOKEN_ERROR,				// 6 In case or error
-	TOKEN_PIPE,					// 7 |
-	TOKEN_REDIR_OUT,			// 8 >
-	TOKEN_REDIR_IN,				// 9 <
-	TOKEN_VAR,					// 10 $
-	TOKEN_QUOTE,				// 11 '
-	TOKEN_DQUOTE,				// 12 "
-	TOKEN_PAREN_OPEN,			// 13 (.
-	TOKEN_PAREN_CLOSE,			// 14 )
-	TOKEN_WILDCARD,				// 15 *
-	TOKEN_ASSIGN,				// 16 =
-	TOKEN_EOF,					// 17 End of Line
-	TOKEN_BSLASH,				// 18 \.
-	TOKEN_SPACE					// 19 ' '
+typedef enum e_token_type
+{
+	TOKEN_WORD,
+	TOKEN_OR,
+	TOKEN_APPEND,
+	TOKEN_HEREDOC,
+	TOKEN_AND,
+	TOKEN_STATUS,
+	TOKEN_ERROR,
+	TOKEN_PIPE,
+	TOKEN_REDIR_OUT,
+	TOKEN_REDIR_IN,
+	TOKEN_VAR,
+	TOKEN_QUOTE,
+	TOKEN_DQUOTE,
+	TOKEN_PAREN_OPEN,
+	TOKEN_PAREN_CLOSE,
+	TOKEN_WILDCARD,
+	TOKEN_ASSIGN,
+	TOKEN_EOF,
+	TOKEN_BSLASH,
+	TOKEN_SPACE
 }	t_token_type;
 
-typedef struct s_token {
+typedef struct s_token
+{
 	t_token_type	type;
 	char			*value;
 }	t_token;
 
 /* -------------------------------- PARSING --------------------------------- */
 
-typedef enum {
+typedef enum e_node_type
+{
 	NODE_COMMAND,
 	NODE_PIPE,
 	NODE_AND,
 	NODE_OR,
 	NODE_REDIR,
-	NODE_GROUP					// Pour les parenthèses
-}	node_type;
+	NODE_GROUP
+}	t_node_type;
 
-typedef struct s_ast_node {
-	node_type			type;
-	void				*data;	// Données spécifiques au type de nœud
+typedef struct s_ast_node
+{
+	t_node_type			type;
+	void				*data;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
 }	t_ast_node;
 
 /* --------------------------------- REDIR ---------------------------------- */
 
-typedef enum {
-	REDIR_IN,					// <
-	REDIR_OUT,					// >
-	REDIR_HEREDOC,				// <<
-	REDIR_APPEND				// >>
-}	redir_type;
+typedef enum e_redir_type
+{
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_HEREDOC,
+	REDIR_APPEND
+}	t_redir_type;
 
-typedef struct s_redir {
-	redir_type	type;
-	char		*file;			// Nom du fichier ou délimiteur pour heredoc
-	int			fd;				// File descriptor
+typedef struct s_redir
+{
+	t_redir_type	type;
+	char			*file;
+	int				fd;
 }	t_redir;
 
 /* -------------------------------- COMMAND --------------------------------- */
 
-typedef struct s_command {
-	char	**args;				// Tableau d'arguments (args[0] est la commande)
-	t_list	*redirs;				// Liste des redirections
+typedef struct s_command
+{
+	char	**args;
+	t_list	*redirs;
 }	t_command;
 
 /* ---------------------------------- ENV ----------------------------------- */
 
-typedef struct s_env {
-	char	**env_vars;			// Variables d'environnement actuelles
-	char	**local_env;		// Variables locales utilisables uniquement par le process parent
-	int		last_exit_code;		// Stocke la valeur de $?
+typedef struct s_env
+{
+	char	**env_vars;
+	char	**local_env;
+	int		last_exit_code;
 }	t_env;
 
 /* --------------------------------- SHELL ---------------------------------- */
 
-typedef struct s_shell {
+typedef struct s_shell
+{
 	t_env		*env;
 	char		*current_line;
 	int			signal_received;
 	char		*prompt;
-	t_list		*token;			// Résultat du lexer
-	t_ast_node	*ast;			// Arbre syntaxique après parsing
-	int			last_exit_code;	// Code de sortie de la dernière commande
+	t_list		*token;
+	t_ast_node	*ast;
+	int			last_exit_code;
 }	t_shell;
 
 /* ---------------------------------- LIST ---------------------------------- */

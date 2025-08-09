@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/08 19:14:54 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:14:07 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static t_list	*ft_find_operator_at_precedence(t_list *start, t_list *end)
 	return (op_token);
 }
 
-static t_ast_node	*ft_create_op_node(node_type op_type, t_ast_node *left,
+static t_ast_node	*ft_create_op_node(t_node_type op_type, t_ast_node *left,
 		t_ast_node *right)
 {
 	t_ast_node	*node;
@@ -98,7 +98,7 @@ t_ast_node	*ft_parse_logical_expression(t_shell *shell, t_list *start,
 	t_list		*op_token;
 	t_ast_node	*left;
 	t_ast_node	*right;
-	node_type	op_type;
+	t_node_type	op_type;
 
 	if (!start || !end)
 		return (NULL);

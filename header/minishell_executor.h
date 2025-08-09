@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 15:09:38 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/07 22:39:22 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 10:59:59 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int		run_builtin(char **args, char ***env);
 char	**ft_envdup(char **envp);
-int		get_env_index(char **env, const char *key);
+int		find_env_var(char **env, const char *key);
 int		update_env_var(char ***env, const char *key, const char *value);
 int		update_env_var(char ***env, const char *key, const char *value);
 int		builtin_echo(char **args);

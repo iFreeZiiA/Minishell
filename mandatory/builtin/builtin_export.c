@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:58:25 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/09 10:05:07 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 10:59:59 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	is_valid_identifier(const char *s)
 	}
 	return (1);
 }
+
 static int	print_export(char **env)
 {
 	int	i;
@@ -40,6 +41,23 @@ static int	print_export(char **env)
 		i++;
 	}
 	return (0);
+}
+
+static void	ft_process_export_arg(char *arg, char ***env)
+{
+	char	*equals_pos;
+
+	equals_pos = ft_strchr(arg, '=');
+	if (equals_pos)
+	{
+		*equals_pos = '\0';
+		update_env_var(env, arg, equals_pos + 1);
+		*equals_pos = '=';
+	}
+	else
+	{
+		update_env_var(env, arg, "");
+	}
 }
 
 int	builtin_export(char **args, char ***env)
@@ -59,17 +77,7 @@ int	builtin_export(char **args, char ***env)
 		}
 		else
 		{
-			char *equals_pos = ft_strchr(args[i], '=');
-			if (equals_pos)
-			{
-				*equals_pos = '\0';
-				update_env_var(env, args[i], equals_pos + 1);
-				*equals_pos = '=';
-			}
-			else
-			{
-				update_env_var(env, args[i], "");
-			}
+			ft_process_export_arg(args[i], env);
 		}
 		i++;
 	}

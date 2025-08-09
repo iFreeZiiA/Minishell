@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/07 23:33:39 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 10:59:59 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,26 +86,6 @@ static bool	ft_has_redirections(t_list *tokens)
  * @param cmd Structure commande à enrichir
  * @return int 0 succès, -1 erreur
  */
-static int	ft_process_redirections(t_list *tokens, t_shell *shell,
-		t_command *cmd)
-{
-	if (!ft_has_redirections(tokens))
-		return (0);
-	if (ft_parse_redir(shell, tokens, cmd) != 0)
-		return (-1);
-	// Traiter les heredocs après le parsing des redirections
-	if (ft_process_heredocs(cmd) != 0)
-		return (-1);
-	return (0);
-}
-
-/**
- * @brief Crée un nœud AST command enrichi avec redirections
- * 
- * @param tokens Liste de tokens
- * @param shell Structure shell
- * @return t_ast_node* Nœud AST de commande
- */
 static t_ast_node	*ft_create_enhanced_command(t_list *tokens, t_shell *shell)
 {
 	t_ast_node	*node;
@@ -123,7 +103,8 @@ static t_ast_node	*ft_create_enhanced_command(t_list *tokens, t_shell *shell)
 	if (!node)
 		return (NULL);
 	cmd = (t_command *)node->data;
-	if (ft_process_redirections(tokens, shell, cmd) != 0)
+	if (ft_has_redirections(tokens) && (ft_parse_redir(shell, tokens, cmd) != 0
+			|| ft_process_heredocs(cmd) != 0))
 	{
 		ft_free_ast(node);
 		return (NULL);
@@ -145,12 +126,8 @@ t_ast_node	*ft_enhanced_parser(t_list *tokens, t_shell *shell)
 
 	if (ft_validate_token_list(tokens) != 0)
 		return (NULL);
-	
-	// Priorité 0: Parenthèses (plus haute précédence)
 	if (ft_has_parentheses(tokens))
 		return (ft_parse_with_parentheses(shell, tokens));
-	
-	// Priorité 1: Opérateurs logiques (plus haute précédence)
 	if (ft_has_logical_ops(tokens))
 	{
 		last_token = ft_lstlast(tokens);
@@ -158,11 +135,7 @@ t_ast_node	*ft_enhanced_parser(t_list *tokens, t_shell *shell)
 			return (NULL);
 		return (ft_parse_logical_expression(shell, tokens, last_token));
 	}
-	
-	// Priorité 2: Si des pipes sont détectés, utiliser le parser de pipes
 	if (ft_has_pipes(tokens))
 		return (ft_parse_pipe_expression(tokens, shell));
-	
-	// Priorité 3: Sinon, traiter comme une commande simple
 	return (ft_create_enhanced_command(tokens, shell));
 }

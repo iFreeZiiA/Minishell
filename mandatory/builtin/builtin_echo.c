@@ -6,7 +6,11 @@
 /*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:47:21 by alearroy          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/09 12:51:33 by alearroy         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/09 10:59:59 by jjorda           ###   ########.fr       */
+>>>>>>> cf2d640 (Norminette half done)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +18,7 @@
 
 static int	has_n_flag(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (!arg || arg[0] != '-')
@@ -30,8 +34,8 @@ static int	has_n_flag(char *arg)
 
 int	builtin_echo(char **args)
 {
-	int i;
-	int newline;
+	int	i;
+	int	newline;
 
 	i = 1;
 	newline = 1;

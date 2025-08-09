@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 22:40:57 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:13:52 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_proc_single_redir(t_list *redir_token, t_command *cmd)
 	filename = ft_ext_redir_file(redir_token);
 	if (!filename)
 		return (-1);
-	redirection = ft_new_redir(ft_get_redir_type(token),
+	redirection = ft_new_redir(ft_get_t_redir_type(token),
 			filename);
 	if (!redirection)
 	{
@@ -84,9 +84,9 @@ int	ft_parse_redir(t_shell *shell, t_list *tokens, t_command *cmd)
 /**
  * @brief Identifie le type de redirection
  * @param token Token de redirection
- * @return redir_type Type identifié
+ * @return t_redir_type Type identifié
  */
-redir_type	ft_get_redir_type(t_token *token)
+t_redir_type	ft_get_t_redir_type(t_token *token)
 {
 	if (!token)
 		return (-1);

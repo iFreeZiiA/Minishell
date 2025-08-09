@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 22:25:52 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 22:40:57 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:20:50 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 
 # include "../minishell.h"
 
-int		ft_validate_complete_syntax(char *input, t_list *tokens);
-int		ft_validate_quotes_in_input(char *input);
-int		ft_validate_parentheses_balance(t_list *tokens);
-int		ft_validate_compound_commands(t_list *tokens);
-int		ft_validate_heredoc_syntax(t_list *tokens);
-int		ft_is_operator_token(t_token *token);
-int		ft_check_invalid_token_sequence(t_token *prev, t_token *current);
-int		ft_has_command_after_pipe(t_list *pipe_node);
-int		ft_has_command_after_logical(t_list *logical_node);
-int		ft_is_empty_or_whitespace(char *input);
-void	ft_print_syntax_error_bash(t_token *token);
+int			ft_validate_complete_syntax(char *input, t_list *tokens);
+int			ft_validate_quotes_in_input(char *input);
+int			ft_validate_parentheses_balance(t_list *tokens);
+int			ft_validate_compound_commands(t_list *tokens);
+int			ft_validate_heredoc_syntax(t_list *tokens);
+int			ft_is_operator_token(t_token *token);
+int			ft_check_invalid_token_sequence(t_token *prev, t_token *current);
+int			ft_has_command_after_pipe(t_list *pipe_node);
+int			ft_has_command_after_logical(t_list *logical_node);
+int			ft_is_empty_or_whitespace(char *input);
+void		ft_print_syntax_error_bash(t_token *token);
 // void	ft_print_redirection_error_bash(t_token *token);
 // void	ft_print_logical_error_bash(t_token *token);
-char	*ft_get_token_name_for_error(t_token_type type);
+char		*ft_get_token_name_for_error(t_token_type type);
 
 /**
  * @brief Parses a group (parentheses)
@@ -67,7 +67,7 @@ t_ast_node	*ft_new_cmd_node(char **args, t_list *redirs);
  * @param right Right child node
  * @return t_ast_node* New operator node, NULL on error
  */
-// t_ast_node	*ft_create_operator_node(node_type type, t_ast_node *left,
+// t_ast_node	*ft_create_operator_node(t_node_type type, t_ast_node *left,
 //			t_ast_node *right);
 
 /**

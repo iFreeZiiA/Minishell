@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 21:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 22:40:57 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:13:52 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_is_out_redir(t_redir *redir)
  * @param filename Nom du fichier
  * @return t_redir* Nouvelle redirection
  */
-t_redir	*ft_new_redir(redir_type type, char *filename)
+t_redir	*ft_new_redir(t_redir_type type, char *filename)
 {
 	t_redir	*redir;
 

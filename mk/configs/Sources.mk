@@ -40,7 +40,13 @@ SRC_BUILTIN = mandatory/builtin/builtin_cd_utils.c \
 
 SRC_EXECUTOR = mandatory/executor/executor.c \
 	mandatory/executor/ast_to_command_list.c \
-	mandatory/executor/get_path.c
+	mandatory/executor/get_path.c \
+	mandatory/executor/execute_utils.c \
+	mandatory/executor/redirections.c \
+	mandatory/executor/execute_simple.c \
+	mandatory/executor/execute_pipe.c \
+	mandatory/executor/pipe_helpers.c \
+	mandatory/executor/child_process_utils.c
 
 # ******************************* SIGNAL *********************************** #
 

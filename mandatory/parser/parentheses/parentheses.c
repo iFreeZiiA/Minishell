@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 23:34:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/07 23:33:39 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:14:07 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param right Nœud enfant droit
  * @return t_ast_node* Nouveau nœud d'opérateur
  */
-t_ast_node	*ft_create_operator_node(node_type op_type, t_ast_node *left,
+t_ast_node	*ft_create_operator_node(t_node_type op_type, t_ast_node *left,
 		t_ast_node *right)
 {
 	t_ast_node	*node;

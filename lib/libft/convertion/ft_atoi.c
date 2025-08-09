@@ -19,12 +19,20 @@ static int	ft_posneg(const char *nptr, int i)
 	return (1);
 }
 
-/**
- * Converts a string to an integer, handling optional whitespace and signs.
- * 
- * @param str The string to convert.
- * @return The converted integer value.
- */
+static int	ft_process_digits(const char *str, int i)
+{
+	int	result;
+
+	result = 0;
+	while (ft_isdigit(str[i]))
+	{
+		result *= 10;
+		result += str[i] - '0';
+		i++;
+	}
+	return (result);
+}
+
 int	ft_atoi(const char *str)
 {
 	int	i;
@@ -34,10 +42,9 @@ int	ft_atoi(const char *str)
 	if (!str)
 		return (0);
 	i = 0;
-	result = 0;
 	neg = 0;
 	if (str[i] == 92)
-		return (result);
+		return (0);
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == 43 || str[i] == 45)
@@ -45,12 +52,7 @@ int	ft_atoi(const char *str)
 		neg = ft_posneg(str, i);
 		i++;
 	}
-	while (ft_isdigit(str[i]))
-	{
-		result *= 10;
-		result += str[i] - '0';
-		i++;
-	}
+	result = ft_process_digits(str, i);
 	if (neg == 1)
 		result *= -1;
 	return (result);
