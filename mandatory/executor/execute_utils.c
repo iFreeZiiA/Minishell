@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 14:30:00 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 15:00:00 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	ft_expand_command_args(t_command *cmd, t_env *env)
 {
 	t_shell	temp_shell;
 	int		i;
+	char	*expanded;
+	char	*cleaned;
 
 	if (!cmd || !cmd->args || !env)
 		return ;
@@ -28,10 +30,14 @@ void	ft_expand_command_args(t_command *cmd, t_env *env)
 	i = 0;
 	while (cmd->args[i])
 	{
-		if (ft_should_skip_expansion(cmd->args[0], i, cmd->args[i]))
-			ft_process_special_arg(&cmd->args[i]);
-		else
-			ft_process_normal_arg(&cmd->args[i], env->env_vars, &temp_shell);
+		expanded = ft_exp_string(cmd->args[i], env->env_vars, &temp_shell);
+		if (expanded)
+		{
+			cleaned = ft_rm_quotes(expanded);
+			free(cmd->args[i]);
+			free(expanded);
+			cmd->args[i] = cleaned;
+		}
 		i++;
 	}
 }

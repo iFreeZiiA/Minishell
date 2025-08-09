@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 10:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 16:36:37 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:23:09 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,10 @@ int	ft_process_command(char *input, t_shell *shell, int is_interactive)
 		env_backup = shell->env->env_vars;
 		exec_result = executor_from_ast(shell->ast, shell->env);
 		shell->last_exit_code = exec_result;
+		// S'assurer que l'environnement shell est synchronisé après l'exécution
 		if (shell->env->env_vars != env_backup)
 		{
-			if (!shell->env->env_vars)
-			{
-				shell->env->env_vars = env_backup;
-				shell->last_exit_code = EXIT_FAILURE;
-			}
+			// L'environnement a été modifié par realloc dans un builtin
 		}
 		ft_free_ast(shell->ast);
 		shell->ast = NULL;

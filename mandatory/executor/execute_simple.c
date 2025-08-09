@@ -19,7 +19,6 @@ static int	ft_execute_builtin_parent(t_command *cmd, t_env *env)
 
 	if (apply_redirections(cmd->redirs) != 0)
 		return (1);
-	ft_expand_command_args(cmd, env);
 	env_backup = env->env_vars;
 	result = run_builtin(cmd->args, &env->env_vars);
 	if (env->env_vars != env_backup && env->env_vars != NULL)
@@ -42,7 +41,6 @@ static void	ft_execute_child_process(t_command *cmd, t_env *env)
 {
 	char	*cmd_path;
 
-	setup_execution_signals();
 	if (apply_redirections(cmd->redirs) != 0)
 		exit(1);
 	if (is_builtin(cmd->args[0]))
@@ -74,16 +72,7 @@ int	execute_command(t_command *cmd, t_env *env)
 		return (ft_printerr("minishell : fork"), 1);
 	if (pid == 0)
 		ft_execute_child_process(cmd, env);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	restore_interactive_signals();
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGQUIT)
-			write(2, "Quit (core dumped)\n", 19);
-		return (128 + WTERMSIG(status));
-	}
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (status);

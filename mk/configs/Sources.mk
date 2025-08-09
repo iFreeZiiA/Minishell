@@ -5,9 +5,7 @@ SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
 	mandatory/parser/parsing/validate/err.c \
 	mandatory/parser/parsing/validate/advanced.c \
 	mandatory/parser/parsing/validate/adv_utils.c \
-	mandatory/parser/parsing/validate/validate_core.c \
-	mandatory/parser/parsing/validate/validate_helpers.c \
-	mandatory/parser/parsing/validate/validate_utils.c
+	mandatory/parser/parsing/validate/validate_core.c                                                      #
 #                                                        :::      ::::::::   #
 #   Sources_new.mk                                     :+:      :+:    :+:   #
 #                                                    +:+ +:+         +:+     #
@@ -44,7 +42,6 @@ SRC_EXECUTOR = mandatory/executor/executor.c \
 	mandatory/executor/ast_to_command_list.c \
 	mandatory/executor/get_path.c \
 	mandatory/executor/execute_utils.c \
-	mandatory/executor/expansion_utils.c \
 	mandatory/executor/redirections.c \
 	mandatory/executor/execute_simple.c \
 	mandatory/executor/execute_pipe.c \
@@ -64,8 +61,7 @@ SRC_DEPLOYMENT = mandatory/deployment/setup/setup.c \
 # ******************************* PARSER *********************************** #
 # Parser de base
 SRC_PARSER_BASE = mandatory/parser/enhanced.c \
-	mandatory/parser/parser.c \
-	mandatory/parser/parser_utils.c
+	mandatory/parser/parser.c
 
 # ******************************** LEXING *********************************** #
 
@@ -91,7 +87,6 @@ SRC_PARSING_CORE = mandatory/parser/parsing/parser_core.c
 # Opérateurs logiques
 SRC_PARSING_LOGICAL = mandatory/parser/parsing/logical/logical.c \
 	mandatory/parser/parsing/logical/precedence.c \
-	mandatory/parser/parsing/logical/precedence_utils.c \
 	mandatory/parser/parsing/logical/utils.c
 
 # Pipes
@@ -107,7 +102,6 @@ SRC_PARSING_REDIR = mandatory/parser/parsing/redir/input.c \
 
 # Utilitaires
 SRC_PARSING_UTILS = mandatory/parser/parsing/utils/token_utils.c \
-				mandatory/parser/parsing/utils/token_extraction.c \
 	mandatory/parser/parsing/utils/token_list.c
 
 # Validation
@@ -117,9 +111,7 @@ SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
 	mandatory/parser/parsing/validate/advanced.c \
 	mandatory/parser/parsing/validate/adv_utils.c \
 	mandatory/parser/parsing/validate/validate_core.c \
-	mandatory/parser/parsing/validate/validate_substitutions.c \
-	mandatory/parser/parsing/validate/validate_helpers.c \
-	mandatory/parser/parsing/validate/validate_utils.c
+	mandatory/parser/parsing/validate/validate_substitutions.c
 
 # Heredoc
 SRC_PARSING_HEREDOC = mandatory/parser/heredoc/heredoc.c \
