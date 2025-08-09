@@ -22,5 +22,7 @@
 extern volatile sig_atomic_t	g_sig;
 
 void	setup_interactive_signals(void);
+void	setup_execution_signals(void);
+void	restore_interactive_signals(void);
 
 #endif

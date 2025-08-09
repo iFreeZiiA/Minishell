@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 19:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 10:01:42 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 13:18:27 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,21 @@ static int	ft_process_variable(char **result, int *i, char **envp,
 	char	*var_name;
 	char	*var_value;
 	char	*new_result;
+	int		replacement_len;
 
 	var_name = ft_ext_var_name(*result, *i);
 	if (var_name)
 	{
 		var_value = ft_get_var_val(var_name, envp, shell);
+		replacement_len = ft_strlen(var_value);
 		new_result = ft_repl_var(*result, *i, ft_strlen(var_name)
 				+ 1, var_value);
 		free(*result);
 		free(var_name);
 		free(var_value);
 		*result = new_result;
-		*i = 0;
+		// Avancer i à la fin du remplacement au lieu de recommencer à 0
+		*i += replacement_len;
 		return (1);
 	}
 	return (0);
@@ -83,6 +86,12 @@ char	*ft_exp_string(char *str, char **envp, t_shell *shell)
 
 	if (!str || !envp)
 		return (ft_strdup(str));
+	// Vérifier si la chaîne était entourée de guillemets simples (marquée par \x01)
+	if (str[0] == '\x01')
+	{
+		// Retourner la chaîne sans le marqueur et sans expansion
+		return (ft_strdup(str + 1));
+	}
 	if (ft_strlen(str) >= 2 && str[0] == '\'' && str[ft_strlen(str) - 1]
 		== '\'')
 		return (ft_strdup(str));
