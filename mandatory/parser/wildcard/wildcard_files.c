@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 22:56:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 16:38:57 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/07 23:33:39 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,42 +80,38 @@ static void	ft_sort_matches(char **matches, int count)
 	}
 }
 
-static void	ft_collect_matches(DIR *dir, const char *pattern,
-				t_match_data *data)
+/**
+ * @brief Collecte les fichiers correspondant au pattern
+ * @param pattern Pattern de recherche
+ * @return char** Tableau de noms de fichiers (NULL-terminated)
+ */
+char	**ft_get_matching_files(const char *pattern)
 {
+	DIR				*dir;
 	struct dirent	*entry;
+	char			**matches;
+	int				count;
+	int				capacity;
 
+	capacity = 64;
+	count = 0;
+	matches = malloc(sizeof(char *) * capacity);
+	if (!matches)
+		return (NULL);
+	dir = opendir(".");
+	if (!dir)
+		return (matches);
 	entry = readdir(dir);
 	while (entry)
 	{
 		if (ft_match_pattern(pattern, entry->d_name))
-			if (ft_add_match(&(data->matches), &(data->count),
-					&(data->capacity), entry->d_name) == -1)
+			if (ft_add_match(&matches, &count, &capacity, entry->d_name) == -1)
 				break ;
 		entry = readdir(dir);
 	}
-}
-
-char	**ft_get_matching_files(const char *pattern)
-{
-	DIR				*dir;
-	t_match_data	data;
-
-	data.capacity = 64;
-	data.count = 0;
-	data.matches = malloc(sizeof(char *) * data.capacity);
-	if (!data.matches)
-		return (NULL);
-	dir = opendir(".");
-	if (!dir)
-	{
-		data.matches[0] = NULL;
-		return (data.matches);
-	}
-	ft_collect_matches(dir, pattern, &data);
 	closedir(dir);
-	data.matches[data.count] = NULL;
-	if (data.count > 0)
-		ft_sort_matches(data.matches, data.count);
-	return (data.matches);
+	matches[count] = NULL;
+	if (count > 0)
+		ft_sort_matches(matches, count);
+	return (matches);
 }

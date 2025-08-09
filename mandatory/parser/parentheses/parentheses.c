@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parentheses.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 23:34:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 11:14:07 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 13:26:05 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ t_ast_node	*ft_parse_with_parentheses(t_shell *shell, t_list *tokens)
 		return (NULL);
 	if (ft_validate_parentheses_balance(tokens) != 0)
 	{
-		write(STDERR_FILENO, "minishell: syntax error: unmatched parentheses\n", 47);
+		write(STDERR_FILENO, "minishell: syntax error: unmatched parentheses\n",
+			47);
 		return (NULL);
 	}
 	return (ft_handle_parentheses_in_expression(shell, tokens));
