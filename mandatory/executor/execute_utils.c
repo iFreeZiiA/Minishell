@@ -6,7 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:00:00 by jjorda            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/09 13:18:27 by jjorda           ###   ########.fr       */
+=======
+/*   Updated: 2025/08/09 15:00:00 by jjorda           ###   ########.fr       */
+>>>>>>> d461779 (Norminette half done)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +21,7 @@ static void	ft_create_temp_shell(t_shell *temp_shell, t_env *env)
 	temp_shell->env = env;
 }
 
+<<<<<<< HEAD
 static char	*ft_handle_export_arg(char *arg)
 {
 	char	*equals_pos;
@@ -69,6 +74,8 @@ static int	ft_should_skip_expansion(char *cmd_name, int arg_index, char *arg)
 	return (0);
 }
 
+=======
+>>>>>>> d461779 (Norminette half done)
 void	ft_expand_command_args(t_command *cmd, t_env *env)
 {
 	t_shell	temp_shell;
@@ -82,6 +89,7 @@ void	ft_expand_command_args(t_command *cmd, t_env *env)
 	i = 0;
 	while (cmd->args[i])
 	{
+<<<<<<< HEAD
 		// Vérifier si on doit éviter l'expansion pour cet argument
 		if (ft_should_skip_expansion(cmd->args[0], i, cmd->args[i]))
 		{
@@ -101,6 +109,16 @@ void	ft_expand_command_args(t_command *cmd, t_env *env)
 				cmd->args[i] = cleaned;
 			}
 		}
+=======
+		expanded = ft_exp_string(cmd->args[i], env->env_vars, &temp_shell);
+		if (expanded)
+		{
+			cleaned = ft_rm_quotes(expanded);
+			free(cmd->args[i]);
+			free(expanded);
+			cmd->args[i] = cleaned;
+		}
+>>>>>>> d461779 (Norminette half done)
 		i++;
 	}
 }
