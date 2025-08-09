@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:30:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/08 20:50:50 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:16:25 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ t_list	*ft_lex_new(t_shell *shell)
 	tokens = ft_lex_simple(shell);
 	if (!tokens)
 		return (NULL);
-	// L'expansion des variables sera faite dans l'executor
-	// ft_exp_tokens(tokens, shell->env->env_vars, shell);
 	ft_expand_wildcards(shell, &tokens);
 	return (tokens);
 }
