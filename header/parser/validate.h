@@ -135,4 +135,20 @@ int		ft_check_inv_tok_seq(t_token *prev, t_token *current);
 int		ft_has_cmd_after_pipe(t_list *pipe_node);
 int		ft_has_cmd_after_log(t_list *logical_node);
 
+/* validate_helpers.c */
+int		ft_process_pipe_token(t_token *token, int *has_command,
+			int *consecutive_pipes);
+int		ft_process_logical_token(t_token *token, int *has_command,
+			int *consecutive_ops);
+int		ft_check_paren_open(t_list *current, int *balance);
+int		ft_check_paren_close(t_token *prev_token, int *balance);
+
+/* validate_utils.c */
+int		ft_validate_token_size(t_list *tokens);
+int		ft_check_single_token(t_list *tokens);
+int		ft_process_pipe_validation(t_list *current, int *has_command,
+			int *consecutive_pipes);
+int		ft_process_logical_validation(t_list *current, int *has_command,
+			int *consecutive_ops);
+
 #endif

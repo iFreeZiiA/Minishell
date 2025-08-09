@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 22:50:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/07 23:33:39 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 13:28:19 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,14 @@ int	ft_write_to_pipe(char *content, int write_fd)
  * @param redir Redirection heredoc
  * @return int File descriptor du fichier temporaire, -1 erreur
  */
-int	ft_handle_heredoc(t_redir *redir)
+static int	ft_process_heredoc_content(t_redir *redir, char *temp_path)
 {
 	int		temp_fd;
 	char	*line;
-	char	*temp_filename;
-	char	temp_path[256];
 
-	if (!redir || !redir->file)
-		return (-1);
-	
-	// Créer un fichier temporaire unique
-	snprintf(temp_path, sizeof(temp_path), "/tmp/minishell_heredoc_%d_%p", 
-		getpid(), (void*)redir);
 	temp_fd = open(temp_path, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	if (temp_fd == -1)
 		return (-1);
-	
-	// Lire les lignes du heredoc et les écrire dans le fichier
 	while (1)
 	{
 		line = ft_read_heredoc_line(redir->file);
@@ -113,24 +103,31 @@ int	ft_handle_heredoc(t_redir *redir)
 		write(temp_fd, "\n", 1);
 		free(line);
 	}
-	
 	close(temp_fd);
-	
-	// Rouvrir en lecture pour l'utilisation
+	return (0);
+}
+
+int	ft_handle_heredoc(t_redir *redir)
+{
+	int		temp_fd;
+	char	*temp_filename;
+	char	temp_path[256];
+
+	if (!redir || !redir->file)
+		return (-1);
+	snprintf(temp_path, 256, "/tmp/minishell_heredoc_%d_%p",
+		getpid(), (void*)redir);
+	if (ft_process_heredoc_content(redir, temp_path) == -1)
+		return (-1);
 	temp_fd = open(temp_path, O_RDONLY);
 	if (temp_fd == -1)
 		return (-1);
-	
-	// Stocker le nom du fichier pour suppression ultérieure
 	temp_filename = ft_strdup(temp_path);
 	if (temp_filename)
 	{
 		free(redir->file);
 		redir->file = temp_filename;
 	}
-	
-	// Supprimer le fichier (il restera accessible via le fd)
 	unlink(temp_path);
-	
 	return (temp_fd);
 }

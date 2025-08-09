@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   struct_lib.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 18:28:49 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/09 18:59:16 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 13:30:50 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../header/struct.h"
 
 #ifndef STRUCT_LIB_H
 # define STRUCT_LIB_H
 
-typedef struct s_list t_list;
+# include "../header/struct.h"
+
+typedef struct s_list	t_list;
 
 #endif

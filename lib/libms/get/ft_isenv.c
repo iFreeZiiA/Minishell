@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isenv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:19:54 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/01 15:35:36 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 13:15:03 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,21 @@ static char	*ft_loop(char **env, char *key)
 	return (NULL);
 }
 
+static char	*ft_search_env_vars(t_shell *shell, char *key)
+{
+	char	*value;
+
+	value = ft_loop(shell->env->env_vars, key);
+	if (value)
+		return (value);
+	value = ft_loop(shell->env->local_env, key);
+	if (value)
+		return (value);
+	return (ft_strdup(""));
+}
+
 char	*ft_getenv_value(t_shell *shell, char *str, int i, int eov)
 {
-	char	**env;
 	char	*value;
 	char	*key;
 
@@ -64,54 +76,7 @@ char	*ft_getenv_value(t_shell *shell, char *str, int i, int eov)
 	key = ft_substr(str, i, eov);
 	if (!key)
 		return (NULL);
-	// ft_printerr("ISENV: %s\n", key);
-	env = shell->env->env_vars;
-	// ft_printerr("PING 1\n");
-	value = ft_loop(env, key);
-	// ft_printerr("PING 1\n");
-	if (value)
-	{
-		// ft_printerr("%s\n", value);
-		free(key);
-		return (value);
-	}
-	env = shell->env->local_env;
-	// ft_printerr("PING 1\n");
-	value = ft_loop(env, key);
-	// ft_printerr("PING 1\n");
+	value = ft_search_env_vars(shell, key);
 	free(key);
-	if (value)
-		return (value);
-	return (ft_strdup(""));
+	return (value);
 }
-
-
-// int	main(int argc, char **argv, char **env)
-// {
-// 	t_shell	shell;
-// 	char	**local_env;
-// 	char	*str;
-
-// 	local_env = malloc(sizeof(char *) * 2);
-// 	if (!local_env)
-// 		return (1);
-// 	local_env[0] = ft_strdup("VAR=ok");
-// 	if (!local_env[0])
-// 	{
-// 		free(local_env);
-// 		return (1);
-// 	}
-// 	local_env[1] = NULL;
-// 	shell.env = malloc(sizeof(t_env));
-// 	shell.env->env_vars = env;
-// 	shell.env->local_env = local_env;
-// 	str = ft_getenv_value(&shell, argv[1]);
-// 	free(local_env[0]);
-// 	free(local_env);
-// 	free(shell.env);
-// 	if (!str)
-// 		return (1);
-// 	ft_printerr("FINAL_VAR='%s'\n", str);
-// 	free(str);
-// 	return (0);
-// }

@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_readfile.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 18:37:44 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/04 16:50:26 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 13:23:59 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /**
  * @brief Opens a file with the specified name and action.
