@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 22:25:52 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 11:20:50 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:24:40 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int			ft_has_command_after_pipe(t_list *pipe_node);
 int			ft_has_command_after_logical(t_list *logical_node);
 int			ft_is_empty_or_whitespace(char *input);
 void		ft_print_syntax_error_bash(t_token *token);
-// void	ft_print_redirection_error_bash(t_token *token);
-// void	ft_print_logical_error_bash(t_token *token);
 char		*ft_get_token_name_for_error(t_token_type type);
 
 /**
