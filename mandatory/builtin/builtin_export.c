@@ -6,7 +6,11 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:58:25 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/09 16:43:07 by jjorda           ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2025/08/09 14:21:09 by jjorda           ###   ########.fr       */
+=======
+/*   Updated: 2025/08/09 14:13:14 by jjorda           ###   ########.fr       */
+>>>>>>> 15db1a5 (ok)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +65,6 @@ static void	ft_process_export_arg(char *arg, char ***env)
 	}
 }
 
-static void	ft_process_export_arg(char *arg, char ***env)
-{
-	char	*equals_pos;
-
-	equals_pos = ft_strchr(arg, '=');
-	if (equals_pos)
-	{
-		*equals_pos = '\0';
-		update_env_var(env, arg, equals_pos + 1);
-		*equals_pos = '=';
-	}
-	else
-	{
-		update_env_var(env, arg, "");
-	}
-}
-
 int	builtin_export(char **args, char ***env)
 {
 	int	i;
@@ -95,7 +82,6 @@ int	builtin_export(char **args, char ***env)
 		}
 		else
 		{
-			ft_process_export_arg(args[i], env);
 			ft_process_export_arg(args[i], env);
 		}
 		i++;
