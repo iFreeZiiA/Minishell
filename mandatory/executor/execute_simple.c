@@ -19,10 +19,13 @@ static int	ft_execute_builtin_parent(t_command *cmd, t_env *env)
 
 	if (apply_redirections(cmd->redirs) != 0)
 		return (1);
+<<<<<<< HEAD
 	
 	// Expansion des arguments avec traitement spécial pour export
 	ft_expand_command_args(cmd, env);
 	
+=======
+>>>>>>> d461779 (Norminette half done)
 	env_backup = env->env_vars;
 	result = run_builtin(cmd->args, &env->env_vars);
 	if (env->env_vars != env_backup && env->env_vars != NULL)
@@ -45,9 +48,12 @@ static void	ft_execute_child_process(t_command *cmd, t_env *env)
 {
 	char	*cmd_path;
 
+<<<<<<< HEAD
 	// Restaurer les signaux par défaut pour les processus enfants
 	setup_execution_signals();
 	
+=======
+>>>>>>> d461779 (Norminette half done)
 	if (apply_redirections(cmd->redirs) != 0)
 		exit(1);
 	if (is_builtin(cmd->args[0]))
@@ -79,6 +85,7 @@ int	execute_command(t_command *cmd, t_env *env)
 		return (ft_printerr("minishell : fork"), 1);
 	if (pid == 0)
 		ft_execute_child_process(cmd, env);
+<<<<<<< HEAD
 	
 	// Pendant que le parent attend, ignorer SIGINT et SIGQUIT
 	signal(SIGINT, SIG_IGN);
@@ -99,6 +106,9 @@ int	execute_command(t_command *cmd, t_env *env)
 		}
 		return (128 + sig);
 	}
+=======
+	waitpid(pid, &status, 0);
+>>>>>>> d461779 (Norminette half done)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (status);

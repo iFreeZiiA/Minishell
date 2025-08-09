@@ -24,16 +24,20 @@ void	wait_all_pids(pid_t *pids, int count, t_env *env)
 	int	status;
 	int	sig;
 
+<<<<<<< HEAD
 	// Pendant que le parent attend, ignorer SIGINT et SIGQUIT
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	
+=======
+>>>>>>> d461779 (Norminette half done)
 	i = 0;
 	while (i < count)
 	{
 		waitpid(pids[i], &status, 0);
 		if (i == count - 1)
 		{
+<<<<<<< HEAD
 			if (WIFSIGNALED(status))
 			{
 				int sig = WTERMSIG(status);
@@ -42,13 +46,19 @@ void	wait_all_pids(pid_t *pids, int count, t_env *env)
 				env->last_exit_code = 128 + sig;
 			}
 			else if (WIFEXITED(status))
+=======
+			if (WIFEXITED(status))
+>>>>>>> d461779 (Norminette half done)
 				env->last_exit_code = WEXITSTATUS(status);
 		}
 		i++;
 	}
+<<<<<<< HEAD
 	
 	// Restaurer la gestion interactive des signaux
 	restore_interactive_signals();
+=======
+>>>>>>> d461779 (Norminette half done)
 }
 
 int	ft_create_pipe_and_fork(t_list *cmd_h, pid_t *pids, int *prev, int i)
