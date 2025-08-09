@@ -80,9 +80,14 @@ static char	*ft_removequotes(char *s)
 	temp = ft_substr(s, 1, ft_strlen(s) - 2);
 	if (s[0] == '\'')
 	{
+		// Marquer les chaînes qui étaient entourées de guillemets simples
 		result = ft_strjoin("\x01", temp);
 		free(temp);
 		free((void *) s);
+		// DEBUG
+		// write(2, "DEBUG: Marked single quoted string: ", 37);
+		// write(2, result, ft_strlen(result));
+		// write(2, "\n", 1);
 		return (result);
 	}
 	free((void *) s);

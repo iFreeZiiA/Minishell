@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:30:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 16:51:19 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/08/09 13:18:27 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*ft_rm_quotes(char *str)
 	int		len;
 	char	*result;
 
+	// Gérer les chaînes marquées comme étant des guillemets simples
 	if (str && str[0] == '\x01')
 	{
 		return (ft_strdup(str + 1));
@@ -66,6 +67,8 @@ t_list	*ft_lex_new(t_shell *shell)
 	tokens = ft_lex_simple(shell);
 	if (!tokens)
 		return (NULL);
+	// L'expansion des variables sera faite dans l'executor
+	// ft_exp_tokens(tokens, shell->env->env_vars, shell);
 	ft_expand_wildcards(shell, &tokens);
 	return (tokens);
 }
