@@ -6,13 +6,14 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:37:25 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/09 14:03:43 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:41:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
 volatile sig_atomic_t	g_sig = 0;
+
 static void	handle_sigint(int sig)
 {
 	g_sig = sig;

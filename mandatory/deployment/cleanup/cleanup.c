@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:45:35 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 20:00:29 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:17:03 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static inline void	ft_freelst(t_list *lst, int type)
 			free(curr->content.redir->file);
 			free(curr->content.redir);
 		}
-
 		else if (type == 3)
 		{
 			ft_free_vctr((void **) curr->content.cmd->args);
@@ -40,6 +39,7 @@ static inline void	ft_freelst(t_list *lst, int type)
 		curr = lst;
 	}
 }
+
 static inline void	ft_freeast(t_ast_node *ast)
 {
 	t_command	*cmd;
@@ -48,7 +48,6 @@ static inline void	ft_freeast(t_ast_node *ast)
 		return ;
 	if (ast->type == NODE_REDIR)
 		ft_freelst(ast->data, 2);
-
 	else if (ast->type == NODE_COMMAND)
 	{
 		cmd = (t_command *) ast->data;
@@ -60,6 +59,7 @@ static inline void	ft_freeast(t_ast_node *ast)
 	ft_freeast(ast->left);
 	ft_freeast(ast->right);
 }
+
 static inline void	ft_freetoken(t_list *tok_h)
 {
 	t_list	*tok_c;
