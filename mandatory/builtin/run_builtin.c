@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:38:09 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/08 20:34:39 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 10:31:28 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	run_builtin(char **args, char ***env)
 {
+	int	result;
+
 	if (!ft_strcmp(args[0], "echo"))
 		return (builtin_echo(args));
 	if (!ft_strcmp(args[0], "pwd"))
@@ -26,16 +28,24 @@ int	run_builtin(char **args, char ***env)
 		
 		env_struct.env_vars = *env;
 		shell.env = &env_struct;
-		return (builtin_cd(args, &shell));
+		result = builtin_cd(args, &shell);
+		*env = shell.env->env_vars;  // Propagation des changements
+		return (result);
 	}
 	if (!ft_strcmp(args[0], "env"))
 		return (builtin_env(*env));
 	if (!ft_strcmp(args[0], "unset"))
-		return (builtin_unset(args, env));
+	{
+		result = builtin_unset(args, env);
+		return (result);
+	}
 	if (!ft_strcmp(args[0], "exit"))
 		return (builtin_exit(args));
 	if (!ft_strcmp(args[0], "export"))
-		return (builtin_export(args, env));
+	{
+		result = builtin_export(args, env);
+		return (result);
+	}
 	return (1);
 }
 

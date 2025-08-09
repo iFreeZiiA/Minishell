@@ -1,5 +1,24 @@
 /* ************************************************************************** */
-/*                                                                            */
+/*                             	// Built-ins qui modifient l'état du shell doivent s'exécuter dans le processus parent
+	if (is_builtin(cmd->args[0]) && 
+		(!ft_strcmp(cmd->args[0], "cd") || !ft_strcmp(cmd->args[0], "export") || 
+		 !ft_strcmp(cmd->args[0], "unset") || !ft_strcmp(cmd->args[0], "exit")))
+	{
+		char	**env_backup;
+		int		result;
+
+		// Pour les builtins qui modifient l'environnement, pas d'expansion préalable
+		if (apply_redirections(cmd->redirs) != 0)
+			return (1);
+		env_backup = env->env_vars;
+		result = run_builtin(cmd->args, &env->env_vars);
+		// Si l'environnement a été réalloué, mettre à jour la structure
+		if (env->env_vars != env_backup && env->env_vars != NULL)
+		{
+			// L'environnement a été mis à jour par realloc
+		}
+		return (result);
+	}                           */
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -110,18 +129,29 @@ int	execute_command(t_command *cmd, t_env *env)
 	pid_t	pid;
 	int		status;
 
-	// Faire l'expansion des variables avec l'environnement actuel
-	ft_expand_command_args(cmd, env);
-
 	// Built-ins qui modifient l'état du shell doivent s'exécuter dans le processus parent
 	if (is_builtin(cmd->args[0]) && 
 		(!ft_strcmp(cmd->args[0], "cd") || !ft_strcmp(cmd->args[0], "export") || 
 		 !ft_strcmp(cmd->args[0], "unset") || !ft_strcmp(cmd->args[0], "exit")))
 	{
+		char	**env_backup;
+		int		result;
+
+		// Pour les builtins qui modifient l'environnement, pas d'expansion préalable
 		if (apply_redirections(cmd->redirs) != 0)
 			return (1);
-		return (run_builtin(cmd->args, &env->env_vars));
+		env_backup = env->env_vars;
+		result = run_builtin(cmd->args, &env->env_vars);
+		// Si l'environnement a été réalloué, mettre à jour la structure
+		if (env->env_vars != env_backup && env->env_vars != NULL)
+		{
+			// L'environnement a été mis à jour
+		}
+		return (result);
 	}
+
+	// Faire l'expansion des variables avec l'environnement actuel
+	ft_expand_command_args(cmd, env);
 
 	pid = fork();
 	if (pid == -1)
@@ -149,10 +179,8 @@ int	execute_command(t_command *cmd, t_env *env)
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		env->last_exit_code = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		env->last_exit_code = 128 + WTERMSIG(status);
-	return (env->last_exit_code);
+		return (WEXITSTATUS(status));
+	return (status);
 }
 
 void	close_pipe_and_update(int *prev, int *pipe_fd)
@@ -226,17 +254,27 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 	{
 		cmd = cmd_h->content.cmd;
 		
-		// Faire l'expansion des variables avec l'environnement actuel
-		ft_expand_command_args(cmd, env);
-		
 		if (is_builtin(cmd->args[0]) && 
 			(!ft_strcmp(cmd->args[0], "cd") || !ft_strcmp(cmd->args[0], "export") || 
 			 !ft_strcmp(cmd->args[0], "unset") || !ft_strcmp(cmd->args[0], "exit")))
 		{
+			char	**env_backup;
+			int		result;
+
 			if (apply_redirections(cmd->redirs) != 0)
 				return (1);
-			return (run_builtin(cmd->args, &env->env_vars));
+			env_backup = env->env_vars;
+			result = run_builtin(cmd->args, &env->env_vars);
+			// Si l'environnement a été réalloué, s'assurer qu'il est synchronisé
+			if (env->env_vars != env_backup && env->env_vars != NULL)
+			{
+				// L'environnement a été mis à jour par realloc
+			}
+			return (result);
 		}
+		
+		// Faire l'expansion des variables avec l'environnement actuel seulement pour les autres commandes
+		ft_expand_command_args(cmd, env);
 	}
 	
 	i = 0;

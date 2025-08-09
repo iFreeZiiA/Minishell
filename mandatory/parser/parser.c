@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/08 20:34:39 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 10:31:28 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	ft_cleanup_parsing_error(t_shell *shell, t_list *tokens)
  * @param shell Structure shell
  * @return int 0 succès, -1 erreur
  */
-static int	ft_validate_input(char *input, t_shell *shell)
+static int	ft_validate_basic_input(char *input, t_shell *shell)
 {
 	if (!input || !shell)
 		return (-1);
@@ -58,7 +58,7 @@ int	ft_parse_input(char *input, t_shell *shell)
 	t_list	*tokens;
 	int		syntax_result;
 
-	if (ft_validate_input(input, shell) != 0)
+	if (ft_validate_basic_input(input, shell) != 0)
 		return (EXIT_FAILURE);
 	shell->current_line = input;
 	tokens = ft_lex_new(shell);

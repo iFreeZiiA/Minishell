@@ -20,7 +20,9 @@ SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
 
 # ********************************* CORE *********************************** #
 
-SRC_MAIN = mandatory/main.c
+SRC_MAIN = mandatory/main.c \
+	mandatory/main_utils.c \
+	mandatory/main_process.c
 
 # ******************************** BUILTIN ********************************** #
 
