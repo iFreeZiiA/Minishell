@@ -13,8 +13,27 @@
 #include "../../../../header/minishell.h"
 
 /**
+ * @brief Vérifie et traite les substitutions non supportées
+ */
+static int	ft_check_substitution(char *input, int i, int in_single_quote)
+{
+	if (!in_single_quote && input[i] == '$' && input[i + 1] == '(')
+	{
+		write(2, "minishell: command substitution not supported\n", 47);
+		return (1);
+	}
+	else if (!in_single_quote && input[i] == '$' && input[i + 1] == '{')
+	{
+		write(2, "minishell: parameter expansion not supported\n", 46);
+		return (1);
+	}
+	return (0);
+}
+
+/**
  * @brief Validates input for unsupported command substitutions
- * Prevents crashes from $(command) substitutions which are not required in minishell
+ * Prevents crashes from $(command) substitutions which are not required
+ * in minishell
  * 
  * @param input The input string to validate
  * @return int 0 if valid, 1 if contains unsupported substitutions
@@ -36,16 +55,8 @@ int	ft_validate_substitutions(char *input)
 			in_single_quote = !in_single_quote;
 		else if (input[i] == '"' && !in_single_quote)
 			in_double_quote = !in_double_quote;
-		else if (!in_single_quote && input[i] == '$' && input[i + 1] == '(')
-		{
-			write(2, "minishell: command substitution not supported\n", 47);
+		else if (ft_check_substitution(input, i, in_single_quote))
 			return (1);
-		}
-		else if (!in_single_quote && input[i] == '$' && input[i + 1] == '{')
-		{
-			write(2, "minishell: parameter expansion not supported\n", 46);
-			return (1);
-		}
 		i++;
 	}
 	return (0);

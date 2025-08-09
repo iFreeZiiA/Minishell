@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 20:24:51 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/08 20:34:39 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:08:19 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ static int	ft_validate_first_token(t_list *tokens)
 	if (!tokens)
 		return (0);
 	token = (t_token *)tokens->content.token;
-	
-	// Cas spéciaux : redirections/pipes au début
-	if (ft_is_redir_tok(token) || token->type == TOKEN_PIPE ||
-		token->type == TOKEN_AND || token->type == TOKEN_OR)
+	if (ft_is_redir_tok(token) || token->type == TOKEN_PIPE
+		|| token->type == TOKEN_AND || token->type == TOKEN_OR)
 		return (0);
 	return (1);
 }
@@ -72,7 +70,6 @@ static int	ft_validate_redir_sequence(t_list *current)
 		if (!current->next)
 			return (0);
 		next_token = (t_token *)current->next->content.token;
-		// Détecter les redirections consécutives
 		if (ft_is_redir_tok(next_token))
 			return (0);
 		if (next_token->type != TOKEN_WORD)

@@ -89,6 +89,7 @@ SRC_PARSING_CORE = mandatory/parser/parsing/parser_core.c
 # Opérateurs logiques
 SRC_PARSING_LOGICAL = mandatory/parser/parsing/logical/logical.c \
 	mandatory/parser/parsing/logical/precedence.c \
+	mandatory/parser/parsing/logical/precedence_utils.c \
 	mandatory/parser/parsing/logical/utils.c
 
 # Pipes
@@ -104,6 +105,7 @@ SRC_PARSING_REDIR = mandatory/parser/parsing/redir/input.c \
 
 # Utilitaires
 SRC_PARSING_UTILS = mandatory/parser/parsing/utils/token_utils.c \
+				mandatory/parser/parsing/utils/token_extraction.c \
 	mandatory/parser/parsing/utils/token_list.c
 
 # Validation

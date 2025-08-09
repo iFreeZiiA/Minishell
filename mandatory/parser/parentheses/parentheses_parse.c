@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parentheses_parse.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 23:32:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/07 23:33:39 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:01:13 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static t_list	*ft_extract_tokens_between(t_list *start, t_list *end)
 	{
 		if (current->type == TYPE_TOKEN)
 		{
-			content.token = ft_new_token(ft_strdup(current->content.token->value),
+			content.token = ft_new_token(
+					ft_strdup(current->content.token->value),
 					current->content.token->type);
 			if (!content.token)
 			{
@@ -47,6 +48,26 @@ static t_list	*ft_extract_tokens_between(t_list *start, t_list *end)
 }
 
 /**
+ * @brief Crée un nœud de groupe AST
+ */
+static t_ast_node	*ft_create_group_node(t_ast_node *result)
+{
+	t_ast_node	*group_node;
+
+	group_node = malloc(sizeof(t_ast_node));
+	if (!group_node)
+	{
+		ft_free_ast(result);
+		return (NULL);
+	}
+	group_node->type = NODE_GROUP;
+	group_node->data = NULL;
+	group_node->left = result;
+	group_node->right = NULL;
+	return (group_node);
+}
+
+/**
  * @brief Parse le contenu d'un groupe de parenthèses
  * @param shell Structure shell
  * @param start Token de parenthèse ouvrante
@@ -57,7 +78,6 @@ t_ast_node	*ft_parse_group(t_shell *shell, t_list *start, t_list *end)
 {
 	t_list		*inner_tokens;
 	t_ast_node	*result;
-	t_ast_node	*group_node;
 
 	if (!shell || !start || !end)
 		return (NULL);
@@ -71,17 +91,7 @@ t_ast_node	*ft_parse_group(t_shell *shell, t_list *start, t_list *end)
 	ft_lstfree_t(inner_tokens);
 	if (!result)
 		return (NULL);
-	group_node = malloc(sizeof(t_ast_node));
-	if (!group_node)
-	{
-		ft_free_ast(result);
-		return (NULL);
-	}
-	group_node->type = NODE_GROUP;
-	group_node->data = NULL;
-	group_node->left = result;
-	group_node->right = NULL;
-	return (group_node);
+	return (ft_create_group_node(result));
 }
 
 /**
