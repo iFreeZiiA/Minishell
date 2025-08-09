@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   integration.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/06 22:24:19 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:57:41 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,41 @@
  * @return int 0 succès, -1 erreur
  */
 int			ft_parse_input(char *input, t_shell *shell);
+
+/**
+ * @brief Nettoie les ressources en cas d'erreur
+ * 
+ * @param shell Structure shell
+ * @param tokens Liste de tokens à libérer
+ */
+void		ft_cleanup_parsing_error(t_shell *shell, t_list *tokens);
+
+/**
+ * @brief Gère la phase de lexing
+ * 
+ * @param shell Structure shell
+ * @param tokens Pointeur vers la liste de tokens
+ * @return int Code de retour
+ */
+int			ft_handle_lexing(t_shell *shell, t_list **tokens);
+
+/**
+ * @brief Gère la validation syntaxique
+ * 
+ * @param shell Structure shell
+ * @param tokens Liste de tokens
+ * @return int Code de retour
+ */
+int			ft_handle_syntax_validation(t_shell *shell, t_list *tokens);
+
+/**
+ * @brief Gère la création de l'AST
+ * 
+ * @param shell Structure shell
+ * @param tokens Liste de tokens
+ * @return int Code de retour
+ */
+int			ft_handle_ast_creation(t_shell *shell, t_list *tokens);
 
 /**
  * @brief Fonction alternative pour usage dans le main existant

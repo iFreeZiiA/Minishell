@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_var.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 19:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 14:03:43 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:57:41 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,29 +72,17 @@ static int	ft_process_variable(char **result, int *i, char **envp,
 		free(var_name);
 		free(var_value);
 		*result = new_result;
-		// Avancer i à la fin du remplacement au lieu de recommencer à 0
 		*i += replacement_len;
 		return (1);
 	}
 	return (0);
 }
 
-char	*ft_exp_string(char *str, char **envp, t_shell *shell)
+static char	*ft_process_expansion(char *str, char **envp, t_shell *shell)
 {
 	char	*result;
 	int		i;
 
-	if (!str || !envp)
-		return (ft_strdup(str));
-	// Vérifier si la chaîne était entourée de guillemets simples (marquée par \x01)
-	if (str[0] == '\x01')
-	{
-		// Retourner la chaîne sans le marqueur et sans expansion
-		return (ft_strdup(str + 1));
-	}
-	if (ft_strlen(str) >= 2 && str[0] == '\'' && str[ft_strlen(str) - 1]
-		== '\'')
-		return (ft_strdup(str));
 	result = ft_strdup(str);
 	i = 0;
 	while (result[i])
@@ -107,4 +95,16 @@ char	*ft_exp_string(char *str, char **envp, t_shell *shell)
 		i++;
 	}
 	return (result);
+}
+
+char	*ft_exp_string(char *str, char **envp, t_shell *shell)
+{
+	if (!str || !envp)
+		return (ft_strdup(str));
+	if (str[0] == '\x01')
+		return (ft_strdup(str + 1));
+	if (ft_strlen(str) >= 2 && str[0] == '\''
+		&& str[ft_strlen(str) - 1] == '\'')
+		return (ft_strdup(str));
+	return (ft_process_expansion(str, envp, shell));
 }

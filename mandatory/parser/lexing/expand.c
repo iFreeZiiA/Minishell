@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:30:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 16:37:15 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:51:19 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*ft_rm_quotes(char *str)
 	int		len;
 	char	*result;
 
-	// Gérer les chaînes marquées comme étant des guillemets simples
 	if (str && str[0] == '\x01')
 	{
 		return (ft_strdup(str + 1));

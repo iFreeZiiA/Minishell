@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parentheses.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 00:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 11:21:23 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:57:11 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 t_ast_node	*ft_parse_parentheses_expression(t_shell *shell, t_list *tokens);
 t_ast_node	*ft_parse_group(t_shell *shell, t_list *start, t_list *end);
 t_ast_node	*ft_parse_with_parentheses(t_shell *shell, t_list *tokens);
-t_ast_node	*ft_handle_parentheses_in_expression(t_shell *shell, t_list
-				*tokens);
+t_ast_node	*ft_handle_parentheses_in_expression(t_shell *shell,
+				t_list *tokens);
 t_ast_node	*ft_parse_logical_with_parens(t_shell *shell, t_list *start,
 				t_list *end);
 

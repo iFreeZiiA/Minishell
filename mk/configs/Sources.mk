@@ -64,7 +64,8 @@ SRC_DEPLOYMENT = mandatory/deployment/setup/setup.c \
 # ******************************* PARSER *********************************** #
 # Parser de base
 SRC_PARSER_BASE = mandatory/parser/enhanced.c \
-	mandatory/parser/parser.c
+	mandatory/parser/parser.c \
+	mandatory/parser/parser_utils.c
 
 # ******************************** LEXING *********************************** #
 

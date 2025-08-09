@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 22:25:52 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 16:24:40 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:55:51 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	AST_H
+#ifndef AST_H
 # define AST_H
 
 # include "../minishell.h"
