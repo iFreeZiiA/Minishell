@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:44:27 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 14:12:07 by alearroy         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:35:37 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,4 @@ int		ft_handle_parse_error(t_shell *shell, int parse_result,
 int		ft_process_command(char *input, t_shell *shell, int is_interactive);
 int		ft_handle_input(t_shell *shell, int is_interactive);
 
-#endif
+#endifgit rebase --quit
