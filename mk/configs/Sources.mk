@@ -44,6 +44,7 @@ SRC_EXECUTOR = mandatory/executor/executor.c \
 	mandatory/executor/ast_to_command_list.c \
 	mandatory/executor/get_path.c \
 	mandatory/executor/execute_utils.c \
+	mandatory/executor/expansion_utils.c \
 	mandatory/executor/redirections.c \
 	mandatory/executor/execute_simple.c \
 	mandatory/executor/execute_pipe.c \
