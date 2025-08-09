@@ -110,27 +110,3 @@ int	ft_count_word(const char *str)
 	}
 	return (count);
 }
-
-/* int main() {
-	char *test1 = "Hello world";
-	char *test2 = "   a a a ";
-	char *test3 = "Trailing spaces   ";
-	char *test4 = "Multiple   spaces   between   words";
-	char *test5 = "SingleWord";
-	char *test6 = "";
-	char *test7 = "Words 'with quotes' inside";
-	char *test8 = "Words \"with double quotes\" inside";
-	char *test9 = "Mixed 'single' and \"double\" quotes";
-
-	printf("Test 1: %d\n", ft_count_word(test1)); // Expected: 2
-	printf("Test 2: %d\n", ft_count_word(test2)); // Expected: 3
-	printf("Test 3: %d\n", ft_count_word(test3)); // Expected: 2
-	printf("Test 4: %d\n", ft_count_word(test4)); // Expected: 4
-	printf("Test 5: %d\n", ft_count_word(test5)); // Expected: 1
-	printf("Test 6: %d\n", ft_count_word(test6)); // Expected: 0
-	printf("Test 7: %d\n", ft_count_word(test7)); // Expected: 3
-	printf("Test 8: %d\n", ft_count_word(test8)); // Expected: 3
-	printf("Test 9: %d\n", ft_count_word(test9)); // Expected: 5
-
-	return 0;
-} */

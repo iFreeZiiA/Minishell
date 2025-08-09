@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:47:21 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/06 19:47:37 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 10:59:59 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	has_n_flag(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (!arg || arg[0] != '-')
@@ -30,8 +30,8 @@ static int	has_n_flag(char *arg)
 
 int	builtin_echo(char **args)
 {
-	int i;
-	int newline;
+	int	i;
+	int	newline;
 
 	i = 1;
 	newline = 1;

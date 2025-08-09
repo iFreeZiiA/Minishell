@@ -6,13 +6,13 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:47:48 by alearroy          #+#    #+#             */
-/*   Updated: 2025/08/02 14:20:22 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:27:19 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
-
 #include <string.h>
+
 static char	*search_cmd_in_paths(char **paths, char *cmd)
 {
 	char	*joined;

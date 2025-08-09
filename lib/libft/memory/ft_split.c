@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 08:32:52 by jjorda            #+#    #+#             */
-/*   Updated: 2025/05/06 13:20:55 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:28:50 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,73 +96,3 @@ char	**ft_split(char const *s, char c)
 	}
 	return (str);
 }
-
-/* int	main(int argc, char **argv)
-{
-	char **str = ft_split(argv[1], ' ');
-	for (int i = 0; str[i]; i++)
-		ft_printerr("%s\n", str[i]);
-	ft_free(str);
-	return (0);
-} */
-
-/* void    ft_free_split(char **split);
-
-void    print_split(char **split)
-{
-	int i = 0;
-	while (split[i])
-	{
-		printf("split[%d]: %s\n", i, split[i]);
-		i++;
-	}
-}
-
-void    test_ft_split(char const *s, char c)
-{
-	char **result = ft_split(s, c);
-	if (result == NULL)
-	{
-		printf("ft_split returned NULL\n");
-		return;
-	}
-	print_split(result);
-	ft_free_split(result);
-}
-
-void    ft_free_split(char **split)
-{
-	int i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-}
-
-int main(void)
-{
-	printf("Test 1: Basic split\n");
-	test_ft_split("hello world this is a test", ' ');
-
-	printf("\nTest 2: Multiple delimiters\n");
-	test_ft_split("hello  world  this  is  a  test", ' ');
-
-	printf("\nTest 3: Leading and trailing delimiters\n");
-	test_ft_split("  hello world this is a test  ", ' ');
-
-	printf("\nTest 4: Only delimiters\n");
-	test_ft_split("     ", ' ');
-
-	printf("\nTest 5: No delimiters\n");
-	test_ft_split("helloworld", ' ');
-
-	printf("\nTest 6: Empty string\n");
-	test_ft_split("", ' ');
-
-	printf("\nTest 7: Delimiter not in string\n");
-	test_ft_split("hello,world,this,is,a,test", ' ');
-
-	return 0;
-} */

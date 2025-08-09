@@ -12,15 +12,10 @@
 
 #include "../../../header/minishell.h"
 
-int	ft_setenv(t_shell *shell, char **env)
+static int	ft_allocate_env_vars(t_shell *shell, char **env)
 {
 	int	i;
 
-	if (!shell || !env)
-		return (-1);
-	shell->env = malloc(sizeof(t_env));
-	if (!shell->env)
-		return (-1);
 	i = 0;
 	while (env[i])
 		i++;
@@ -30,6 +25,13 @@ int	ft_setenv(t_shell *shell, char **env)
 		free(shell->env);
 		return (-1);
 	}
+	return (i);
+}
+
+static int	ft_copy_env_vars(t_shell *shell, char **env)
+{
+	int	i;
+
 	i = 0;
 	while (env[i])
 	{
@@ -45,6 +47,23 @@ int	ft_setenv(t_shell *shell, char **env)
 		i++;
 	}
 	shell->env->env_vars[i] = NULL;
+	return (0);
+}
+
+int	ft_setenv(t_shell *shell, char **env)
+{
+	int	count;
+
+	if (!shell || !env)
+		return (-1);
+	shell->env = malloc(sizeof(t_env));
+	if (!shell->env)
+		return (-1);
+	count = ft_allocate_env_vars(shell, env);
+	if (count == -1)
+		return (-1);
+	if (ft_copy_env_vars(shell, env) == -1)
+		return (-1);
 	shell->env->local_env = NULL;
 	shell->env->last_exit_code = 0;
 	return (0);

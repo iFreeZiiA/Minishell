@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 10:00:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 10:31:28 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:23:09 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	ft_handle_parse_error(t_shell *shell, int parse_result, int is_interactive)
 
 int	ft_process_command(char *input, t_shell *shell, int is_interactive)
 {
-	int	parse_result;
-	int	exec_result;
-	char **env_backup;
+	int		parse_result;
+	int		exec_result;
+	char	**env_backup;
 
 	parse_result = ft_parse_input(input, shell);
 	if (parse_result == 0 && shell->ast)
