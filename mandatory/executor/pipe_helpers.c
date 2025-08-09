@@ -23,17 +23,31 @@ void	wait_all_pids(pid_t *pids, int count, t_env *env)
 	int	i;
 	int	status;
 
+	// Pendant que le parent attend, ignorer SIGINT et SIGQUIT
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	
 	i = 0;
 	while (i < count)
 	{
 		waitpid(pids[i], &status, 0);
 		if (i == count - 1)
 		{
-			if (WIFEXITED(status))
+			if (WIFSIGNALED(status))
+			{
+				int sig = WTERMSIG(status);
+				if (sig == SIGQUIT)
+					write(2, "Quit (core dumped)\n", 19);
+				env->last_exit_code = 128 + sig;
+			}
+			else if (WIFEXITED(status))
 				env->last_exit_code = WEXITSTATUS(status);
 		}
 		i++;
 	}
+	
+	// Restaurer la gestion interactive des signaux
+	restore_interactive_signals();
 }
 
 int	ft_create_pipe_and_fork(t_list *cmd_h, pid_t *pids, int *prev, int i)

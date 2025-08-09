@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:30:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/08 20:50:50 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 13:18:27 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ char	*ft_rm_quotes(char *str)
 	int		len;
 	char	*result;
 
+	// Gérer les chaînes marquées comme étant des guillemets simples
+	if (str && str[0] == '\x01')
+	{
+		return (ft_strdup(str + 1));
+	}
 	len = ft_strlen(str);
 	if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"')
 			|| (str[0] == '\'' && str[len - 1] == '\'')))

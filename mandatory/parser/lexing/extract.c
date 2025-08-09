@@ -21,6 +21,73 @@ static void	ft_skip_quotes(char *line, int *i, char quote_char)
 		(*i)++;
 }
 
+static char	*ft_process_quoted_word(char *word)
+{
+	int		len;
+	char	*temp;
+	char	*result;
+	char	*equals_pos;
+	char	*before_quotes;
+	char	*quoted_part;
+
+	len = ft_strlen(word);
+	
+	// Cas 1: Le mot entier est entouré de quotes (cas simple)
+	if (len >= 2)
+	{
+		if (word[0] == '\'' && word[len - 1] == '\'')
+		{
+			// Pour les single quotes, marquer avec \x01 et retirer les quotes
+			temp = ft_substr(word, 1, len - 2);
+			result = ft_strjoin("\x01", temp);
+			free(temp);
+			free(word);
+			return (result);
+		}
+		else if (word[0] == '"' && word[len - 1] == '"')
+		{
+			// Pour les double quotes, juste retirer les quotes (expansion normale)
+			result = ft_substr(word, 1, len - 2);
+			free(word);
+			return (result);
+		}
+	}
+	
+	// Cas 2: Le mot contient un = suivi de quotes (ex: VAR='value')
+	equals_pos = ft_strchr(word, '=');
+	if (equals_pos && equals_pos[1] == '\'' && word[len - 1] == '\'')
+	{
+		// Séparer la partie avant le = et la partie quotée
+		before_quotes = ft_substr(word, 0, equals_pos - word + 1); // Inclut le '='
+		quoted_part = ft_substr(word, equals_pos - word + 2, len - (equals_pos - word + 2) - 1); // Sans les quotes
+		
+		// Marquer la partie quotée avec \x01
+		temp = ft_strjoin("\x01", quoted_part);
+		result = ft_strjoin(before_quotes, temp);
+		
+		free(before_quotes);
+		free(quoted_part);
+		free(temp);
+		free(word);
+		return (result);
+	}
+	else if (equals_pos && equals_pos[1] == '"' && word[len - 1] == '"')
+	{
+		// Double quotes après = : retirer juste les quotes (expansion normale)
+		before_quotes = ft_substr(word, 0, equals_pos - word + 1); // Inclut le '='
+		quoted_part = ft_substr(word, equals_pos - word + 2, len - (equals_pos - word + 2) - 1); // Sans les quotes
+		result = ft_strjoin(before_quotes, quoted_part);
+		
+		free(before_quotes);
+		free(quoted_part);
+		free(word);
+		return (result);
+	}
+	
+	// Retourner le mot inchangé si pas de quotes
+	return (word);
+}
+
 char	*ft_ext_word(char *line, int *i)
 {
 	int		start;
@@ -39,7 +106,7 @@ char	*ft_ext_word(char *line, int *i)
 	}
 	len = *i - start;
 	word = ft_substr(line, start, len);
-	return (word);
+	return (ft_process_quoted_word(word));
 }
 
 char	*ft_ext_op(char *line, int *i)
