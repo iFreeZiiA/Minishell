@@ -21,10 +21,13 @@ static int	ft_handle_single_builtin(t_list *cmd_h, t_env *env)
 	cmd = cmd_h->content.cmd;
 	if (apply_redirections(cmd->redirs) != 0)
 		return (1);
+<<<<<<< HEAD
 	
 	// Expansion des arguments avec traitement spécial pour export
 	ft_expand_command_args(cmd, env);
 	
+=======
+>>>>>>> d461779 (Norminette half done)
 	env_backup = env->env_vars;
 	result = run_builtin(cmd->args, &env->env_vars);
 	if (env->env_vars != env_backup && env->env_vars != NULL)
@@ -54,9 +57,12 @@ void	child_process(t_list *cmd_l, int in, int out, t_env *env)
 {
 	t_command	*cmd;
 
+<<<<<<< HEAD
 	// Restaurer les signaux par défaut pour les processus enfants
 	setup_execution_signals();
 	
+=======
+>>>>>>> d461779 (Norminette half done)
 	cmd = cmd_l->content.cmd;
 	ft_expand_command_args(cmd, env);
 	ft_setup_child_fds(in, out);
@@ -74,8 +80,13 @@ int	execute_pipe(t_list *cmd_h, t_env *env)
 
 	if (ft_is_single_parent_builtin(cmd_h))
 		return (ft_handle_single_builtin(cmd_h, env));
+<<<<<<< HEAD
 	// L'expansion sera faite dans child_process() pour les commandes simples
 	// Pas besoin de la faire ici pour éviter la double expansion
+=======
+	if (cmd_h && !cmd_h->next)
+		ft_expand_command_args(cmd_h->content.cmd, env);
+>>>>>>> d461779 (Norminette half done)
 	pids = malloc(sizeof(pid_t) * ft_lstsize(cmd_h));
 	if (!pids)
 		return (1);
