@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/27 18:30:00 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 16:41:17 by jjorda           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/08/09 16:42:22 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../../header/minishell.h"
 
@@ -17,6 +18,11 @@ char	*ft_rm_quotes(char *str)
 	int		len;
 	char	*result;
 
+	// Gérer les chaînes marquées comme étant des guillemets simples
+	if (str && str[0] == '\x01')
+	{
+		return (ft_strdup(str + 1));
+	}
 	// Gérer les chaînes marquées comme étant des guillemets simples
 	if (str && str[0] == '\x01')
 	{

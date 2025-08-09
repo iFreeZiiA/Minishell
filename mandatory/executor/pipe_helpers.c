@@ -6,7 +6,7 @@
 /*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:11:02 by jjorda            #+#    #+#             */
-/*   Updated: 2025/08/09 16:15:58 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:42:17 by jjorda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ void	wait_all_pids(pid_t *pids, int count, t_env *env)
 	int	status;
 	int	sig;
 
+	// Pendant que le parent attend, ignorer SIGINT et SIGQUIT
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
+	
 	i = 0;
 	while (i < count)
 	{
@@ -34,7 +36,7 @@ void	wait_all_pids(pid_t *pids, int count, t_env *env)
 		{
 			if (WIFSIGNALED(status))
 			{
-				sig = WTERMSIG(status);
+				int sig = WTERMSIG(status);
 				if (sig == SIGQUIT)
 					write(2, "Quit (core dumped)\n", 19);
 				env->last_exit_code = 128 + sig;
@@ -44,6 +46,8 @@ void	wait_all_pids(pid_t *pids, int count, t_env *env)
 		}
 		i++;
 	}
+	
+	// Restaurer la gestion interactive des signaux
 	restore_interactive_signals();
 }
 
