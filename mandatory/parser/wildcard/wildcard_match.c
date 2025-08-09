@@ -35,6 +35,24 @@ static int	ft_should_show_hidden(const char *filename, const char *pattern)
  * @param string String à matcher
  * @return int 1 si match, 0 sinon
  */
+static int	ft_handle_star(const char **pattern, const char **string,
+			const char **star_pattern, const char **star_string)
+{
+	if (**pattern == '*')
+	{
+		*star_pattern = ++(*pattern);
+		*star_string = *string;
+		return (1);
+	}
+	else if (*star_pattern)
+	{
+		*pattern = *star_pattern;
+		*string = ++(*star_string);
+		return (1);
+	}
+	return (0);
+}
+
 static int	ft_match_recursive(const char *pattern, const char *string)
 {
 	const char	*star_pattern;
@@ -49,17 +67,8 @@ static int	ft_match_recursive(const char *pattern, const char *string)
 			pattern++;
 			string++;
 		}
-		else if (*pattern == '*')
-		{
-			star_pattern = ++pattern;
-			star_string = string;
-		}
-		else if (star_pattern)
-		{
-			pattern = star_pattern;
-			string = ++star_string;
-		}
-		else
+		else if (!ft_handle_star(&pattern, &string, &star_pattern,
+				&star_string))
 			return (0);
 	}
 	while (*pattern == '*')

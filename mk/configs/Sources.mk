@@ -5,7 +5,9 @@ SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
 	mandatory/parser/parsing/validate/err.c \
 	mandatory/parser/parsing/validate/advanced.c \
 	mandatory/parser/parsing/validate/adv_utils.c \
-	mandatory/parser/parsing/validate/validate_core.c                                                      #
+	mandatory/parser/parsing/validate/validate_core.c \
+	mandatory/parser/parsing/validate/validate_helpers.c \
+	mandatory/parser/parsing/validate/validate_utils.c
 #                                                        :::      ::::::::   #
 #   Sources_new.mk                                     :+:      :+:    :+:   #
 #                                                    +:+ +:+         +:+     #
@@ -111,7 +113,9 @@ SRC_PARSING_VALIDATE = mandatory/parser/parsing/validate/validate.c \
 	mandatory/parser/parsing/validate/advanced.c \
 	mandatory/parser/parsing/validate/adv_utils.c \
 	mandatory/parser/parsing/validate/validate_core.c \
-	mandatory/parser/parsing/validate/validate_substitutions.c
+	mandatory/parser/parsing/validate/validate_substitutions.c \
+	mandatory/parser/parsing/validate/validate_helpers.c \
+	mandatory/parser/parsing/validate/validate_utils.c
 
 # Heredoc
 SRC_PARSING_HEREDOC = mandatory/parser/heredoc/heredoc.c \

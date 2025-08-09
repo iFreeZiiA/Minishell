@@ -118,7 +118,8 @@ t_list	*ft_lstfirst(t_list *actual);
 bool	ft_lstrem_front(t_list **actual, void (*f)(void *));
 void	*ft_lstleak(t_list **lst, void *(*f)(t_list *));
 bool	ft_lstrem_n(t_list **head, int index, void *(*f)(t_list *));
-bool	ft_lstreplace_n(t_list **del, t_list *rep, void *(*f) (t_list *), int n);
+bool	ft_lstreplace_n(t_list **del, t_list *rep, void *(*f)
+			(t_list *), int n);
 
 void	*ft_clean_node_tok(t_list *tok_curr);
 t_list	*ft_lstnew_tok(t_token *token);

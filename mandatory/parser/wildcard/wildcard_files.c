@@ -94,20 +94,20 @@ char	**ft_get_matching_files(const char *pattern)
 	int				capacity;
 
 	capacity = 64;
+	count = 0;
 	matches = malloc(sizeof(char *) * capacity);
 	if (!matches)
 		return (NULL);
-	count = 0;
 	dir = opendir(".");
 	if (!dir)
 		return (matches);
-	while ((entry = readdir(dir)) != NULL)
+	entry = readdir(dir);
+	while (entry)
 	{
 		if (ft_match_pattern(pattern, entry->d_name))
-		{
 			if (ft_add_match(&matches, &count, &capacity, entry->d_name) == -1)
 				break ;
-		}
+		entry = readdir(dir);
 	}
 	closedir(dir);
 	matches[count] = NULL;

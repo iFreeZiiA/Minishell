@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstinsert.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjorda <jjorda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alearroy <alearroy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:18:17 by jjorda            #+#    #+#             */
-/*   Updated: 2025/04/18 17:41:35 by jjorda           ###   ########.fr       */
+/*   Updated: 2025/08/09 13:23:03 by alearroy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static inline bool	ft_insert_after(t_list **curr, t_list **new)
 	return (true);
 }
 
-bool ft_lstinsert(t_list **lst, void *data, int index)
+bool	ft_lstinsert(t_list **lst, void *data, int index)
 {
 	t_list	*curr;
 	t_list	*new;
